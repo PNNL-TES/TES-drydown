@@ -28,6 +28,7 @@ plan <- drake_plan(
 
   # Valve map file linking Picarro `MPVPosition` field to cores
   # valve_map = ...
+  # Current file is at https://drive.google.com/drive/folders/161AKxqSyOPf6yomqnQNmMDDl3gCAysyq?usp=sharing
   
   # Compute per-sample change rate (ppmCO2/s and ppbCH4/s)
   # summary_data = ...
