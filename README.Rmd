@@ -17,7 +17,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 # TES-drydown
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, message=FALSE}
 massdata <- readd("massdata")
 
 ggplot(massdata, aes(Date, Mass_g, group = `Cores_#`, color = Length)) +
