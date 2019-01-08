@@ -9,6 +9,7 @@ library(tidyr)
 library(dplyr)
 
 download_massdata <- function() {
+  # https://docs.google.com/spreadsheets/d/1iFiROVEIDj4mnNdJpk9A5mtby0Y4-Hl0UmWhyN-mZ1c/edit#gid=884986514
   key <- gs_key("1iFiROVEIDj4mnNdJpk9A5mtby0Y4-Hl0UmWhyN-mZ1c")
   old <- getwd()
   setwd("data/")
