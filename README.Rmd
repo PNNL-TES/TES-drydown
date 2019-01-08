@@ -1,0 +1,26 @@
+---
+output:
+  github_document:
+    html_preview: false
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r knitrsetup, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+options(tibble.print_min = 5, tibble.print_max = 5)
+```
+
+# TES-drydown
+
+```{r, echo=FALSE}
+massdata <- readd("massdata")
+
+ggplot(massdata, aes(Date, Mass_g, group = `Cores_#`, color = Length)) +
+  geom_point() + geom_line() +
+  facet_wrap(~Length)
+```
