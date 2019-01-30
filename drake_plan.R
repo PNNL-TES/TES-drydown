@@ -1,6 +1,7 @@
 # drake plan
 
 library(drake)
+pkgconfig::set_config("drake::strings_in_dots" = "literals")
 library(ggplot2)
 theme_set(theme_bw())
 library(googlesheets)
@@ -18,9 +19,12 @@ download_massdata <- function() {
 }
 
 read_massdata <- function(fqfn) {
-  readxl::read_excel(fqfn) %>% 
+  ca <- readxl::read_excel(fqfn, sheet = "Core_assignments")
+  
+  readxl::read_excel(fqfn, sheet = "Mass_tracking") %>% 
     filter(Site != "AMB") %>% 
-    separate(Core_assignment, into = c("Site1", "Length", "up", "FAD", "r"))
+    left_join(ca, by = "Core") %>% 
+    separate(Core_assignment, into = c("Site1", "Length", "uplow", "drying", "rep"))
 }
 
 plan <- drake_plan(
