@@ -26,5 +26,5 @@ massdata <- readd("massdata")
 massdata$Days <- as.integer(difftime(massdata$Date, min(massdata$Date), units = "days"))
 ggplot(massdata, aes(Days, Mass_g, group = `Core`, color = Length)) +
   geom_point() + geom_line() +
-  facet_wrap(~Length)
+  facet_wrap(~Length, scales = "free_y")
 ```
