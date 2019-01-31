@@ -22,9 +22,26 @@ library(dplyr)
 # TES-drydown
 
 ```{r, echo=FALSE, message=FALSE}
-massdata <- readd("massdata")
-massdata$Days <- as.integer(difftime(massdata$Date, min(massdata$Date), units = "days"))
+readd("massdata") %>% 
+  mutate(Days = as.integer(difftime(Date, min(Date), units = "days"))) %>% 
+  arrange(Date) %>% 
+  group_by(Core) %>% 
+  mutate(change = c(NA, diff(Mass_g) / diff(Days))) ->
+  massdata
+
 ggplot(massdata, aes(Days, Mass_g, group = `Core`, color = Length)) +
   geom_point() + geom_line() +
   facet_wrap(~Length, scales = "free_y")
+
+massdata %>% filter(Date == max(Date)) %>% pull(change) -> core_chg
+summary(core_chg)
 ```
+
+Currently cores' median mass change is `r round(median(core_chg), 1)` g/day:
+
+```{r, echo=FALSE}
+ggplot(tibble(x = core_chg), aes(x = x)) + 
+  geom_histogram(bins = 25) +
+  xlab("Mass loss (g) per day")
+```
+
