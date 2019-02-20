@@ -43,5 +43,12 @@ Currently cores' median mass change is `r round(median(core_chg), 1)` g/day:
 ggplot(tibble(x = core_chg), aes(x = x)) + 
   geom_histogram(bins = 25) +
   xlab("Mass loss (g) per day")
+
+# table
+massdata %>% 
+  filter(Date == max(Date)) %>% 
+  arrange(desc(abs(change))) %>% 
+  select(Date, Core, Mass_g, change) %>% 
+  print(n = 100)
 ```
 
