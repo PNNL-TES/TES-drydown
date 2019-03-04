@@ -21,6 +21,8 @@ library(dplyr)
 
 # TES-drydown
 
+Run: `r Sys.Date()`
+
 ```{r, echo=FALSE, message=FALSE}
 readd("massdata") %>% 
   mutate(Days = as.integer(difftime(Date, min(Date), units = "days"))) %>% 
