@@ -22,7 +22,7 @@ read_massdata <- function(fqfn) {
   ca <- readxl::read_excel(fqfn, sheet = "Core_assignments")
   
   readxl::read_excel(fqfn, sheet = "Mass_tracking") %>% 
-    filter(is.na(Site) | Site != "AMB") %>% 
+    filter(!is.na(Site), Site != "AMB", Core != "0") %>% 
     left_join(ca, by = "Core") %>% 
     separate(Core_assignment, into = c("Site1", "Length", "uplow", "drying", "rep"))
 }
