@@ -7,14 +7,14 @@ Run: 2019-04-03
 
     #> Warning: Removed 7 rows containing missing values (geom_point).
 
-![](README-unnamed-chunk-1-1.png)
+![](README-unnamed-chunk-3-1.png)
 
     #>     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
     #> -3.79667 -0.00575  0.00100 -0.21917  0.02000  0.75000
 
 Currently cores' median mass change is 0 g/day:
 
-![](README-unnamed-chunk-2-1.png)
+![](README-unnamed-chunk-4-1.png)
 
     #> # A tibble: 62 x 4
     #> # Groups:   Core [62]
