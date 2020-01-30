@@ -2,8 +2,7 @@
 
 source("0-drydown_functions.R")
 
-# clean the corekey
-
+# 1. clean the corekey ----
 cpcrw_key = read.csv("data/cpcrw_corekey.csv")
 
 cpcrw_corekey = 
@@ -25,3 +24,41 @@ cpcrw_corekey =
 
 ## OUTPUT
 write_csv(cpcrw_corekey, COREKEY)
+
+
+# 2. get core/soil weights ----
+
+## empty core weight
+empty = read.csv("data/empty_core_weights.csv")
+EMPTY = round(mean(empty$weight_sleeve_cap_nylon_label_g),2)
+
+## initial field moisture
+initial_weight_temp = read.csv("data/cpcrw_valve_map.csv") 
+
+initial_weight = 
+  initial_weight_temp %>% 
+  filter(Notes1=="KP: initial weight") %>% 
+  dplyr::select(Site, Core, Mass_g) %>% 
+  dplyr::mutate(soil_fm_g = Mass_g - EMPTY)
+
+## dry soil weights
+
+### since these are intact cores, we have to back-calculate using data from core deconstruction.
+
+# i. first, get gravimetric moisture data after core deconstruction
+# the cores were split into two pieces (0-5cm, 5cm-end)
+
+moisture_temp = read_excel("data/CPCRW_CW_subsampling_weights_6.26.xlsx", sheet = "CW moisture (2)")
+
+moisture = 
+  moisture_temp %>% 
+  rename(Core = `Core #`) %>% 
+  group_by(Core, Depth) %>% 
+  dplyr::summarise(moisture_pc = mean(`Moisture, %`))
+###  **** currently not working because of badly formatted source file. ****
+
+
+# ii. then, get "wet" weight for each depth and use gravimetric moisture to calculate OD weight for each depth.
+# then add 0-5cm and 5cm-end to get OD weight for the entire core
+
+
