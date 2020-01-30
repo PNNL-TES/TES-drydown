@@ -36,5 +36,4 @@ plan <- drake_plan(
     knitr_in("README.Rmd"),
     output_file = file_out("README.md"),
     quiet = TRUE)
-  
 )
