@@ -1,0 +1,64 @@
+Core,Core_assignment,coreID,site,location,drying,length,replicate
+0,Ambient,C0,CPCRW,NA,NA,NA,NA
+1,CPCRW_90d_up_FAD_r1,C1,CPCRW,upland,forced,90 day,1
+2,CPCRW_1000d_up_CW_r3,C2,CPCRW,upland,constant weight,1000 day,3
+3,CPCRW_30d_up_CW_r4,C3,CPCRW,upland,constant weight,30 day,4
+4,CPCRW_150d_up_CW_r4,C4,CPCRW,upland,constant weight,150 day,4
+5,CPCRW_1000d_up_CW_r4,C5,CPCRW,upland,constant weight,1000 day,4
+6,CPCRW_30d_up_FAD_r1,C6,CPCRW,upland,forced,30 day,1
+8,CPCRW_150d_up_FAD_r3,C8,CPCRW,upland,forced,150 day,3
+9,CPCRW_30d_up_CW_r2,C9,CPCRW,upland,constant weight,30 day,2
+10,CPCRW_1000d_up_FAD_r4,C10,CPCRW,upland,forced,1000 day,4
+11,CPCRW_90d_up_CW_r1,C11,CPCRW,upland,constant weight,90 day,1
+13,CPCRW_150d_up_CW_r2,C13,CPCRW,upland,constant weight,150 day,2
+14,CPCRW_150d_up_FAD_r4,C14,CPCRW,upland,forced,150 day,4
+15,CPCRW_90d_up_CW_r2,C15,CPCRW,upland,constant weight,90 day,2
+16,CPCRW_30d_up_FAD_r2,C16,CPCRW,upland,forced,30 day,2
+17,CPCRW_1000d_up_FAD_r3,C17,CPCRW,upland,forced,1000 day,3
+18,CPCRW_90d_up_FAD_r3,C18,CPCRW,upland,forced,90 day,3
+20,CPCRW_30d_up_CW_r3,C20,CPCRW,upland,constant weight,30 day,3
+25,CPCRW_90d_up_CW_r4,C25,CPCRW,upland,constant weight,90 day,4
+26,CPCRW_150d_up_CW_r3,C26,CPCRW,upland,constant weight,150 day,3
+27,CPCRW_30d_up_FAD_r3,C27,CPCRW,upland,forced,30 day,3
+28,CPCRW_150d_up_CW_r1,C28,CPCRW,upland,constant weight,150 day,1
+31,CPCRW_1000d_up_CW_r1,C31,CPCRW,upland,constant weight,1000 day,1
+33,CPCRW_150d_up_FAD_r1,C33,CPCRW,upland,forced,150 day,1
+34,CPCRW_90d_up_CW_r3,C34,CPCRW,upland,constant weight,90 day,3
+35,CPCRW_150d_up_FAD_r2,C35,CPCRW,upland,forced,150 day,2
+36,CPCRW_1000d_up_FAD_r2,C36,CPCRW,upland,forced,1000 day,2
+37,CPCRW_90d_up_FAD_r4,C37,CPCRW,upland,forced,90 day,4
+38,CPCRW_1000d_up_CW_r2,C38,CPCRW,upland,constant weight,1000 day,2
+39,CPCRW_30d_up_FAD_r4,C39,CPCRW,upland,forced,30 day,4
+40,CPCRW_1000d_up_FAD_r1,C40,CPCRW,upland,forced,1000 day,1
+42,CPCRW_1000d_low_FAD_r2,C42,CPCRW,lowland,forced,1000 day,2
+44,CPCRW_30d_low_FAD_r3,C44,CPCRW,lowland,forced,30 day,3
+46,CPCRW_150d_low_FAD_r4,C46,CPCRW,lowland,forced,150 day,4
+48,CPCRW_1000d_low_CW_r3,C48,CPCRW,lowland,constant weight,1000 day,3
+49,CPCRW_150d_low_FAD_r3,C49,CPCRW,lowland,forced,150 day,3
+50,CPCRW_30d_low_FAD_r1,C50,CPCRW,lowland,forced,30 day,1
+51,CPCRW_1000d_low_CW_r4,C51,CPCRW,lowland,constant weight,1000 day,4
+52,CPCRW_90d_low_FAD_r3,C52,CPCRW,lowland,forced,90 day,3
+53,CPCRW_90d_low_CW_r4,C53,CPCRW,lowland,constant weight,90 day,4
+54,CPCRW_30d_low_CW_r4,C54,CPCRW,lowland,constant weight,30 day,4
+54A,CPCRW_1000d_low_CW_r2,C54A,CPCRW,lowland,constant weight,1000 day,2
+55,CPCRW_150d_low_CW_r4,C55,CPCRW,lowland,constant weight,150 day,4
+56,CPCRW_30d_low_FAD_r4,C56,CPCRW,lowland,forced,30 day,4
+58,CPCRW_1000d_low_CW_r1,C58,CPCRW,lowland,constant weight,1000 day,1
+59,CPCRW_1000d_low_FAD_r3,C59,CPCRW,lowland,forced,1000 day,3
+60,CPCRW_150d_low_CW_r1,C60,CPCRW,lowland,constant weight,150 day,1
+61,CPCRW_90d_low_CW_r2,C61,CPCRW,lowland,constant weight,90 day,2
+62,CPCRW_150d_low_CW_r2,C62,CPCRW,lowland,constant weight,150 day,2
+63,CPCRW_1000d_low_FAD_r4,C63,CPCRW,lowland,forced,1000 day,4
+64,CPCRW_90d_low_CW_r3,C64,CPCRW,lowland,constant weight,90 day,3
+65,CPCRW_30d_low_CW_r3,C65,CPCRW,lowland,constant weight,30 day,3
+66,CPCRW_30d_low_CW_r2,C66,CPCRW,lowland,constant weight,30 day,2
+69,CPCRW_30d_low_CW_r1,C69,CPCRW,lowland,constant weight,30 day,1
+71,CPCRW_90d_low_FAD_r4,C71,CPCRW,lowland,forced,90 day,4
+72,CPCRW_150d_low_CW_r3,C72,CPCRW,lowland,constant weight,150 day,3
+74,CPCRW_1000d_low_FAD_r1,C74,CPCRW,lowland,forced,1000 day,1
+75,CPCRW_30d_low_FAD_r2,C75,CPCRW,lowland,forced,30 day,2
+77,CPCRW_90d_low_FAD_r1,C77,CPCRW,lowland,forced,90 day,1
+79,CPCRW_150d_low_FAD_r2,C79,CPCRW,lowland,forced,150 day,2
+82,CPCRW_30d_up_CW_r1,C82,CPCRW,upland,constant weight,30 day,1
+85,CPCRW_150d_low_FAD_r1,C85,CPCRW,lowland,forced,150 day,1
+86,CPCRW_90d_low_CW_r1,C86,CPCRW,lowland,constant weight,90 day,1
