@@ -22,3 +22,6 @@ cpcrw_corekey =
                                       grepl("_r2",Core_assignment)~2,
                                       grepl("_r3",Core_assignment)~3,
                                       grepl("_r4",Core_assignment)~4))
+
+## OUTPUT
+write_csv(cpcrw_corekey, COREKEY)
