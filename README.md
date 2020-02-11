@@ -8,12 +8,12 @@
 
 # TES-drydown
 
-Run: 2019-10-25
+Run: 2020-02-11
 
     #> Warning: Removed 35 rows containing missing values (geom_point).
     #> Warning: Removed 26 rows containing missing values (geom_path).
 
-![](README-unnamed-chunk-1-1.png)<!-- -->
+![](readme/README-unnamed-chunk-1-1.png)<!-- -->
 
     #>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max.      NA's 
     #> -14.02000   0.08067   0.15143       Inf   0.26429       Inf        47
@@ -22,7 +22,7 @@ Currently cores’ median mass change is NA g/day:
 
     #> Warning: Removed 55 rows containing non-finite values (stat_bin).
 
-![](README-unnamed-chunk-2-1.png)<!-- -->
+![](readme/README-unnamed-chunk-2-1.png)<!-- -->
 
     #> # A tibble: 108 x 4
     #> # Groups:   Core [63]
