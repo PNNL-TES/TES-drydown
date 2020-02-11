@@ -1,4 +1,4 @@
-Core,Core_assignment,coreID,site,location,drying,length,replicate
+Core,Core_assignment,coreID,Site,location,drying,length,replicate
 0,Ambient,C0,CPCRW,NA,NA,NA,NA
 1,CPCRW_90d_up_FAD_r1,C1,CPCRW,upland,forced,90 day,1
 2,CPCRW_1000d_up_CW_r3,C2,CPCRW,upland,constant weight,1000 day,3

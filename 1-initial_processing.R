@@ -8,7 +8,7 @@ cpcrw_key = read.csv("data/cpcrw_corekey.csv")
 cpcrw_corekey = 
   cpcrw_key %>% 
   dplyr::mutate(coreID = paste0("C",Core),
-                site="CPCRW",
+                Site="CPCRW",
                 location = case_when(grepl("_up_",Core_assignment)~"upland",
                                      grepl("_low_",Core_assignment)~"lowland"),
                 drying = case_when(grepl("_CW_",Core_assignment)~"constant weight",
