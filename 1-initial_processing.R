@@ -52,13 +52,39 @@ moisture_temp = read_excel("data/CPCRW_CW_subsampling_weights_6.26.xlsx", sheet 
 
 moisture = 
   moisture_temp %>% 
-  rename(Core = `Core #`) %>% 
+  rename(Core = `Core #`) %>%
+  filter(!is.na(Core)) %>% 
+  filter(is.na(Flag)) %>% 
   group_by(Core, Depth) %>% 
-  dplyr::summarise(moisture_pc = mean(`Moisture, %`))
+  dplyr::summarise(moisture_pc = round(mean(`Moisture, %`, na.rm = TRUE),2),
+                   moisture_cv = round((sd(`Moisture, %`, na.rm = TRUE)/mean(`Moisture, %`, na.rm = TRUE))*100,2)) %>% 
+  dplyr::mutate(flag = case_when(moisture_cv>15~"highly variable moisture")) %>% 
+  # RECODE ALL 5cm-endg AS 5cm-end. WTF
+  dplyr::mutate(Depth = if_else(Depth=="5cm-endg","5cm-end",Depth))
 ###  **** currently not working because of badly formatted source file. ****
 
 
 # ii. then, get "wet" weight for each depth and use gravimetric moisture to calculate OD weight for each depth.
 # then add 0-5cm and 5cm-end to get OD weight for the entire core
 
+raw_weight_temp = read_excel("data/CPCRW_CW_subsampling_weights_6.26.xlsx", sheet = "raw weights")
 
+raw_weight = 
+  raw_weight_temp[,1:8] %>% 
+  dplyr::mutate(`0-5cm` = `soil_pan_weight_0-5cm_g` - `pan_weight_0-5cm_g`,
+                `5cm-end` = `soil_pan_weight_5-end_cm_g` - `pan_weight_5-end_cm_g`) %>% 
+  dplyr::rename(Core = `core #`) %>% 
+  dplyr::select(Site, Core, `0-5cm`, `5cm-end`) %>% 
+  tidyr::gather(Depth, wet_soil_g,`0-5cm`:`5cm-end`) %>% 
+  left_join(moisture, by = c("Core","Depth")) %>% 
+  dplyr::mutate(dry_soil_g = round(wet_soil_g/((moisture_pc/100)+1),2))
+
+core_weight = 
+  raw_weight %>% 
+  group_by(Site, Core) %>% 
+  dplyr::summarise(dry_soil_g = sum(dry_soil_g))
+
+
+### OUTPUT
+write.csv(raw_weight,"data/processed/core_weights_depth.csv", na = "", row.names = FALSE)
+write.csv(core_weight,"data/processed/core_weights.csv", na = "", row.names = FALSE)
