@@ -3,10 +3,9 @@
 ## use drake only to read the Picarro data
 
 
-source("0-hysteresis_packages.R")
-source("1-moisture_tracking.R")
+source("0-drydown_functions.R")
+source("3a-picarro_functions.R")
 source("2-picarro_data.R")
-library(picarro.data)
 
 #devtools::install_github("jakelawlor/PNWColors") 
 #library(PNWColors)
@@ -18,8 +17,8 @@ core_key = read.csv("data/processed/corekey.csv"),
 core_dry_weights = read.csv("data/processed/core_weights.csv") %>% dplyr::mutate(Core = as.character(Core)),
 
 core_masses = read.csv("data/cpcrw_valve_map.csv") %>% 
-  dplyr::mutate(Start_datetime = ymd_hm(paste(Start_Date,Start_Time)),
-                Stop_datetime = ymd_hm(paste(Stop_Date,Stop_Time))) %>% 
+  dplyr::mutate(Start_datetime = ymd_hm(paste(Start_Date,Start_Time), tz = "America/Los_Angeles"),
+                Stop_datetime = ymd_hm(paste(Stop_Date,Stop_Time), tz = "America/Los_Angeles")) %>% 
   
   left_join(core_key, by = c("Site","Core")) %>% 
   left_join(core_dry_weights, by = c("Site","Core")),
@@ -33,8 +32,13 @@ valve_key = filter(core_masses, !Seq.Program == "mass_only"),
   # data when necessary, i.e. when the files change
   picarro_raw = target(process_directory("data/picarro_data/"),
                        trigger = trigger(change = list.files("data/picarro_data/", pattern = "dat$", recursive = TRUE))),
-  picarro_clean = clean_picarro_data(picarro_raw),
-  
+
+# this next line is for running it without Drake
+picarro_raw = sapply(list.files(path = "data/picarro_data/",pattern = "dat$", recursive = TRUE,full.names = TRUE),
+                                read.table,header=TRUE, simplify = FALSE) %>% bind_rows(),  
+
+picarro_clean = clean_picarro_data(picarro_raw),
+
   # Match Picarro data with the valve key data
   pcm = match_picarro_data(picarro_clean, valve_key),
   picarro_clean_matched = pcm$pd,
