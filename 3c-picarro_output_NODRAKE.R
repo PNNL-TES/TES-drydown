@@ -34,8 +34,8 @@ valve_key = filter(core_masses, !Seq.Program == "mass_only"),
                        trigger = trigger(change = list.files("data/picarro_data/", pattern = "dat$", recursive = TRUE))),
 
 # this next line is for running it without Drake
-picarro_raw = sapply(list.files(path = "data/picarro_data/",pattern = "dat$", recursive = TRUE,full.names = TRUE),
-                                read.table,header=TRUE, simplify = FALSE) %>% bind_rows(),  
+# picarro_raw = sapply(list.files(path = "data/picarro_data/",pattern = "dat$", recursive = TRUE,full.names = TRUE),
+#                                read.table,header=TRUE, simplify = FALSE) %>% bind_rows(),  
 
 picarro_clean = clean_picarro_data(picarro_raw),
 
