@@ -4,7 +4,7 @@
 
 
 source("0-drydown_functions.R")
-source("3a-picarro_functions.R")
+#source("3a-picarro_functions.R")
 source("2-picarro_data.R")
 
 #devtools::install_github("jakelawlor/PNWColors") 
