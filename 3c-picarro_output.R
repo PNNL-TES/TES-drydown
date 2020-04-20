@@ -16,9 +16,10 @@ core_key = read.csv("data/processed/corekey.csv"),
   
 core_dry_weights = read.csv("data/processed/core_weights.csv") %>% dplyr::mutate(Core = as.character(Core)),
 
-core_masses = read.csv("data/cpcrw_valve_map.csv") %>% 
-  dplyr::mutate(Start_datetime = ymd_hm(paste(Start_Date,Start_Time), tz = "America/Los_Angeles"),
-                Stop_datetime = ymd_hm(paste(Stop_Date,Stop_Time), tz = "America/Los_Angeles")) %>% 
+core_masses = read.csv("data/cpcrw_valve_map.csv", stringsAsFactors = FALSE) %>%
+  filter(Start_Time != "" & Stop_Time != "" & Stop_Date != "") %>% 
+  dplyr::mutate(Start_datetime = ymd_hm(paste(Start_Date, Start_Time), tz = "America/Los_Angeles"),
+                Stop_datetime = ymd_hm(paste(Stop_Date, Stop_Time), tz = "America/Los_Angeles")) %>% 
   
   left_join(core_key, by = c("Site","Core")) %>% 
   left_join(core_dry_weights, by = c("Site","Core")),
