@@ -11,36 +11,36 @@ source("2-picarro_data.R")
 #library(PNWColors)
 
 plan <- drake_plan(
-
-core_key = read.csv("data/processed/corekey.csv", stringsAsFactors = FALSE),
   
-core_dry_weights = read.csv("data/processed/core_weights.csv", stringsAsFactors = FALSE) %>%
-  dplyr::mutate(Core = as.character(Core)),
-
-core_masses = read.csv("data/cpcrw_valve_map.csv", stringsAsFactors = FALSE) %>%
-  filter(Start_Time != "" & Stop_Time != "" & Stop_Date != "") %>% 
-  dplyr::mutate(Start_datetime = ymd_hm(paste(Start_Date, Start_Time), tz = "America/Los_Angeles"),
-                Stop_datetime = ymd_hm(paste(Stop_Date, Stop_Time), tz = "America/Los_Angeles")) %>% 
+  core_key = read.csv("data/processed/corekey.csv", stringsAsFactors = FALSE),
   
-  left_join(core_key, by = c("Site","Core")) %>% 
-  left_join(core_dry_weights, by = c("Site","Core")),
-
-valve_key = filter(core_masses, !Seq.Program == "mass_only"),
-
-
-
+  core_dry_weights = read.csv("data/processed/core_weights.csv", stringsAsFactors = FALSE) %>%
+    dplyr::mutate(Core = as.character(Core)),
+  
+  core_masses = read.csv("data/cpcrw_valve_map.csv", stringsAsFactors = FALSE) %>%
+    filter(Start_Time != "" & Stop_Time != "" & Stop_Date != "") %>% 
+    dplyr::mutate(Start_datetime = ymd_hm(paste(Start_Date, Start_Time), tz = "America/Los_Angeles"),
+                  Stop_datetime = ymd_hm(paste(Stop_Date, Stop_Time), tz = "America/Los_Angeles")) %>% 
+    
+    left_join(core_key, by = c("Site","Core")) %>% 
+    left_join(core_dry_weights, by = c("Site","Core")),
+  
+  valve_key = filter(core_masses, !Seq.Program == "mass_only"),
+  
+  
+  
   # Picarro data
   # Using the 'trigger' argument below means we only re-read the Picarro raw
   # data when necessary, i.e. when the files change
   picarro_raw = target(process_directory("data/picarro_data/"),
                        trigger = trigger(change = list.files("data/picarro_data/", pattern = "dat$", recursive = TRUE))),
-
-# this next line is for running it without Drake
-# picarro_raw = sapply(list.files(path = "data/picarro_data/",pattern = "dat$", recursive = TRUE,full.names = TRUE),
-#                                read.table,header=TRUE, simplify = FALSE) %>% bind_rows(),  
-
-picarro_clean = clean_picarro_data(picarro_raw),
-
+  
+  # this next line is for running it without Drake
+  # picarro_raw = sapply(list.files(path = "data/picarro_data/",pattern = "dat$", recursive = TRUE,full.names = TRUE),
+  #                                read.table,header=TRUE, simplify = FALSE) %>% bind_rows(),  
+  
+  picarro_clean = clean_picarro_data(picarro_raw),
+  
   # Match Picarro data with the valve key data
   pcm = match_picarro_data(picarro_clean, valve_key),
   picarro_clean_matched = pcm$pd,
@@ -53,25 +53,25 @@ picarro_clean = clean_picarro_data(picarro_raw),
   ghg_fluxes = compute_ghg_fluxes(picarro_clean_matched, valve_key),
   qc3 = qc_fluxes(ghg_fluxes, valve_key),
   
-gf = 
-  ghg_fluxes %>% 
-  left_join(valve_key, by = "Core") %>% 
-  mutate(Sand = if_else(grepl("sand", Core_assignment), "Soil_sand", "Soil"),
-         Status = case_when(grepl("_D$", Core_assignment) ~ "Dry",
-                            grepl("_W$", Core_assignment) ~ "Wet",
-                            grepl("_fm$", Core_assignment) ~ "FM")) %>% 
-  filter(flux_co2_umol_g_s>=0) %>% 
-  left_join(select(core_key, Core,moisture_lvl,trt),by = "Core") %>% 
-  # remove outliers
-  group_by(Core_assignment) %>% 
-  dplyr::mutate(mean = mean(flux_co2_umol_g_s),
-                median = median(flux_co2_umol_g_s),
-                sd = sd(flux_co2_umol_g_s)) %>% 
-  ungroup %>% 
-  dplyr::mutate(outlier = if_else((flux_co2_umol_g_s - mean) > 4*sd,"y",as.character(NA))) %>% 
-  dplyr::filter(is.na(outlier)),
-
-#summarizing  
+  gf = 
+    ghg_fluxes %>% 
+    left_join(valve_key, by = "Core") %>% 
+    mutate(Sand = if_else(grepl("sand", Core_assignment), "Soil_sand", "Soil"),
+           Status = case_when(grepl("_D$", Core_assignment) ~ "Dry",
+                              grepl("_W$", Core_assignment) ~ "Wet",
+                              grepl("_fm$", Core_assignment) ~ "FM")) %>% 
+    filter(flux_co2_umol_g_s>=0) %>% 
+    left_join(select(core_key, Core,moisture_lvl,trt),by = "Core") %>% 
+    # remove outliers
+    group_by(Core_assignment) %>% 
+    dplyr::mutate(mean = mean(flux_co2_umol_g_s),
+                  median = median(flux_co2_umol_g_s),
+                  sd = sd(flux_co2_umol_g_s)) %>% 
+    ungroup %>% 
+    dplyr::mutate(outlier = if_else((flux_co2_umol_g_s - mean) > 4*sd,"y",as.character(NA))) %>% 
+    dplyr::filter(is.na(outlier)),
+  
+  #summarizing  
   cum_flux = 
     gf %>%
     group_by(Core) %>% 
@@ -89,17 +89,17 @@ gf =
                      cvC = sdC/meanC,
                      se = sd/sqrt(n()),
                      n = n()) %>% 
-  left_join(core_key, by = "Core"),  
-
-#testing for outliers  
+    left_join(core_key, by = "Core"),  
+  
+  #testing for outliers  
   gf_test = gf %>% group_by(Core_assignment) %>% 
-  dplyr::mutate(mean_grp = mean(flux_co2_umol_g_s),
-                sd_grp = sd(flux_co2_umol_g_s)) %>% 
-  ungroup %>% 
-  dplyr::mutate(outlier = if_else((flux_co2_umol_g_s - mean_grp) > 4*sd_grp,"y",as.character(NA))) %>% 
-  dplyr::filter(is.na(outlier)),
-#  
-
+    dplyr::mutate(mean_grp = mean(flux_co2_umol_g_s),
+                  sd_grp = sd(flux_co2_umol_g_s)) %>% 
+    ungroup %>% 
+    dplyr::mutate(outlier = if_else((flux_co2_umol_g_s - mean_grp) > 4*sd_grp,"y",as.character(NA))) %>% 
+    dplyr::filter(is.na(outlier)),
+  #  
+  
   meanflux = 
     cum_flux %>% 
     group_by(soil_type,moisture_lvl,trt) %>% 
@@ -123,24 +123,24 @@ gf =
                      meanC = mean(meanC))
   
   
-  )
-  
-      ##  gf = readd(gf)
-      ##  
-      ##  gf %>% 
-      ##    dplyr::select(Core, Core_assignment,Moisture_perc, Sand, Status, soil_type, moisture_lvl,trt,
-      ##                  DATETIME, flux_co2_umol_g_s, flux_co2_umol_gC_s) %>% 
-      ##    group_by(Core_assignment) %>% 
-      ##    dplyr::mutate(mean = mean(flux_co2_umol_g_s),
-      ##                  sd = sd(flux_co2_umol_g_s),
-      ##                  outlier = if_else((flux_co2_umol_g_s-mean)/sd > 3,"y",as.character(NA)))->gf_test
-      ##  
-      ##  
-      ##  
-      ##  ggplot(gf_test, aes(x = as.character(Core),y = flux_co2_umol_g_s*1000, color = outlier, shape = soil_type))+
-      ##    geom_point()+
-      ##    facet_wrap(~Core_assignment, scale = "free_x")
-      ##  
+)
+
+##  gf = readd(gf)
+##  
+##  gf %>% 
+##    dplyr::select(Core, Core_assignment,Moisture_perc, Sand, Status, soil_type, moisture_lvl,trt,
+##                  DATETIME, flux_co2_umol_g_s, flux_co2_umol_gC_s) %>% 
+##    group_by(Core_assignment) %>% 
+##    dplyr::mutate(mean = mean(flux_co2_umol_g_s),
+##                  sd = sd(flux_co2_umol_g_s),
+##                  outlier = if_else((flux_co2_umol_g_s-mean)/sd > 3,"y",as.character(NA)))->gf_test
+##  
+##  
+##  
+##  ggplot(gf_test, aes(x = as.character(Core),y = flux_co2_umol_g_s*1000, color = outlier, shape = soil_type))+
+##    geom_point()+
+##    facet_wrap(~Core_assignment, scale = "free_x")
+##  
 
 
 
@@ -187,8 +187,8 @@ gf =
 ##                              grepl("_fm$", Core_assignment) ~ "FM")) ->
 ##    gf  
 ##    
-  # preliminary plots
-  
+# preliminary plots
+
 ##  p_cum = ggplot(cum_flux, aes(x = moisture_lvl, y = cum*1000, color = trt))+
 ##      geom_point(position = position_dodge(width = 0.5))+
 ##      geom_smooth(data = mean, aes(x = as.numeric(moisture_lvl), y = cum*1000))+
@@ -266,5 +266,5 @@ gf =
 ##    ggsave("outputs/fluxes_co2_cumC.png", plot = p_cumC, width = 8, height = 6)
 ##    
 
-  
-  
+
+

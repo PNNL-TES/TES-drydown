@@ -31,9 +31,11 @@ match_picarro_data <- function(pd, valve_key) {
     valve_key_match_count[i] <- sum(matches)
     
     # take those records from the Picarro data, record core, save
-    pd[matches,] %>% 
-      mutate(Core = valve_key$Core[i]) ->
-      results[[i]]
+    if(any(matches)) {
+      pd[matches,] %>% 
+        mutate(Core = valve_key$Core[i]) ->
+        results[[i]]
+    }
   }
   
   # Return the Picarro data with new 'Core' column, and counts of how many times each
