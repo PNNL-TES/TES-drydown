@@ -1,6 +1,6 @@
 ---
 title: "Drydown - Fluxes"
-output: html_document
+output: github_document
 ---
 Run: `r Sys.Date()`
 
@@ -8,7 +8,8 @@ Run: `r Sys.Date()`
 
 knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE,
                       collapse = TRUE,
-                      comment = "#>" #, fig.path = "images/"
+                      comment = "#>", 
+                      fig.path = "images/picarro/"
                       )
 
 source("3c-picarro_output.R")
