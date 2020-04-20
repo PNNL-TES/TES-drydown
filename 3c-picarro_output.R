@@ -60,20 +60,21 @@ plan <- drake_plan(
            Status = case_when(grepl("_D$", Core_assignment) ~ "Dry",
                               grepl("_W$", Core_assignment) ~ "Wet",
                               grepl("_fm$", Core_assignment) ~ "FM")) %>% 
-    filter(flux_co2_umol_g_s>=0) %>% 
-    left_join(select(core_key, Core,moisture_lvl,trt),by = "Core") %>% 
+    filter(flux_co2_umol_g_s >= 0) %>% 
+    left_join(dplyr::select(core_key, Core, moisture_lvl, trt),by = "Core") %>% 
     # remove outliers
     group_by(Core_assignment) %>% 
     dplyr::mutate(mean = mean(flux_co2_umol_g_s),
                   median = median(flux_co2_umol_g_s),
                   sd = sd(flux_co2_umol_g_s)) %>% 
     ungroup %>% 
-    dplyr::mutate(outlier = if_else((flux_co2_umol_g_s - mean) > 4*sd,"y",as.character(NA))) %>% 
-    dplyr::filter(is.na(outlier)),
+    dplyr::mutate(outlier = flux_co2_umol_g_s - mean > 4 * sd),
+  
+  gf_no_outliers = dplyr::filter(gf, !outlier),
   
   #summarizing  
   cum_flux = 
-    gf %>%
+    gf_no_outliers %>%
     group_by(Core) %>% 
     dplyr::summarise(cum = sum(flux_co2_umol_g_s),
                      max = max(flux_co2_umol_g_s),
