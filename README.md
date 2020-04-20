@@ -1,17 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-    ## Warning: Auto-saved workspace file '.RData' detected. This is bad for
-    ## reproducible code. You can remove it with unlink(".RData"). To avoid
-    ## generating '.RData' files, start your session with 'R --no-save'or disable
-    ## the saving of workspace images in the RStudio IDE settings.
-
 # TES-drydown
 
-Run: 2020-02-11
+Run: 2020-04-20
 
     #> Warning: Removed 35 rows containing missing values (geom_point).
-    #> Warning: Removed 26 rows containing missing values (geom_path).
+    #> Warning: Removed 26 row(s) containing missing values (geom_path).
 
 ![](readme/README-unnamed-chunk-1-1.png)<!-- -->
 

@@ -61,7 +61,6 @@ plan <- drake_plan(
                               grepl("_W$", Core_assignment) ~ "Wet",
                               grepl("_fm$", Core_assignment) ~ "FM")) %>% 
     filter(flux_co2_umol_g_s >= 0) %>% 
-    left_join(dplyr::select(core_key, Core, moisture_lvl, trt),by = "Core") %>% 
     # remove outliers
     group_by(Core_assignment) %>% 
     dplyr::mutate(mean = mean(flux_co2_umol_g_s),
@@ -78,50 +77,33 @@ plan <- drake_plan(
     group_by(Core) %>% 
     dplyr::summarise(cum = sum(flux_co2_umol_g_s),
                      max = max(flux_co2_umol_g_s),
-                     cumC = sum(flux_co2_umol_gC_s),
-                     maxC = max(flux_co2_umol_gC_s),
+                     #cumC = sum(flux_co2_umol_gC_s),
+                     #maxC = max(flux_co2_umol_gC_s),
                      mean = mean(flux_co2_umol_g_s),
-                     meanC = mean(flux_co2_umol_gC_s),
+                     #meanC = mean(flux_co2_umol_gC_s),
                      median = median(flux_co2_umol_g_s),
-                     medianC = median(flux_co2_umol_gC_s),
+                     #medianC = median(flux_co2_umol_gC_s),
                      sd = sd(flux_co2_umol_g_s),
-                     sdC = sd(flux_co2_umol_gC_s),
+                     #sdC = sd(flux_co2_umol_gC_s),
                      cv = sd/mean,
-                     cvC = sdC/meanC,
+                     #cvC = sdC/meanC,
                      se = sd/sqrt(n()),
                      n = n()) %>% 
     left_join(core_key, by = "Core"),  
   
-  #testing for outliers  
-  gf_test = gf %>% group_by(Core_assignment) %>% 
-    dplyr::mutate(mean_grp = mean(flux_co2_umol_g_s),
-                  sd_grp = sd(flux_co2_umol_g_s)) %>% 
-    ungroup %>% 
-    dplyr::mutate(outlier = if_else((flux_co2_umol_g_s - mean_grp) > 4*sd_grp,"y",as.character(NA))) %>% 
-    dplyr::filter(is.na(outlier)),
-  #  
   
   meanflux = 
     cum_flux %>% 
-    group_by(soil_type,moisture_lvl,trt) %>% 
+    group_by(Site, drying, length) %>% 
     dplyr::summarize(cum = mean(cum),
                      max = mean(max),
-                     cumC = mean(cumC),
-                     maxC = mean(maxC),
+                     #cumC = mean(cumC),
+                     #maxC = mean(maxC),
                      mean = mean(mean),
-                     meanC = mean(meanC),
+                     #meanC = mean(meanC),
                      median = mean(median),
-                     medianC = mean(medianC)),
-  
-  mean_percsat = 
-    cum_flux %>% 
-    group_by(soil_type,perc_sat,trt) %>% 
-    dplyr::summarize(cum = mean(cum),
-                     max = mean(max),
-                     cumC = mean(cumC),
-                     maxC = mean(maxC),
-                     mean = mean(mean),
-                     meanC = mean(meanC))
+                     #medianC = mean(medianC)
+                     )
   
   
 )
