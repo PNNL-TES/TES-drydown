@@ -89,7 +89,7 @@ compute_ghg_fluxes <- function(p_clean_matched, valve_key) {
     group_by(Sample_number) %>% 
     filter(n() > 1) %>% 
     group_by(Core, Sample_number) %>% 
-    summarise(DATETIME = mean(DATETIME),
+    dplyr::summarise(DATETIME = mean(DATETIME),
               n = n(),
               flux_co2_umol_s = compute_flux(Elapsed_seconds, 
                                              CO2_dry, 
@@ -100,13 +100,12 @@ compute_ghg_fluxes <- function(p_clean_matched, valve_key) {
                                              volume_cm3 = V_tubing + V_picarro, 
                                              tair_C = Tair) * 1000) %>% 
     # join with valve_key data to get dry weights
-    left_join(valve_key, by = "Core") %>% 
+    left_join(dplyr::select(valve_key, Core, dry_soil_g), by = "Core") %>% 
     group_by(Core, Sample_number, DATETIME) %>% 
-    summarise(flux_co2_umol_s = flux_co2_umol_s,
-              flux_ch4_nmol_s = flux_ch4_nmol_s,
-              flux_co2_umol_g_s = flux_co2_umol_s / mean(DryWt_g),
-              flux_ch4_nmol_g_s = flux_ch4_nmol_s / mean(DryWt_g),
-              flux_co2_umol_gC_s = flux_co2_umol_s / mean(Carbon_g))%>% 
+    dplyr::mutate(flux_co2_umol_g_s = flux_co2_umol_s / dry_soil_g,
+              flux_ch4_nmol_g_s = flux_ch4_nmol_s / dry_soil_g#,
+             #flux_co2_umol_gC_s = flux_co2_umol_s / mean(Carbon_g)
+              )%>% 
     ungroup()
 }
 
