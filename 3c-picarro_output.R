@@ -12,9 +12,10 @@ source("2-picarro_data.R")
 
 plan <- drake_plan(
 
-core_key = read.csv("data/processed/corekey.csv"),
+core_key = read.csv("data/processed/corekey.csv", stringsAsFactors = FALSE),
   
-core_dry_weights = read.csv("data/processed/core_weights.csv") %>% dplyr::mutate(Core = as.character(Core)),
+core_dry_weights = read.csv("data/processed/core_weights.csv", stringsAsFactors = FALSE) %>%
+  dplyr::mutate(Core = as.character(Core)),
 
 core_masses = read.csv("data/cpcrw_valve_map.csv", stringsAsFactors = FALSE) %>%
   filter(Start_Time != "" & Stop_Time != "" & Stop_Date != "") %>% 
