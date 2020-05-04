@@ -30,7 +30,7 @@ picarro2 =
 ggplot(picarro2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
     geom_point() + geom_line() +
     ylab("flux_co2_nmol_g_s")+
-    facet_wrap(~Core)+
+    facet_wrap(~Core_assignment)+
     #facet_grid(drying~length, scale = "free_x")+
     geom_hline(yintercept = 0)+
     theme(legend.position="none")
