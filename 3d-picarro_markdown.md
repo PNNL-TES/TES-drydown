@@ -1,18 +1,14 @@
 Drydown - Fluxes
 ================
 
-Run: 2020-04-20
+Run: 2020-05-04
 
 # 1\. PICARRO DATA
 
-## negative fluxes removed
+### individual cores
 
-## initial plots, QA, QC
+![](images/markdown-picarro/co2_flux_cores-1.png)<!-- -->
 
-1.  number of readings
+### by treatment
 
-![](images/picarro/num-1.png)<!-- -->
-
-2.  plotting by Core\_assignment
-
-![](images/picarro/unnamed-chunk-1-1.png)<!-- -->
+![](images/markdown-picarro/co2_flux_trt-1.png)<!-- -->

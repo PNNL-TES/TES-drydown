@@ -9,39 +9,40 @@ Run: `r Sys.Date()`
 knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE,
                       collapse = TRUE,
                       comment = "#>", 
-                      fig.path = "images/picarro/"
+                      fig.path = "images/markdown-picarro/"
                       )
 
-source("3c-picarro_output.R")
-make(plan)
+source("0-drydown_functions.R")
+picarro = read.csv("data/processed/picarro_processed.csv")
 
-cum_flux = readd(cum_flux)
-gf = readd(gf_no_outliers)
-meanflux = readd(meanflux)
+picarro2 = 
+    picarro %>% 
+    dplyr::mutate(DATETIME2 = ymd_hms(DATETIME)) %>% 
+    group_by(Core) %>% 
+    dplyr::mutate(elapsed_days = as.double(difftime(DATETIME2, min(DATETIME2), units = "days")))
 ```
 
 
 # 1. PICARRO DATA
 
-## negative fluxes removed
-## initial plots, QA, QC
-
-1. number of readings
-
-
-```{r num}
-ggplot(cum_flux, aes(x = Core, y = n))+
-    geom_point()+
-    ggtitle("no. of readings")
-```
-
-2. plotting by Core_assignment
-
-```{r, fig.width=8, fig.height=8}
-ggplot(gf, aes(DATETIME, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+### individual cores  
+```{r co2_flux_cores}
+ggplot(picarro2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
     geom_point() + geom_line() +
     ylab("flux_co2_nmol_g_s")+
-    facet_wrap(~Core_assignment, scale = "free_x")+
+    facet_wrap(~Core)+
+    #facet_grid(drying~length, scale = "free_x")+
     geom_hline(yintercept = 0)+
     theme(legend.position="none")
 ```
+
+### by treatment  
+```{r co2_flux_trt}
+ggplot(picarro2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+    geom_point() + geom_line() +
+    ylab("flux_co2_nmol_g_s")+
+    facet_grid(drying~length, scale = "free_x")+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="none")
+```
+
