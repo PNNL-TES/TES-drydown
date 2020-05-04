@@ -32,8 +32,8 @@ plan <- drake_plan(
   # Picarro data
   # Using the 'trigger' argument below means we only re-read the Picarro raw
   # data when necessary, i.e. when the files change
-  picarro_raw = target(process_directory("data/picarro_data/"),
-                       trigger = trigger(change = list.files("data/picarro_data/", pattern = "dat$", recursive = TRUE))),
+  picarro_raw = target(process_directory(PICARROPATH),
+                       trigger = trigger(change = list.files(PICARROPATH, pattern = "dat$", recursive = TRUE))),
   
   # this next line is for running it without Drake
   # picarro_raw = sapply(list.files(path = "data/picarro_data/",pattern = "dat$", recursive = TRUE,full.names = TRUE),
@@ -55,7 +55,7 @@ plan <- drake_plan(
   
   gf = 
     ghg_fluxes %>% 
-    left_join(valve_key, by = "Core") %>% 
+    left_join(core_key, by = "Core") %>% 
     filter(flux_co2_umol_g_s >= 0) %>% 
     # remove outliers
     group_by(Core_assignment) %>% 
@@ -85,7 +85,8 @@ plan <- drake_plan(
                      #cvC = sdC/meanC,
                      se = sd/sqrt(n()),
                      n = n()) %>% 
-    left_join(core_key, by = "Core"),  
+    left_join(core_key, by = "Core"
+              ),  
   
   meanflux = 
     cum_flux %>% 
