@@ -36,7 +36,7 @@ plan <- drake_plan(
                        trigger = trigger(change = list.files(PICARROPATH, pattern = "dat$", recursive = TRUE))),
   
   # this next line is for running it without Drake
-  # picarro_raw = sapply(list.files(path = "data/picarro_data/",pattern = "dat$", recursive = TRUE,full.names = TRUE),
+  # picarro_raw = sapply(list.files(path = PICARROPATH, pattern = "dat$", recursive = TRUE,full.names = TRUE),
   #                                read.table,header=TRUE, simplify = FALSE) %>% bind_rows(),  
   
   picarro_clean = clean_picarro_data(picarro_raw),
