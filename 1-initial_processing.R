@@ -84,7 +84,43 @@ core_weight =
   group_by(Site, Core) %>% 
   dplyr::summarise(dry_soil_g = sum(dry_soil_g))
 
+### ugh. 12-May-2020 KP ----
+# some core weights are not currently available on the Google Doc
+# 30-day and 90-day CW cores
+# so, use weights from drought incubation, assuming completely dry
+# later, we will replace these with actual weights
 
-### OUTPUT
+# first, create a subset of the required cores
+cpcrw_subset = 
+  cpcrw_corekey %>% 
+  filter(drying=="constant weight" & 
+           (length=="30 day"|length=="90 day")) %>% 
+  pull(Core)
+
+# next, pull the corresponding weights from the valvekey file
+core_key = read.csv("data/processed/corekey.csv", stringsAsFactors = FALSE)
+core_masses = read.csv("data/cpcrw_valve_map.csv", stringsAsFactors = FALSE) %>%
+  filter(Start_Time != "" & Stop_Time != "" & Stop_Date != "") %>% 
+  dplyr::mutate(Start_datetime = ymd_hm(paste(Start_Date, Start_Time), tz = "America/Los_Angeles"),
+                Stop_datetime = ymd_hm(paste(Stop_Date, Stop_Time), tz = "America/Los_Angeles")) %>% 
+  
+  left_join(core_key, by = c("Site","Core")) 
+
+masses_subset = 
+  core_masses %>% 
+  filter(!Seq.Program == "mass_only") %>% 
+  filter(Core %in% cpcrw_subset) %>% 
+  # find the lowest weight per core
+  ungroup %>% 
+  group_by(Core) %>% 
+  dplyr::summarize(core_wt_g = min(Mass_g, na.rm = T),
+                   dry_soil_g = core_wt_g - EMPTY,
+                   Site="CPCRW") %>% 
+  dplyr::select(Site, Core, dry_soil_g) %>% 
+  dplyr::mutate(Core = as.numeric(Core))
+
+core_weight2 = bind_rows(core_weight, masses_subset)
+
+### OUTPUT ----
 write.csv(raw_weight,"data/processed/core_weights_depth.csv", na = "", row.names = FALSE)
-write.csv(core_weight,"data/processed/core_weights.csv", na = "", row.names = FALSE)
+write.csv(core_weight2,"data/processed/core_weights.csv", na = "", row.names = FALSE)
