@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE,
                       )
 
 source("0-drydown_functions.R")
-picarro = read.csv("data/processed/picarro_processed.csv")
+picarro = read.csv("data/processed/picarro_processed.csv.gz")
 
 picarro2 = 
     picarro %>% 

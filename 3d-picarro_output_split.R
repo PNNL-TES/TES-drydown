@@ -114,4 +114,4 @@ picarro_processed_combined =
   sapply(list.files(path = "data/processed/picarro/monthly/gf/",pattern = "*.csv",full.names = TRUE),
          read.csv, simplify = FALSE) %>% bind_rows()  
 
-write.csv(picarro_processed_combined, "data/processed/picarro_processed.csv", row.names = F)                     
+crunch::write.csv.gz(picarro_processed_combined, "data/processed/picarro_processed.csv.gz", row.names = F)                     
