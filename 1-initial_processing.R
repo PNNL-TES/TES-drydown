@@ -30,16 +30,17 @@ cpcrw_corekey =
 # 2. get core/soil weights ----
 
 ## empty core weight ----
+## this empty weight includes: the sleeve; one (1) cap; a piece of nylon mesh; and a label from the label maker
 empty = read.csv("data/empty_core_weights.csv")
 EMPTY = round(mean(empty$weight_sleeve_cap_nylon_label_g),2)
 
 
 ## core weights ----
 ## initial field moisture
-initial_weight_temp = read.csv("data/cpcrw_valve_map.csv") 
+c_initial_weight_temp = read.csv("data/cpcrw_valve_map.csv") 
 
-initial_weight = 
-  initial_weight_temp %>% 
+c_initial_weight = 
+  c_initial_weight_temp %>% 
   filter(Notes1=="KP: initial weight") %>% 
   dplyr::select(Site, Core, Mass_g) %>% 
   dplyr::mutate(soil_fm_g = Mass_g - EMPTY)
@@ -51,9 +52,9 @@ initial_weight =
 # i. first, get gravimetric moisture data after core deconstruction
 # the cores were split into two pieces (0-5cm, 5cm-end)
 
-moisture_temp = read_excel("data/CPCRW_CW_subsampling_weights_6.26.xlsx", sheet = "CW moisture (2)")
+c_moisture_temp = read_excel("data/CPCRW_CW_subsampling_weights_6.26.xlsx", sheet = "CW moisture (2)")
 
-moisture = 
+c_moisture = 
   moisture_temp %>% 
   rename(Core = `Core #`) %>%
   filter(!is.na(Core)) %>% 
@@ -70,9 +71,9 @@ moisture =
 # ii. then, get "wet" weight for each depth and use gravimetric moisture to calculate OD weight for each depth.
 # then add 0-5cm and 5cm-end to get OD weight for the entire core
 
-raw_weight_temp = read_excel("data/CPCRW_CW_subsampling_weights_6.26.xlsx", sheet = "raw weights")
+c_raw_weight_temp = read_excel("data/CPCRW_CW_subsampling_weights_6.26.xlsx", sheet = "raw weights")
 
-raw_weight = 
+c_raw_weight = 
   raw_weight_temp[,1:8] %>% 
   dplyr::mutate(`0-5cm` = `soil_pan_weight_0-5cm_g` - `pan_weight_0-5cm_g`,
                 `5cm-end` = `soil_pan_weight_5-end_cm_g` - `pan_weight_5-end_cm_g`) %>% 
@@ -82,7 +83,7 @@ raw_weight =
   left_join(moisture, by = c("Core","Depth")) %>% 
   dplyr::mutate(dry_soil_g = round(wet_soil_g/((moisture_pc/100)+1),2))
 
-core_weight = 
+c_core_weight = 
   raw_weight %>% 
   group_by(Site, Core) %>% 
   dplyr::summarise(dry_soil_g = sum(dry_soil_g))
@@ -122,11 +123,11 @@ masses_subset =
   dplyr::select(Site, Core, dry_soil_g) %>% 
   dplyr::mutate(Core = as.numeric(Core))
 
-core_weight2 = bind_rows(core_weight, masses_subset)
+c_core_weight2 = bind_rows(c_core_weight, masses_subset)
 
 ### OUTPUT ----
-write.csv(raw_weight,"data/processed/core_weights_depth.csv", na = "", row.names = FALSE)
-write.csv(core_weight2,"data/processed/core_weights.csv", na = "", row.names = FALSE)
+# write.csv(raw_weight,"data/processed/core_weights_depth.csv", na = "", row.names = FALSE)
+# write.csv(core_weight2,"data/processed/core_weights.csv", na = "", row.names = FALSE)
 
 #
 ##-------------------------## #### 
@@ -157,25 +158,21 @@ sr_corekey =
 
 ## OUTPUT
 # write_csv(sr_corekey, COREKEY)
-rbind(cpcrw_corekey, sr_corekey) %>% write_csv(COREKEY, na = "")
 
 #
 
-
-
-
 # 2. get core/soil weights ----
-## core weights ----
+## core weights ---- 
+
 ## initial field moisture
-initial_weight_temp = read.csv("data/cpcrw_valve_map.csv") 
+s_initial_weight_temp = read.csv("data/sr_core_weights.csv") 
 
-initial_weight = 
-  initial_weight_temp %>% 
-  filter(Notes1=="KP: initial weight") %>% 
-  dplyr::select(Site, Core, Mass_g) %>% 
-  dplyr::mutate(soil_fm_g = Mass_g - EMPTY)
-
-## dry soil weights
+s_initial_weight = 
+  s_initial_weight_temp %>% 
+  dplyr::select(Site, Core, Mass_g = `Mass.with.both.end.caps..g.`) %>% 
+  dplyr::mutate(soil_fm_g = Mass_g - (EMPTY+1.09))
+## EMPTY was calculated using only 1 end cap. But the SR cores were weighed with 2 caps. So we add the weight of 1 cap (1.09g) to EMPTY
+## dry soil weights ----
 
 ### since these are intact cores, we have to back-calculate using data from core deconstruction.
 
@@ -234,3 +231,9 @@ s_core_weight =
   dplyr::summarise(dry_soil_g = sum(dry_soil_g),
                    coarse_g = sum(coarse_g),
                    dry_total_g = dry_soil_g+coarse_g)
+
+
+## OUTPUT ----
+rbind(cpcrw_corekey, sr_corekey) %>% write_csv(COREKEY, na = "")
+rbind(c_raw_weight, s_raw_weight) %>% write.csv("data/processed/core_weights_depth.csv", na = "", row.names = FALSE)
+rbind(c_core_weight2, s_core_weight) %>% write.csv("data/processed/core_weights.csv", na = "", row.names = FALSE)
