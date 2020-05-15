@@ -45,7 +45,7 @@ c_initial_weight =
   dplyr::select(Site, Core, Mass_g) %>% 
   dplyr::mutate(soil_fm_g = Mass_g - EMPTY)
 
-## dry soil weights
+## dry soil weights ----
 
 ### since these are intact cores, we have to back-calculate using data from core deconstruction.
 
@@ -55,7 +55,7 @@ c_initial_weight =
 c_moisture_temp = read_excel("data/CPCRW_CW_subsampling_weights_6.26.xlsx", sheet = "CW moisture (2)")
 
 c_moisture = 
-  moisture_temp %>% 
+  c_moisture_temp %>% 
   rename(Core = `Core #`) %>%
   filter(!is.na(Core)) %>% 
   filter(is.na(Flag)) %>% 
@@ -65,28 +65,59 @@ c_moisture =
   dplyr::mutate(flag = case_when(moisture_cv>15~"highly variable moisture")) %>% 
   # RECODE ALL 5cm-endg AS 5cm-end. WTF
   dplyr::mutate(Depth = if_else(Depth=="5cm-endg","5cm-end",Depth))
-###  **** currently not working because of badly formatted source file. ****
-
 
 # ii. then, get "wet" weight for each depth and use gravimetric moisture to calculate OD weight for each depth.
 # then add 0-5cm and 5cm-end to get OD weight for the entire core
 
 c_raw_weight_temp = read_excel("data/CPCRW_CW_subsampling_weights_6.26.xlsx", sheet = "raw weights")
 
+C_PAN_WEIGHT = 
+  c_raw_weight_temp %>% 
+  dplyr::select(`pan_weight_0-5cm_g`, `pan_weight_5-end_cm_g`) %>% 
+  melt() %>% 
+  dplyr::summarize(mean = round(mean(value),2)) %>% 
+  pull(mean)
+
 c_raw_weight = 
-  raw_weight_temp[,1:8] %>% 
-  dplyr::mutate(`0-5cm` = `soil_pan_weight_0-5cm_g` - `pan_weight_0-5cm_g`,
-                `5cm-end` = `soil_pan_weight_5-end_cm_g` - `pan_weight_5-end_cm_g`) %>% 
+  c_raw_weight_temp %>% 
+  #filter(is.na(flag)) %>%
   dplyr::rename(Core = `core #`) %>% 
-  dplyr::select(Site, Core, `0-5cm`, `5cm-end`) %>% 
-  tidyr::gather(Depth, wet_soil_g,`0-5cm`:`5cm-end`) %>% 
-  left_join(moisture, by = c("Core","Depth")) %>% 
-  dplyr::mutate(dry_soil_g = round(wet_soil_g/((moisture_pc/100)+1),2))
+  dplyr::mutate(wet_soil_0_5cm = `0-5 cm post sieving weight` - C_PAN_WEIGHT,
+                wet_soil_5cm_end = `5cm-end post sieving weight` - C_PAN_WEIGHT,
+                coarse_0_5cm = `soil_pan_weight_0-5cm_g` - `0-5 cm post sieving weight`,
+                coarse_5cm_end = `soil_pan_weight_5-end_cm_g` - `5cm-end post sieving weight`) %>% 
+  dplyr::select(Site, Core, wet_soil_0_5cm, wet_soil_5cm_end, coarse_0_5cm, coarse_5cm_end) %>% 
+  melt(id = c("Site", "Core")) %>% 
+  dplyr::mutate(Depth = case_when(grepl("0_5", variable)~"0-5cm",
+                                  grepl("5cm_end", variable)~"5cm-end"),
+                type = case_when(grepl("wet", variable)~"wet_soil_g",
+                                 grepl("coarse", variable)~"coarse_g")) %>% 
+  dplyr::select(Site, Core, Depth, type, value) %>% 
+  spread(type, value) %>% 
+  
+  left_join(dplyr::select(c_moisture, Core, Depth, moisture_pc), by = c("Core","Depth")) %>% 
+  dplyr::mutate(dry_fine_g = round(wet_soil_g/((moisture_pc/100)+1),2)) %>% 
+  filter(dry_fine_g>0)
+## CHECK CORE 26. 5CM-END WEIGHT IS F-D UP. NEGATIVE ----
 
 c_core_weight = 
-  raw_weight %>% 
+  c_raw_weight %>% 
   group_by(Site, Core) %>% 
-  dplyr::summarise(dry_soil_g = sum(dry_soil_g))
+  dplyr::summarise(dry_fine_g = sum(dry_fine_g),
+                   coarse_g = sum(coarse_g),
+                   dry_soil_g = dry_fine_g+coarse_g)
+
+    ## OLD CODE. DID NOT SEPARATE COARSE FROM FINE FRACTION. WRONG. 
+    ## c_raw_weight = 
+    ##   c_raw_weight_temp[,1:8] %>% 
+    ##   dplyr::mutate(`0-5cm` = `soil_pan_weight_0-5cm_g` - `pan_weight_0-5cm_g`,
+    ##                 `5cm-end` = `soil_pan_weight_5-end_cm_g` - `pan_weight_5-end_cm_g`) %>% 
+    ##   dplyr::rename(Core = `core #`) %>% 
+    ##   dplyr::select(Site, Core, `0-5cm`, `5cm-end`) %>% 
+    ##   tidyr::gather(Depth, wet_soil_g,`0-5cm`:`5cm-end`) %>% 
+    ##   left_join(moisture, by = c("Core","Depth")) %>% 
+    ##   dplyr::mutate(dry_soil_g = round(wet_soil_g/((moisture_pc/100)+1),2))
+
 
 ### ugh. 12-May-2020 KP ----
 # some core weights are not currently available on the Google Doc
@@ -112,7 +143,7 @@ core_masses = read.csv("data/cpcrw_valve_map.csv", stringsAsFactors = FALSE) %>%
 
 masses_subset = 
   core_masses %>% 
-  filter(!Seq.Program == "mass_only") %>% 
+  filter(Site=="CPCRW" & !Seq.Program == "mass_only") %>% 
   filter(Core %in% cpcrw_subset) %>% 
   # find the lowest weight per core
   ungroup %>% 
@@ -134,7 +165,7 @@ c_core_weight2 = bind_rows(c_core_weight, masses_subset)
 # SOIL 2: SECRET RIVER ----
 # repeat the same steps as above, for the SR soils
 # 1. clean the corekey ----
-sr_key = read.csv("data/sr_corekey.csv", stringsAsFactors = F)
+sr_key = read.csv("data/sr_corekey.csv", stringsAsFactors = F) %>% dplyr::select(1:3)
 
 sr_corekey = 
   sr_key %>% 
@@ -223,21 +254,17 @@ s_raw_weight =
   spread(type, value) %>% 
   
   left_join(dplyr::select(s_moisture, Core, Depth, moisture_pc), by = c("Core","Depth")) %>% 
-  dplyr::mutate(dry_soil_g = round(wet_soil_g/((moisture_pc/100)+1),2))
+  dplyr::mutate(dry_fine_g = round(wet_soil_g/((moisture_pc/100)+1),2))
 
 s_core_weight = 
   s_raw_weight %>% 
   group_by(Site, Core) %>% 
-  dplyr::summarise(dry_soil_g = sum(dry_soil_g),
+  dplyr::summarise(dry_fine_g = sum(dry_fine_g),
                    coarse_g = sum(coarse_g),
-                   dry_total_g = dry_soil_g+coarse_g)
+                   dry_soil_g = dry_fine_g+coarse_g)
 
 
 ## OUTPUT ----
-<<<<<<< HEAD
 rbind(cpcrw_corekey, sr_corekey) %>% write_csv(COREKEY, na = "")
-=======
-
->>>>>>> b1351453592fd6c99908d4431720ff952114a566
 rbind(c_raw_weight, s_raw_weight) %>% write.csv("data/processed/core_weights_depth.csv", na = "", row.names = FALSE)
 rbind(c_core_weight2, s_core_weight) %>% write.csv("data/processed/core_weights.csv", na = "", row.names = FALSE)
