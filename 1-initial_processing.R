@@ -234,6 +234,10 @@ s_core_weight =
 
 
 ## OUTPUT ----
+<<<<<<< HEAD
 rbind(cpcrw_corekey, sr_corekey) %>% write_csv(COREKEY, na = "")
+=======
+
+>>>>>>> b1351453592fd6c99908d4431720ff952114a566
 rbind(c_raw_weight, s_raw_weight) %>% write.csv("data/processed/core_weights_depth.csv", na = "", row.names = FALSE)
 rbind(c_core_weight2, s_core_weight) %>% write.csv("data/processed/core_weights.csv", na = "", row.names = FALSE)
