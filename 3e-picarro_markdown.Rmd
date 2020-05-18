@@ -20,13 +20,23 @@ picarro2 =
     dplyr::mutate(DATETIME2 = ymd_hms(DATETIME)) %>% 
     group_by(Core) %>% 
     dplyr::mutate(elapsed_days = as.double(difftime(DATETIME2, min(DATETIME2), units = "days")))
+
+picarro_sr = read.csv("data/processed/picarro_processed_sr.csv.gz")
+
+picarro_sr2 = 
+    picarro_sr %>% 
+    dplyr::mutate(DATETIME2 = ymd_hms(DATETIME)) %>% 
+    group_by(Core) %>% 
+    dplyr::mutate(elapsed_days = as.double(difftime(DATETIME2, min(DATETIME2), units = "days")))
+
+
 ```
 
 
-# 1. PICARRO DATA
+# 1. PICARRO DATA -- CPCRW
 
 ### individual cores  
-```{r co2_flux_cores}
+```{r cpcrw_co2_flux_cores}
 ggplot(picarro2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
     geom_point() + geom_line() +
     ylab("flux_co2_nmol_g_s")+
@@ -37,7 +47,7 @@ ggplot(picarro2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignme
 ```
 
 ### by treatment  
-```{r co2_flux_trt}
+```{r cpcrw_co2_flux_trt}
 ggplot(picarro2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
     geom_point() + geom_line() +
     ylab("flux_co2_nmol_g_s")+
@@ -46,8 +56,33 @@ ggplot(picarro2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignme
     theme(legend.position="none")
 ```
 
-```{r}
-ggplot(picarro, aes(DATETIME, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+```{r cpcrw__co2_flux_trt2}
+ggplot(picarro2, aes(DATETIME2, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+    geom_point() + geom_line() +
+    ylab("flux_co2_nmol_g_s")+
+    facet_grid(drying~length)+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="none")+
+    theme(axis.text.x = element_text(angle = 90))
+
+```
+
+# 1. PICARRO DATA -- SR
+
+### individual cores  
+```{r sr_co2_flux_cores}
+ggplot(picarro_sr2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+    geom_point() + geom_line() +
+    ylab("flux_co2_nmol_g_s")+
+    facet_wrap(~Core_assignment)+
+    #facet_grid(drying~length, scale = "free_x")+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="none")
+```
+
+### by treatment  
+```{r sr_co2_flux_trt}
+ggplot(picarro_sr2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
     geom_point() + geom_line() +
     ylab("flux_co2_nmol_g_s")+
     facet_grid(drying~length, scale = "free_x")+
@@ -55,3 +90,12 @@ ggplot(picarro, aes(DATETIME, flux_co2_umol_g_s*1000, color = Core_assignment)) 
     theme(legend.position="none")
 ```
 
+```{r sr_co2_flux_trt2}
+ggplot(picarro_sr2, aes(DATETIME2, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+    geom_point() + geom_line() +
+    ylab("flux_co2_nmol_g_s")+
+    facet_grid(drying~length)+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="none")+
+    theme(axis.text.x = element_text(angle = 90))
+```
