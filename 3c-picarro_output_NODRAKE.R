@@ -18,7 +18,7 @@ source("2-picarro_data.R")
   core_dry_weights = read.csv("data/processed/core_weights.csv", stringsAsFactors = FALSE) %>%
     dplyr::mutate(Core = as.character(Core))
   
-  core_masses = read.csv("data/cpcrw_valve_map2.csv", stringsAsFactors = FALSE) %>%
+  core_masses = read.csv("data/cpcrw_valve_map.csv", stringsAsFactors = FALSE) %>%
     filter(Start_Time != "" & Stop_Time != "" & Stop_Date != "") %>% 
     dplyr::mutate(Start_datetime = ymd_hm(paste(Start_Date, Start_Time), tz = "America/Los_Angeles"),
                   Stop_datetime = ymd_hm(paste(Stop_Date, Stop_Time), tz = "America/Los_Angeles")) %>% 
@@ -68,6 +68,12 @@ source("2-picarro_data.R")
   
   gf_no_outliers = dplyr::filter(gf, !outlier)
   
+  gf_output =
+    subset(merge(gf, valve_key %>% dplyr::select(Core, Start_datetime, Stop_datetime, Treatment)), 
+           DATETIME <= Stop_datetime & DATETIME >= Start_datetime & Core == Core) %>% 
+    dplyr::select(-mean,-median, -sd, -Start_datetime, -Stop_datetime, -outlier)
+  
+
   #summarizing  
   cum_flux = 
     gf_no_outliers %>%

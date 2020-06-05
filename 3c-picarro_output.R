@@ -53,7 +53,7 @@ cpcrw_plan <- drake_plan(
   
   gf = 
     ghg_fluxes %>% 
-    left_join(core_key, by = "Core") %>% 
+    left_join(core_key %>% filter(Site=="CPCRW"), by = "Core") %>% 
     filter(flux_co2_umol_g_s >= 0) %>% 
     # remove outliers
     group_by(Core_assignment) %>% 
@@ -64,6 +64,12 @@ cpcrw_plan <- drake_plan(
     dplyr::mutate(outlier = flux_co2_umol_g_s - mean > 4 * sd),
   
   gf_no_outliers = dplyr::filter(gf, !outlier),
+  
+  gf_output =
+    subset(merge(gf, valve_key %>% dplyr::select(Core, Start_datetime, Stop_datetime, Treatment)), 
+           DATETIME <= Stop_datetime & DATETIME >= Start_datetime & Core == Core) %>% 
+    dplyr::select(-mean,-median, -sd, -Start_datetime, -Stop_datetime, -outlier),
+  
   
   #summarizing  
   cum_flux = 
@@ -152,7 +158,7 @@ sr_plan <- drake_plan(
   
   gf = 
     ghg_fluxes %>% 
-    left_join(core_key, by = "Core") %>% 
+    left_join(core_key %>% filter(Site=="SR"), by = "Core") %>% 
     filter(flux_co2_umol_g_s >= 0) %>% 
     # remove outliers
     group_by(Core_assignment) %>% 
@@ -163,6 +169,11 @@ sr_plan <- drake_plan(
     dplyr::mutate(outlier = flux_co2_umol_g_s - mean > 4 * sd),
   
   gf_no_outliers = dplyr::filter(gf, !outlier),
+
+  gf_output =
+    subset(merge(gf, valve_key %>% dplyr::select(Core, Start_datetime, Stop_datetime, Treatment)), 
+           DATETIME <= Stop_datetime & DATETIME >= Start_datetime & Core == Core) %>% 
+    dplyr::select(-mean,-median, -sd, -Start_datetime, -Stop_datetime, -outlier),
   
   #summarizing  
   cum_flux = 
