@@ -18,7 +18,7 @@ source("2-picarro_data.R")
   core_dry_weights = read.csv("data/processed/core_weights.csv", stringsAsFactors = FALSE) %>%
     dplyr::mutate(Core = as.character(Core))
   
-  core_masses = read.csv("data/cpcrw_valve_map.csv", stringsAsFactors = FALSE) %>%
+  core_masses = read.csv("data/cpcrw_valve_map2.csv", stringsAsFactors = FALSE) %>%
     filter(Start_Time != "" & Stop_Time != "" & Stop_Date != "") %>% 
     dplyr::mutate(Start_datetime = ymd_hm(paste(Start_Date, Start_Time), tz = "America/Los_Angeles"),
                   Stop_datetime = ymd_hm(paste(Stop_Date, Stop_Time), tz = "America/Los_Angeles")) %>% 
@@ -56,7 +56,7 @@ source("2-picarro_data.R")
   
   gf = 
     ghg_fluxes %>% 
-    left_join(core_key, by = "Core") %>% 
+    left_join(core_key %>% filter(Site=="CPCRW"), by = "Core") %>% 
     filter(flux_co2_umol_g_s >= 0) %>% 
     # remove outliers
     group_by(Core_assignment) %>% 
