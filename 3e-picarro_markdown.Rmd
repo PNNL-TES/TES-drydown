@@ -90,7 +90,7 @@ picarro2 %>%
     ungroup() %>% 
     group_by(drying, length, Treatment) %>%
     dplyr::summarise(CO2_nmol_g_s = mean(CO2_nmol_g_s)) %>% 
-    dplyr::mutate(Treatment = factor(Treatment, levels = c("drydown", "drought", "sat", "sat_incubation"))) %>% 
+    dplyr::mutate(Treatment = factor(Treatment, levels = c("initial","drydown", "drought", "sat", "sat_incubation"))) %>% 
     spread(Treatment, CO2_nmol_g_s) %>% 
     arrange(length, drying) %>% 
     knitr::kable()
@@ -169,7 +169,7 @@ picarro_sr2 %>%
     group_by(Core, Core_assignment, drying, length, Treatment) %>%
     dplyr::summarise(CO2_nmol_g_s = mean(flux_co2_umol_g_s)*1000) %>% 
     ungroup() %>% 
-    dplyr::mutate(Treatment = factor(Treatment, levels = c("drydown", "drought", "sat", "sat_incubation"))) %>% 
+   # dplyr::mutate(Treatment = factor(Treatment, levels = c("drydown", "drought", "sat", "sat_incubation"))) %>% 
     spread(Treatment, CO2_nmol_g_s) %>% 
     arrange(length, drying, Core) %>% 
     knitr::kable()
@@ -184,7 +184,7 @@ picarro_sr2 %>%
     ungroup() %>% 
     group_by(drying, length, Treatment) %>%
     dplyr::summarise(CO2_nmol_g_s = mean(CO2_nmol_g_s, na.rm = T)) %>% 
-    dplyr::mutate(Treatment = factor(Treatment, levels = c("drydown", "drought", "sat", "sat_incubation"))) %>% 
+   # dplyr::mutate(Treatment = factor(Treatment, levels = c("drydown", "drought", "sat", "sat_incubation"))) %>% 
     spread(Treatment, CO2_nmol_g_s) %>% 
     arrange(length, drying) %>% 
     knitr::kable()
