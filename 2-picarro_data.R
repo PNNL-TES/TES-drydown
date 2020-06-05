@@ -100,7 +100,7 @@ compute_ghg_fluxes <- function(p_clean_matched, valve_key) {
                                              volume_cm3 = V_tubing + V_picarro, 
                                              tair_C = Tair) * 1000) %>% 
     # join with valve_key data to get dry weights
-    left_join(dplyr::select(valve_key, Core, dry_soil_g) %>% distinct(Core), by = "Core") %>% 
+    left_join(dplyr::select(valve_key, Core, dry_soil_g) %>% distinct(Core, dry_soil_g), by = "Core") %>% 
     group_by(Core, Sample_number, DATETIME) %>% 
     dplyr::mutate(flux_co2_umol_g_s = flux_co2_umol_s / dry_soil_g,
               flux_ch4_nmol_g_s = flux_ch4_nmol_s / dry_soil_g#,
