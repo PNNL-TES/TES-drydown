@@ -18,94 +18,68 @@ source("3c-picarro_output.R")
 ## months -- CPCRW -- dec 2018 to dec 2019 ----
 # DEC-2018
 PICARROPATH = "data/picarro_data/2018/12"
-make(plan)
-cum_flux_2018_12 = readd(cum_flux) %>% write.csv("data/processed/picarro/monthly/cum/cum_flux_2018_12.csv", row.names = FALSE)
-mean_flux_2018_12 = readd(meanflux) %>% write.csv("data/processed/picarro/monthly/mean/mean_flux_2018_12.csv", row.names = FALSE)
-gf_2018_12 = readd(gf) %>% write.csv("data/processed/picarro/monthly/gf/gf_2018_12.csv", row.names = FALSE)
+make(cpcrw_plan)
+gf_2018_12 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/cpcrw_gf/gf_2018_12.csv", row.names = FALSE)
 
 # JAN-2019
 PICARROPATH = "data/picarro_data/2019/01"
 make(cpcrw_plan)
-cum_flux_01 = readd(cum_flux) %>% write.csv("data/processed/picarro/monthly/cum/cum_flux_01.csv", row.names = FALSE)
-mean_flux_01 = readd(meanflux) %>% write.csv("data/processed/picarro/monthly/mean/mean_flux_01.csv", row.names = FALSE)
-gf_01 = readd(gf) %>% write.csv("data/processed/picarro/monthly/gf/gf_01.csv", row.names = FALSE)
+gf_01 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/cpcrw_gf/gf_01.csv", row.names = FALSE)
 
 # FEB-2019
 PICARROPATH = "data/picarro_data/2019/02"
-make(plan)
-cum_flux_02 = readd(cum_flux) %>% write.csv("data/processed/picarro/monthly/cum/cum_flux_02.csv", row.names = FALSE)
-mean_flux_02 = readd(meanflux) %>% write.csv("data/processed/picarro/monthly/mean/mean_flux_02.csv", row.names = FALSE)
-gf_02 = readd(gf) %>% write.csv("data/processed/picarro/monthly/gf/gf_02.csv", row.names = FALSE)
+make(cpcrw_plan)
+gf_02 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/cpcrw_gf/gf_02.csv", row.names = FALSE)
 
 # MAR-2019
 PICARROPATH = "data/picarro_data/2019/03/"
-make(plan)
-cum_flux_03 = readd(cum_flux) %>% write.csv("data/processed/picarro/monthly/cum/cum_flux_03.csv", row.names = FALSE)
-mean_flux_03 = readd(meanflux) %>% write.csv("data/processed/picarro/monthly/mean/mean_flux_03.csv", row.names = FALSE)
-gf_03 = readd(gf) %>% write.csv("data/processed/picarro/monthly/gf/gf_03.csv", row.names = FALSE)
+make(cpcrw_plan)
+gf_03 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/cpcrw_gf/gf_03.csv", row.names = FALSE)
 
 # APR-2019
 PICARROPATH = "data/picarro_data/2019/04"
-make(plan)
-cum_flux_04 = readd(cum_flux) %>% write.csv("data/processed/picarro/monthly/cum/cum_flux_04.csv", row.names = FALSE)
-mean_flux_04 = readd(meanflux) %>% write.csv("data/processed/picarro/monthly/mean/mean_flux_04.csv", row.names = FALSE)
-gf_04 = readd(gf) %>% write.csv("data/processed/picarro/monthly/gf/gf_04.csv", row.names = FALSE)
+make(cpcrw_plan)
+gf_04 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/cpcrw_gf/gf_04.csv", row.names = FALSE)
 
 # MAY-2019
 PICARROPATH = "data/picarro_data/2019/05"
-make(plan)
-cum_flux_05 = readd(cum_flux) %>% write.csv("data/processed/picarro/monthly/cum/cum_flux_05.csv", row.names = FALSE)
-mean_flux_05 = readd(meanflux) %>% write.csv("data/processed/picarro/monthly/mean/mean_flux_05.csv", row.names = FALSE)
-gf_05 = readd(gf) %>% write.csv("data/processed/picarro/monthly/gf/gf_05.csv", row.names = FALSE)
+make(cpcrw_plan)
+gf_05 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/cpcrw_gf/gf_05.csv", row.names = FALSE)
 
 # JUN-2019
 PICARROPATH = "data/picarro_data/2019/06"
-make(plan)
-cum_flux_06 = readd(cum_flux) %>% write.csv("data/processed/picarro/monthly/cum/cum_flux_06.csv", row.names = FALSE)
-mean_flux_06 = readd(meanflux) %>% write.csv("data/processed/picarro/monthly/mean/mean_flux_06.csv", row.names = FALSE)
-gf_06 = readd(gf) %>% write.csv("data/processed/picarro/monthly/gf/gf_06.csv", row.names = FALSE)
+make(cpcrw_plan)
+gf_06 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/cpcrw_gf/gf_06.csv", row.names = FALSE)
 
 # JUL-2019
 PICARROPATH = "data/picarro_data/2019/07"
-make(sr_plan)
-cum_flux_07 = readd(cum_flux) %>% write.csv("data/processed/picarro/monthly/cum/cum_flux_07.csv", row.names = FALSE)
-mean_flux_07 = readd(meanflux) %>% write.csv("data/processed/picarro/monthly/mean/mean_flux_07.csv", row.names = FALSE)
-gf_07 = readd(gf) %>% write.csv("data/processed/picarro/monthly/gf/gf_07.csv", row.names = FALSE)
+make(cpcrw_plan)
+gf_07 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/cpcrw_gf/gf_07.csv", row.names = FALSE)
 
 # AUG-2019
 PICARROPATH = "data/picarro_data/2019/08"
-make(plan)
-cum_flux_08 = readd(cum_flux) %>% write.csv("data/processed/picarro/monthly/cum/cum_flux_08.csv", row.names = FALSE)
-mean_flux_08 = readd(meanflux) %>% write.csv("data/processed/picarro/monthly/mean/mean_flux_08.csv", row.names = FALSE)
-gf_08 = readd(gf) %>% write.csv("data/processed/picarro/monthly/gf/gf_08.csv", row.names = FALSE)
+make(cpcrw_plan)
+gf_08 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/cpcrw_gf/gf_08.csv", row.names = FALSE)
 
 # SEP-2019
 PICARROPATH = "data/picarro_data/2019/09"
-make(plan)
-cum_flux_09 = readd(cum_flux) %>% write.csv("data/processed/picarro/monthly/cum/cum_flux_09.csv", row.names = FALSE)
-mean_flux_09 = readd(meanflux) %>% write.csv("data/processed/picarro/monthly/mean/mean_flux_09.csv", row.names = FALSE)
-gf_09 = readd(gf) %>% write.csv("data/processed/picarro/monthly/gf/gf_09.csv", row.names = FALSE)
+make(cpcrw_plan)
+gf_09 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/cpcrw_gf/gf_09.csv", row.names = FALSE)
 
 # OCT-2019
 PICARROPATH = "data/picarro_data/2019/10"
-make(plan)
-cum_flux_10 = readd(cum_flux) %>% write.csv("data/processed/picarro/monthly/cum/cum_flux_10.csv", row.names = FALSE)
-mean_flux_10 = readd(meanflux) %>% write.csv("data/processed/picarro/monthly/mean/mean_flux_10.csv", row.names = FALSE)
-gf_10 = readd(gf) %>% write.csv("data/processed/picarro/monthly/gf/gf_10.csv", row.names = FALSE)
+make(cpcrw_plan)
+gf_10 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/cpcrw_gf/gf_10.csv", row.names = FALSE)
 
 # NOV-2019
 PICARROPATH = "data/picarro_data/2019/11"
-make(plan)
-cum_flux_11 = readd(cum_flux) %>% write.csv("data/processed/picarro/monthly/cum/cum_flux_11.csv", row.names = FALSE)
-mean_flux_11 = readd(meanflux) %>% write.csv("data/processed/picarro/monthly/mean/mean_flux_11.csv", row.names = FALSE)
-gf_11 = readd(gf) %>% write.csv("data/processed/picarro/monthly/gf/gf_11.csv", row.names = FALSE)
+make(cpcrw_plan)
+gf_11 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/cpcrw_gf/gf_11.csv", row.names = FALSE)
 
 # DEC-2019
 PICARROPATH = "data/picarro_data/2019/12"
-make(plan)
-cum_flux_12 = readd(cum_flux) %>% write.csv("data/processed/picarro/monthly/cum/cum_flux_12.csv", row.names = FALSE)
-mean_flux_12 = readd(meanflux) %>% write.csv("data/processed/picarro/monthly/mean/mean_flux_12.csv", row.names = FALSE)
-gf_12 = readd(gf) %>% write.csv("data/processed/picarro/monthly/gf/gf_12.csv", row.names = FALSE)
+make(cpcrw_plan)
+gf_12 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/cpcrw_gf/gf_12.csv", row.names = FALSE)
 
 
 #
@@ -145,11 +119,11 @@ gf_12 = readd(gf) %>% write.csv("data/processed/picarro/monthly/sr_gf/sr_gf_12.c
 
 #
 ## combine all ----
-picarro_processed_combined = 
-  sapply(list.files(path = "data/processed/picarro/monthly/gf/",pattern = "*.csv",full.names = TRUE),
+picarro_processed_combined_cpcrw = 
+  sapply(list.files(path = "data/processed/picarro/monthly/cpcrw_gf/",pattern = "*.csv",full.names = TRUE),
          read.csv, simplify = FALSE) %>% bind_rows()  
 
-crunch::write.csv.gz(picarro_processed_combined, "data/processed/picarro_processed.csv.gz", row.names = F)                     
+crunch::write.csv.gz(picarro_processed_combined_cpcrw, "data/processed/picarro_processed_cpcrw.csv.gz", row.names = F)                     
 
 
 picarro_processed_combined_sr = 
