@@ -29,7 +29,8 @@ picarro_sr2 =
     picarro_sr %>% 
     dplyr::mutate(DATETIME2 = ymd_hms(DATETIME)) %>% 
     group_by(Core) %>% 
-    dplyr::mutate(elapsed_days = as.double(difftime(DATETIME2, min(DATETIME2), units = "days")))
+    dplyr::mutate(elapsed_days = as.double(difftime(DATETIME2, min(DATETIME2), units = "days")),
+                  Treatment = factor(Treatment, levels = c("initial", "drydown", "drought", "sat", "sat_incubation")))
 
 
 ```
@@ -69,7 +70,7 @@ ggplot(picarro2, aes(Treatment, flux_co2_umol_g_s*1000, color = Core_assignment)
 
 ### tables -- by core
 CO2: nmol_g_s
-```{r}
+```{r, include=F}
 picarro2 %>% 
     group_by(Core, Core_assignment, drying, length, Treatment) %>%
     dplyr::summarise(CO2_nmol_g_s = mean(flux_co2_umol_g_s)*1000) %>% 
@@ -130,6 +131,16 @@ ggplot(picarro_sr2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assig
     theme(legend.position="none")
 ```
 
+```{r sr_co2_flux_cores2}
+ggplot(picarro_sr2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Treatment)) + 
+    geom_point() +
+    ylab("flux_co2_nmol_g_s")+
+    facet_wrap(~Core_assignment)+
+    #facet_grid(drying~length, scale = "free_x")+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="top")
+```
+
 ### by treatment  
 ```{r sr_co2_flux_trt}
 ggplot(picarro_sr2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
@@ -148,4 +159,33 @@ ggplot(picarro_sr2, aes(DATETIME2, flux_co2_umol_g_s*1000, color = Core_assignme
     geom_hline(yintercept = 0)+
     theme(legend.position="none")+
     theme(axis.text.x = element_text(angle = 90))
+```
+
+
+### tables -- by core
+CO2: nmol_g_s
+```{r, include=F}
+picarro_sr2 %>% 
+    group_by(Core, Core_assignment, drying, length, Treatment) %>%
+    dplyr::summarise(CO2_nmol_g_s = mean(flux_co2_umol_g_s)*1000) %>% 
+    ungroup() %>% 
+    dplyr::mutate(Treatment = factor(Treatment, levels = c("drydown", "drought", "sat", "sat_incubation"))) %>% 
+    spread(Treatment, CO2_nmol_g_s) %>% 
+    arrange(length, drying, Core) %>% 
+    knitr::kable()
+```
+
+### tables -- by treatment
+CO2: nmol_g_s
+```{r}
+picarro_sr2 %>% 
+    group_by(Core, Core_assignment, drying, length, Treatment) %>%
+    dplyr::summarise(CO2_nmol_g_s = mean(flux_co2_umol_g_s)*1000) %>% 
+    ungroup() %>% 
+    group_by(drying, length, Treatment) %>%
+    dplyr::summarise(CO2_nmol_g_s = mean(CO2_nmol_g_s, na.rm = T)) %>% 
+    dplyr::mutate(Treatment = factor(Treatment, levels = c("drydown", "drought", "sat", "sat_incubation"))) %>% 
+    spread(Treatment, CO2_nmol_g_s) %>% 
+    arrange(length, drying) %>% 
+    knitr::kable()
 ```
