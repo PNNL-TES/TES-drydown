@@ -87,32 +87,32 @@ gf_12 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/cpcrw_gf/
 # JUL-2019
 PICARROPATH = "data/picarro_data/2019/07"
 make(sr_plan)
-gf_07 = readd(gf) %>% write.csv("data/processed/picarro/monthly/sr_gf/sr_gf_07.csv", row.names = FALSE)
+gf_07 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/sr_gf/sr_gf_07.csv", row.names = FALSE)
 
 # AUG-2019
 PICARROPATH = "data/picarro_data/2019/08"
 make(sr_plan)
-gf_08 = readd(gf) %>% write.csv("data/processed/picarro/monthly/sr_gf/sr_gf_08.csv", row.names = FALSE)
+gf_08 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/sr_gf/sr_gf_08.csv", row.names = FALSE)
 
 # SEP-2019
 PICARROPATH = "data/picarro_data/2019/09"
 make(sr_plan)
-gf_09 = readd(gf) %>% write.csv("data/processed/picarro/monthly/sr_gf/sr_gf_09.csv", row.names = FALSE)
+gf_09 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/sr_gf/sr_gf_09.csv", row.names = FALSE)
 
 # OCT-2019
 PICARROPATH = "data/picarro_data/2019/10"
 make(sr_plan)
-gf_10 = readd(gf) %>% write.csv("data/processed/picarro/monthly/sr_gf/sr_gf_10.csv", row.names = FALSE)
+gf_10 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/sr_gf/sr_gf_10.csv", row.names = FALSE)
 
 # NOV-2019
 PICARROPATH = "data/picarro_data/2019/11"
 make(sr_plan)
-gf_11 = readd(gf) %>% write.csv("data/processed/picarro/monthly/sr_gf/sr_gf_11.csv", row.names = FALSE)
+gf_11 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/sr_gf/sr_gf_11.csv", row.names = FALSE)
 
 # DEC-2019
 PICARROPATH = "data/picarro_data/2019/12"
 make(sr_plan)
-gf_12 = readd(gf) %>% write.csv("data/processed/picarro/monthly/sr_gf/sr_gf_12.csv", row.names = FALSE)
+gf_12 = readd(gf_output) %>% write.csv("data/processed/picarro/monthly/sr_gf/sr_gf_12.csv", row.names = FALSE)
 
 
 

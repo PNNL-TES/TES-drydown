@@ -165,6 +165,12 @@ source("2-picarro_data.R")
   
   gf_no_outliers = dplyr::filter(gf, !outlier)
   
+  gf_output =
+    subset(merge(gf, valve_key %>% dplyr::select(Core, Start_datetime, Stop_datetime, Treatment)), 
+           DATETIME <= Stop_datetime & DATETIME >= Start_datetime & Core == Core) %>% 
+    dplyr::select(-mean,-median, -sd, -Start_datetime, -Stop_datetime, -outlier)
+  
+  
   #summarizing  
   cum_flux = 
     gf_no_outliers %>%
