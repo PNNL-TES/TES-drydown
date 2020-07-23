@@ -1,0 +1,93 @@
+---
+title: "sample_tracking"
+date: "6/19/2020"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE,message=FALSE,
+                      warning=FALSE,
+                      collapse = TRUE,
+                      include = FALSE,
+                      comment = "#>" 
+                      #fig.path = "images/markdown-picarro/"
+                      )
+
+library(tidyverse)
+
+```
+
+
+```{r}
+## comparing sample lists
+
+
+# 1. which samples have been run for TC-TN? ----
+tctn_samples = read.csv("data/combined_site_tctn.csv") %>% 
+  dplyr::mutate(coreID = str_replace(sample, " 0-5cm",""),
+                coreID = str_replace(coreID, " 5-end",""),
+                coreID = str_replace(coreID, ", 0-5cm",""),
+                coreID = str_replace(coreID, ", 5cm-end",""),
+                coreID = str_replace(coreID, ",","")) 
+
+corekey = read.csv("data/processed/corekey.csv")
+
+
+matched_tctn = 
+  corekey %>% 
+  left_join(tctn_samples, by = "coreID") %>% 
+  dplyr::mutate(tctn_run = !is.na(sample)) %>% 
+  filter(!length == "1000 day") %>% 
+  dplyr::select(coreID, Core_assignment, sample, tctn_run) %>% 
+  distinct(coreID,Core_assignment, tctn_run)
+
+#
+
+
+```
+
+```{r}
+# 2. which samples have been run for POM-non-POM? ----
+pom_samples = read.csv("data/combined_site_pom.csv")
+pom_key = read.csv("data/pom_key.csv") %>% 
+  dplyr::select(-Sample)
+
+pom_tctn = 
+  pom_key %>% 
+  left_join(pom_samples, by = "POM_ID") %>% 
+  filter(!is.na(C.N..ratio))
+
+matched_pom = 
+  corekey %>% 
+  left_join(pom_tctn, by = "coreID") %>% 
+  dplyr::mutate(pom_run = !is.na(POM_ID)) %>% 
+  dplyr::select(coreID, pom_run, POM_ID) %>% 
+  distinct(coreID, pom_run)
+  
+#
+
+```
+
+These samples have been run.  
+1000-day drought samples have been excluded.  
+
+```{r, include=T}
+# 3. combine all ----
+samples_run = 
+  left_join(matched_tctn, matched_pom, by = "coreID")
+
+samples_run %>% 
+  dplyr::mutate(tctn_run = if_else(tctn_run=="FALSE"," ", as.character(tctn_run))) %>% 
+  dplyr::mutate(pom_run = if_else(pom_run=="FALSE"," ", as.character(pom_run))) %>% 
+  knitr::kable()
+```
+
+----
+
+**Session Info**  
+Last run: `r Sys.Date()`  
+```{r, include=TRUE}
+sessionInfo()
+
+```
+

@@ -1,0 +1,247 @@
+---
+title: "Drydown - Fluxes"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE,
+                      collapse = TRUE,
+                      comment = "#>", 
+                      fig.path = "images/markdown-picarro/"
+                      )
+
+source("0-drydown_functions.R")
+```
+
+CO2 concentrations and/or fluxes from the Picarro and EGM-4.  
+
+
+
+
+```{r picarro_files}
+picarro_cpcrw = read.csv("data/processed/picarro_processed_cpcrw.csv.gz")
+
+picarro2 = 
+    picarro_cpcrw %>% 
+    dplyr::mutate(DATETIME2 = ymd_hms(DATETIME)) %>% 
+    group_by(Core) %>% 
+    dplyr::mutate(elapsed_days = as.double(difftime(DATETIME2, min(DATETIME2), units = "days")),
+                  Treatment = factor(Treatment, levels = c("drydown", "drought", "sat", "sat_incubation")) 
+)
+
+picarro_sr = read.csv("data/processed/picarro_processed_sr.csv.gz")
+
+picarro_sr2 = 
+    picarro_sr %>% 
+    dplyr::mutate(DATETIME2 = ymd_hms(DATETIME)) %>% 
+    group_by(Core) %>% 
+    dplyr::mutate(elapsed_days = as.double(difftime(DATETIME2, min(DATETIME2), units = "days")),
+                  Treatment = factor(Treatment, levels = c("initial", "drydown", "drought", "sat", "sat_incubation")))
+```
+
+
+# 1. PICARRO DATA -- CPCRW
+
+### individual cores  
+```{r cpcrw_co2_flux_cores}
+ggplot(picarro2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+    geom_point() + geom_line() +
+    ylab("flux_co2_nmol_g_s")+
+    facet_wrap(~Core_assignment)+
+    #facet_grid(drying~length, scale = "free_x")+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="none")
+```
+
+```{r cpcrw_co2_flux_cores2}
+ggplot(picarro2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Treatment)) + 
+    geom_point() + geom_line() +
+    ylab("flux_co2_nmol_g_s")+
+    facet_wrap(~Core_assignment)+
+    #facet_grid(drying~length, scale = "free_x")+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="top")
+```
+
+```{r}
+ggplot(picarro2, aes(Treatment, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+    geom_jitter() + geom_line() +
+    ylab("flux_co2_nmol_g_s")+
+    facet_grid(drying~length, scale = "free_x")+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="none")
+```
+
+### tables -- by core
+CO2: nmol_g_s
+```{r, include=F}
+picarro2 %>% 
+    group_by(Core, Core_assignment, drying, length, Treatment) %>%
+    dplyr::summarise(CO2_nmol_g_s = mean(flux_co2_umol_g_s)*1000) %>% 
+    ungroup() %>% 
+    dplyr::mutate(Treatment = factor(Treatment, levels = c("drydown", "drought", "sat", "sat_incubation"))) %>% 
+    spread(Treatment, CO2_nmol_g_s) %>% 
+    arrange(length, drying, Core) %>% 
+    knitr::kable()
+```
+
+### tables -- by treatment
+CO2: nmol_g_s
+```{r}
+picarro2 %>% 
+    group_by(Core, Core_assignment, drying, length, Treatment) %>%
+    dplyr::summarise(CO2_nmol_g_s = mean(flux_co2_umol_g_s)*1000) %>% 
+    ungroup() %>% 
+    group_by(drying, length, Treatment) %>%
+    dplyr::summarise(CO2_nmol_g_s = mean(CO2_nmol_g_s)) %>% 
+    dplyr::mutate(Treatment = factor(Treatment, levels = c("initial","drydown", "drought", "sat", "sat_incubation"))) %>% 
+    spread(Treatment, CO2_nmol_g_s) %>% 
+    arrange(length, drying) %>% 
+    knitr::kable()
+```
+
+
+### by treatment  
+```{r cpcrw_co2_flux_trt}
+ggplot(picarro2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+    geom_point() + geom_line() +
+    ylab("flux_co2_nmol_g_s")+
+    facet_grid(drying~length, scale = "free_x")+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="none")
+```
+
+```{r cpcrw__co2_flux_trt2}
+ggplot(picarro2, aes(DATETIME2, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+    geom_point() + geom_line() +
+    ylab("flux_co2_nmol_g_s")+
+    facet_grid(drying~length)+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="none")+
+    theme(axis.text.x = element_text(angle = 90))
+
+```
+
+# 2. PICARRO DATA -- SR
+
+### individual cores  
+```{r sr_co2_flux_cores}
+ggplot(picarro_sr2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+    geom_point() + geom_line() +
+    ylab("flux_co2_nmol_g_s")+
+    facet_wrap(~Core_assignment)+
+    #facet_grid(drying~length, scale = "free_x")+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="none")
+```
+
+```{r sr_co2_flux_cores2}
+ggplot(picarro_sr2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Treatment)) + 
+    geom_point() +
+    ylab("flux_co2_nmol_g_s")+
+    facet_wrap(~Core_assignment)+
+    #facet_grid(drying~length, scale = "free_x")+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="top")
+```
+
+### by treatment  
+```{r sr_co2_flux_trt}
+ggplot(picarro_sr2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+    geom_point() + geom_line() +
+    ylab("flux_co2_nmol_g_s")+
+    facet_grid(drying~length, scale = "free_x")+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="none")
+```
+
+```{r sr_co2_flux_trt2}
+ggplot(picarro_sr2, aes(DATETIME2, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+    geom_point() + geom_line() +
+    ylab("flux_co2_nmol_g_s")+
+    facet_grid(drying~length)+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="none")+
+    theme(axis.text.x = element_text(angle = 90))
+```
+
+
+### tables -- by core
+CO2: nmol_g_s
+```{r, include=F}
+picarro_sr2 %>% 
+    group_by(Core, Core_assignment, drying, length, Treatment) %>%
+    dplyr::summarise(CO2_nmol_g_s = mean(flux_co2_umol_g_s)*1000) %>% 
+    ungroup() %>% 
+   # dplyr::mutate(Treatment = factor(Treatment, levels = c("drydown", "drought", "sat", "sat_incubation"))) %>% 
+    spread(Treatment, CO2_nmol_g_s) %>% 
+    arrange(length, drying, Core) %>% 
+    knitr::kable()
+```
+
+### tables -- by treatment
+CO2: nmol_g_s
+```{r}
+picarro_sr2 %>% 
+    group_by(Core, Core_assignment, drying, length, Treatment) %>%
+    dplyr::summarise(CO2_nmol_g_s = mean(flux_co2_umol_g_s)*1000) %>% 
+    ungroup() %>% 
+    group_by(drying, length, Treatment) %>%
+    dplyr::summarise(CO2_nmol_g_s = mean(CO2_nmol_g_s, na.rm = T)) %>% 
+   # dplyr::mutate(Treatment = factor(Treatment, levels = c("drydown", "drought", "sat", "sat_incubation"))) %>% 
+    spread(Treatment, CO2_nmol_g_s) %>% 
+    arrange(length, drying) %>% 
+    knitr::kable()
+```
+
+# 3. EGM DATA -- CO2 concentrations
+
+```{r egm_files}
+egm = read.csv("data/processed/egm_concentrations.csv") %>% 
+    mutate(date = as.Date(date))
+```
+## ambient CO2
+```{r egm_ambient}
+egm %>% 
+    filter(Core %in% c("AMB", "amb")) %>% 
+    ggplot(aes(x = date, y = PPM_CO2))+
+    geom_point()+
+    labs(title = "ambient CO2")+
+    theme_bw()+
+    NULL
+```
+
+## all cores
+
+```{r egm_cores}
+egm %>% 
+  filter(Site=="CPCRW") %>% 
+  ggplot(aes(x = date, y = PPM_CO2, color = Core))+
+  geom_point()+ geom_path()+
+  labs(title = "CPCRW all cores",
+       subtitle = "not normalized to core wt")+
+  theme_bw()+
+  NULL
+
+egm %>% 
+  filter(Site=="SR") %>% 
+  ggplot(aes(x = date, y = PPM_CO2, color = Core))+
+  geom_point()+ geom_path()+
+  labs(title = "SR all cores",
+       subtitle = "not normalized to core wt")+
+  theme_bw()+
+  NULL
+```
+
+---
+<details>
+    <summary>Session Info</summary>
+
+Date Run: `r Sys.Date()`
+
+```{r sessioninfo}
+sessionInfo()
+```
+    
+</details>
