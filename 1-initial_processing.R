@@ -268,3 +268,16 @@ s_core_weight =
 rbind(cpcrw_corekey, sr_corekey) %>% write_csv(COREKEY, na = "")
 rbind(c_raw_weight, s_raw_weight) %>% write.csv("data/processed/core_weights_depth.csv", na = "", row.names = FALSE)
 rbind(c_core_weight2, s_core_weight) %>% write.csv("data/processed/core_weights.csv", na = "", row.names = FALSE)
+
+
+
+# random sampling ---------------------------------------------------------
+
+corekey = read.csv(COREKEY)
+
+random_subsampling = 
+  corekey %>% 
+  na.omit() %>% 
+  separate(Core_assignment, c("a","b","c","d","e"), sep = "_") %>% 
+  group_by(a, b, c, d) %>% 
+  mutate(n = n())
