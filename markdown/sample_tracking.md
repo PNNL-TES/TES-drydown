@@ -1,7 +1,12 @@
 sample\_tracking
 ================
 
-These samples have been run.  
+**Which samples have been run?**
+
+<details>
+
+<summary>Click to expand</summary>
+
 1000-day drought samples have been excluded.
 
 | coreID | Core\_assignment          | tctn\_run | pom\_run |
@@ -103,6 +108,54 @@ These samples have been run.
 | S83    | SR\_30d\_up\_CW\_r1       | TRUE      |          |
 | S86    | SR\_150d\_up\_FAD\_r1     |           |          |
 | S87    | SR\_90d\_up\_CW\_r1       | TRUE      | TRUE     |
+
+</details>
+
+-----
+
+**Which samples should we process for further analyses?**
+
+WEOC/NMR/FTICR analysis  
+randomly selecting three replicates per treatment set
+
+| coreID | Site  | length | location | drying | rep | tctn\_run | pom\_run |
+| :----- | :---- | :----- | :------- | :----- | :-- | :-------- | :------- |
+| C55    | CPCRW | 150d   | low      | CW     | r4  | TRUE      |          |
+| C60    | CPCRW | 150d   | low      | CW     | r1  | TRUE      |          |
+| C72    | CPCRW | 150d   | low      | CW     | r3  | TRUE      |          |
+| C49    | CPCRW | 150d   | low      | FAD    | r3  | TRUE      |          |
+| C46    | CPCRW | 150d   | low      | FAD    | r4  | TRUE      |          |
+| C79    | CPCRW | 150d   | low      | FAD    | r2  | TRUE      |          |
+| C28    | CPCRW | 150d   | up       | CW     | r1  | TRUE      |          |
+| C4     | CPCRW | 150d   | up       | CW     | r4  | TRUE      |          |
+| C26    | CPCRW | 150d   | up       | CW     | r3  | TRUE      |          |
+| C35    | CPCRW | 150d   | up       | FAD    | r2  | TRUE      |          |
+| C33    | CPCRW | 150d   | up       | FAD    | r1  | TRUE      |          |
+| C8     | CPCRW | 150d   | up       | FAD    | r3  | TRUE      |          |
+| C65    | CPCRW | 30d    | low      | CW     | r3  |           |          |
+| C66    | CPCRW | 30d    | low      | CW     | r2  |           |          |
+| C69    | CPCRW | 30d    | low      | CW     | r1  |           |          |
+| C50    | CPCRW | 30d    | low      | FAD    | r1  | TRUE      |          |
+| C44    | CPCRW | 30d    | low      | FAD    | r3  | TRUE      |          |
+| C56    | CPCRW | 30d    | low      | FAD    | r4  | TRUE      |          |
+| C20    | CPCRW | 30d    | up       | CW     | r3  |           |          |
+| C3     | CPCRW | 30d    | up       | CW     | r4  |           |          |
+| C9     | CPCRW | 30d    | up       | CW     | r2  |           |          |
+| C6     | CPCRW | 30d    | up       | FAD    | r1  | TRUE      |          |
+| C39    | CPCRW | 30d    | up       | FAD    | r4  | TRUE      |          |
+| C27    | CPCRW | 30d    | up       | FAD    | r3  | TRUE      |          |
+| C61    | CPCRW | 90d    | low      | CW     | r2  |           |          |
+| C86    | CPCRW | 90d    | low      | CW     | r1  |           |          |
+| C53    | CPCRW | 90d    | low      | CW     | r4  |           |          |
+| C71    | CPCRW | 90d    | low      | FAD    | r4  | TRUE      |          |
+| C77    | CPCRW | 90d    | low      | FAD    | r1  |           |          |
+| C52    | CPCRW | 90d    | low      | FAD    | r3  | TRUE      |          |
+| C34    | CPCRW | 90d    | up       | CW     | r3  |           |          |
+| C15    | CPCRW | 90d    | up       | CW     | r2  |           |          |
+| C11    | CPCRW | 90d    | up       | CW     | r1  |           |          |
+| C1     | CPCRW | 90d    | up       | FAD    | r1  | TRUE      |          |
+| C37    | CPCRW | 90d    | up       | FAD    | r4  | TRUE      |          |
+| C18    | CPCRW | 90d    | up       | FAD    | r3  | TRUE      |          |
 
 -----
 

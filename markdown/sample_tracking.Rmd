@@ -67,7 +67,13 @@ matched_pom =
 
 ```
 
-These samples have been run.  
+
+**Which samples have been run?**
+
+<details>
+  <summary>Click to expand</summary>
+  
+  
 1000-day drought samples have been excluded.  
 
 ```{r, include=T}
@@ -80,6 +86,56 @@ samples_run %>%
   dplyr::mutate(pom_run = if_else(pom_run=="FALSE"," ", as.character(pom_run))) %>% 
   knitr::kable()
 ```
+
+</details>
+
+```{r, eval=FALSE}
+a = 
+  samples_run %>% 
+  filter(!Core_assignment %in% c("time0", "Ambient")) %>% 
+  separate(Core_assignment, c("site", "duration", "location", "drying", "rep"),
+           sep = "_") %>% 
+  arrange(site, duration, location, drying, rep) %>% 
+  group_by(site, duration, location, drying) %>% 
+  mutate(n = n())
+```
+
+
+---
+
+**Which samples should we process for further analyses?**
+
+WEOC/NMR/FTICR analysis  
+randomly selecting three replicates per treatment set
+
+```{r, eval=F}
+## DON'T RUN THIS AGAIN, BECAUSE THAT WILL CHANGE THE RANDOM LIST OF REPLICATES SELECTED!!!
+
+## cpcrw_selected_replicates = 
+##   samples_run %>% 
+##   filter(!Core_assignment %in% c("time0", "Ambient")) %>% 
+##   separate(Core_assignment, c("Site", "length", "location", "drying", "rep"),
+##            sep = "_") %>% 
+##   filter(Site=="CPCRW") %>%
+##   group_by(Site, length, location, drying) %>% 
+##   dplyr::mutate(tctn_run = if_else(tctn_run=="FALSE"," ", as.character(tctn_run))) %>% 
+##   dplyr::mutate(pom_run = if_else(pom_run=="FALSE"," ", as.character(pom_run))) %>% 
+
+##   sample_n(3) 
+## 
+## write.csv(cpcrw_selected_replicates, here::here("data/processed/cpcrw_selected_replicates_for_WEOC.csv"), 
+##           row.names = F)
+```
+
+
+```{r, cpcrw_selected_reps, include=TRUE}
+options(knitr.kable.NA = '')
+read.csv(here::here("data/processed/cpcrw_selected_replicates_for_WEOC.csv")) %>% 
+  knitr::kable()
+```
+
+
+
 
 ----
 
