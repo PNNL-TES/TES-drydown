@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE,
                       fig.path = "images-markdown-picarro/"
                       )
 library(here)
-source("code/0-drydown_functions.R")
+source(here::here("code/0-drydown_functions.R"))
 ```
 
 CO2 concentrations and/or fluxes from the Picarro and EGM-4.  
@@ -20,7 +20,7 @@ CO2 concentrations and/or fluxes from the Picarro and EGM-4.
 
 
 ```{r picarro_files}
-picarro_cpcrw = read.csv("data/processed/picarro_processed_cpcrw.csv.gz")
+picarro_cpcrw = read.csv(here::here("data/processed/picarro_processed_cpcrw.csv.gz"))
 
 picarro2 = 
     picarro_cpcrw %>% 
@@ -30,7 +30,7 @@ picarro2 =
                   Treatment = factor(Treatment, levels = c("drydown", "drought", "sat", "sat_incubation")) 
 )
 
-picarro_sr = read.csv("data/processed/picarro_processed_sr.csv.gz")
+picarro_sr = read.csv(here::here("data/processed/picarro_processed_sr.csv.gz"))
 
 picarro_sr2 = 
     picarro_sr %>% 
@@ -198,7 +198,7 @@ picarro_sr2 %>%
 # 3. EGM DATA -- CO2 concentrations
 
 ```{r egm_files}
-egm = read.csv("data/processed/egm_concentrations.csv") %>% 
+egm = read.csv(here::here("data/processed/egm_concentrations.csv")) %>% 
     mutate(date = as.Date(date))
 ```
 ## ambient CO2
