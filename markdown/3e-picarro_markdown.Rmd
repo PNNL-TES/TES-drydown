@@ -22,7 +22,7 @@ CO2 concentrations and/or fluxes from the Picarro and EGM-4.
 ```{r picarro_files}
 picarro_cpcrw = read.csv(here::here("data/processed/picarro_processed_cpcrw.csv.gz"))
 
-picarro2 = 
+picarro_cpcrw2 = 
     picarro_cpcrw %>% 
     dplyr::mutate(DATETIME2 = ymd_hms(DATETIME)) %>% 
     group_by(Core) %>% 
@@ -43,9 +43,46 @@ picarro_sr2 =
 
 # 1. PICARRO DATA -- CPCRW
 
-### individual cores  
+```{r}
+ggplot(picarro_cpcrw2, aes(Treatment, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+    geom_jitter() +
+    ylab("flux_co2_nmol_g_s")+
+    facet_grid(drying~length, scale = "free_x")+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="none")
+```
+
+
+<details>
+  <summary>time-series by treatment</summary>
+
+```{r cpcrw_co2_flux_trt}
+ggplot(picarro_cpcrw2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+    geom_point() + geom_line() +
+    ylab("flux_co2_nmol_g_s")+
+    facet_grid(drying~length, scale = "free_x")+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="none")
+```
+
+```{r cpcrw__co2_flux_trt2}
+ggplot(picarro_cpcrw2, aes(DATETIME2, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+    geom_point() + geom_line() +
+    ylab("flux_co2_nmol_g_s")+
+    facet_grid(drying~length)+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="none")+
+    theme(axis.text.x = element_text(angle = 90))
+
+```
+</details>
+
+
+<details>
+  <summary>individual cores</summary>
+  
 ```{r cpcrw_co2_flux_cores}
-ggplot(picarro2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+ggplot(picarro_cpcrw2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
     geom_point() + geom_line() +
     ylab("flux_co2_nmol_g_s")+
     facet_wrap(~Core_assignment)+
@@ -55,7 +92,7 @@ ggplot(picarro2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignme
 ```
 
 ```{r cpcrw_co2_flux_cores2}
-ggplot(picarro2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Treatment)) + 
+ggplot(picarro_cpcrw2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Treatment)) + 
     geom_point() + geom_line() +
     ylab("flux_co2_nmol_g_s")+
     facet_wrap(~Core_assignment)+
@@ -64,19 +101,14 @@ ggplot(picarro2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Treatment)) +
     theme(legend.position="top")
 ```
 
-```{r}
-ggplot(picarro2, aes(Treatment, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
-    geom_jitter() + geom_line() +
-    ylab("flux_co2_nmol_g_s")+
-    facet_grid(drying~length, scale = "free_x")+
-    geom_hline(yintercept = 0)+
-    theme(legend.position="none")
-```
+</details>
+
 
 ### tables -- by core
-CO2: nmol_g_s
+(hidden)
 ```{r, include=F}
-picarro2 %>% 
+#CO2: nmol_g_s
+picarro_cpcrw2 %>% 
     group_by(Core, Core_assignment, drying, length, Treatment) %>%
     dplyr::summarise(CO2_nmol_g_s = mean(flux_co2_umol_g_s)*1000) %>% 
     ungroup() %>% 
@@ -89,7 +121,7 @@ picarro2 %>%
 ### tables -- by treatment
 CO2: nmol_g_s
 ```{r}
-picarro2 %>% 
+picarro_cpcrw2 %>% 
     group_by(Core, Core_assignment, drying, length, Treatment) %>%
     dplyr::summarise(CO2_nmol_g_s = mean(flux_co2_umol_g_s)*1000) %>% 
     ungroup() %>% 
@@ -102,9 +134,24 @@ picarro2 %>%
 ```
 
 
-### by treatment  
-```{r cpcrw_co2_flux_trt}
-ggplot(picarro2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+
+
+# 2. PICARRO DATA -- SR
+
+```{r}
+ggplot(picarro_sr2, aes(Treatment, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+    geom_jitter()+
+    ylab("flux_co2_nmol_g_s")+
+    facet_grid(drying~length, scale = "free_x")+
+    geom_hline(yintercept = 0)+
+    theme(legend.position="none")
+```
+
+<details>
+  <summary>time-series by treatment</summary>
+  
+```{r sr_co2_flux_trt}
+ggplot(picarro_sr2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
     geom_point() + geom_line() +
     ylab("flux_co2_nmol_g_s")+
     facet_grid(drying~length, scale = "free_x")+
@@ -112,20 +159,21 @@ ggplot(picarro2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignme
     theme(legend.position="none")
 ```
 
-```{r cpcrw__co2_flux_trt2}
-ggplot(picarro2, aes(DATETIME2, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
+```{r sr_co2_flux_trt2}
+ggplot(picarro_sr2, aes(DATETIME2, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
     geom_point() + geom_line() +
     ylab("flux_co2_nmol_g_s")+
     facet_grid(drying~length)+
     geom_hline(yintercept = 0)+
     theme(legend.position="none")+
     theme(axis.text.x = element_text(angle = 90))
-
 ```
 
-# 2. PICARRO DATA -- SR
+</details>
 
-### individual cores  
+<details>
+  <summary>individual cores</summary>
+
 ```{r sr_co2_flux_cores}
 ggplot(picarro_sr2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
     geom_point() + geom_line() +
@@ -146,30 +194,16 @@ ggplot(picarro_sr2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Treatment)
     theme(legend.position="top")
 ```
 
-### by treatment  
-```{r sr_co2_flux_trt}
-ggplot(picarro_sr2, aes(elapsed_days, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
-    geom_point() + geom_line() +
-    ylab("flux_co2_nmol_g_s")+
-    facet_grid(drying~length, scale = "free_x")+
-    geom_hline(yintercept = 0)+
-    theme(legend.position="none")
-```
+</details>
 
-```{r sr_co2_flux_trt2}
-ggplot(picarro_sr2, aes(DATETIME2, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
-    geom_point() + geom_line() +
-    ylab("flux_co2_nmol_g_s")+
-    facet_grid(drying~length)+
-    geom_hline(yintercept = 0)+
-    theme(legend.position="none")+
-    theme(axis.text.x = element_text(angle = 90))
-```
+
 
 
 ### tables -- by core
-CO2: nmol_g_s
+(hidden)
+
 ```{r, include=F}
+#CO2: nmol_g_s
 picarro_sr2 %>% 
     group_by(Core, Core_assignment, drying, length, Treatment) %>%
     dplyr::summarise(CO2_nmol_g_s = mean(flux_co2_umol_g_s)*1000) %>% 
@@ -195,12 +229,16 @@ picarro_sr2 %>%
     knitr::kable()
 ```
 
+
+---
+
 # 3. EGM DATA -- CO2 concentrations
 
 ```{r egm_files}
 egm = read.csv(here::here("data/processed/egm_concentrations.csv")) %>% 
     mutate(date = as.Date(date))
 ```
+
 ## ambient CO2
 ```{r egm_ambient}
 egm %>% 
@@ -230,6 +268,17 @@ egm %>%
   geom_point()+ geom_path()+
   labs(title = "SR all cores",
        subtitle = "not normalized to core wt")+
+  theme_bw()+
+  NULL
+```
+
+```{r egm_cores_mass}
+egm %>% 
+  filter(Site=="CPCRW") %>% 
+  ggplot(aes(x = date, y = CO2_ppm_g, color = Core))+
+  geom_point()+ geom_path()+
+  labs(title = "CPCRW all cores",
+       subtitle = "normalized to core wt")+
   theme_bw()+
   NULL
 ```
