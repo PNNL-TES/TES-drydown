@@ -1,6 +1,5 @@
 sample\_tracking
 ================
-6/19/2020
 
 These samples have been run.  
 1000-day drought samples have been excluded.
@@ -107,16 +106,19 @@ These samples have been run.
 
 -----
 
-**Session Info**  
-Last run: 2020-06-19
+<details>
 
-    #> R version 3.6.0 (2019-04-26)
-    #> Platform: x86_64-apple-darwin15.6.0 (64-bit)
-    #> Running under: macOS Mojave 10.14.6
+<summary>Session Info</summary>
+
+Last run: 2020-07-23
+
+    #> R version 4.0.2 (2020-06-22)
+    #> Platform: x86_64-apple-darwin17.0 (64-bit)
+    #> Running under: macOS Catalina 10.15.6
     #> 
     #> Matrix products: default
-    #> BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
-    #> LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+    #> BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
+    #> LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
     #> 
     #> locale:
     #> [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -125,22 +127,23 @@ Last run: 2020-06-19
     #> [1] stats     graphics  grDevices utils     datasets  methods   base     
     #> 
     #> other attached packages:
-    #> [1] forcats_0.5.0   stringr_1.4.0   dplyr_1.0.0     purrr_0.3.4    
-    #> [5] readr_1.3.1     tidyr_1.1.0     tibble_3.0.1    ggplot2_3.3.0  
-    #> [9] tidyverse_1.3.0
+    #>  [1] here_0.1        forcats_0.5.0   stringr_1.4.0   dplyr_1.0.0    
+    #>  [5] purrr_0.3.4     readr_1.3.1     tidyr_1.1.0     tibble_3.0.3   
+    #>  [9] ggplot2_3.3.2   tidyverse_1.3.0
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] tidyselect_1.1.0 xfun_0.10        haven_2.2.0      lattice_0.20-38 
-    #>  [5] colorspace_1.4-1 vctrs_0.3.0      generics_0.0.2   htmltools_0.4.0 
-    #>  [9] yaml_2.2.0       blob_1.2.1       rlang_0.4.6      pillar_1.4.4    
-    #> [13] glue_1.4.0       withr_2.1.2      DBI_1.0.0        dbplyr_1.4.4    
-    #> [17] modelr_0.1.5     readxl_1.3.1     lifecycle_0.2.0  munsell_0.5.0   
-    #> [21] gtable_0.3.0     cellranger_1.1.0 rvest_0.3.5      evaluate_0.14   
-    #> [25] knitr_1.25       fansi_0.4.0      highr_0.8        broom_0.5.6     
-    #> [29] Rcpp_1.0.2       scales_1.0.0     backports_1.1.5  jsonlite_1.6.1  
-    #> [33] fs_1.3.1         hms_0.5.3        digest_0.6.25    stringi_1.4.3   
-    #> [37] grid_3.6.0       cli_2.0.2        tools_3.6.0      magrittr_1.5    
-    #> [41] crayon_1.3.4     pkgconfig_2.0.3  ellipsis_0.3.0   xml2_1.2.2      
-    #> [45] reprex_0.3.0     lubridate_1.7.8  assertthat_0.2.1 rmarkdown_2.1   
-    #> [49] httr_1.4.1       rstudioapi_0.11  R6_2.4.0         nlme_3.1-141    
-    #> [53] compiler_3.6.0
+    #>  [1] tidyselect_1.1.0 xfun_0.15        haven_2.3.1      colorspace_1.4-1
+    #>  [5] vctrs_0.3.2      generics_0.0.2   htmltools_0.5.0  yaml_2.2.1      
+    #>  [9] blob_1.2.1       rlang_0.4.7      pillar_1.4.6     glue_1.4.1      
+    #> [13] withr_2.2.0      DBI_1.1.0        dbplyr_1.4.4     modelr_0.1.8    
+    #> [17] readxl_1.3.1     lifecycle_0.2.0  munsell_0.5.0    gtable_0.3.0    
+    #> [21] cellranger_1.1.0 rvest_0.3.5      evaluate_0.14    knitr_1.29      
+    #> [25] fansi_0.4.1      highr_0.8        broom_0.7.0      Rcpp_1.0.5      
+    #> [29] scales_1.1.1     backports_1.1.8  jsonlite_1.7.0   fs_1.4.2        
+    #> [33] hms_0.5.3        digest_0.6.25    stringi_1.4.6    grid_4.0.2      
+    #> [37] rprojroot_1.3-2  cli_2.0.2        tools_4.0.2      magrittr_1.5    
+    #> [41] crayon_1.3.4     pkgconfig_2.0.3  ellipsis_0.3.1   xml2_1.3.2      
+    #> [45] reprex_0.3.0     lubridate_1.7.9  assertthat_0.2.1 rmarkdown_2.3   
+    #> [49] httr_1.4.2       rstudioapi_0.11  R6_2.4.1         compiler_4.0.2
+
+</details>

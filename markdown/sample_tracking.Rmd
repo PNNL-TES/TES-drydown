@@ -1,6 +1,5 @@
 ---
 title: "sample_tracking"
-date: "6/19/2020"
 output: github_document
 ---
 
@@ -14,7 +13,7 @@ knitr::opts_chunk$set(echo=FALSE,message=FALSE,
                       )
 
 library(tidyverse)
-
+library(here)
 ```
 
 
@@ -23,14 +22,14 @@ library(tidyverse)
 
 
 # 1. which samples have been run for TC-TN? ----
-tctn_samples = read.csv("data/combined_site_tctn.csv") %>% 
+tctn_samples = read.csv(here::here("data/combined_site_tctn.csv")) %>% 
   dplyr::mutate(coreID = str_replace(sample, " 0-5cm",""),
                 coreID = str_replace(coreID, " 5-end",""),
                 coreID = str_replace(coreID, ", 0-5cm",""),
                 coreID = str_replace(coreID, ", 5cm-end",""),
                 coreID = str_replace(coreID, ",","")) 
 
-corekey = read.csv("data/processed/corekey.csv")
+corekey = read.csv(here::here("data/processed/corekey.csv"))
 
 
 matched_tctn = 
@@ -48,8 +47,8 @@ matched_tctn =
 
 ```{r}
 # 2. which samples have been run for POM-non-POM? ----
-pom_samples = read.csv("data/combined_site_pom.csv")
-pom_key = read.csv("data/pom_key.csv") %>% 
+pom_samples = read.csv(here::here("data/combined_site_pom.csv"))
+pom_key = read.csv(here::here("data/pom_key.csv")) %>% 
   dplyr::select(-Sample)
 
 pom_tctn = 
@@ -84,10 +83,13 @@ samples_run %>%
 
 ----
 
-**Session Info**  
+<details>
+    <summary>Session Info</summary>
+    
 Last run: `r Sys.Date()`  
 ```{r, include=TRUE}
 sessionInfo()
-
 ```
+
+</details>
 
