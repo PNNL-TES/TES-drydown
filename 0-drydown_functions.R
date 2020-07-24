@@ -4,15 +4,9 @@
 
 ## packages ####
 library(readxl)
-library(ggplot2)       # 2.1.0
-library(readr)         # 1.0.0
 library(lubridate)     # 1.6.0
-library(stringr)       # 1.1.0
 library(luzlogr)       # 0.2.0
-library(tidyr)
-library(readr)
 library(Rmisc)
-library(ggplot2)
 library(data.table)
 library(cowplot)
 library(qwraps2)
@@ -24,18 +18,16 @@ library(stringi)
 library(nlme)
 library(car)
 library(agricolae)
-library(googlesheets)
-library(gsheet)
+#library(googlesheets)
+#library(gsheet)
 library(multcomp)
-library(DescTools)
-library(dplyr)         
+#library(DescTools)
 
 library(drake)
 pkgconfig::set_config("drake::strings_in_dots" = "literals")
-library(googlesheets)
+#library(googlesheets)
 library(readxl)
-library(tidyr)
-library(dplyr)
+library(tidyverse)
 
 # My 'picarro.data' package isn't on CRAN (yet) so need to install it via:
 # devtools::install_github("PNNL-TES/picarro.data")
@@ -53,7 +45,7 @@ theme_kp <- function() {  # this for all the elements common across plots
           panel.border = element_rect(color="black",size=1.5, fill = NA),
           
           plot.title = element_text(hjust = 0.05, size = 14),
-          axis.text = element_text(size = 14, color = "black"),
+          axis.text = element_text(size = 12, color = "black"),
           axis.title = element_text(size = 14, face = "bold", color = "black"),
           
           # formatting for facets
