@@ -43,7 +43,7 @@ picarro_sr2 =
 
 # 1. PICARRO DATA -- CPCRW
 
-```{r}
+```{r, fig.width=10}
 ggplot(picarro_cpcrw2, aes(Treatment, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
     geom_jitter() +
     ylab("flux_co2_nmol_g_s")+
@@ -138,7 +138,7 @@ picarro_cpcrw2 %>%
 
 # 2. PICARRO DATA -- SR
 
-```{r}
+```{r, fig.width=10}
 ggplot(picarro_sr2, aes(Treatment, flux_co2_umol_g_s*1000, color = Core_assignment)) + 
     geom_jitter()+
     ylab("flux_co2_nmol_g_s")+
