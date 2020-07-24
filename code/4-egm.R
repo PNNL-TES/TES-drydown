@@ -1,5 +1,5 @@
 
-source("0-drydown_functions.R")
+source("code/0-drydown_functions.R")
 
 egm_data = read.csv("data/respiration_egm_jul2020.csv")
 

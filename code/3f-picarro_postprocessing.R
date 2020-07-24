@@ -1,5 +1,5 @@
 
-source("0-drydown_functions.R")
+source("code/0-drydown_functions.R")
 
 picarro_c = read.csv("data/processed/picarro_processed.csv.gz")                     
 valve_c = read.csv("data/cpcrw_valve_map2.csv")

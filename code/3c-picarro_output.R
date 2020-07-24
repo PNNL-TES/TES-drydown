@@ -3,8 +3,8 @@
 ## use drake only to read the Picarro data
 
 
-source("0-drydown_functions.R")
-source("2-picarro_data.R")
+source("code/0-drydown_functions.R")
+source("code/2-picarro_data.R")
 
 
 ## cpcrw ----

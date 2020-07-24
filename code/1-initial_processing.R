@@ -1,6 +1,6 @@
 ### Jan 30, 2020
 
-source("0-drydown_functions.R")
+source("code/0-drydown_functions.R")
 
 # SOIL 1: CPCRW ----
 # 1. clean the corekey ----
