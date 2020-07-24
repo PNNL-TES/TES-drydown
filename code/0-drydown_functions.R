@@ -6,12 +6,12 @@
 library(readxl)
 library(lubridate)     # 1.6.0
 library(luzlogr)       # 0.2.0
-library(Rmisc)
+#library(Rmisc)
 library(data.table)
 library(cowplot)
 library(qwraps2)
 library(knitr)
-library(reshape2)
+#library(reshape2)
 library(ggalt)
 library(ggExtra)
 library(stringi)
