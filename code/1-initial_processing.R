@@ -74,7 +74,7 @@ c_raw_weight_temp = read_excel("data/CPCRW_CW_subsampling_weights_6.26.xlsx", sh
 C_PAN_WEIGHT = 
   c_raw_weight_temp %>% 
   dplyr::select(`pan_weight_0-5cm_g`, `pan_weight_5-end_cm_g`) %>% 
-  melt() %>% 
+  reshape2::melt() %>% 
   dplyr::summarize(mean = round(mean(value),2)) %>% 
   pull(mean)
 
@@ -87,7 +87,7 @@ c_raw_weight =
                 coarse_0_5cm = `soil_pan_weight_0-5cm_g` - `0-5 cm post sieving weight`,
                 coarse_5cm_end = `soil_pan_weight_5-end_cm_g` - `5cm-end post sieving weight`) %>% 
   dplyr::select(Site, Core, wet_soil_0_5cm, wet_soil_5cm_end, coarse_0_5cm, coarse_5cm_end) %>% 
-  melt(id = c("Site", "Core")) %>% 
+  reshape2::melt(id = c("Site", "Core")) %>% 
   dplyr::mutate(Depth = case_when(grepl("0_5", variable)~"0-5cm",
                                   grepl("5cm_end", variable)~"5cm-end"),
                 type = case_when(grepl("wet", variable)~"wet_soil_g",
@@ -269,15 +269,3 @@ rbind(cpcrw_corekey, sr_corekey) %>% write_csv(COREKEY, na = "")
 rbind(c_raw_weight, s_raw_weight) %>% write.csv("data/processed/core_weights_depth.csv", na = "", row.names = FALSE)
 rbind(c_core_weight2, s_core_weight) %>% write.csv("data/processed/core_weights.csv", na = "", row.names = FALSE)
 
-
-
-# random sampling ---------------------------------------------------------
-
-corekey = read.csv(COREKEY)
-
-random_subsampling = 
-  corekey %>% 
-  na.omit() %>% 
-  separate(Core_assignment, c("a","b","c","d","e"), sep = "_") %>% 
-  group_by(a, b, c, d) %>% 
-  mutate(n = n())
