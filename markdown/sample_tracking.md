@@ -157,13 +157,50 @@ randomly selecting three replicates per treatment set
 | C37    | CPCRW | 90d    | up       | FAD    | r4  | TRUE      |          |
 | C18    | CPCRW | 90d    | up       | FAD    | r3  | TRUE      |          |
 
+| coreID | Site | length | location | drying | rep | tctn\_run | pom\_run |
+| :----- | :--- | :----- | :------- | :----- | :-- | :-------- | :------- |
+| S13    | SR   | 150d   | low      | CW     | r2  |           |          |
+| S26    | SR   | 150d   | low      | CW     | r3  |           |          |
+| S4     | SR   | 150d   | low      | CW     | r4  |           |          |
+| S8     | SR   | 150d   | low      | FAD    | r3  |           |          |
+| S49    | SR   | 150d   | low      | FAD    | r3  |           |          |
+| S14    | SR   | 150d   | low      | FAD    | r4  |           |          |
+| S56    | SR   | 150d   | up       | CW     | r4  |           |          |
+| S61    | SR   | 150d   | up       | CW     | r1  |           |          |
+| S63    | SR   | 150d   | up       | CW     | r2  |           |          |
+| S80    | SR   | 150d   | up       | FAD    | r2  |           |          |
+| S86    | SR   | 150d   | up       | FAD    | r1  |           |          |
+| S3     | SR   | 30d    | low      | CW     | r4  | TRUE      |          |
+| S9     | SR   | 30d    | low      | CW     | r2  | TRUE      |          |
+| S20    | SR   | 30d    | low      | CW     | r3  | TRUE      |          |
+| S27    | SR   | 30d    | low      | FAD    | r3  |           |          |
+| S16    | SR   | 30d    | low      | FAD    | r2  | TRUE      |          |
+| S39    | SR   | 30d    | low      | FAD    | r4  | TRUE      |          |
+| S83    | SR   | 30d    | up       | CW     | r1  | TRUE      |          |
+| S54    | SR   | 30d    | up       | CW     | r4  | TRUE      |          |
+| S66    | SR   | 30d    | up       | CW     | r3  | TRUE      |          |
+| S57    | SR   | 30d    | up       | FAD    | r4  | TRUE      |          |
+| S76    | SR   | 30d    | up       | FAD    | r2  | TRUE      |          |
+| S15    | SR   | 90d    | low      | CW     | r2  | TRUE      | TRUE     |
+| S11    | SR   | 90d    | low      | CW     | r1  | TRUE      | TRUE     |
+| S25    | SR   | 90d    | low      | CW     | r4  |           |          |
+| S1     | SR   | 90d    | low      | FAD    | r1  |           |          |
+| S18    | SR   | 90d    | low      | FAD    | r3  | TRUE      | TRUE     |
+| S37    | SR   | 90d    | low      | FAD    | r4  | TRUE      | TRUE     |
+| S53    | SR   | 90d    | up       | CW     | r4  | TRUE      | TRUE     |
+| S87    | SR   | 90d    | up       | CW     | r1  | TRUE      | TRUE     |
+| S65    | SR   | 90d    | up       | CW     | r3  | TRUE      | TRUE     |
+| S52    | SR   | 90d    | up       | FAD    | r3  | TRUE      | TRUE     |
+| S72    | SR   | 90d    | up       | FAD    | r4  | TRUE      | TRUE     |
+| S78    | SR   | 90d    | up       | FAD    | r1  | TRUE      | TRUE     |
+
 -----
 
 <details>
 
 <summary>Session Info</summary>
 
-Last run: 2020-07-23
+Last run: 2020-07-31
 
     #> R version 4.0.2 (2020-06-22)
     #> Platform: x86_64-apple-darwin17.0 (64-bit)

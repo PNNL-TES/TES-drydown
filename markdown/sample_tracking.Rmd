@@ -16,7 +16,6 @@ library(tidyverse)
 library(here)
 ```
 
-
 ```{r}
 ## comparing sample lists
 
@@ -134,7 +133,55 @@ read.csv(here::here("data/processed/cpcrw_selected_replicates_for_WEOC.csv")) %>
   knitr::kable()
 ```
 
+```{r, eval=F}
+## DON'T RUN THIS AGAIN, BECAUSE THAT WILL CHANGE THE RANDOM LIST OF REPLICATES SELECTED!!!
 
+##  some treatments have 4+ replicates, whereas some have <4
+
+##  where reps are 4+, randomly select 3 
+##   sr_selected_replicates_1 = 
+##     samples_run %>% 
+##     filter(!Core_assignment %in% c("time0", "Ambient")) %>% 
+##     separate(Core_assignment, c("Site", "length", "location", "drying", "rep"),
+##              sep = "_") %>% 
+##     filter(Site=="SR") %>%
+##     dplyr::mutate(tctn_run = if_else(tctn_run=="FALSE"," ", as.character(tctn_run))) %>% 
+##     dplyr::mutate(pom_run = if_else(pom_run=="FALSE"," ", as.character(pom_run))) %>% 
+##     group_by(Site, length, location, drying) %>% 
+##     dplyr::mutate(n = n()) %>%
+##     filter(n>3) %>% 
+##     sample_n(3) 
+
+##   # where we have only 2 or 3 replicates, choose all
+##   sr_selected_replicates_2 = 
+##     samples_run %>% 
+##     filter(!Core_assignment %in% c("time0", "Ambient")) %>% 
+##     separate(Core_assignment, c("Site", "length", "location", "drying", "rep"),
+##              sep = "_") %>% 
+##     filter(Site=="SR") %>%
+##     dplyr::mutate(tctn_run = if_else(tctn_run=="FALSE"," ", as.character(tctn_run))) %>% 
+##     dplyr::mutate(pom_run = if_else(pom_run=="FALSE"," ", as.character(pom_run))) %>% 
+##     group_by(Site, length, location, drying) %>% 
+##     dplyr::mutate(n = n()) %>%
+##     filter(n<4)  
+
+##   sr_selected_replicates_combined = 
+##     sr_selected_replicates_1 %>% 
+##     rbind(sr_selected_replicates_2) %>% 
+##     arrange(Site, length, location, drying)
+
+
+##    
+##    write.csv(sr_selected_replicates_combined, here::here("data/processed/sr_selected_replicates_for_WEOC.csv"), 
+##              row.names = F)
+```
+
+```{r, sr_selected_reps, include=TRUE}
+options(knitr.kable.NA = '')
+read.csv(here::here("data/processed/sr_selected_replicates_for_WEOC.csv")) %>% 
+  dplyr::select(-n) %>% 
+  knitr::kable()
+```
 
 
 ----

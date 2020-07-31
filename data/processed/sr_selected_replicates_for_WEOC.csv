@@ -1,0 +1,35 @@
+"coreID","Site","length","location","drying","rep","tctn_run","pom_run","n"
+"S13","SR","150d","low","CW","r2"," "," ",4
+"S26","SR","150d","low","CW","r3"," "," ",4
+"S4","SR","150d","low","CW","r4"," "," ",4
+"S8","SR","150d","low","FAD","r3"," "," ",6
+"S49","SR","150d","low","FAD","r3"," "," ",6
+"S14","SR","150d","low","FAD","r4"," "," ",6
+"S56","SR","150d","up","CW","r4"," "," ",4
+"S61","SR","150d","up","CW","r1"," "," ",4
+"S63","SR","150d","up","CW","r2"," "," ",4
+"S80","SR","150d","up","FAD","r2"," "," ",2
+"S86","SR","150d","up","FAD","r1"," "," ",2
+"S3","SR","30d","low","CW","r4","TRUE"," ",3
+"S9","SR","30d","low","CW","r2","TRUE"," ",3
+"S20","SR","30d","low","CW","r3","TRUE"," ",3
+"S27","SR","30d","low","FAD","r3"," "," ",6
+"S16","SR","30d","low","FAD","r2","TRUE"," ",6
+"S39","SR","30d","low","FAD","r4","TRUE"," ",6
+"S83","SR","30d","up","CW","r1","TRUE"," ",5
+"S54","SR","30d","up","CW","r4","TRUE"," ",5
+"S66","SR","30d","up","CW","r3","TRUE"," ",5
+"S57","SR","30d","up","FAD","r4","TRUE"," ",2
+"S76","SR","30d","up","FAD","r2","TRUE"," ",2
+"S15","SR","90d","low","CW","r2","TRUE","TRUE",4
+"S11","SR","90d","low","CW","r1","TRUE","TRUE",4
+"S25","SR","90d","low","CW","r4"," "," ",4
+"S1","SR","90d","low","FAD","r1"," "," ",3
+"S18","SR","90d","low","FAD","r3","TRUE","TRUE",3
+"S37","SR","90d","low","FAD","r4","TRUE","TRUE",3
+"S53","SR","90d","up","CW","r4","TRUE","TRUE",4
+"S87","SR","90d","up","CW","r1","TRUE","TRUE",4
+"S65","SR","90d","up","CW","r3","TRUE","TRUE",4
+"S52","SR","90d","up","FAD","r3","TRUE","TRUE",3
+"S72","SR","90d","up","FAD","r4","TRUE","TRUE",3
+"S78","SR","90d","up","FAD","r1","TRUE","TRUE",3
