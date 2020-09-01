@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PeakList>
+  <PeakList1D>
+    <PeakList1DHeader creator="nmr" date="2020-08-01T22:38:47.040-07:00" expNo="1" name="CPCRW79-0_5cm-d2o" owner="" procNo="1" source="C:/Bruker/TopSpin3.6.0/data/kpatel/nmr">
+      <PeakPickDetails>F1=16.264690ppm, F2=-3.760854ppm, MI=0.10cm, MAXI=10000.00cm, PC=1.000
+      </PeakPickDetails>
+    </PeakList1DHeader>
+    <Peak1D F1="4.783319" intensity="1.500000e+001" type="0"/>
+    <Peak1D F1="3.836316" intensity="1.023612e-001" type="0"/>
+    <Peak1D F1="3.815471" intensity="1.051222e-001" type="0"/>
+    <Peak1D F1="3.806458" intensity="1.049830e-001" type="0"/>
+    <Peak1D F1="3.765643" intensity="1.118757e-001" type="0"/>
+    <Peak1D F1="1.239496" intensity="1.049518e-001" type="0"/>
+    <Peak1D F1="1.201212" intensity="1.028178e-001" type="0"/>
+    <Peak1D F1="1.190067" intensity="1.099039e-001" type="0"/>
+    <Peak1D F1="-0.000153" intensity="1.210281e+001" type="0"/>
+    <Peak1D F1="-0.149865" intensity="1.130179e-001" type="0"/>
+  </PeakList1D>
+</PeakList>
