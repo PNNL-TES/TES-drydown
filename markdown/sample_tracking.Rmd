@@ -26,7 +26,8 @@ tctn_samples = read.csv(here::here("data/combined_site_tctn.csv")) %>%
                 coreID = str_replace(coreID, " 5-end",""),
                 coreID = str_replace(coreID, ", 0-5cm",""),
                 coreID = str_replace(coreID, ", 5cm-end",""),
-                coreID = str_replace(coreID, ",","")) 
+                coreID = str_replace(coreID, ",","")) %>% 
+  filter((flag != "skip"))
 
 corekey = read.csv(here::here("data/processed/corekey.csv"))
 
@@ -74,7 +75,7 @@ matched_pom =
   
   
 1000-day drought samples have been excluded.  
-
+POM needs to be recalculated
 ```{r, include=T}
 # 3. combine all ----
 samples_run = 
