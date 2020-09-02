@@ -119,81 +119,81 @@ POM needs to be recalculated
 WEOC/NMR/FTICR analysis  
 randomly selecting three replicates per treatment set
 
-| coreID | Site  | length | location | drying | rep | tctn\_run | pom\_run |
-| :----- | :---- | :----- | :------- | :----- | :-- | :-------- | :------- |
-| C55    | CPCRW | 150d   | low      | CW     | r4  | TRUE      |          |
-| C60    | CPCRW | 150d   | low      | CW     | r1  | TRUE      |          |
-| C72    | CPCRW | 150d   | low      | CW     | r3  | TRUE      |          |
-| C49    | CPCRW | 150d   | low      | FAD    | r3  | TRUE      |          |
-| C46    | CPCRW | 150d   | low      | FAD    | r4  | TRUE      |          |
-| C79    | CPCRW | 150d   | low      | FAD    | r2  | TRUE      |          |
-| C28    | CPCRW | 150d   | up       | CW     | r1  | TRUE      |          |
-| C4     | CPCRW | 150d   | up       | CW     | r4  | TRUE      |          |
-| C26    | CPCRW | 150d   | up       | CW     | r3  | TRUE      |          |
-| C35    | CPCRW | 150d   | up       | FAD    | r2  | TRUE      |          |
-| C33    | CPCRW | 150d   | up       | FAD    | r1  | TRUE      |          |
-| C8     | CPCRW | 150d   | up       | FAD    | r3  | TRUE      |          |
-| C65    | CPCRW | 30d    | low      | CW     | r3  |           |          |
-| C66    | CPCRW | 30d    | low      | CW     | r2  |           |          |
-| C69    | CPCRW | 30d    | low      | CW     | r1  |           |          |
-| C50    | CPCRW | 30d    | low      | FAD    | r1  | TRUE      |          |
-| C44    | CPCRW | 30d    | low      | FAD    | r3  | TRUE      |          |
-| C56    | CPCRW | 30d    | low      | FAD    | r4  | TRUE      |          |
-| C20    | CPCRW | 30d    | up       | CW     | r3  |           |          |
-| C3     | CPCRW | 30d    | up       | CW     | r4  |           |          |
-| C9     | CPCRW | 30d    | up       | CW     | r2  |           |          |
-| C6     | CPCRW | 30d    | up       | FAD    | r1  | TRUE      |          |
-| C39    | CPCRW | 30d    | up       | FAD    | r4  | TRUE      |          |
-| C27    | CPCRW | 30d    | up       | FAD    | r3  | TRUE      |          |
-| C61    | CPCRW | 90d    | low      | CW     | r2  |           |          |
-| C86    | CPCRW | 90d    | low      | CW     | r1  |           |          |
-| C53    | CPCRW | 90d    | low      | CW     | r4  |           |          |
-| C71    | CPCRW | 90d    | low      | FAD    | r4  | TRUE      |          |
-| C77    | CPCRW | 90d    | low      | FAD    | r1  |           |          |
-| C52    | CPCRW | 90d    | low      | FAD    | r3  | TRUE      |          |
-| C34    | CPCRW | 90d    | up       | CW     | r3  |           |          |
-| C15    | CPCRW | 90d    | up       | CW     | r2  |           |          |
-| C11    | CPCRW | 90d    | up       | CW     | r1  |           |          |
-| C1     | CPCRW | 90d    | up       | FAD    | r1  | TRUE      |          |
-| C37    | CPCRW | 90d    | up       | FAD    | r4  | TRUE      |          |
-| C18    | CPCRW | 90d    | up       | FAD    | r3  | TRUE      |          |
+| coreID | Site  | length | location | drying | rep |
+| :----- | :---- | :----- | :------- | :----- | :-- |
+| C55    | CPCRW | 150d   | low      | CW     | r4  |
+| C60    | CPCRW | 150d   | low      | CW     | r1  |
+| C72    | CPCRW | 150d   | low      | CW     | r3  |
+| C49    | CPCRW | 150d   | low      | FAD    | r3  |
+| C46    | CPCRW | 150d   | low      | FAD    | r4  |
+| C79    | CPCRW | 150d   | low      | FAD    | r2  |
+| C28    | CPCRW | 150d   | up       | CW     | r1  |
+| C4     | CPCRW | 150d   | up       | CW     | r4  |
+| C26    | CPCRW | 150d   | up       | CW     | r3  |
+| C35    | CPCRW | 150d   | up       | FAD    | r2  |
+| C33    | CPCRW | 150d   | up       | FAD    | r1  |
+| C8     | CPCRW | 150d   | up       | FAD    | r3  |
+| C65    | CPCRW | 30d    | low      | CW     | r3  |
+| C66    | CPCRW | 30d    | low      | CW     | r2  |
+| C69    | CPCRW | 30d    | low      | CW     | r1  |
+| C50    | CPCRW | 30d    | low      | FAD    | r1  |
+| C44    | CPCRW | 30d    | low      | FAD    | r3  |
+| C56    | CPCRW | 30d    | low      | FAD    | r4  |
+| C20    | CPCRW | 30d    | up       | CW     | r3  |
+| C3     | CPCRW | 30d    | up       | CW     | r4  |
+| C9     | CPCRW | 30d    | up       | CW     | r2  |
+| C6     | CPCRW | 30d    | up       | FAD    | r1  |
+| C39    | CPCRW | 30d    | up       | FAD    | r4  |
+| C27    | CPCRW | 30d    | up       | FAD    | r3  |
+| C61    | CPCRW | 90d    | low      | CW     | r2  |
+| C86    | CPCRW | 90d    | low      | CW     | r1  |
+| C53    | CPCRW | 90d    | low      | CW     | r4  |
+| C71    | CPCRW | 90d    | low      | FAD    | r4  |
+| C77    | CPCRW | 90d    | low      | FAD    | r1  |
+| C52    | CPCRW | 90d    | low      | FAD    | r3  |
+| C34    | CPCRW | 90d    | up       | CW     | r3  |
+| C15    | CPCRW | 90d    | up       | CW     | r2  |
+| C11    | CPCRW | 90d    | up       | CW     | r1  |
+| C1     | CPCRW | 90d    | up       | FAD    | r1  |
+| C37    | CPCRW | 90d    | up       | FAD    | r4  |
+| C18    | CPCRW | 90d    | up       | FAD    | r3  |
 
-| coreID | Site | length | location | drying | rep | tctn\_run | pom\_run |
-| :----- | :--- | :----- | :------- | :----- | :-- | :-------- | :------- |
-| S13    | SR   | 150d   | low      | CW     | r2  |           |          |
-| S26    | SR   | 150d   | low      | CW     | r3  |           |          |
-| S4     | SR   | 150d   | low      | CW     | r4  |           |          |
-| S8     | SR   | 150d   | low      | FAD    | r3  |           |          |
-| S49    | SR   | 150d   | low      | FAD    | r3  |           |          |
-| S14    | SR   | 150d   | low      | FAD    | r4  |           |          |
-| S56    | SR   | 150d   | up       | CW     | r4  |           |          |
-| S61    | SR   | 150d   | up       | CW     | r1  |           |          |
-| S63    | SR   | 150d   | up       | CW     | r2  |           |          |
-| S80    | SR   | 150d   | up       | FAD    | r2  |           |          |
-| S86    | SR   | 150d   | up       | FAD    | r1  |           |          |
-| S3     | SR   | 30d    | low      | CW     | r4  | TRUE      |          |
-| S9     | SR   | 30d    | low      | CW     | r2  | TRUE      |          |
-| S20    | SR   | 30d    | low      | CW     | r3  | TRUE      |          |
-| S27    | SR   | 30d    | low      | FAD    | r3  |           |          |
-| S16    | SR   | 30d    | low      | FAD    | r2  | TRUE      |          |
-| S39    | SR   | 30d    | low      | FAD    | r4  | TRUE      |          |
-| S83    | SR   | 30d    | up       | CW     | r1  | TRUE      |          |
-| S54    | SR   | 30d    | up       | CW     | r4  | TRUE      |          |
-| S66    | SR   | 30d    | up       | CW     | r3  | TRUE      |          |
-| S57    | SR   | 30d    | up       | FAD    | r4  | TRUE      |          |
-| S76    | SR   | 30d    | up       | FAD    | r2  | TRUE      |          |
-| S15    | SR   | 90d    | low      | CW     | r2  | TRUE      | TRUE     |
-| S11    | SR   | 90d    | low      | CW     | r1  | TRUE      | TRUE     |
-| S25    | SR   | 90d    | low      | CW     | r4  |           |          |
-| S1     | SR   | 90d    | low      | FAD    | r1  |           |          |
-| S18    | SR   | 90d    | low      | FAD    | r3  | TRUE      | TRUE     |
-| S37    | SR   | 90d    | low      | FAD    | r4  | TRUE      | TRUE     |
-| S53    | SR   | 90d    | up       | CW     | r4  | TRUE      | TRUE     |
-| S87    | SR   | 90d    | up       | CW     | r1  | TRUE      | TRUE     |
-| S65    | SR   | 90d    | up       | CW     | r3  | TRUE      | TRUE     |
-| S52    | SR   | 90d    | up       | FAD    | r3  | TRUE      | TRUE     |
-| S72    | SR   | 90d    | up       | FAD    | r4  | TRUE      | TRUE     |
-| S78    | SR   | 90d    | up       | FAD    | r1  | TRUE      | TRUE     |
+| coreID | Site | length | location | drying | rep |
+| :----- | :--- | :----- | :------- | :----- | :-- |
+| S13    | SR   | 150d   | low      | CW     | r2  |
+| S26    | SR   | 150d   | low      | CW     | r3  |
+| S4     | SR   | 150d   | low      | CW     | r4  |
+| S8     | SR   | 150d   | low      | FAD    | r3  |
+| S49    | SR   | 150d   | low      | FAD    | r3  |
+| S14    | SR   | 150d   | low      | FAD    | r4  |
+| S56    | SR   | 150d   | up       | CW     | r4  |
+| S61    | SR   | 150d   | up       | CW     | r1  |
+| S63    | SR   | 150d   | up       | CW     | r2  |
+| S80    | SR   | 150d   | up       | FAD    | r2  |
+| S86    | SR   | 150d   | up       | FAD    | r1  |
+| S3     | SR   | 30d    | low      | CW     | r4  |
+| S9     | SR   | 30d    | low      | CW     | r2  |
+| S20    | SR   | 30d    | low      | CW     | r3  |
+| S27    | SR   | 30d    | low      | FAD    | r3  |
+| S16    | SR   | 30d    | low      | FAD    | r2  |
+| S39    | SR   | 30d    | low      | FAD    | r4  |
+| S83    | SR   | 30d    | up       | CW     | r1  |
+| S54    | SR   | 30d    | up       | CW     | r4  |
+| S66    | SR   | 30d    | up       | CW     | r3  |
+| S57    | SR   | 30d    | up       | FAD    | r4  |
+| S76    | SR   | 30d    | up       | FAD    | r2  |
+| S15    | SR   | 90d    | low      | CW     | r2  |
+| S11    | SR   | 90d    | low      | CW     | r1  |
+| S25    | SR   | 90d    | low      | CW     | r4  |
+| S1     | SR   | 90d    | low      | FAD    | r1  |
+| S18    | SR   | 90d    | low      | FAD    | r3  |
+| S37    | SR   | 90d    | low      | FAD    | r4  |
+| S53    | SR   | 90d    | up       | CW     | r4  |
+| S87    | SR   | 90d    | up       | CW     | r1  |
+| S65    | SR   | 90d    | up       | CW     | r3  |
+| S52    | SR   | 90d    | up       | FAD    | r3  |
+| S72    | SR   | 90d    | up       | FAD    | r4  |
+| S78    | SR   | 90d    | up       | FAD    | r1  |
 
 -----
 

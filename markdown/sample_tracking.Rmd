@@ -131,6 +131,7 @@ randomly selecting three replicates per treatment set
 ```{r, cpcrw_selected_reps, include=TRUE}
 options(knitr.kable.NA = '')
 read.csv(here::here("data/processed/cpcrw_selected_replicates_for_WEOC.csv")) %>% 
+  dplyr::select(-tctn_run,-pom_run) %>% 
   knitr::kable()
 ```
 
@@ -180,7 +181,7 @@ read.csv(here::here("data/processed/cpcrw_selected_replicates_for_WEOC.csv")) %>
 ```{r, sr_selected_reps, include=TRUE}
 options(knitr.kable.NA = '')
 read.csv(here::here("data/processed/sr_selected_replicates_for_WEOC.csv")) %>% 
-  dplyr::select(-n) %>% 
+  dplyr::select(-n, -tctn_run, -pom_run) %>% 
   knitr::kable()
 ```
 
