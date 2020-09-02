@@ -252,7 +252,7 @@ egm %>%
 
 ## all cores
 
-```{r egm_cores}
+```{r egm_cores, include=F}
 egm %>% 
   filter(Site=="CPCRW") %>% 
   ggplot(aes(x = date, y = PPM_CO2, color = Core))+
@@ -278,6 +278,15 @@ egm %>%
   ggplot(aes(x = date, y = CO2_ppm_g, color = Core))+
   geom_point()+ geom_path()+
   labs(title = "CPCRW all cores",
+       subtitle = "normalized to core wt")+
+  theme_bw()+
+  NULL
+
+egm %>% 
+  filter(Site=="SR") %>% 
+  ggplot(aes(x = date, y = CO2_ppm_g, color = Core))+
+  geom_point()+ geom_path()+
+  labs(title = "SR all cores",
        subtitle = "normalized to core wt")+
   theme_bw()+
   NULL
