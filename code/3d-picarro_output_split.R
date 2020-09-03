@@ -256,7 +256,7 @@ picarro_processed_combined_sr =
   sapply(list.files(path = "data/processed/picarro/monthly/monthly_ppm_sr",pattern = "*.csv",full.names = TRUE),
          read.csv, simplify = FALSE) %>% bind_rows()  
 
-crunch::write.csv.gz(picarro_processed_combined_sr, "data/processed/picarro_processed_ppm_sr.csv.gz", row.names = F)                     
+crunch::write.csv.gz(picarro_processed_combined_sr, "data/processed/picarro_processed_ppm_sr_ppm.csv.gz", row.names = F)                     
 
 
 
