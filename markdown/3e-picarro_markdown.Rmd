@@ -292,6 +292,21 @@ egm %>%
   NULL
 ```
 
+
+---
+## PICARRO CONCENTRATIONS
+
+```{r}
+picarro_sr_conc = read.csv(here::here("data/processed/picarro_processed_ppm_sr_ppm.csv.gz"))
+
+picarro_sr_conc %>% 
+  ggplot(aes(x = as.Date(DATETIME), y = CO2_dry, color = Core))+
+  geom_point()
+
+```
+
+
+
 ---
 <details>
     <summary>Session Info</summary>
