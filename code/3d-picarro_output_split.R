@@ -13,7 +13,10 @@
 
 
 library(drake)
-source("3c-picarro_output.R")
+
+
+# FLUXES ------------------------------------------------------------------
+
 #
 ## months -- CPCRW -- dec 2018 to dec 2019 ----
 # DEC-2018
@@ -131,3 +134,129 @@ picarro_processed_combined_sr =
          read.csv, simplify = FALSE) %>% bind_rows()  
 
 crunch::write.csv.gz(picarro_processed_combined_sr, "data/processed/picarro_processed_sr.csv.gz", row.names = F)                     
+
+
+
+
+# CONCENTRATIONS -- PPM ---------------------------------------------------
+source("code/3c2-picarro_output_ppm.R")
+#
+## months -- CPCRW -- dec 2018 to dec 2019 ----
+# DEC-2018
+PICARROPATH = "data/picarro_data/2018/12"
+make(cpcrw_plan_ppm, lock_cache = F)
+ppm_2018_12 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_2018_12.csv", row.names = FALSE)
+
+# JAN-2019
+PICARROPATH = "data/picarro_data/2019/01"
+make(cpcrw_plan_ppm, lock_cache = F)
+ppm_01 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_01.csv", row.names = FALSE)
+
+# FEB-2019
+PICARROPATH = "data/picarro_data/2019/02"
+make(cpcrw_plan_ppm, lock_cache = F)
+ppm_02 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_02.csv", row.names = FALSE)
+
+# MAR-2019
+PICARROPATH = "data/picarro_data/2019/03/"
+make(cpcrw_plan_ppm, lock_cache = F)
+ppm_03 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_03.csv", row.names = FALSE)
+
+# APR-2019
+PICARROPATH = "data/picarro_data/2019/04"
+make(cpcrw_plan_ppm, lock_cache = F)
+ppm_04 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_04.csv", row.names = FALSE)
+
+# MAY-2019
+PICARROPATH = "data/picarro_data/2019/05"
+make(cpcrw_plan_ppm, lock_cache = F)
+ppm_05 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_05.csv", row.names = FALSE)
+
+# JUN-2019
+PICARROPATH = "data/picarro_data/2019/06"
+make(cpcrw_plan_ppm, lock_cache = F)
+ppm_06 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_06.csv", row.names = FALSE)
+
+# JUL-2019
+PICARROPATH = "data/picarro_data/2019/07"
+make(cpcrw_plan_ppm, lock_cache = F)
+ppm_07 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_07.csv", row.names = FALSE)
+
+# AUG-2019
+PICARROPATH = "data/picarro_data/2019/08"
+make(cpcrw_plan_ppm, lock_cache = F)
+ppm_08 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_08.csv", row.names = FALSE)
+
+# SEP-2019
+PICARROPATH = "data/picarro_data/2019/09"
+make(cpcrw_plan_ppm, lock_cache = F)
+ppm_09 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_09.csv", row.names = FALSE)
+
+# OCT-2019
+PICARROPATH = "data/picarro_data/2019/10"
+make(cpcrw_plan_ppm, lock_cache = F)
+ppm_10 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_10.csv", row.names = FALSE)
+
+# NOV-2019
+PICARROPATH = "data/picarro_data/2019/11"
+make(cpcrw_plan_ppm, lock_cache = F)
+ppm_11 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_11.csv", row.names = FALSE)
+
+# DEC-2019
+PICARROPATH = "data/picarro_data/2019/12"
+make(cpcrw_plan_ppm, lock_cache = F)
+ppm_12 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_12.csv", row.names = FALSE)
+
+
+#
+## months -- SR -- dec 2018 to dec 2019 ----
+# JUL-2019
+PICARROPATH = "data/picarro_data/2019/07"
+make(sr_plan_ppm, lock_cache = F)
+ppm_07 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm_sr/ppm_sr_07.csv", row.names = FALSE)
+
+# AUG-2019
+PICARROPATH = "data/picarro_data/2019/08"
+make(sr_plan_ppm, lock_cache = F)
+ppm_08 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm_sr/ppm_sr_08.csv", row.names = FALSE)
+
+# SEP-2019
+PICARROPATH = "data/picarro_data/2019/09"
+make(sr_plan_ppm, lock_cache = F)
+ppm_09 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm_sr/ppm_sr_09.csv", row.names = FALSE)
+
+# OCT-2019
+PICARROPATH = "data/picarro_data/2019/10"
+make(sr_plan_ppm, lock_cache = F)
+ppm_10 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm_sr/ppm_sr_10.csv", row.names = FALSE)
+
+# NOV-2019
+PICARROPATH = "data/picarro_data/2019/11"
+make(sr_plan_ppm, lock_cache = F)
+ppm_11 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm_sr/ppm_sr_11.csv", row.names = FALSE)
+
+# DEC-2019
+PICARROPATH = "data/picarro_data/2019/12"
+make(sr_plan_ppm, lock_cache = F)
+ppm_12 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm_sr/ppm_sr_12.csv", row.names = FALSE)
+
+
+
+
+#
+## combine all ----
+picarro_processed_combined_cpcrw = 
+  sapply(list.files(path = "data/processed/picarro/monthly/monthly_ppm_cpcrw",pattern = "*.csv",full.names = TRUE),
+         read.csv, simplify = FALSE) %>% bind_rows()  
+
+crunch::write.csv.gz(picarro_processed_combined_cpcrw, "data/processed/picarro_processed_cpcrw.csv.gz", row.names = F)                     
+
+
+picarro_processed_combined_sr = 
+  sapply(list.files(path = "data/processed/picarro/monthly/monthly_ppm_sr",pattern = "*.csv",full.names = TRUE),
+         read.csv, simplify = FALSE) %>% bind_rows()  
+
+crunch::write.csv.gz(picarro_processed_combined_sr, "data/processed/picarro_processed_ppm_sr.csv.gz", row.names = F)                     
+
+
+
