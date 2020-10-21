@@ -296,12 +296,35 @@ egm %>%
 ---
 ## PICARRO CONCENTRATIONS
 
-```{r}
+```{r conc, echo = FALSE}
 picarro_sr_conc = read.csv(here::here("data/processed/picarro_processed_ppm_sr_ppm.csv.gz"))
 
-picarro_sr_conc %>% 
-  ggplot(aes(x = as.Date(DATETIME), y = CO2_dry, color = Core))+
-  geom_point()
+picarro_sr2 %>% 
+  select(Core, Sample_number, Treatment, length, replicate) %>% 
+  right_join(picarro_sr_conc, by = c("Core", "Sample_number")) %>% 
+  mutate(Date = as_date(DATETIME)) -> picarro_con_treat
+
+picarro_con_treat %>% 
+  group_by(Treatment) %>% 
+  summarise(sd = sd(CO2_dry, na.rm = TRUE), CO2_dry = mean(CO2_dry, na.rm = TRUE)) -> sd
+
+# Density plot comparing picarro and egm concentrations
+picarro_con_treat %>% 
+  ggplot(aes(x = CO2_dry, colour = "Picarro")) +
+  geom_density(fill = "lightblue", alpha = 0.5) +
+  geom_density(data = egm, aes(x = PPM_CO2, colour = "EGM"), 
+               fill = "sienna1", alpha = 0.3) +
+  theme_minimal() +
+  xlim(0,2000) + 
+  scale_colour_manual(name = "Source", values = c("EGM"="sienna1", "Picarro"="lightblue"),
+                      guide = guide_legend(override.aes = list(fill = "white")))
+
+#only picarro data
+picarro_con_treat %>% 
+  ggplot(aes(x = Treatment, y = CO2_dry, colour = Treatment)) + 
+  stat_summary(fun = mean, fun.args = list(na.rm = TRUE), geom = "point", size = 4) +
+  geom_linerange(data = sd, aes(x = Treatment, ymin = CO2_dry - sd, ymax = CO2_dry + sd), size = 1) +
+  theme_minimal()
 
 ```
 
