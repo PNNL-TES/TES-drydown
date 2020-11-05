@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE,
                       )
 library(here)
 source(here::here("code/0-drydown_functions.R"))
+theme_set(theme_bw())
 ```
 
 CO2 concentrations and/or fluxes from the Picarro and EGM-4.  
@@ -260,6 +261,7 @@ egm %>%
   labs(title = "CPCRW all cores",
        subtitle = "not normalized to core wt")+
   theme_bw()+
+  ylim(450, 1200)+
   NULL
 
 egm %>% 
@@ -269,6 +271,7 @@ egm %>%
   labs(title = "SR all cores",
        subtitle = "not normalized to core wt")+
   theme_bw()+
+  ylim(450, 1200)+
   NULL
 ```
 
@@ -293,19 +296,6 @@ egm %>%
 ```
 
 
----
-## PICARRO CONCENTRATIONS
-
-```{r}
-picarro_sr_conc = read.csv(here::here("data/processed/picarro_processed_ppm_sr_ppm.csv.gz"))
-
-picarro_sr_conc %>% 
-  ggplot(aes(x = as.Date(DATETIME), y = CO2_dry, color = Core))+
-  geom_point()
-
-```
-
-
 
 ---
 <details>
@@ -318,3 +308,89 @@ sessionInfo()
 ```
     
 </details>
+
+--- 
+
+# PICARRO CONCENTRATIONS
+
+```{r picarro_ppm_cpcrw, fig.height = 7, fig.width=12}
+corekey = read.csv(COREKEY)
+picarro_cpcrw_ppm = read.csv("data/processed/picarro_processed_ppm_ccprw.csv.gz")
+
+picarro_cpcrw_ppm2 = 
+  picarro_cpcrw_ppm %>% 
+  filter(Core != 0) %>% 
+  mutate(coreID = paste0("C",Core)) %>% 
+  dplyr::select(-Core) %>% 
+  dplyr::mutate(DATETIME2 = ymd_hms(DATETIME)) %>% 
+  group_by(coreID) %>% 
+  dplyr::mutate(elapsed_days = as.double(difftime(DATETIME2, min(DATETIME2), units = "days")),
+                Treatment = factor(Treatment, levels = c("drydown", "drought", "sat", "sat_incubation")) 
+  ) %>% 
+  filter(CO2_dry > 0) %>% 
+  filter(length %in% c("30 day", "90 day", "150 day")) %>% 
+  mutate(length = factor(length, levels = c("30 day", "90 day", "150 day")))
+
+
+
+ggplot(picarro_cpcrw_ppm2, aes(Treatment, CO2_dry, color = Core_assignment)) + 
+  geom_jitter(size = 0.5) +
+  facet_grid(drying~length, scale = "free_x")+
+  geom_hline(yintercept = 0)+
+  theme(legend.position="none")
+
+ggplot(picarro_cpcrw_ppm2, aes(Treatment, CO2_dry, color = Core_assignment)) + 
+  geom_point(aes(group = coreID), position = position_dodge(width = 0.7), size = 0.5) +
+  facet_grid(drying~length, scale = "free_x")+
+  geom_hline(yintercept = 0)+
+  theme(legend.position="none")+
+  ylim(0, 6000)+
+  labs(x = "",
+       y = "CO2 (ppm)",
+       title = "CPCRW")
+```
+
+```{r}
+  picarro_cpcrw_ppm %>% 
+  filter(Core == 0) %>% 
+    ggplot(aes(x = as.Date(DATETIME), y = CO2_dry))+
+    geom_point()+
+    labs(title = "ambient CO2 by Picarro")
+```
+
+```{r picarro_ppm_sr, fig.height = 7, fig.width=12}
+picarro_sr_ppm = read.csv("data/processed/respiration/picarro_processed_ppm_sr.csv.gz") %>% mutate_all(na_if,"")
+
+
+picarro_sr_ppm2 = 
+  picarro_sr_ppm %>% 
+  filter(Core != 0) %>% 
+  mutate(coreID = paste0("S",Core)) %>% 
+  dplyr::select(-Core) %>% 
+  dplyr::mutate(DATETIME2 = ymd_hms(DATETIME)) %>% 
+  group_by(coreID) %>% 
+  dplyr::mutate(elapsed_days = as.double(difftime(DATETIME2, min(DATETIME2), units = "days")),
+                Treatment = factor(Treatment, levels = c("initial", "drydown", "drought", "sat", "sat_incubation")) 
+  ) %>% 
+  filter(CO2_dry > 0) %>% 
+  filter(length %in% c("30 day", "90 day", "150 day")) %>% 
+  mutate(length = factor(length, levels = c("30 day", "90 day", "150 day")))
+
+ggplot(picarro_sr_ppm2 %>% filter(!is.na(drying)), aes(Treatment, CO2_dry, color = Core_assignment)) + 
+  geom_jitter(size = 0.5) +
+  facet_grid(drying~length, scale = "free_x")+
+  geom_hline(yintercept = 0)+
+  theme(legend.position="none")
+
+ggplot(picarro_sr_ppm2 , aes(Treatment, CO2_dry, color = Core_assignment)) + 
+  geom_point(aes(group = coreID), position = position_dodge(width = 0.7), size = 0.5) +
+  facet_grid(drying~length, )+
+  geom_hline(yintercept = 0)+
+  theme(legend.position="none")+
+  ylim(0, 6000)+
+  labs(x = "",
+       y = "CO2 (ppm)",
+       title = "SR")
+
+```
+
