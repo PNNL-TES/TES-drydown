@@ -41,7 +41,25 @@ cpcrw_plan_ppm <- drake_plan(
   pcm = match_picarro_data(picarro_clean, valve_key),
   picarro_clean_matched = pcm$pd,
   picarro_match_count = pcm$pmc,
-  valve_key_match_count = pcm$vkmc
+  valve_key_match_count = pcm$vkmc,
+  
+  # match valve key and core key
+  output =
+    subset(merge(picarro_clean_matched, 
+                 valve_key %>% dplyr::select(Core, Start_datetime, Stop_datetime, Treatment)),
+           DATETIME <= Stop_datetime & DATETIME >= Start_datetime & Core == Core) %>% 
+    dplyr::select(-Start_datetime, -Stop_datetime) %>% 
+    left_join(core_key %>% filter(Site=="CPCRW"), by = "Core") %>% 
+    dplyr::select(Core, DATETIME, MPVPosition, CH4_dry, CO2_dry, Elapsed_seconds, 
+                  Treatment, coreID, Site, location, drying, length, replicate, Core_assignment)
+ # %>% 
+ #   group_by(Core_assignment) %>% 
+ #   dplyr::mutate(mean = mean(CO2_dry),
+ #                 median = median(CO2_dry),
+ #                 sd = sd(CO2_dry)) %>% 
+ #   ungroup %>% 
+ #   dplyr::mutate(outlier = CO2_dry - mean > 4 * sd)
+    
 )
 
 
@@ -81,7 +99,18 @@ sr_plan_ppm <- drake_plan(
   pcm = match_picarro_data(picarro_clean, valve_key),
   picarro_clean_matched = pcm$pd,
   picarro_match_count = pcm$pmc,
-  valve_key_match_count = pcm$vkmc
+  valve_key_match_count = pcm$vkmc,
+  
+  # match valve key and core key
+  output =
+    subset(merge(picarro_clean_matched, 
+                 valve_key %>% dplyr::select(Core, Start_datetime, Stop_datetime, Treatment)),
+           DATETIME <= Stop_datetime & DATETIME >= Start_datetime & Core == Core) %>% 
+    dplyr::select(-Start_datetime, -Stop_datetime) %>% 
+    left_join(core_key %>% filter(Site=="SR"), by = "Core") %>% 
+    dplyr::select(Core, DATETIME, MPVPosition, CH4_dry, CO2_dry, Elapsed_seconds, 
+                  Treatment, coreID, Site, location, drying, length, replicate, Core_assignment)
+  
 )
 
 
