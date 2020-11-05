@@ -190,22 +190,23 @@ ppm_08 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/mont
 # SEP-2019
 PICARROPATH = "data/picarro_data/2019/09"
 make(cpcrw_plan_ppm, lock_cache = F)
-ppm_09 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_09.csv", row.names = FALSE)
+ppm_09 = readd(picarro_clean_matched) %>% mutate(Core = as.character(Core)) %>% 
+  write.csv("data/processed/picarro/monthly/monthly_ppm_cpcrw/ppm_cpcrw_09.csv", row.names = FALSE)
 
-# OCT-2019
-PICARROPATH = "data/picarro_data/2019/10"
-make(cpcrw_plan_ppm, lock_cache = F)
-ppm_10 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_10.csv", row.names = FALSE)
+## # OCT-2019
+## PICARROPATH = "data/picarro_data/2019/10"
+## make(cpcrw_plan_ppm, lock_cache = F)
+## ppm_10 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_10.csv", row.names = FALSE)
 
 # NOV-2019
 PICARROPATH = "data/picarro_data/2019/11"
 make(cpcrw_plan_ppm, lock_cache = F)
 ppm_11 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_11.csv", row.names = FALSE)
 
-# DEC-2019
-PICARROPATH = "data/picarro_data/2019/12"
-make(cpcrw_plan_ppm, lock_cache = F)
-ppm_12 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_12.csv", row.names = FALSE)
+## # DEC-2019
+## PICARROPATH = "data/picarro_data/2019/12"
+## make(cpcrw_plan_ppm, lock_cache = F)
+## ppm_12 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/monthly/monthly_ppm/ppm_cpcrw_12.csv", row.names = FALSE)
 
 
 #
@@ -245,13 +246,6 @@ ppm_12 = readd(picarro_clean_matched) %>% write.csv("data/processed/picarro/mont
 
 #
 ## combine all ----
-picarro_processed_combined_cpcrw = 
-  sapply(list.files(path = "data/processed/picarro/monthly/monthly_ppm_cpcrw",pattern = "*.csv",full.names = TRUE),
-         read.csv, simplify = FALSE) %>% bind_rows()  
-
-crunch::write.csv.gz(picarro_processed_combined_cpcrw, "data/processed/picarro_processed_cpcrw.csv.gz", row.names = F)                     
-
-
 picarro_processed_combined_sr = 
   sapply(list.files(path = "data/processed/picarro/monthly/monthly_ppm_sr",pattern = "*.csv",full.names = TRUE),
          read.csv, simplify = FALSE) %>% bind_rows()  
@@ -259,4 +253,26 @@ picarro_processed_combined_sr =
 crunch::write.csv.gz(picarro_processed_combined_sr, "data/processed/picarro_processed_ppm_sr_ppm.csv.gz", row.names = F)                     
 
 
+## CPCRW files cannot be combined as above because of f*****g issues with Core column format.
+## So, load all files, make sure column formats are consistent, and then combine.
 
+  ## picarro_processed_combined_cpcrw = 
+  ##   sapply(list.files(path = "data/processed/picarro/monthly/monthly_ppm_cpcrw",pattern = "*.csv",full.names = TRUE),
+  ##          read.csv, simplify = FALSE) %>% bind_rows()  
+  ## 
+  ## crunch::write.csv.gz(picarro_processed_combined_cpcrw, "data/processed/picarro_processed_cpcrw.csv.gz", row.names = F)                     
+
+file01 = read.csv("data/processed/picarro/monthly/monthly_ppm_cpcrw/ppm_cpcrw_01.csv")
+file02 = read.csv("data/processed/picarro/monthly/monthly_ppm_cpcrw/ppm_cpcrw_02.csv")
+file03 = read.csv("data/processed/picarro/monthly/monthly_ppm_cpcrw/ppm_cpcrw_03.csv")
+file04 = read.csv("data/processed/picarro/monthly/monthly_ppm_cpcrw/ppm_cpcrw_04.csv")
+file05 = read.csv("data/processed/picarro/monthly/monthly_ppm_cpcrw/ppm_cpcrw_05.csv")
+file06 = read.csv("data/processed/picarro/monthly/monthly_ppm_cpcrw/ppm_cpcrw_06.csv")
+file07 = read.csv("data/processed/picarro/monthly/monthly_ppm_cpcrw/ppm_cpcrw_07.csv")
+file08 = read.csv("data/processed/picarro/monthly/monthly_ppm_cpcrw/ppm_cpcrw_08.csv")
+file09 = read.csv("data/processed/picarro/monthly/monthly_ppm_cpcrw/ppm_cpcrw_09.csv") %>% mutate(Core = as.character(Core))
+file11 = read.csv("data/processed/picarro/monthly/monthly_ppm_cpcrw/ppm_cpcrw_11.csv")
+file12_2018 = read.csv("data/processed/picarro/monthly/monthly_ppm_cpcrw/ppm_cpcrw_2018_12.csv")
+
+picarro_ppm_combined_cpcrw = vctrs::vec_rbind(file01, file02, file03, file04, file05, file06, file07, file08, file09, file11, file12_2018)
+crunch::write.csv.gz(picarro_ppm_combined_cpcrw, "data/processed/picarro_processed_ppm_ccprw.csv.gz", row.names = F)                     
