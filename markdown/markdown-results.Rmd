@@ -1,0 +1,99 @@
+---
+title: "results"
+author: "Kaizad F. Patel"
+date: "11/5/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE,
+                      message=FALSE,
+                      warning=FALSE,
+                      collapse = TRUE,
+                      comment = "#>", 
+                      fig.path = "images-markdown-results/"
+                      )
+library(tidyverse)
+theme_set(theme_bw())
+```
+
+```{r}
+source("code/tctn.R")
+```
+
+
+## Total Carbon
+```{r tc_graphs}
+tctn_processed = 
+  tctn_data_processed %>% 
+  mutate(length = str_replace_all(length, " day", "")) %>% 
+  filter(length %in% c(30, 90, 150)) %>% 
+  # mutate(flag = if_else(coreID == "C54" | coreID == "C53" | coreID == "C79"), "skip", flag)
+  dplyr::mutate(flag = case_when((coreID %in% c("C54", "C53", "C79") & depth == "5cm-end") ~"skip"))
+
+tctn_processed %>% 
+  filter(is.na(flag)) %>% 
+  ggplot(aes(y = TC_perc, x = reorder(length, as.numeric(length))))+
+  geom_point(aes(color = drying, group = drying, shape = location), 
+             position = position_dodge(width = 0.5), size = 3, stroke = 1)+
+  scale_shape_manual(values = c(19, 1))+
+  facet_grid(depth~Site)+
+  labs(x = "Drought duration (days)",
+       y = "Total C (%)")+
+  NULL
+
+tctn_data_processed %>% 
+  mutate(length = str_replace_all(length, " day", "")) %>% 
+  ggplot(aes(y = TC_perc, x = reorder(length, as.numeric(length))))+
+  geom_point(aes(color = Info, group = drying), position = position_dodge(width = 0.5))+
+  facet_grid(depth~Site)+
+  labs(x = "drought duration (days)",
+       title = "instrument-flagged samples")+
+  NULL
+
+tctn_processed %>% 
+  filter(is.na(flag)) %>% 
+  mutate(length = str_replace_all(length, " day", "")) %>% 
+  ggplot(aes(y = TN_perc, x = reorder(length, as.numeric(length))))+
+  geom_point(aes(color = drying, group = drying, shape = location), 
+             position = position_dodge(width = 0.5), size = 3, stroke = 1)+
+  scale_shape_manual(values = c(19, 1))+
+  facet_grid(depth~Site)+
+  labs(x = "drought duration (days)")+
+  NULL
+```
+
+
+## Water Extractable Organic Carbon
+```{r weoc_graphs}
+weoc %>% 
+  mutate_all(na_if,"") %>% 
+  filter(!is.na(drying)) %>% 
+  filter(notes %in% "instant chemistry") %>% 
+  mutate(length = factor(length, levels = c("30d", "90d", "150d"))) %>% 
+  ggplot(aes(x = length, y = `NPOC as C (mg/L)`))+
+  geom_point(aes(color = drying, group = drying), 
+             position = position_dodge(width = 0.3), size = 3, stroke = 1)+
+  scale_shape_manual(values = c(16, 16, 1))+
+  facet_grid(depth~Site)+
+  labs(title = "instant chemistry samples",
+       y = "WEOC (mg/L)",
+       x = "Drought duration (days)")
+
+
+weoc %>% 
+  mutate_all(na_if,"") %>% 
+  filter(!is.na(drying)) %>% 
+  filter(!notes %in% "instant chemistry") %>% 
+  mutate(length = factor(length, levels = c("30d", "90d", "150d"))) %>% 
+  ggplot(aes(x = length, y = `NPOC as C (mg/L)`))+
+  geom_point(aes(color = drying, group = drying, shape = location), 
+             position = position_dodge(width = 0.3), size = 3, stroke = 1)+
+  scale_shape_manual(values = c(19, 1))+
+  facet_grid(depth~Site)+
+  labs(title = "saturation incubation samples",
+       y = "WEOC (mg/L)",
+       x = "Drought duration (days)")
+
+```
+
