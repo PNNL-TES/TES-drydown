@@ -14,18 +14,19 @@
 
 
 # 1. SET input file paths -------------------------------
-COREKEY = "data/corekey.csv"
-REPORT = "data/Report.csv"
+COREKEY = "data/processed/corekey.csv"
+REPORT = "data/fticr/TES_drought_soil_Report.csv"
+DOCKEY = "data/doc_analysis_key.csv"
 
 ## SET the treatment variables
-TREATMENTS = quos(sat_level)
+TREATMENTS = quos(depth, Site, length, drying)
 ## this will work with multiple variables too. just add all the variable names in the parentheses.
 
 # 2. load packages and source the functions --------------------------------------------------------
 library(drake)
 library(tidyverse)
 
-source("code/a-functions_processing.R")
+source("code/fticrrr/a-functions_processing.R")
 source("code/b-functions_relabund.R")
 source("code/c-functions_vankrevelen.R")
 #source("code/d-functions_statistics.R")
@@ -37,8 +38,8 @@ fticr_processing_plan = drake_plan(
   # a. PROCESSING
   datareport = read.csv(file_in(REPORT)),
   fticr_meta = make_fticr_meta(datareport)$meta2,
-  fticr_data_longform = make_fticr_data(datareport, sat_level, treatment)$data_long_key_repfiltered,
-  fticr_data_trt = make_fticr_data(datareport, sat_level, treatment)$data_long_trt,
+  fticr_data_longform = make_fticr_data(datareport, depth, Site, length, drying, notes)$data_long_key_repfiltered,
+  fticr_data_trt = make_fticr_data(datareport, depth, Site, length, drying)$data_long_trt,
   
   ## OUTPUT
   #  fticr_meta %>% write.csv(),
@@ -72,5 +73,6 @@ fticr_processing_plan = drake_plan(
 
 # 4. make plans -------------------------------------------------------------------------
 corekey = read.csv(file_in(COREKEY))
+dockey = read.csv(file_in(DOCKEY))
 make(fticr_processing_plan)
 
