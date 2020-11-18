@@ -117,14 +117,22 @@ make_fticr_data = function(report, ...){
   
   data_presence = compute_presence(data_columns) %>% 
     left_join(mass_to_formula, by = "Mass") %>% 
-    dplyr::select(formula, CoreID, presence)
+    dplyr::select(formula, CoreID, presence) 
   
-  data_long_key = data_presence %>% left_join(corekey, by = "CoreID")
+  data_presence2 = 
+    data_presence %>% 
+    separate(CoreID, sep = "_Alder", into = c("ID", "random1")) %>% 
+    separate(ID, sep = "_", into = c("Fans", "random2", "DOC_ID")) %>% 
+    dplyr::select(formula, DOC_ID, presence) %>% 
+    mutate(DOC_ID = str_replace(DOC_ID, "DOC", "DOC-"))
+  
+  data_long_key = data_presence2 %>% left_join(dockey, by = "DOC_ID") %>% 
+    rename(CoreID = coreID)
   
   data_long_key_repfiltered = apply_replication_filter(data_long_key, ...)
   
   data_long_trt = data_long_key_repfiltered %>% 
-    distinct(formula, ...)
+    distinct(formula, notes, ...)
   
   list(data_long_trt = data_long_trt,
        data_long_key_repfiltered = data_long_key_repfiltered)
