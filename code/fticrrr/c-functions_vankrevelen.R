@@ -38,7 +38,7 @@ theme_kp <- function() {  # this for all the elements common across plots
 gg_vankrev <- function(data,mapping){
   ggplot(data,mapping) +
     # plot points
-    geom_point(size=2, alpha = 0.2) + # set size and transparency
+    geom_point(size=0.5, alpha = 0.2) + # set size and transparency
     # axis labels
     ylab("H/C") +
     xlab("O/C") +
@@ -73,20 +73,26 @@ plot_vankrevelen_domains = function(fticr_meta){
 plot_vankrevelens = function(fticr_data_longform, fticr_meta){
   
   fticr_hcoc = 
-    fticr_data_longform %>% 
+    fticr_data_trt %>% 
     left_join(dplyr::select(fticr_meta, formula, HC, OC), by = "formula")
   
-  gg_vk1 = 
-    gg_vankrev(fticr_hcoc, aes(x = OC, y = HC, color = sat_level))+
-    facet_grid(.~sat_level)+
+  (gg_cpcrw_instant = 
+    fticr_hcoc %>% 
+    filter(Site =="CPCRW") %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = notes))+
+    stat_ellipse(level = 0.90, show.legend = F)+
+    facet_grid(drying+depth~length)+
     theme_kp()
+    )
   
-  gg_fm = gg_vankrev(fticr_hcoc, aes(x = OC, y = HC, color = sat_level))+
-    stat_ellipse()+
-    theme_kp()
-  
-  gg_vk2 = 
-    ggExtra::ggMarginal(gg_fm,groupColour = TRUE,groupFill = TRUE)
+  (gg_sr_all = 
+      fticr_hcoc %>% 
+      filter(Site =="SR") %>% 
+      gg_vankrev(aes(x = OC, y = HC, color = notes))+
+      stat_ellipse(level = 0.90, show.legend = F)+
+      facet_grid(drying+depth~length)+
+      theme_kp()
+  )
   
   list(gg_vk1 = gg_vk1,
        gg_vk2 = gg_vk2)
