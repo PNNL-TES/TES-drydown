@@ -49,7 +49,7 @@ gg_vankrev <- function(data,mapping){
     geom_segment(x = 0.0, y = 1.5, xend = 1.2, yend = 1.5,color="black",linetype="longdash") +
     geom_segment(x = 0.0, y = 0.7, xend = 1.2, yend = 0.4,color="black",linetype="longdash") +
     geom_segment(x = 0.0, y = 1.06, xend = 1.2, yend = 0.51,color="black",linetype="longdash") +
-    guides(colour = guide_legend(override.aes = list(alpha=1)))
+    guides(colour = guide_legend(override.aes = list(alpha=1, size = 1)))
 }
 
 
@@ -152,4 +152,29 @@ plot_vk_saturation = function(fticr_data_trt, fticr_meta){
     NULL
   
     
+}
+
+plot_vk_drying = function(fticr_data_trt, fticr_meta){
+  fticr_hcoc = 
+    fticr_data_trt %>% 
+    left_join(dplyr::select(fticr_meta, formula, HC, OC), by = "formula")
+  
+  peakslossgain_drying = 
+    fticr_hcoc %>% 
+    filter(saturation == "saturated") %>% 
+    group_by(formula, Site, depth, length) %>% 
+    dplyr::mutate(n = n()) %>% 
+    filter(n == 1) %>% 
+    ungroup() %>% 
+    mutate(lossgain = dplyr::recode(drying, "FAD" = "gained", "CW" = "lost"))
+  
+  peakslossgain_drying %>% 
+    mutate(length = factor(length, levels = c("30d", "90d", "150d"))) %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
+    stat_ellipse(level = 0.90, show.legend = F)+
+    facet_grid(depth ~ Site+length)+
+    labs(title = "CW vs. FAD",
+         subtitle = "peaks lost/gained during the forced drying")+
+    theme_kp()+
+    NULL 
 }
