@@ -1,0 +1,62 @@
+---
+title: "FTICR"
+output: html_document
+---
+
+This document contains results for FTICR-MS data.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      collapse = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      comment = "#>",
+                      fig.path = ("images-markdown-fticr/"))
+
+library(drake)
+```
+
+## VAN KREVELEN PLOTS
+### Van Krevelen domains
+```{r vk_domains, fig.height=5, fig.width=5}
+readd(gg_vankrevelen_domains)
+```
+
+### Van Krevelen plots by treatment
+```{r vk_plots, fig.height=10, fig.width=8}
+readd(gg_vankrevelens)$gg_cpcrw_all
+readd(gg_vankrevelens)$gg_sr_all
+```
+
+### Comparing drying types
+```{r vk_drying, fig.height= 6, fig.width=8}
+readd(gg_vankrevelens)$gg_cpcrw_drying
+readd(gg_vankrevelens)$gg_sr_drying
+```
+
+
+### Peaks lost/gained during the saturation incubation
+```{r vk_newpeaks_saturation, fig.height=10, fig.width=10}
+readd(gg_vk_newpeaks_saturation)
+```
+
+## RELATIVE ABUNDANCE
+
+```{r relabund_barplot, fig.height=10, fig.width=10}
+readd(gg_relabund_bar)
+```
+
+
+## PCA
+
+```{r pca}
+readd(gg_pca)
+```
+
+
+## STATISTICS
+### PERMANOVA
+```{r}
+readd(fticr_permanova)
+```
+
