@@ -52,6 +52,7 @@ fticr_processing_plan = drake_plan(
   gg_vankrevelen_domains = plot_vankrevelen_domains(fticr_meta),
   gg_vankrevelens = plot_vankrevelens(fticr_data_trt, fticr_meta),
   gg_vk_newpeaks_saturation = plot_vk_saturation(fticr_data_trt, fticr_meta),
+  gg_vk_newpeaks_drying = plot_vk_drying(fticr_data_trt, fticr_meta),
   
   # d. STATISTICS ---- 
   ## PERMANOVA

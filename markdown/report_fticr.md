@@ -3,7 +3,7 @@ FTICR
 
 This document contains results for FTICR-MS data.
 
-## VAN KREVELEN PLOTS
+## EXPLORATORY ANALYSIS
 
 ### Van Krevelen domains
 
@@ -20,17 +20,19 @@ This document contains results for FTICR-MS data.
 
 ![](images-markdown-fticr/vk_plots-1.png)<!-- -->![](images-markdown-fticr/vk_plots-2.png)<!-- -->
 
-### Comparing drying types
+### RELATIVE ABUNDANCE
+
+![](images-markdown-fticr/relabund_barplot-1.png)<!-- -->
+
+## HOW DID DRYING (CW VS. FAD) INFLUENCE CHEMISTRY?
 
 ![](images-markdown-fticr/vk_drying-1.png)<!-- -->![](images-markdown-fticr/vk_drying-2.png)<!-- -->
 
-### Peaks lost/gained during the saturation incubation
+![](images-markdown-fticr/vk_newpeaks_drying-1.png)<!-- -->
+
+## HOW DID WETTING (INSTANT REWET VS. SATURATION INCUBATION) INFLUENCE CHEMISTRY?
 
 ![](images-markdown-fticr/vk_newpeaks_saturation-1.png)<!-- -->
-
-## RELATIVE ABUNDANCE
-
-![](images-markdown-fticr/relabund_barplot-1.png)<!-- -->
 
 ## PCA
 

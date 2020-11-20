@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = FALSE,
 library(drake)
 ```
 
-## VAN KREVELEN PLOTS
+## EXPLORATORY ANALYSIS
 ### Van Krevelen domains
 ```{r vk_domains, fig.height=5, fig.width=5}
 readd(gg_vankrevelen_domains)
@@ -28,23 +28,28 @@ readd(gg_vankrevelens)$gg_cpcrw_all
 readd(gg_vankrevelens)$gg_sr_all
 ```
 
-### Comparing drying types
+### RELATIVE ABUNDANCE
+
+```{r relabund_barplot, fig.height=10, fig.width=10}
+readd(gg_relabund_bar)
+```
+
+## HOW DID DRYING (CW VS. FAD) INFLUENCE CHEMISTRY?
 ```{r vk_drying, fig.height= 6, fig.width=8}
 readd(gg_vankrevelens)$gg_cpcrw_drying
 readd(gg_vankrevelens)$gg_sr_drying
 ```
 
+```{r vk_newpeaks_drying, fig.height=8, fig.width=20}
+readd(gg_vk_newpeaks_drying)
+```
 
-### Peaks lost/gained during the saturation incubation
+
+## HOW DID WETTING (INSTANT REWET VS. SATURATION INCUBATION) INFLUENCE CHEMISTRY?
 ```{r vk_newpeaks_saturation, fig.height=10, fig.width=10}
 readd(gg_vk_newpeaks_saturation)
 ```
 
-## RELATIVE ABUNDANCE
-
-```{r relabund_barplot, fig.height=10, fig.width=10}
-readd(gg_relabund_bar)
-```
 
 
 ## PCA
