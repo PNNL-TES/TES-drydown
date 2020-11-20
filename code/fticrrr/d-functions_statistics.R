@@ -3,33 +3,32 @@ library(ggbiplot)
 library(vegan)
 library(patchwork)
 
-compute_fticr_pca = function(relabund_cores){
-  ## PCA functions ----
-  fit_pca_function = function(dat){
-    relabund_pca=
-      dat %>% 
-      ungroup %>% 
-      dplyr::select(-c(abund, total)) %>% 
-      spread(Class, relabund) %>% 
-      replace(.,is.na(.),0)  %>% 
-      dplyr::select(-1)
-    
-    num = 
-      relabund_pca %>% 
-      dplyr::select(c(aliphatic, aromatic, `condensed aromatic`, `unsaturated/lignin`))
-    
-    grp = 
-      relabund_pca %>% 
-      dplyr::select(-c(aliphatic, aromatic, `condensed aromatic`, `unsaturated/lignin`)) %>% 
-      dplyr::mutate(row = row_number())
-    
-    pca_int = prcomp(num, scale. = T)
-    
-    list(num = num,
-         grp = grp,
-         pca_int = pca_int)
-  }
+fit_pca_function = function(dat){
+  relabund_pca=
+    dat %>% 
+    ungroup %>% 
+    dplyr::select(-c(abund, total)) %>% 
+    spread(Class, relabund) %>% 
+    replace(.,is.na(.),0)  %>% 
+    dplyr::select(-1)
   
+  num = 
+    relabund_pca %>% 
+    dplyr::select(c(aliphatic, aromatic, `condensed aromatic`, `unsaturated/lignin`))
+  
+  grp = 
+    relabund_pca %>% 
+    dplyr::select(-c(aliphatic, aromatic, `condensed aromatic`, `unsaturated/lignin`)) %>% 
+    dplyr::mutate(row = row_number())
+  
+  pca_int = prcomp(num, scale. = T)
+  
+  list(num = num,
+       grp = grp,
+       pca_int = pca_int)
+}
+
+compute_fticr_pca = function(relabund_cores){
   ## PCA input files ----
   relabund_CPCRW = relabund_cores %>% filter(Site == "CPCRW")
   relabund_SR = relabund_cores %>% filter(Site == "SR")
@@ -38,7 +37,7 @@ compute_fticr_pca = function(relabund_cores){
   pca_cpcrw_bottom = fit_pca_function(relabund_CPCRW %>% filter(depth == "5cm-end"))
   pca_sr_top = fit_pca_function(relabund_SR %>% filter(depth == "0-5cm"))
   pca_sr_bottom = fit_pca_function(relabund_SR %>% filter(depth == "5cm-end"))
-  pca_overall = fit_pca_function(relabund_cores)
+  pcaoverall = fit_pca_function(relabund_cores)
   
   ## PCA plots overall ----
   gg_pca_overall1 = 
@@ -158,6 +157,10 @@ compute_fticr_pca = function(relabund_cores){
        gg_pca_sr = gg_pca_sr
        )
 }
+
+
+# permanova -----------------------------------------------------------
+
 compute_permanova = function(relabund_cores){
   relabund_wide = 
     relabund_cores %>% 
