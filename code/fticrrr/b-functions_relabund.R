@@ -57,7 +57,7 @@ plot_relabund = function(relabund_cores, TREATMENTS){
     mutate(Class = factor(Class, levels = c("aliphatic", "unsaturated/lignin", "aromatic", "condensed aromatic")))
   
   relabund_trt %>% 
-    ggplot(aes(x = sat_level, y = rel_abund, fill = Class))+
+    ggplot(aes(x = length, y = rel_abund, fill = Class))+
     geom_bar(stat = "identity")+
     theme_kp()
 }

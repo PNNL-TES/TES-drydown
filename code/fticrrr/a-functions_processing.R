@@ -132,17 +132,9 @@ make_fticr_data = function(report, ...){
   data_long_key_repfiltered = apply_replication_filter(data_long_key, ...)
   
   data_long_trt = data_long_key_repfiltered %>% 
-    distinct(formula, notes, ...)
+    distinct(formula, ...)
   
   list(data_long_trt = data_long_trt,
        data_long_key_repfiltered = data_long_key_repfiltered)
   
 }
-
-
-
-
-
-
-
-
