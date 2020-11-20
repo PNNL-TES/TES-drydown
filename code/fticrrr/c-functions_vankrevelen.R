@@ -22,9 +22,9 @@ theme_kp <- function() {  # this for all the elements common across plots
           legend.background = element_rect(colour = NA),
           panel.border = element_rect(color="black",size=1.5, fill = NA),
           
-          plot.title = element_text(hjust = 0.05, size = 14),
-          axis.text = element_text(size = 14, color = "black"),
-          axis.title = element_text(size = 14, face = "bold", color = "black"),
+          plot.title = element_text(hjust = 0.00, size = 14),
+          axis.text = element_text(size = 10, color = "black"),
+          axis.title = element_text(size = 12, face = "bold", color = "black"),
           
           # formatting for facets
           panel.background = element_blank(),
@@ -58,9 +58,11 @@ plot_vankrevelen_domains = function(fticr_meta){
   
   gg_vk_domains = 
     gg_vankrev(fticr_meta, aes(x = OC, y = HC, color = Class))+
-    scale_color_manual(values = PNWColors::pnw_palette("Sunset2"))+
-    theme_kp()
-  
+    scale_color_manual(values = PNWColors::pnw_palette("Sunset2", 4))+
+    theme_kp()+
+    guides(color=guide_legend(nrow=2, override.aes = list(size = 1, alpha = 1)))+
+    NULL
+
   gg_vk_domains_nosc = 
     gg_vankrev(fticr_meta, aes(x = OC, y = HC, color = as.numeric(NOSC)))+
     scale_color_gradientn(colors = PNWColors::pnw_palette("Bay"))+
@@ -70,31 +72,84 @@ plot_vankrevelen_domains = function(fticr_meta){
        gg_vk_domains_nosc = gg_vk_domains_nosc)
 }
 
-plot_vankrevelens = function(fticr_data_longform, fticr_meta){
+plot_vankrevelens = function(fticr_data_trt, fticr_meta){
   
   fticr_hcoc = 
     fticr_data_trt %>% 
     left_join(dplyr::select(fticr_meta, formula, HC, OC), by = "formula")
   
-  (gg_cpcrw_instant = 
+  gg_cpcrw_all = 
     fticr_hcoc %>% 
     filter(Site =="CPCRW") %>% 
-    gg_vankrev(aes(x = OC, y = HC, color = notes))+
+    gg_vankrev(aes(x = OC, y = HC, color = saturation))+
     stat_ellipse(level = 0.90, show.legend = F)+
     facet_grid(drying+depth~length)+
-    theme_kp()
-    )
+    labs(title = "CPCRW")+
+    theme_kp()+
+    NULL
   
-  (gg_sr_all = 
-      fticr_hcoc %>% 
-      filter(Site =="SR") %>% 
-      gg_vankrev(aes(x = OC, y = HC, color = notes))+
-      stat_ellipse(level = 0.90, show.legend = F)+
-      facet_grid(drying+depth~length)+
-      theme_kp()
-  )
+  gg_sr_all = 
+    fticr_hcoc %>% 
+    filter(Site =="SR") %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = saturation))+
+    stat_ellipse(level = 0.90, show.legend = F)+
+    facet_grid(drying+depth~length)+
+    labs(title = "SR")+
+    theme_kp()+
+    NULL
   
-  list(gg_vk1 = gg_vk1,
-       gg_vk2 = gg_vk2)
+  gg_cpcrw_drying = 
+    fticr_hcoc %>% 
+    filter(Site =="CPCRW" & saturation == "saturated") %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = drying))+
+    stat_ellipse(level = 0.90, show.legend = F)+
+    facet_grid(depth~length)+
+    labs(title = "CPCRW",
+         subtitle = "comparing drying types")+
+    theme_kp()+
+    NULL
+  
+  gg_sr_drying = 
+    fticr_hcoc %>% 
+    filter(Site =="SR" & saturation == "saturated") %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = drying))+
+    stat_ellipse(level = 0.90, show.legend = F)+
+    facet_grid(depth~length)+
+    labs(title = "SR",
+         subtitle = "comparing drying types")+
+    theme_kp()+
+    NULL
+  
+  list(gg_cpcrw_all = gg_cpcrw_all,
+       gg_sr_all = gg_sr_all,
+       gg_cpcrw_drying = gg_cpcrw_drying,
+       gg_sr_drying = gg_sr_drying)
 }
 
+plot_vk_saturation = function(fticr_data_trt, fticr_meta){
+  fticr_hcoc = 
+    fticr_data_trt %>% 
+    left_join(dplyr::select(fticr_meta, formula, HC, OC), by = "formula")
+  
+  peakslossgain_saturation = 
+    fticr_hcoc %>% 
+    filter(
+      (Site == "CPCRW" & length == "90d")|
+        (Site == "SR" & length == "30d")|
+        (Site == "SR" & length == "90d")) %>% 
+    group_by(formula, Site, depth, length, drying) %>% 
+    dplyr::mutate(n = n()) %>% 
+    filter(n == 1) %>% 
+    ungroup() %>% 
+    mutate(lossgain = dplyr::recode(saturation, "saturated" = "gained", "instant chemistry" = "lost"))
+  
+  peakslossgain_saturation %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
+    stat_ellipse(level = 0.90, show.legend = F)+
+    facet_grid(length+depth ~ Site + drying)+
+    labs(subtitle = "instant chemistry vs. saturated")+
+    theme_kp()+
+    NULL
+  
+    
+}
