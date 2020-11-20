@@ -1,4 +1,30 @@
+# FTICRRR: fticr results in R
+# Kaizad F. Patel
+# October 2020
 
+################################################## #
+
+# `functions_processing.R`
+
+################################################## #
+
+## this script will load functions for:
+## (a) processing FTICR reports generated in Formularity
+## -- (a1) filtering peaks 
+## -- (a2) computing indices, element composition, class assignment for metadata 
+## -- (a3) cleaning the data file and creating a longform version 
+## -- (a4) converting peak intensities into presence/absence
+## (b) computing relative abundance by compound class, for each core
+
+# INSTRUCTIONS:
+## source this file in the `fticr_drake_plan.R` file, do not run the script here.
+## This script can (generally) be used as is for most data that follow this format. No modifications needed 
+
+## 20-Nov-2020 edit: `data_presence2` file is unique to this experiment because of the shitty sample nomenclature.
+
+
+################################################## #
+################################################## #
 
 # 1. PROCESSING FUNCTIONS -------------------------------------------------
 ## LEVEL I FUNCTIONS -------------------------------------------------------
@@ -137,4 +163,20 @@ make_fticr_data = function(report, ...){
   list(data_long_trt = data_long_trt,
        data_long_key_repfiltered = data_long_key_repfiltered)
   
+}
+
+# 2. RELATIVE ABUNDANCE COMPUTE FUNCTIONS -------------------------------------------------
+compute_relabund_cores = function(fticr_data_longform, fticr_meta, ...){
+  fticr_data_longform %>% 
+    # add the Class column to the data
+    left_join(dplyr::select(fticr_meta, formula, Class), by = "formula") %>% 
+    # calculate abundance of each Class as the sum of all counts
+    group_by(CoreID, Class, ...) %>%
+    dplyr::summarise(abund = sum(presence)) %>%
+    ungroup %>% 
+    # create a new column for total counts per core assignment
+    # and then calculate relative abundance  
+    group_by(CoreID, ...) %>% 
+    dplyr::mutate(total = sum(abund),
+                  relabund  = round((abund/total)*100,2))
 }
