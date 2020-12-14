@@ -175,3 +175,17 @@ S32,5cm-end,SR,90d,,CW,r3,DOC-173,instant chemistry,90daycw
 S21,5cm-end,SR,90d,,FAD,r1,DOC-174,instant chemistry,90dayfad
 S47,5cm-end,SR,90d,,FAD,r2,DOC-175,instant chemistry,90dayfad
 S89,5cm-end,SR,90d,,FAD,r3,DOC-176,instant chemistry,90dayfad
+C67,0-5cm,CPCRW,timezero,,,,DOC-177,,
+C73,0-5cm,CPCRW,timezero,,,,DOC-178,,
+C81,0-5cm,CPCRW,timezero,,,,DOC-179,,
+C29,0-5cm,CPCRW,timezero,,,,DOC-180,,
+C67,5cm-end,CPCRW,timezero,,,,DOC-181,,
+C73,5cm-end,CPCRW,timezero,,,,DOC-182,,
+C81,5cm-end,CPCRW,timezero,,,,DOC-183,,
+C29,5cm-end,CPCRW,timezero,,,,DOC-184,,
+S58,0-5cm,SR,timezero,,,,DOC-185,,
+S25,0-5cm,SR,timezero,,,,DOC-186,,
+S92,0-5cm,SR,timezero,,,,DOC-187,,
+S58,5cm-end,SR,timezero,,,,DOC-188,,
+S25,5cm-end,SR,timezero,,,,DOC-189,,
+S92,5cm-end,SR,timezero,,,,DOC-190,,
