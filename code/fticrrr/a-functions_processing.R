@@ -113,6 +113,13 @@ apply_replication_filter = function(data_long_key, ...){
 }
 
 ## LEVEL II FUNCTIONS ------------------------------------------------------
+
+combine_fticr_reports = function(report1, report2){
+    report1 %>% 
+    full_join(report2, by = c("Mass", "C", "H", "O", "N", "C13", "S", "P", "Na", "El_comp", "Class", "NeutralMass")) 
+  #%>% dplyr::select(Mass, C, H, O, N, C13, S, P, Na, El_comp, starts_with("Fansler"))
+}
+
 make_fticr_meta = function(report){
   fticr_report = (apply_filter_report(report))
   
@@ -139,20 +146,25 @@ make_fticr_data = function(report, ...){
   fticr_report = (apply_filter_report(report))
   mass_to_formula = make_fticr_meta(report)$meta_formula
   
-  data_columns = fticr_report %>% dplyr::select(-c(C:Candidates))
+  data_columns = fticr_report %>% dplyr::select(Mass, starts_with("Fansler"))
   
   data_presence = compute_presence(data_columns) %>% 
     left_join(mass_to_formula, by = "Mass") %>% 
-    dplyr::select(formula, CoreID, presence) 
+    dplyr::select(formula, CoreID, presence) %>% 
+    mutate(CoreID = str_replace_all(CoreID, "DOC_", "DOC")) %>% 
+    mutate(DOC_ID = str_extract(CoreID, "DOC[0-9]{3}")) %>% 
+    mutate(DOC_ID = str_replace(DOC_ID, "DOC", "DOC-")) %>% 
+    dplyr::select(formula, DOC_ID, presence)
+    
   
-  data_presence2 = 
-    data_presence %>% 
-    separate(CoreID, sep = "_Alder", into = c("ID", "random1")) %>% 
-    separate(ID, sep = "_", into = c("Fans", "random2", "DOC_ID")) %>% 
-    dplyr::select(formula, DOC_ID, presence) %>% 
-    mutate(DOC_ID = str_replace(DOC_ID, "DOC", "DOC-"))
+  #  data_presence2 = 
+  #    data_presence %>% 
+  #    separate(CoreID, sep = "_Alder", into = c("ID", "random1")) %>% 
+  #    separate(ID, sep = "_", into = c("Fans", "random2", "DOC_ID")) %>% 
+  #    dplyr::select(formula, DOC_ID, presence) %>% 
+  #    mutate(DOC_ID = str_replace(DOC_ID, "DOC", "DOC-"))
   
-  data_long_key = data_presence2 %>% left_join(dockey, by = "DOC_ID") %>% 
+  data_long_key = data_presence %>% left_join(dockey, by = "DOC_ID") %>% 
     rename(CoreID = coreID)
   
   data_long_key_repfiltered = apply_replication_filter(data_long_key, ...)
