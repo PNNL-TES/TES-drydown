@@ -59,6 +59,17 @@ This document contains results for FTICR-MS data.
 
 ![](images-markdown-fticr/vk_newpeaks_saturation-1.png)<!-- -->
 
+## HOW DID DROUGHT SAMPLES COMPARE TO TIME ZERO?
+
+    #> $tz_diff_c_saturated
+
+![](images-markdown-fticr/vk_tzero_diff-1.png)<!-- -->
+
+    #> 
+    #> $tz_diff_s_saturated
+
+![](images-markdown-fticr/vk_tzero_diff-2.png)<!-- -->
+
 ## PCA
 
     #> $gg_pca_overall1

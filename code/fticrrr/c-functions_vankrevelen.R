@@ -198,3 +198,85 @@ plot_vk_timezero = function(fticr_data_trt, fticr_meta){
     theme_kp()+
     NULL
 }
+
+plot_tzero_diff = function(fticr_data_trt, fticr_meta){
+  ## create dataframe for comparison ----
+  fticr_trt_temp = 
+    fticr_data_trt %>%
+    filter(length != "timezero") %>% 
+    mutate(trt = 1,
+          assignment = paste0(length, "-", drying, "-", saturation)) %>% 
+    dplyr::select(formula, depth, Site, assignment, trt) %>% 
+    pivot_wider(names_from = assignment, values_from = trt)
+  
+  fticr_tzero_temp = 
+    fticr_data_trt %>%
+    filter(length == "timezero") %>% 
+    mutate(tzero = 1) %>% 
+    dplyr::select(formula, depth, Site, tzero)
+  
+  tzero_diff = 
+    fticr_tzero_temp %>% 
+    full_join(fticr_trt_temp, by = c("formula", "depth", "Site")) %>% 
+    pivot_longer(-c(formula, depth, Site, tzero), names_to = "assignment", values_to = "trt") %>% 
+    separate(assignment, sep = "-", into = c("length", "drying", "saturation")) %>% 
+    dplyr::select(formula, depth, Site, length, drying, saturation, trt, tzero) %>% 
+    mutate(trt = replace_na(trt, 0),
+           tzero = replace_na(tzero, 0),
+           diff = trt-tzero,
+           loss_gain = recode(diff, `-1` = "loss", `1` = "gain", `0` = NA_character_)) %>% 
+    filter(!(Site=="CPCRW" & length=="30d" & saturation=="instant chemistry"))
+    
+  tzero_diff_hcoc = 
+    tzero_diff %>% 
+    filter(!is.na(loss_gain)) %>% 
+    left_join(dplyr::select(fticr_meta, formula, HC, OC), by = "formula") %>% 
+    reorder_length(.)
+  
+  ## create plots ----
+  tz_diff_c_instant = 
+    tzero_diff_hcoc %>% 
+    filter(Site == "CPCRW" & saturation == "instant chemistry") %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = loss_gain))+
+    stat_ellipse(level = 0.90, show.legend = FALSE)+
+    labs(title = "compared to time zero",
+         subtitle = "CPCRW, instant chemistry")+
+    facet_grid(depth ~ drying + length)+
+    theme_kp()
+  
+  tz_diff_c_saturated = 
+    tzero_diff_hcoc %>% 
+    filter(Site == "CPCRW") %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = loss_gain))+
+    stat_ellipse(level = 0.90, show.legend = FALSE)+
+    labs(title = "compared to time zero",
+         subtitle = "CPCRW, saturated")+
+    facet_grid(saturation + depth ~ drying + length)+
+    theme_kp()
+    
+  tz_diff_s_instant = 
+    tzero_diff_hcoc %>% 
+    filter(Site == "SR" & saturation == "instant chemistry") %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = loss_gain))+
+    stat_ellipse(level = 0.90, show.legend = FALSE)+
+    labs(title = "compared to time zero",
+         subtitle = "SR, instant chemistry")+
+    facet_grid(depth ~ drying + length)+
+    theme_kp()
+  
+  tz_diff_s_saturated = 
+    tzero_diff_hcoc %>% 
+    filter(Site == "SR") %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = loss_gain))+
+    stat_ellipse(level = 0.90, show.legend = FALSE)+
+    labs(title = "compared to time zero",
+         subtitle = "SR, saturated")+
+    facet_grid(saturation + depth ~ drying + length)+
+    theme_kp()
+  
+  list(#tz_diff_c_instant = tz_diff_c_instant,
+       tz_diff_c_saturated = tz_diff_c_saturated,
+       #tz_diff_s_instant = tz_diff_s_instant,
+       tz_diff_s_saturated = tz_diff_s_saturated
+       )
+}

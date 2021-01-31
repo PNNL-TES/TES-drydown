@@ -73,6 +73,11 @@ readd(gg_vk_newpeaks_drying)
 readd(gg_vk_newpeaks_saturation)
 ```
 
+## HOW DID DROUGHT SAMPLES COMPARE TO TIME ZERO?
+```{r vk_tzero_diff, fig.width=10, fig.height=8}
+readd(gg_vk_tzero_diff)
+```
+
 
 
 ## PCA
