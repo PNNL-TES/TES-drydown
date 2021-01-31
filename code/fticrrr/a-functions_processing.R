@@ -192,3 +192,12 @@ compute_relabund_cores = function(fticr_data_longform, fticr_meta, ...){
     dplyr::mutate(total = sum(abund),
                   relabund  = round((abund/total)*100,2))
 }
+
+
+
+# 3. MISC FUNCTIONS -------------------------------------------------------
+
+reorder_length = function(dat){
+  dat %>% 
+    mutate(length = factor(length, levels = c("30d", "90d", "150d")))
+}
