@@ -57,7 +57,10 @@ gg_vankrev <- function(data,mapping){
 plot_vankrevelen_domains = function(fticr_meta){
   
   gg_vk_domains = 
-    gg_vankrev(fticr_meta, aes(x = OC, y = HC, color = Class))+
+    fticr_meta %>%     
+    mutate(Class = factor(Class, levels = c("aliphatic", "unsaturated/lignin", "aromatic", "condensed aromatic"))) %>% 
+    filter(!is.na(Class)) %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = Class))+
     scale_color_manual(values = PNWColors::pnw_palette("Sunset2", 4))+
     theme_kp()+
     guides(color=guide_legend(nrow=2, override.aes = list(size = 1, alpha = 1)))+
@@ -177,4 +180,21 @@ plot_vk_drying = function(fticr_data_trt, fticr_meta){
          subtitle = "peaks lost/gained during the forced drying")+
     theme_kp()+
     NULL 
+}
+
+plot_vk_timezero = function(fticr_data_trt, fticr_meta){
+  tzero = 
+    fticr_data_trt %>% 
+    filter(length == "timezero") %>% 
+    left_join(dplyr::select(fticr_meta, formula, HC, OC), by = "formula")
+  
+
+  tzero %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = depth))+
+    stat_ellipse(level = 0.90, show.legend = F)+
+    facet_grid(. ~ Site)+
+    labs(title = "time zero peaks",
+         subtitle = "")+
+    theme_kp()+
+    NULL
 }
