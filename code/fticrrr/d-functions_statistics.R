@@ -33,11 +33,12 @@ compute_fticr_pca = function(relabund_cores){
   relabund_CPCRW = relabund_cores %>% filter(Site == "CPCRW")
   relabund_SR = relabund_cores %>% filter(Site == "SR")
   
+  pca_timezero = fit_pca_function(relabund_cores %>% filter(length == "timezero"))
   pca_cpcrw_top = fit_pca_function(relabund_CPCRW %>% filter(depth == "0-5cm"))
   pca_cpcrw_bottom = fit_pca_function(relabund_CPCRW %>% filter(depth == "5cm-end"))
   pca_sr_top = fit_pca_function(relabund_SR %>% filter(depth == "0-5cm"))
   pca_sr_bottom = fit_pca_function(relabund_SR %>% filter(depth == "5cm-end"))
-  pcaoverall = fit_pca_function(relabund_cores)
+  pca_overall = fit_pca_function(relabund_cores)
   
   ## PCA plots overall ----
   gg_pca_overall1 = 
@@ -47,7 +48,7 @@ compute_fticr_pca = function(relabund_cores){
     geom_point(size=4,stroke=1, 
                aes(shape = interaction(pca_overall$grp$length, pca_overall$grp$drying),
                    fill = groups, color = groups))+
-    scale_shape_manual(values = c(1,2,0,16,17,15), name = "")+
+    scale_shape_manual(values = c(1,2,0,16,17,15, 5), name = "")+
     #scale_color_manual(values = c("red", "blue"), name = "")+
     #scale_fill_manual(values = c("red", "blue"), name = "")+
     xlim(-4,4)+
@@ -65,7 +66,7 @@ compute_fticr_pca = function(relabund_cores){
     geom_point(size=4,stroke=1, 
                aes(shape = interaction(pca_overall$grp$length, pca_overall$grp$drying),
                    fill = groups, color = groups))+
-    scale_shape_manual(values = c(1,2,0,16,17,15), name = "")+
+    scale_shape_manual(values = c(1,2,0,16,17,15, 5), name = "")+
     #scale_color_manual(values = c("red", "blue"), name = "")+
     #scale_fill_manual(values = c("red", "blue"), name = "")+
     xlim(-4,4)+
@@ -84,7 +85,7 @@ compute_fticr_pca = function(relabund_cores){
     geom_point(size=4,stroke=1, 
                aes(shape = interaction(pca_cpcrw_top$grp$length, pca_cpcrw_top$grp$drying),
                    fill = groups, color = groups))+
-      scale_shape_manual(values = c(1,2,0,16,17,15), name = "")+
+      scale_shape_manual(values = c(1,2,0,16,17,15, 5), name = "")+
       #scale_color_manual(values = c("red", "blue"), name = "")+
       #scale_fill_manual(values = c("red", "blue"), name = "")+
       xlim(-4,4)+
@@ -101,7 +102,7 @@ compute_fticr_pca = function(relabund_cores){
     geom_point(size=4,stroke=1, 
                aes(shape = interaction(pca_cpcrw_bottom$grp$length, pca_cpcrw_bottom$grp$drying),
                    fill = groups, color = groups))+
-    scale_shape_manual(values = c(1,2,0,16,17,15), name = "")+
+    scale_shape_manual(values = c(1,2,0,16,17,15, 5), name = "")+
     xlim(-6,6)+
     ylim(-6,6)+
     labs(shape="",
@@ -122,7 +123,7 @@ compute_fticr_pca = function(relabund_cores){
     geom_point(size=4,stroke=1, 
                aes(shape = interaction(pca_sr_top$grp$length, pca_sr_top$grp$drying),
                    fill = groups, color = groups))+
-    scale_shape_manual(values = c(1,2,0,16,17,15), name = "")+
+    scale_shape_manual(values = c(1,2,0,16,17,15, 5), name = "")+
     #scale_color_manual(values = c("red", "blue"), name = "")+
     #scale_fill_manual(values = c("red", "blue"), name = "")+
     xlim(-4,4)+
@@ -139,7 +140,7 @@ compute_fticr_pca = function(relabund_cores){
     geom_point(size=4,stroke=1, 
                aes(shape = interaction(pca_sr_bottom$grp$length, pca_sr_bottom$grp$drying),
                    fill = groups, color = groups))+
-    scale_shape_manual(values = c(1,2,0,16,17,15), name = "")+
+    scale_shape_manual(values = c(1,2,0,16,17,15, 5), name = "")+
     xlim(-3,3)+
     ylim(-3,3)+
     labs(shape="",
@@ -158,7 +159,30 @@ compute_fticr_pca = function(relabund_cores){
        )
 }
 
-
+compute_fticr_pca_tzero = function(relabund_cores){
+  ## PCA input files ----
+  pca_timezero = fit_pca_function(relabund_cores %>% filter(length == "timezero"))
+  
+  ## PCA plots timezero ----
+  gg_pca_tzero = 
+    ggbiplot(pca_timezero$pca_int, obs.scale = 1, var.scale = 1,
+             groups = as.character(pca_timezero$grp$Site), 
+             ellipse = TRUE, circle = FALSE, var.axes = TRUE) +
+    geom_point(size=4,stroke=1, 
+               aes(shape = pca_timezero$grp$depth,
+                   fill = groups, color = groups))+
+    scale_shape_manual(values = c(1,2,0,16,17,15, 5), name = "")+
+    #scale_color_manual(values = c("red", "blue"), name = "")+
+    #scale_fill_manual(values = c("red", "blue"), name = "")+
+    xlim(-4,4)+
+    ylim(-3.5,3.5)+
+    labs(shape="",
+         title = "time zero")+
+    theme_kp()+
+    NULL
+  
+  
+}  
 # permanova -----------------------------------------------------------
 
 compute_permanova = function(relabund_cores){
@@ -179,6 +203,25 @@ compute_permanova = function(relabund_cores){
   broom::tidy(permanova_fticr_all$aov.tab)
 }
 
+compute_permanova_tzero = function(relabund_cores){
+  relabund_wide = 
+    relabund_cores %>% 
+    filter(length == "timezero") %>% 
+    ungroup() %>% 
+    dplyr::select(-drying, -saturation) %>% 
+    mutate(Class = factor(Class, 
+                          levels = c("aliphatic", "unsaturated/lignin", 
+                                     "aromatic", "condensed aromatic"))) %>% 
+    dplyr::select(-c(abund, total)) %>% 
+    spread(Class, relabund) %>% 
+    replace(is.na(.), 0)
+  
+  permanova_fticr_all = 
+    adonis(relabund_wide %>% dplyr::select(aliphatic:`condensed aromatic`) ~ 
+             (depth+Site)^2, 
+           data = relabund_wide)
+  broom::tidy(permanova_fticr_all$aov.tab)
+}
 ##  variables = c("sat_level", "treatment")
 ##  indepvar = paste(variables, collapse = " + ")
 ##  compute_permanova(indepvar)
