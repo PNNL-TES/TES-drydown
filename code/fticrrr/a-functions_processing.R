@@ -142,7 +142,7 @@ make_fticr_meta = function(report){
   list(meta2 = meta2,
        meta_formula = meta_formula)
 }
-make_fticr_data = function(report, ...){
+make_fticr_data = function(report, dockey, ...){
   fticr_report = (apply_filter_report(report))
   mass_to_formula = make_fticr_meta(report)$meta_formula
   

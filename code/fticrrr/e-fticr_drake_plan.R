@@ -13,6 +13,10 @@
 ##############################
 
 
+# 0. load packages --------------------------------------------------------
+library(drake)
+library(tidyverse)
+
 # 1. SET input file paths -------------------------------
 COREKEY = "data/processed/corekey.csv"
 REPORT1 = "data/fticr/TES_drought_soil_Report1_2020-11-05.csv"
@@ -22,10 +26,7 @@ DOCKEY = "data/doc_analysis_key.csv"
 ## SET the treatment variables
 TREATMENTS = quos(depth, Site, length, drying, saturation)
 
-# 2. load packages and source the functions --------------------------------------------------------
-library(drake)
-library(tidyverse)
-
+# 2. source the functions --------------------------------------------------------
 source("code/fticrrr/a-functions_processing.R")
 source("code/fticrrr/b-functions_relabund.R")
 source("code/fticrrr/c-functions_vankrevelen.R")
@@ -37,10 +38,13 @@ fticr_processing_plan = drake_plan(
   report1 = read.csv(file_in(REPORT1)),
   report2 = read.csv(file_in(REPORT2)),
   
+  corekey = read.csv(file_in(COREKEY)),
+  dockey = read.csv(file_in(DOCKEY)),
+  
   datareport = combine_fticr_reports(report1, report2),
   fticr_meta = make_fticr_meta(datareport)$meta2,
-  fticr_data_longform = make_fticr_data(datareport, depth, Site, length, drying, saturation)$data_long_key_repfiltered,
-  fticr_data_trt = make_fticr_data(datareport, depth, Site, length, drying, saturation)$data_long_trt,
+  fticr_data_longform = make_fticr_data(datareport, dockey, depth, Site, length, drying, saturation)$data_long_key_repfiltered,
+  fticr_data_trt = make_fticr_data(datareport, dockey, depth, Site, length, drying, saturation)$data_long_trt,
   
   # b. RELATIVE ABUNDANCE ---- 
   relabund_cores = fticr_data_longform %>% 
@@ -79,7 +83,5 @@ fticr_processing_plan = drake_plan(
 
 
 # 4. make plans -------------------------------------------------------------------------
-corekey = read.csv(file_in(COREKEY))
-dockey = read.csv(file_in(DOCKEY))
 make(fticr_processing_plan, lock_cache = F)
 
