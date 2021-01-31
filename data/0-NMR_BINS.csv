@@ -1,0 +1,21 @@
+﻿binning,group,startstop,Clemente2012,Lynch2019,Mitchell2018,Description
+aliphatic1_start,aliphatic1,start,0.3,0.6,0.6,aliphatic methyl and methylene
+aliphatic1_stop,aliphatic1,stop,1.3,1.6,1.3,
+aliphatic2_start,aliphatic2,start,1.3,,1.3,aliphatic methyl and methylene near O and N
+aliphatic2_stop,aliphatic2,stop,2.2,,2.9,
+oalkyl_start,oalkyl,start,2.9,,2.9,"O-alkyl, mainly from carbs and lignin"
+oalkyl_stop,oalkyl,stop,4.1,,4.1,
+alphah_start,alphah,start,4.1,,4.1,alpha-H from proteins
+alphah_stop,alphah,stop,4.8,,4.8,
+aromatic_start,aromatic,start,6.2,,6.2,"aromatic, from lignin and proteins"
+aromatic_stop,aromatic,stop,7.8,,7.8,
+amide_start,amide,start,7.8,,7.8,amide from proteins
+amide_stop,amide,stop,8.4,,8.4,
+unsaturated_start,,,,1.6,,"unsaturated functional      groups, including ketone, benzylic, and allylic‐bearing protons"
+unsaturated_stop,,,,3.2,,
+heteroatom_start,,,,3.2,,"unsaturated, heteroatomic compounds, including O‐bearing carbohydrates, ethers, and alcohols"
+heteroatom_stop,,,,4.5,,
+conjugated_start,,,,6.5,,"conjugated, double bond functionalities, including aromatic, amide, and phenolic structures"
+conjugated_stop,,,,8.5,,
+carb_start,carb,start,,,4.8,anomeric proton of carbohydrates
+carb_stop,carb,stop,,,5.2,
