@@ -16,6 +16,29 @@ knitr::opts_chunk$set(echo = FALSE,
 library(drake)
 ```
 
+## TIME ZERO SAMPLES
+### Van Krevelen plots
+```{r vk_tzero}
+readd(gg_vk_timezero)
+```
+
+### PCA
+
+```{r pca_tzero}
+readd(gg_pca_tzero)
+```
+
+### PERMANOVA
+```{r permanova_tzero}
+readd(fticr_permanova_tzero)
+```
+
+### Relative abundance
+```{r relabund_tzero}
+readd(gg_relabund_bar)$relabund_bar_tzero
+```
+
+
 ## EXPLORATORY ANALYSIS
 ### Van Krevelen domains
 ```{r vk_domains, fig.height=5, fig.width=5}
@@ -31,7 +54,7 @@ readd(gg_vankrevelens)$gg_sr_all
 ### RELATIVE ABUNDANCE
 
 ```{r relabund_barplot, fig.height=10, fig.width=10}
-readd(gg_relabund_bar)
+readd(gg_relabund_bar)$relabund_bar_trt
 ```
 
 ## HOW DID DRYING (CW VS. FAD) INFLUENCE CHEMISTRY?
@@ -61,7 +84,7 @@ readd(gg_pca)
 
 ## STATISTICS
 ### PERMANOVA
-```{r}
+```{r permanova}
 readd(fticr_permanova)
 ```
 

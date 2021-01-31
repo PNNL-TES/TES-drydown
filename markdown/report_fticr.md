@@ -3,6 +3,31 @@ FTICR
 
 This document contains results for FTICR-MS data.
 
+## TIME ZERO SAMPLES
+
+### Van Krevelen plots
+
+![](images-markdown-fticr/vk_tzero-1.png)<!-- -->
+
+### PCA
+
+![](images-markdown-fticr/pca_tzero-1.png)<!-- -->
+
+### PERMANOVA
+
+    #> # A tibble: 5 x 7
+    #>   term          df SumsOfSqs  MeanSqs F.Model     R2 p.value
+    #>   <chr>      <dbl>     <dbl>    <dbl>   <dbl>  <dbl>   <dbl>
+    #> 1 depth          1   0.00691  0.00691    4.24 0.241    0.026
+    #> 2 Site           1   0.00380  0.00380    2.33 0.132    0.109
+    #> 3 depth:Site     1   0.00172  0.00172    1.05 0.0598   0.376
+    #> 4 Residuals     10   0.0163   0.00163   NA    0.567   NA    
+    #> 5 Total         13   0.0287  NA         NA    1       NA
+
+### Relative abundance
+
+![](images-markdown-fticr/relabund_tzero-1.png)<!-- -->
+
 ## EXPLORATORY ANALYSIS
 
 ### Van Krevelen domains
@@ -62,20 +87,20 @@ This document contains results for FTICR-MS data.
     #> # A tibble: 17 x 7
     #>    term                 df SumsOfSqs   MeanSqs F.Model      R2 p.value
     #>    <chr>             <dbl>     <dbl>     <dbl>   <dbl>   <dbl>   <dbl>
-    #>  1 depth                 1   0.122    0.122     253.   0.275     0.001
-    #>  2 Site                  1   0.0151   0.0151     31.3  0.0341    0.001
-    #>  3 length                2   0.0110   0.00552    11.4  0.0249    0.001
-    #>  4 drying                1   0.0115   0.0115     23.8  0.0258    0.001
-    #>  5 saturation            1   0.126    0.126     261.   0.284     0.001
-    #>  6 depth:Site            1   0.00312  0.00312     6.46 0.00703   0.009
-    #>  7 depth:length          2   0.0133   0.00666    13.8  0.0300    0.001
-    #>  8 depth:drying          1   0.00769  0.00769    15.9  0.0173    0.001
-    #>  9 depth:saturation      1   0.0125   0.0125     26.0  0.0282    0.001
-    #> 10 Site:length           2   0.00541  0.00270     5.61 0.0122    0.004
-    #> 11 Site:drying           1   0.0260   0.0260     54.0  0.0588    0.001
-    #> 12 Site:saturation       1   0.00619  0.00619    12.8  0.0140    0.001
-    #> 13 length:drying         2   0.00410  0.00205     4.25 0.00925   0.013
-    #> 14 length:saturation     1   0.00677  0.00677    14.0  0.0153    0.001
-    #> 15 drying:saturation     1   0.00325  0.00325     6.75 0.00734   0.006
-    #> 16 Residuals           144   0.0694   0.000482   NA    0.157    NA    
-    #> 17 Total               163   0.443   NA          NA    1        NA
+    #>  1 depth                 1   0.0981   0.0981    179.   0.191     0.001
+    #>  2 Site                  1   0.0166   0.0166     30.4  0.0324    0.001
+    #>  3 length                3   0.0553   0.0184     33.7  0.108     0.001
+    #>  4 drying                1   0.0115   0.0115     21.0  0.0223    0.001
+    #>  5 saturation            1   0.125    0.125     228.   0.243     0.001
+    #>  6 depth:Site            1   0.00673  0.00673    12.3  0.0131    0.002
+    #>  7 depth:length          3   0.0425   0.0142     25.9  0.0828    0.001
+    #>  8 depth:drying          1   0.00770  0.00770    14.1  0.0150    0.001
+    #>  9 depth:saturation      1   0.0128   0.0128     23.4  0.0249    0.001
+    #> 10 Site:length           3   0.00627  0.00209     3.82 0.0122    0.005
+    #> 11 Site:drying           1   0.0260   0.0260     47.6  0.0507    0.001
+    #> 12 Site:saturation       1   0.00619  0.00619    11.3  0.0121    0.001
+    #> 13 length:drying         2   0.00410  0.00205     3.75 0.00798   0.019
+    #> 14 length:saturation     1   0.00677  0.00677    12.4  0.0132    0.001
+    #> 15 drying:saturation     1   0.00325  0.00325     5.94 0.00633   0.013
+    #> 16 Residuals           155   0.0848   0.000547   NA    0.165    NA    
+    #> 17 Total               177   0.514   NA          NA    1        NA
