@@ -1,191 +1,191 @@
-coreID,depth,Site,length,location,drying,rep,DOC_ID,saturation,
-C55,0-5cm,CPCRW,150d,low,CW,r4,DOC-001,saturated,
-C60,0-5cm,CPCRW,150d,low,CW,r1,DOC-002,saturated,
-C72,0-5cm,CPCRW,150d,low,CW,r3,DOC-003,saturated,
-C49,0-5cm,CPCRW,150d,low,FAD,r3,DOC-004,saturated,
-C46,0-5cm,CPCRW,150d,low,FAD,r4,DOC-005,saturated,
-C79,0-5cm,CPCRW,150d,low,FAD,r2,DOC-006,saturated,
-C28,0-5cm,CPCRW,150d,up,CW,r1,DOC-007,saturated,
-C4,0-5cm,CPCRW,150d,up,CW,r4,DOC-008,saturated,
-C26,0-5cm,CPCRW,150d,up,CW,r3,DOC-009,saturated,
-C35,0-5cm,CPCRW,150d,up,FAD,r2,DOC-010,saturated,
-C33,0-5cm,CPCRW,150d,up,FAD,r1,DOC-011,saturated,
-C8,0-5cm,CPCRW,150d,up,FAD,r3,DOC-012,saturated,
-C65,0-5cm,CPCRW,30d,low,CW,r3,DOC-013,saturated,
-C66,0-5cm,CPCRW,30d,low,CW,r2,DOC-014,saturated,
-C69,0-5cm,CPCRW,30d,low,CW,r1,DOC-015,saturated,
-C50,0-5cm,CPCRW,30d,low,FAD,r1,DOC-016,saturated,
-C44,0-5cm,CPCRW,30d,low,FAD,r3,DOC-017,saturated,
-C56,0-5cm,CPCRW,30d,low,FAD,r4,DOC-018,saturated,
-C20,0-5cm,CPCRW,30d,up,CW,r3,DOC-019,saturated,
-C3,0-5cm,CPCRW,30d,up,CW,r4,DOC-020,saturated,
-C9,0-5cm,CPCRW,30d,up,CW,r2,DOC-021,saturated,
-C6,0-5cm,CPCRW,30d,up,FAD,r1,DOC-022,saturated,
-C39,0-5cm,CPCRW,30d,up,FAD,r4,DOC-023,saturated,
-C27,0-5cm,CPCRW,30d,up,FAD,r3,DOC-024,saturated,
-C61,0-5cm,CPCRW,90d,low,CW,r2,DOC-025,saturated,
-C86,0-5cm,CPCRW,90d,low,CW,r1,DOC-026,saturated,
-C53,0-5cm,CPCRW,90d,low,CW,r4,DOC-027,saturated,
-C71,0-5cm,CPCRW,90d,low,FAD,r4,DOC-028,saturated,
-C77,0-5cm,CPCRW,90d,low,FAD,r1,DOC-029,saturated,
-C52,0-5cm,CPCRW,90d,low,FAD,r3,DOC-030,saturated,
-C34,0-5cm,CPCRW,90d,up,CW,r3,DOC-031,saturated,
-C15,0-5cm,CPCRW,90d,up,CW,r2,DOC-032,saturated,
-C11,0-5cm,CPCRW,90d,up,CW,r1,DOC-033,saturated,
-C1,0-5cm,CPCRW,90d,up,FAD,r1,DOC-034,saturated,
-C37,0-5cm,CPCRW,90d,up,FAD,r4,DOC-035,saturated,
-C18,0-5cm,CPCRW,90d,up,FAD,r3,DOC-036,saturated,
-C55,5cm-end,CPCRW,150d,low,CW,r4,DOC-037,saturated,
-C60,5cm-end,CPCRW,150d,low,CW,r1,DOC-038,saturated,
-C72,5cm-end,CPCRW,150d,low,CW,r3,DOC-039,saturated,
-C49,5cm-end,CPCRW,150d,low,FAD,r3,DOC-040,saturated,
-C46,5cm-end,CPCRW,150d,low,FAD,r4,DOC-041,saturated,
-C79,5cm-end,CPCRW,150d,low,FAD,r2,DOC-042,saturated,
-C28,5cm-end,CPCRW,150d,up,CW,r1,DOC-043,saturated,
-C4,5cm-end,CPCRW,150d,up,CW,r4,DOC-044,saturated,
-C26,5cm-end,CPCRW,150d,up,CW,r3,DOC-045,saturated,
-C35,5cm-end,CPCRW,150d,up,FAD,r2,DOC-046,saturated,
-C33,5cm-end,CPCRW,150d,up,FAD,r1,DOC-047,saturated,
-C8,5cm-end,CPCRW,150d,up,FAD,r3,DOC-048,saturated,
-C65,5cm-end,CPCRW,30d,low,CW,r3,DOC-049,saturated,
-C66,5cm-end,CPCRW,30d,low,CW,r2,DOC-050,saturated,
-C69,5cm-end,CPCRW,30d,low,CW,r1,DOC-051,saturated,
-C50,5cm-end,CPCRW,30d,low,FAD,r1,DOC-052,saturated,
-C44,5cm-end,CPCRW,30d,low,FAD,r3,DOC-053,saturated,
-C56,5cm-end,CPCRW,30d,low,FAD,r4,DOC-054,saturated,
-C20,5cm-end,CPCRW,30d,up,CW,r3,DOC-055,saturated,
-C3,5cm-end,CPCRW,30d,up,CW,r4,DOC-056,saturated,
-C9,5cm-end,CPCRW,30d,up,CW,r2,DOC-057,saturated,
-C6,5cm-end,CPCRW,30d,up,FAD,r1,DOC-058,saturated,
-C39,5cm-end,CPCRW,30d,up,FAD,r4,DOC-059,saturated,
-C27,5cm-end,CPCRW,30d,up,FAD,r3,DOC-060,saturated,
-C61,5cm-end,CPCRW,90d,low,CW,r2,DOC-061,saturated,
-C86,5cm-end,CPCRW,90d,low,CW,r1,DOC-062,saturated,
-C53,5cm-end,CPCRW,90d,low,CW,r4,DOC-063,saturated,
-C71,5cm-end,CPCRW,90d,low,FAD,r4,DOC-064,saturated,
-C77,5cm-end,CPCRW,90d,low,FAD,r1,DOC-065,saturated,
-C52,5cm-end,CPCRW,90d,low,FAD,r3,DOC-066,saturated,
-C34,5cm-end,CPCRW,90d,up,CW,r3,DOC-067,saturated,
-C15,5cm-end,CPCRW,90d,up,CW,r2,DOC-068,saturated,
-C11,5cm-end,CPCRW,90d,up,CW,r1,DOC-069,saturated,
-C1,5cm-end,CPCRW,90d,up,FAD,r1,DOC-070,saturated,
-C37,5cm-end,CPCRW,90d,up,FAD,r4,DOC-071,saturated,
-C18,5cm-end,CPCRW,90d,up,FAD,r3,DOC-072,saturated,
-S13,0-5cm,SR,150d,low,CW,r2,DOC-073,saturated,
-S26,0-5cm,SR,150d,low,CW,r3,DOC-074,saturated,
-S4,0-5cm,SR,150d,low,CW,r4,DOC-075,saturated,
-S8,0-5cm,SR,150d,low,FAD,r3,DOC-076,saturated,
-S49,0-5cm,SR,150d,low,FAD,r3,DOC-077,saturated,
-S14,0-5cm,SR,150d,low,FAD,r4,DOC-078,saturated,
-S56,0-5cm,SR,150d,up,CW,r4,DOC-079,saturated,
-S61,0-5cm,SR,150d,up,CW,r1,DOC-080,saturated,
-S63,0-5cm,SR,150d,up,CW,r2,DOC-081,saturated,
-S80,0-5cm,SR,150d,up,FAD,r2,DOC-082,saturated,
-S86,0-5cm,SR,150d,up,FAD,r1,DOC-083,saturated,
-S3,0-5cm,SR,30d,low,CW,r4,DOC-084,saturated,
-S9,0-5cm,SR,30d,low,CW,r2,DOC-085,saturated,
-S20,0-5cm,SR,30d,low,CW,r3,DOC-086,saturated,
-S27,0-5cm,SR,30d,low,FAD,r3,DOC-087,saturated,
-S16,0-5cm,SR,30d,low,FAD,r2,DOC-088,saturated,
-S39,0-5cm,SR,30d,low,FAD,r4,DOC-089,saturated,
-S83,0-5cm,SR,30d,up,CW,r1,DOC-090,saturated,
-S54,0-5cm,SR,30d,up,CW,r4,DOC-091,saturated,
-S66,0-5cm,SR,30d,up,CW,r3,DOC-092,saturated,
-S57,0-5cm,SR,30d,up,FAD,r4,DOC-093,saturated,
-S76,0-5cm,SR,30d,up,FAD,r2,DOC-094,saturated,
-S15,0-5cm,SR,90d,low,CW,r2,DOC-095,saturated,
-S11,0-5cm,SR,90d,low,CW,r1,DOC-096,saturated,
-S25,0-5cm,SR,90d,low,CW,r4,DOC-097,saturated,
-S1,0-5cm,SR,90d,low,FAD,r1,DOC-098,saturated,
-S18,0-5cm,SR,90d,low,FAD,r3,DOC-099,saturated,
-S37,0-5cm,SR,90d,low,FAD,r4,DOC-100,saturated,
-S53,0-5cm,SR,90d,up,CW,r4,DOC-101,saturated,
-S87,0-5cm,SR,90d,up,CW,r1,DOC-102,saturated,
-S65,0-5cm,SR,90d,up,CW,r3,DOC-103,saturated,
-S52,0-5cm,SR,90d,up,FAD,r3,DOC-104,saturated,
-S72,0-5cm,SR,90d,up,FAD,r4,DOC-105,saturated,
-S78,0-5cm,SR,90d,up,FAD,r1,DOC-106,saturated,
-S13,5cm-end,SR,150d,low,CW,r2,DOC-107,saturated,
-S26,5cm-end,SR,150d,low,CW,r3,DOC-108,saturated,
-S4,5cm-end,SR,150d,low,CW,r4,DOC-109,saturated,
-S8,5cm-end,SR,150d,low,FAD,r3,DOC-110,saturated,
-S49,5cm-end,SR,150d,low,FAD,r3,DOC-111,saturated,
-S14,5cm-end,SR,150d,low,FAD,r4,DOC-112,saturated,
-S56,5cm-end,SR,150d,up,CW,r4,DOC-113,saturated,
-S61,5cm-end,SR,150d,up,CW,r1,DOC-114,saturated,
-S63,5cm-end,SR,150d,up,CW,r2,DOC-115,saturated,
-S80,5cm-end,SR,150d,up,FAD,r2,DOC-116,saturated,
-S86,5cm-end,SR,150d,up,FAD,r1,DOC-117,saturated,
-S3,5cm-end,SR,30d,low,CW,r4,DOC-118,saturated,
-S9,5cm-end,SR,30d,low,CW,r2,DOC-119,saturated,
-S20,5cm-end,SR,30d,low,CW,r3,DOC-120,saturated,
-S27,5cm-end,SR,30d,low,FAD,r3,DOC-121,saturated,
-S16,5cm-end,SR,30d,low,FAD,r2,DOC-122,saturated,
-S39,5cm-end,SR,30d,low,FAD,r4,DOC-123,saturated,
-S83,5cm-end,SR,30d,up,CW,r1,DOC-124,saturated,
-S54,5cm-end,SR,30d,up,CW,r4,DOC-125,saturated,
-S66,5cm-end,SR,30d,up,CW,r3,DOC-126,saturated,
-S57,5cm-end,SR,30d,up,FAD,r4,DOC-127,saturated,
-S76,5cm-end,SR,30d,up,FAD,r2,DOC-128,saturated,
-S15,5cm-end,SR,90d,low,CW,r2,DOC-129,saturated,
-S11,5cm-end,SR,90d,low,CW,r1,DOC-130,saturated,
-S25,5cm-end,SR,90d,low,CW,r4,DOC-131,saturated,
-S1,5cm-end,SR,90d,low,FAD,r1,DOC-132,saturated,
-S18,5cm-end,SR,90d,low,FAD,r3,DOC-133,saturated,
-S37,5cm-end,SR,90d,low,FAD,r4,DOC-134,saturated,
-S53,5cm-end,SR,90d,up,CW,r4,DOC-135,saturated,
-S87,5cm-end,SR,90d,up,CW,r1,DOC-136,saturated,
-S65,5cm-end,SR,90d,up,CW,r3,DOC-137,saturated,
-S52,5cm-end,SR,90d,up,FAD,r3,DOC-138,saturated,
-S72,5cm-end,SR,90d,up,FAD,r4,DOC-139,saturated,
-S78,5cm-end,SR,90d,up,FAD,r1,DOC-140,saturated,
-C78,0-5cm,CPCRW,90d,,CW,r1,DOC-141,instant chemistry,90cw
-C76,0-5cm,CPCRW,90d,,CW,r2,DOC-142,instant chemistry,90cw
-C84,0-5cm,CPCRW,90d,,CW,r3,DOC-143,instant chemistry,90cw
-C70,0-5cm,CPCRW,90d,,FAD,r1,DOC-144,instant chemistry,90fad
-C80,0-5cm,CPCRW,90d,,FAD,r2,DOC-145,instant chemistry,90fad
-C83,0-5cm,CPCRW,90d,,FAD,r3,DOC-146,instant chemistry,90fad
-C78,5cm-end,CPCRW,90d,,CW,r1,DOC-147,instant chemistry,90cw
-C76,5cm-end,CPCRW,90d,,CW,r2,DOC-148,instant chemistry,90cw
-C84,5cm-end,CPCRW,90d,,CW,r3,DOC-149,instant chemistry,90cw
-C70,5cm-end,CPCRW,90d,,FAD,r1,DOC-150,instant chemistry,90fad
-C80,5cm-end,CPCRW,90d,,FAD,r2,DOC-151,instant chemistry,90fad
-C83,5cm-end,CPCRW,90d,,FAD,r3,DOC-152,instant chemistry,90fad
-S91,0-5cm,SR,30d,,CW,r1,DOC-153,instant chemistry,30daycw
-S24,0-5cm,SR,30d,,CW,r2,DOC-154,instant chemistry,30daycw
-S81,0-5cm,SR,30d,,CW,r3,DOC-155,instant chemistry,30daycw
-S45,0-5cm,SR,30d,,FAD,r1,DOC-156,instant chemistry,30dayfad
-S43,0-5cm,SR,30d,,FAD,r2,DOC-157,instant chemistry,30dayfad
-S79,0-5cm,SR,30d,,FAD,r3,DOC-158,instant chemistry,30dayfad
-S95,0-5cm,SR,90d,,CW,r1,DOC-159,instant chemistry,90daycw
-S84,0-5cm,SR,90d,,CW,r2,DOC-160,instant chemistry,90daycw
-S32,0-5cm,SR,90d,,CW,r3,DOC-161,instant chemistry,90daycw
-S21,0-5cm,SR,90d,,FAD,r1,DOC-162,instant chemistry,90dayfad
-S47,0-5cm,SR,90d,,FAD,r2,DOC-163,instant chemistry,90dayfad
-S89,0-5cm,SR,90d,,FAD,r3,DOC-164,instant chemistry,90dayfad
-S91,5cm-end,SR,30d,,CW,r1,DOC-165,instant chemistry,30daycw
-S24,5cm-end,SR,30d,,CW,r2,DOC-166,instant chemistry,30daycw
-S81,5cm-end,SR,30d,,CW,r3,DOC-167,instant chemistry,30daycw
-S45,5cm-end,SR,30d,,FAD,r1,DOC-168,instant chemistry,30dayfad
-S43,5cm-end,SR,30d,,FAD,r2,DOC-169,instant chemistry,30dayfad
-S79,5cm-end,SR,30d,,FAD,r3,DOC-170,instant chemistry,30dayfad
-S95,5cm-end,SR,90d,,CW,r1,DOC-171,instant chemistry,90daycw
-S84,5cm-end,SR,90d,,CW,r2,DOC-172,instant chemistry,90daycw
-S32,5cm-end,SR,90d,,CW,r3,DOC-173,instant chemistry,90daycw
-S21,5cm-end,SR,90d,,FAD,r1,DOC-174,instant chemistry,90dayfad
-S47,5cm-end,SR,90d,,FAD,r2,DOC-175,instant chemistry,90dayfad
-S89,5cm-end,SR,90d,,FAD,r3,DOC-176,instant chemistry,90dayfad
-C67,0-5cm,CPCRW,timezero,,,,DOC-177,,
-C73,0-5cm,CPCRW,timezero,,,,DOC-178,,
-C81,0-5cm,CPCRW,timezero,,,,DOC-179,,
-C29,0-5cm,CPCRW,timezero,,,,DOC-180,,
-C67,5cm-end,CPCRW,timezero,,,,DOC-181,,
-C73,5cm-end,CPCRW,timezero,,,,DOC-182,,
-C81,5cm-end,CPCRW,timezero,,,,DOC-183,,
-C29,5cm-end,CPCRW,timezero,,,,DOC-184,,
-S58,0-5cm,SR,timezero,,,,DOC-185,,
-S25,0-5cm,SR,timezero,,,,DOC-186,,
-S92,0-5cm,SR,timezero,,,,DOC-187,,
-S58,5cm-end,SR,timezero,,,,DOC-188,,
-S25,5cm-end,SR,timezero,,,,DOC-189,,
-S92,5cm-end,SR,timezero,,,,DOC-190,,
+coreID,depth,Site,length,location,drying,rep,DOC_ID,saturation
+C55,0-5cm,CPCRW,150d,low,CW,r4,DOC-001,saturated
+C60,0-5cm,CPCRW,150d,low,CW,r1,DOC-002,saturated
+C72,0-5cm,CPCRW,150d,low,CW,r3,DOC-003,saturated
+C49,0-5cm,CPCRW,150d,low,FAD,r3,DOC-004,saturated
+C46,0-5cm,CPCRW,150d,low,FAD,r4,DOC-005,saturated
+C79,0-5cm,CPCRW,150d,low,FAD,r2,DOC-006,saturated
+C28,0-5cm,CPCRW,150d,up,CW,r1,DOC-007,saturated
+C4,0-5cm,CPCRW,150d,up,CW,r4,DOC-008,saturated
+C26,0-5cm,CPCRW,150d,up,CW,r3,DOC-009,saturated
+C35,0-5cm,CPCRW,150d,up,FAD,r2,DOC-010,saturated
+C33,0-5cm,CPCRW,150d,up,FAD,r1,DOC-011,saturated
+C8,0-5cm,CPCRW,150d,up,FAD,r3,DOC-012,saturated
+C65,0-5cm,CPCRW,30d,low,CW,r3,DOC-013,saturated
+C66,0-5cm,CPCRW,30d,low,CW,r2,DOC-014,saturated
+C69,0-5cm,CPCRW,30d,low,CW,r1,DOC-015,saturated
+C50,0-5cm,CPCRW,30d,low,FAD,r1,DOC-016,saturated
+C44,0-5cm,CPCRW,30d,low,FAD,r3,DOC-017,saturated
+C56,0-5cm,CPCRW,30d,low,FAD,r4,DOC-018,saturated
+C20,0-5cm,CPCRW,30d,up,CW,r3,DOC-019,saturated
+C3,0-5cm,CPCRW,30d,up,CW,r4,DOC-020,saturated
+C9,0-5cm,CPCRW,30d,up,CW,r2,DOC-021,saturated
+C6,0-5cm,CPCRW,30d,up,FAD,r1,DOC-022,saturated
+C39,0-5cm,CPCRW,30d,up,FAD,r4,DOC-023,saturated
+C27,0-5cm,CPCRW,30d,up,FAD,r3,DOC-024,saturated
+C61,0-5cm,CPCRW,90d,low,CW,r2,DOC-025,saturated
+C86,0-5cm,CPCRW,90d,low,CW,r1,DOC-026,saturated
+C53,0-5cm,CPCRW,90d,low,CW,r4,DOC-027,saturated
+C71,0-5cm,CPCRW,90d,low,FAD,r4,DOC-028,saturated
+C77,0-5cm,CPCRW,90d,low,FAD,r1,DOC-029,saturated
+C52,0-5cm,CPCRW,90d,low,FAD,r3,DOC-030,saturated
+C34,0-5cm,CPCRW,90d,up,CW,r3,DOC-031,saturated
+C15,0-5cm,CPCRW,90d,up,CW,r2,DOC-032,saturated
+C11,0-5cm,CPCRW,90d,up,CW,r1,DOC-033,saturated
+C1,0-5cm,CPCRW,90d,up,FAD,r1,DOC-034,saturated
+C37,0-5cm,CPCRW,90d,up,FAD,r4,DOC-035,saturated
+C18,0-5cm,CPCRW,90d,up,FAD,r3,DOC-036,saturated
+C55,5cm-end,CPCRW,150d,low,CW,r4,DOC-037,saturated
+C60,5cm-end,CPCRW,150d,low,CW,r1,DOC-038,saturated
+C72,5cm-end,CPCRW,150d,low,CW,r3,DOC-039,saturated
+C49,5cm-end,CPCRW,150d,low,FAD,r3,DOC-040,saturated
+C46,5cm-end,CPCRW,150d,low,FAD,r4,DOC-041,saturated
+C79,5cm-end,CPCRW,150d,low,FAD,r2,DOC-042,saturated
+C28,5cm-end,CPCRW,150d,up,CW,r1,DOC-043,saturated
+C4,5cm-end,CPCRW,150d,up,CW,r4,DOC-044,saturated
+C26,5cm-end,CPCRW,150d,up,CW,r3,DOC-045,saturated
+C35,5cm-end,CPCRW,150d,up,FAD,r2,DOC-046,saturated
+C33,5cm-end,CPCRW,150d,up,FAD,r1,DOC-047,saturated
+C8,5cm-end,CPCRW,150d,up,FAD,r3,DOC-048,saturated
+C65,5cm-end,CPCRW,30d,low,CW,r3,DOC-049,saturated
+C66,5cm-end,CPCRW,30d,low,CW,r2,DOC-050,saturated
+C69,5cm-end,CPCRW,30d,low,CW,r1,DOC-051,saturated
+C50,5cm-end,CPCRW,30d,low,FAD,r1,DOC-052,saturated
+C44,5cm-end,CPCRW,30d,low,FAD,r3,DOC-053,saturated
+C56,5cm-end,CPCRW,30d,low,FAD,r4,DOC-054,saturated
+C20,5cm-end,CPCRW,30d,up,CW,r3,DOC-055,saturated
+C3,5cm-end,CPCRW,30d,up,CW,r4,DOC-056,saturated
+C9,5cm-end,CPCRW,30d,up,CW,r2,DOC-057,saturated
+C6,5cm-end,CPCRW,30d,up,FAD,r1,DOC-058,saturated
+C39,5cm-end,CPCRW,30d,up,FAD,r4,DOC-059,saturated
+C27,5cm-end,CPCRW,30d,up,FAD,r3,DOC-060,saturated
+C61,5cm-end,CPCRW,90d,low,CW,r2,DOC-061,saturated
+C86,5cm-end,CPCRW,90d,low,CW,r1,DOC-062,saturated
+C53,5cm-end,CPCRW,90d,low,CW,r4,DOC-063,saturated
+C71,5cm-end,CPCRW,90d,low,FAD,r4,DOC-064,saturated
+C77,5cm-end,CPCRW,90d,low,FAD,r1,DOC-065,saturated
+C52,5cm-end,CPCRW,90d,low,FAD,r3,DOC-066,saturated
+C34,5cm-end,CPCRW,90d,up,CW,r3,DOC-067,saturated
+C15,5cm-end,CPCRW,90d,up,CW,r2,DOC-068,saturated
+C11,5cm-end,CPCRW,90d,up,CW,r1,DOC-069,saturated
+C1,5cm-end,CPCRW,90d,up,FAD,r1,DOC-070,saturated
+C37,5cm-end,CPCRW,90d,up,FAD,r4,DOC-071,saturated
+C18,5cm-end,CPCRW,90d,up,FAD,r3,DOC-072,saturated
+S13,0-5cm,SR,150d,low,CW,r2,DOC-073,saturated
+S26,0-5cm,SR,150d,low,CW,r3,DOC-074,saturated
+S4,0-5cm,SR,150d,low,CW,r4,DOC-075,saturated
+S8,0-5cm,SR,150d,low,FAD,r3,DOC-076,saturated
+S49,0-5cm,SR,150d,low,FAD,r3,DOC-077,saturated
+S14,0-5cm,SR,150d,low,FAD,r4,DOC-078,saturated
+S56,0-5cm,SR,150d,up,CW,r4,DOC-079,saturated
+S61,0-5cm,SR,150d,up,CW,r1,DOC-080,saturated
+S63,0-5cm,SR,150d,up,CW,r2,DOC-081,saturated
+S80,0-5cm,SR,150d,up,FAD,r2,DOC-082,saturated
+S86,0-5cm,SR,150d,up,FAD,r1,DOC-083,saturated
+S3,0-5cm,SR,30d,low,CW,r4,DOC-084,saturated
+S9,0-5cm,SR,30d,low,CW,r2,DOC-085,saturated
+S20,0-5cm,SR,30d,low,CW,r3,DOC-086,saturated
+S27,0-5cm,SR,30d,low,FAD,r3,DOC-087,saturated
+S16,0-5cm,SR,30d,low,FAD,r2,DOC-088,saturated
+S39,0-5cm,SR,30d,low,FAD,r4,DOC-089,saturated
+S83,0-5cm,SR,30d,up,CW,r1,DOC-090,saturated
+S54,0-5cm,SR,30d,up,CW,r4,DOC-091,saturated
+S66,0-5cm,SR,30d,up,CW,r3,DOC-092,saturated
+S57,0-5cm,SR,30d,up,FAD,r4,DOC-093,saturated
+S76,0-5cm,SR,30d,up,FAD,r2,DOC-094,saturated
+S15,0-5cm,SR,90d,low,CW,r2,DOC-095,saturated
+S11,0-5cm,SR,90d,low,CW,r1,DOC-096,saturated
+S25,0-5cm,SR,90d,low,CW,r4,DOC-097,saturated
+S1,0-5cm,SR,90d,low,FAD,r1,DOC-098,saturated
+S18,0-5cm,SR,90d,low,FAD,r3,DOC-099,saturated
+S37,0-5cm,SR,90d,low,FAD,r4,DOC-100,saturated
+S53,0-5cm,SR,90d,up,CW,r4,DOC-101,saturated
+S87,0-5cm,SR,90d,up,CW,r1,DOC-102,saturated
+S65,0-5cm,SR,90d,up,CW,r3,DOC-103,saturated
+S52,0-5cm,SR,90d,up,FAD,r3,DOC-104,saturated
+S72,0-5cm,SR,90d,up,FAD,r4,DOC-105,saturated
+S78,0-5cm,SR,90d,up,FAD,r1,DOC-106,saturated
+S13,5cm-end,SR,150d,low,CW,r2,DOC-107,saturated
+S26,5cm-end,SR,150d,low,CW,r3,DOC-108,saturated
+S4,5cm-end,SR,150d,low,CW,r4,DOC-109,saturated
+S8,5cm-end,SR,150d,low,FAD,r3,DOC-110,saturated
+S49,5cm-end,SR,150d,low,FAD,r3,DOC-111,saturated
+S14,5cm-end,SR,150d,low,FAD,r4,DOC-112,saturated
+S56,5cm-end,SR,150d,up,CW,r4,DOC-113,saturated
+S61,5cm-end,SR,150d,up,CW,r1,DOC-114,saturated
+S63,5cm-end,SR,150d,up,CW,r2,DOC-115,saturated
+S80,5cm-end,SR,150d,up,FAD,r2,DOC-116,saturated
+S86,5cm-end,SR,150d,up,FAD,r1,DOC-117,saturated
+S3,5cm-end,SR,30d,low,CW,r4,DOC-118,saturated
+S9,5cm-end,SR,30d,low,CW,r2,DOC-119,saturated
+S20,5cm-end,SR,30d,low,CW,r3,DOC-120,saturated
+S27,5cm-end,SR,30d,low,FAD,r3,DOC-121,saturated
+S16,5cm-end,SR,30d,low,FAD,r2,DOC-122,saturated
+S39,5cm-end,SR,30d,low,FAD,r4,DOC-123,saturated
+S83,5cm-end,SR,30d,up,CW,r1,DOC-124,saturated
+S54,5cm-end,SR,30d,up,CW,r4,DOC-125,saturated
+S66,5cm-end,SR,30d,up,CW,r3,DOC-126,saturated
+S57,5cm-end,SR,30d,up,FAD,r4,DOC-127,saturated
+S76,5cm-end,SR,30d,up,FAD,r2,DOC-128,saturated
+S15,5cm-end,SR,90d,low,CW,r2,DOC-129,saturated
+S11,5cm-end,SR,90d,low,CW,r1,DOC-130,saturated
+S25,5cm-end,SR,90d,low,CW,r4,DOC-131,saturated
+S1,5cm-end,SR,90d,low,FAD,r1,DOC-132,saturated
+S18,5cm-end,SR,90d,low,FAD,r3,DOC-133,saturated
+S37,5cm-end,SR,90d,low,FAD,r4,DOC-134,saturated
+S53,5cm-end,SR,90d,up,CW,r4,DOC-135,saturated
+S87,5cm-end,SR,90d,up,CW,r1,DOC-136,saturated
+S65,5cm-end,SR,90d,up,CW,r3,DOC-137,saturated
+S52,5cm-end,SR,90d,up,FAD,r3,DOC-138,saturated
+S72,5cm-end,SR,90d,up,FAD,r4,DOC-139,saturated
+S78,5cm-end,SR,90d,up,FAD,r1,DOC-140,saturated
+C78,0-5cm,CPCRW,90d,,CW,r1,DOC-141,instant chemistry
+C76,0-5cm,CPCRW,90d,,CW,r2,DOC-142,instant chemistry
+C84,0-5cm,CPCRW,90d,,CW,r3,DOC-143,instant chemistry
+C70,0-5cm,CPCRW,90d,,FAD,r1,DOC-144,instant chemistry
+C80,0-5cm,CPCRW,90d,,FAD,r2,DOC-145,instant chemistry
+C83,0-5cm,CPCRW,90d,,FAD,r3,DOC-146,instant chemistry
+C78,5cm-end,CPCRW,90d,,CW,r1,DOC-147,instant chemistry
+C76,5cm-end,CPCRW,90d,,CW,r2,DOC-148,instant chemistry
+C84,5cm-end,CPCRW,90d,,CW,r3,DOC-149,instant chemistry
+C70,5cm-end,CPCRW,90d,,FAD,r1,DOC-150,instant chemistry
+C80,5cm-end,CPCRW,90d,,FAD,r2,DOC-151,instant chemistry
+C83,5cm-end,CPCRW,90d,,FAD,r3,DOC-152,instant chemistry
+S91,0-5cm,SR,30d,,CW,r1,DOC-153,instant chemistry
+S24,0-5cm,SR,30d,,CW,r2,DOC-154,instant chemistry
+S81,0-5cm,SR,30d,,CW,r3,DOC-155,instant chemistry
+S45,0-5cm,SR,30d,,FAD,r1,DOC-156,instant chemistry
+S43,0-5cm,SR,30d,,FAD,r2,DOC-157,instant chemistry
+S79,0-5cm,SR,30d,,FAD,r3,DOC-158,instant chemistry
+S95,0-5cm,SR,90d,,CW,r1,DOC-159,instant chemistry
+S84,0-5cm,SR,90d,,CW,r2,DOC-160,instant chemistry
+S32,0-5cm,SR,90d,,CW,r3,DOC-161,instant chemistry
+S21,0-5cm,SR,90d,,FAD,r1,DOC-162,instant chemistry
+S47,0-5cm,SR,90d,,FAD,r2,DOC-163,instant chemistry
+S89,0-5cm,SR,90d,,FAD,r3,DOC-164,instant chemistry
+S91,5cm-end,SR,30d,,CW,r1,DOC-165,instant chemistry
+S24,5cm-end,SR,30d,,CW,r2,DOC-166,instant chemistry
+S81,5cm-end,SR,30d,,CW,r3,DOC-167,instant chemistry
+S45,5cm-end,SR,30d,,FAD,r1,DOC-168,instant chemistry
+S43,5cm-end,SR,30d,,FAD,r2,DOC-169,instant chemistry
+S79,5cm-end,SR,30d,,FAD,r3,DOC-170,instant chemistry
+S95,5cm-end,SR,90d,,CW,r1,DOC-171,instant chemistry
+S84,5cm-end,SR,90d,,CW,r2,DOC-172,instant chemistry
+S32,5cm-end,SR,90d,,CW,r3,DOC-173,instant chemistry
+S21,5cm-end,SR,90d,,FAD,r1,DOC-174,instant chemistry
+S47,5cm-end,SR,90d,,FAD,r2,DOC-175,instant chemistry
+S89,5cm-end,SR,90d,,FAD,r3,DOC-176,instant chemistry
+C67,0-5cm,CPCRW,timezero,,,,DOC-177,timezero
+C73,0-5cm,CPCRW,timezero,,,,DOC-178,timezero
+C81,0-5cm,CPCRW,timezero,,,,DOC-179,timezero
+C29,0-5cm,CPCRW,timezero,,,,DOC-180,timezero
+C67,5cm-end,CPCRW,timezero,,,,DOC-181,timezero
+C73,5cm-end,CPCRW,timezero,,,,DOC-182,timezero
+C81,5cm-end,CPCRW,timezero,,,,DOC-183,timezero
+C29,5cm-end,CPCRW,timezero,,,,DOC-184,timezero
+S58,0-5cm,SR,timezero,,,,DOC-185,timezero
+S25,0-5cm,SR,timezero,,,,DOC-186,timezero
+S92,0-5cm,SR,timezero,,,,DOC-187,timezero
+S58,5cm-end,SR,timezero,,,,DOC-188,timezero
+S25,5cm-end,SR,timezero,,,,DOC-189,timezero
+S92,5cm-end,SR,timezero,,,,DOC-190,timezero
