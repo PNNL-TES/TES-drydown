@@ -54,12 +54,36 @@ plot_relabund = function(relabund_cores, TREATMENTS){
                      se  = round((sd(relabund/sqrt(n()))),2),
                      relative_abundance = paste(rel_abund, "\u00b1",se)) %>% 
     ungroup() %>% 
-    mutate(Class = factor(Class, levels = c("aliphatic", "unsaturated/lignin", "aromatic", "condensed aromatic")))
+    mutate(Class = factor(Class, levels = c("aliphatic", "unsaturated/lignin", "aromatic", "condensed aromatic"))) %>% 
+    mutate(length = factor(length, levels = c("timezero", "30d", "90d", "150d"))) %>% 
+    filter(!is.na(Class))
   
-  relabund_trt %>% 
+  relabund_bar_trt = 
+    relabund_trt %>% 
+    filter(length != "timezero") %>% 
     ggplot(aes(x = length, y = rel_abund, fill = Class))+
     geom_bar(stat = "identity")+
+    scale_fill_manual(values = PNWColors::pnw_palette("Sailboat"))+
+    labs(title = "relative abundance",
+         x = "",
+         y = "% relative abundance")+
+    facet_grid(Site+depth~drying+saturation)+
     theme_kp()
+  
+  relabund_bar_tzero = 
+    relabund_trt %>% 
+    filter(length == "timezero") %>% 
+    ggplot(aes(x = depth, y = rel_abund, fill = Class))+
+    geom_bar(stat = "identity")+
+    scale_fill_manual(values = PNWColors::pnw_palette("Sailboat"))+
+    labs(title = "time zero relative abundance",
+         x = "",
+         y = "% relative abundance")+
+    facet_grid(. ~ Site)+
+    theme_kp()
+  
+  list(relabund_bar_trt = relabund_bar_trt,
+       relabund_bar_tzero = relabund_bar_tzero)
 }
 
 
