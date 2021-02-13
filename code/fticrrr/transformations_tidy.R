@@ -48,17 +48,20 @@ fticr_processing_plan_for_transformations = drake_plan(
   
   t1 = print(Sys.time()),
   
-  transformations_c = compute_transformations(dat = fticr_data_trt %>% filter(Site == "CPCRW" & length != "timezero"),
+  transformations_c = compute_transformations(dat = fticr_data_trt %>% 
+                                                filter(Site == "CPCRW" & length != "timezero"),
                                               meta_formula = meta_formula, 
                                               biotic_class = biotic_class),
-#  transformations_c = fticr_data_trt %>% filter(Site == "CPCRW" & length != "timezero") %>% do(compute_transformations(.)),
-  t2 = print(Sys.time()),
-#  transformations_s = fticr_data_trt %>% filter(Site == "SR" & length != "timezero") %>% do(compute_transformations(.)),
-  t3 = print(Sys.time()),
-#  transformations_tz = fticr_data_trt %>% filter(length == "timezero") %>% do(compute_transformations(.)),
-  t4 = print(Sys.time()),
-  
- # transformation_summary = compute_transformation_summaries(transformations_c, transformations_s, transformations_tz)
+  transformations_s = compute_transformations(dat = fticr_data_trt %>% 
+                                                filter(Site == "SR" & length != "timezero"),
+                                              meta_formula = meta_formula, 
+                                              biotic_class = biotic_class),
+  transformations_tz = compute_transformations(dat = fticr_data_trt %>% 
+                                                filter(length == "timezero"),
+                                              meta_formula = meta_formula, 
+                                              biotic_class = biotic_class),
+
+  transformation_summary = compute_transformation_summaries(transformations_c, transformations_s, transformations_tz)
   
   
 )
@@ -157,15 +160,15 @@ compute_transformations = function(meta_formula, dat, biotic_class){
         ##    filter(Biotic_abiotic != "NA")
   
   ## then merge this with the distance results
-  distance_biotic = 
-    distance_results_clean %>% 
+  #distance_biotic = 
+  distance_results_clean %>% 
     left_join(biotic_class2, by = c("Trans_name" = "Name")) %>% 
     drop_na()   
   
   ## THIS IS OUR PRIMARY OUTPUT FILE
   
   
-  list(distance_biotic = distance_biotic)
+  #list(distance_biotic = distance_biotic)
 }
 
 compute_transformation_summaries = function(transformations_c, transformations_s, transformations_tz){
@@ -186,7 +189,7 @@ compute_transformation_summaries = function(transformations_c, transformations_s
   # 3. calculate transformation counts per sample ---------------------------
   ## how many times was each transformation seen?
   transformation_count_long = 
-    distance_biotic %>% 
+    combined_transformations %>% 
     group_by(sample, Biotic_abiotic, Trans_name) %>% 
     dplyr::summarise(count = n()) %>% 
     group_by(sample) %>% 
