@@ -1,0 +1,12 @@
+##TITLE= Audit trail, TopSpin 3.6.0
+##JCAMPDX= 5.01
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmr
+$$ C:/Bruker/TopSpin3.6.0/data/sfansler/nmr/drydown_012_dmso/1/audita.txt
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2021-02-09 00:11:20.459 -0800>,<nmr>,<bsf2231>,<go4>,<TopSpin 3.6.0>,
+      <acquisition in progress>)
+##END=
+
+$$ hash MD5
+$$ 10 D7 FE EA 25 D6 00 95 67 8B AA 82 7A F5 28 5C
