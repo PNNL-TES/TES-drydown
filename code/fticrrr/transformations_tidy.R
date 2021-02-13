@@ -64,6 +64,15 @@ fticr_processing_plan_for_transformations = drake_plan(
 
 compute_transformations = function(meta_formula, fticr_data_trt, biotic_class){
 
+# 0. format the biotic/abiotic input file ---------------------------------
+
+  biotic_class2 = 
+    biotic_class %>% 
+    filter(is.na(Notes)) %>% 
+    mutate(Biotic_abiotic = recode(Biotic_abiotic, "Biotic/abiotic" = "both")) %>% 
+    dplyr::select(-Notes) %>% 
+    filter(Biotic_abiotic != "NA")
+  
   # 1. format the data file -------------------------------------------
   ## fticr_data_trt has formula, but not mass. we need to add a mass column for the transformations
   meta_formula2 = 
