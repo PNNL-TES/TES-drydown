@@ -47,25 +47,32 @@ fticr_processing_plan_for_transformations = drake_plan(
   error_term = 0.000010,
   
   t1 = print(Sys.time()),
-  transformations_c = fticr_data_trt %>% filter(Site == "CPCRW" & length != "timezero") %>% do(compute_transformations(.)),
+  
+  transformations_c = compute_transformations(dat = fticr_data_trt %>% filter(Site == "CPCRW" & length != "timezero"),
+                                              meta_formula = meta_formula, 
+                                              biotic_class = biotic_class),
+#  transformations_c = fticr_data_trt %>% filter(Site == "CPCRW" & length != "timezero") %>% do(compute_transformations(.)),
   t2 = print(Sys.time()),
-  transformations_s = fticr_data_trt %>% filter(Site == "SR" & length != "timezero") %>% do(compute_transformations(.)),
+#  transformations_s = fticr_data_trt %>% filter(Site == "SR" & length != "timezero") %>% do(compute_transformations(.)),
   t3 = print(Sys.time()),
-  transformations_tz = fticr_data_trt %>% filter(length == "timezero") %>% do(compute_transformations(.)),
+#  transformations_tz = fticr_data_trt %>% filter(length == "timezero") %>% do(compute_transformations(.)),
   t4 = print(Sys.time()),
   
-  transformation_summary = compute_transformation_summaries(transformations_c, transformations_s, transformations_tz)
+ # transformation_summary = compute_transformation_summaries(transformations_c, transformations_s, transformations_tz)
   
   
 )
 
+make(fticr_processing_plan_for_transformations)
+
 
 # TRANSFORMATIONS FUNCTIONS -----------------------------------------------
 
-compute_transformations = function(meta_formula, fticr_data_trt, biotic_class){
+compute_transformations = function(meta_formula, dat, biotic_class){
 
 # 0. format the biotic/abiotic input file ---------------------------------
-
+  error_term = 0.000010
+  
   biotic_class2 = 
     biotic_class %>% 
     filter(is.na(Notes)) %>% 
@@ -81,7 +88,7 @@ compute_transformations = function(meta_formula, fticr_data_trt, biotic_class){
     dplyr::summarise(Mass = mean(Mass))
   
   fticr_data_trt_with_mass = 
-    fticr_data_trt %>% 
+    dat %>% 
     left_join(meta_formula2) %>% 
     mutate(sample = paste(depth, Site, length, drying, saturation, sep = "_"))
   
