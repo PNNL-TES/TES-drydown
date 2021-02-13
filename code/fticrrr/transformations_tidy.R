@@ -21,59 +21,11 @@ DOCKEY = "data/doc_analysis_key.csv"
 source("code/fticrrr/a-functions_processing.R")
 
 
-# 3. load drake plans -----------------------------------------------------
-fticr_processing_plan_for_transformations = drake_plan(
-  
-  # 1. process the reports --------------------------------------------------
-  # these targets are the same as the initial few targets in the fticr_processing_plan
-  report1 = read.csv(file_in(REPORT1)),
-  report2 = read.csv(file_in(REPORT2)),
-  
-  corekey = read.csv(file_in(COREKEY)),
-  dockey = read.csv(file_in(DOCKEY)),
-  
-  datareport = combine_fticr_reports(report1, report2),
-  fticr_meta = make_fticr_meta(datareport)$meta2,
-  #fticr_data_longform = make_fticr_data(datareport, dockey, depth, Site, length, drying, saturation)$data_long_key_repfiltered,
-  fticr_data_trt = make_fticr_data(datareport, dockey, depth, Site, length, drying, saturation)$data_long_trt,
-  meta_formula = make_fticr_meta(datareport)$meta_formula,
-  
-  #
-  # 2. load transformation file ---------------------------------------------
-  #trans_full =  read.csv("data/fticr/Transformation_Database_10-2019.csv"),
-  biotic_class = read.csv("data/fticr/transformation_database_biotic_abiotic_2020.csv", na.strings = ""),
-  
-  ## set error term for later calculations
-  error_term = 0.000010,
-  
-  t1 = print(Sys.time()),
-  
-  transformations_c = compute_transformations(dat = fticr_data_trt %>% 
-                                                filter(Site == "CPCRW" & length != "timezero"),
-                                              meta_formula = meta_formula, 
-                                              biotic_class = biotic_class),
-  transformations_s = compute_transformations(dat = fticr_data_trt %>% 
-                                                filter(Site == "SR" & length != "timezero"),
-                                              meta_formula = meta_formula, 
-                                              biotic_class = biotic_class),
-  transformations_tz = compute_transformations(dat = fticr_data_trt %>% 
-                                                filter(length == "timezero"),
-                                              meta_formula = meta_formula, 
-                                              biotic_class = biotic_class),
-
-  transformation_summary = compute_transformation_summaries(transformations_c, transformations_s, transformations_tz)
-  
-  
-)
-
-make(fticr_processing_plan_for_transformations)
-
-
-# TRANSFORMATIONS FUNCTIONS -----------------------------------------------
+# 3. TRANSFORMATIONS FUNCTIONS -----------------------------------------------
 
 compute_transformations = function(meta_formula, dat, biotic_class){
-
-# 0. format the biotic/abiotic input file ---------------------------------
+  
+  # 0. format the biotic/abiotic input file ---------------------------------
   error_term = 0.000010
   
   biotic_class2 = 
@@ -153,11 +105,11 @@ compute_transformations = function(meta_formula, dat, biotic_class){
   # 4. set biotic/abiotic ---------------------------------------------------
   ## first, clean up the classification
   ## we have some transformations that are Biotic, some Abiotic, and some both
-        ##  biotic_class2 = 
-        ##    biotic_class %>% 
-        ##    mutate(Biotic_abiotic = recode(Biotic_abiotic, "Biotic/abiotic" = "both")) %>% 
-        ##    dplyr::select(-Notes) %>% 
-        ##    filter(Biotic_abiotic != "NA")
+  ##  biotic_class2 = 
+  ##    biotic_class %>% 
+  ##    mutate(Biotic_abiotic = recode(Biotic_abiotic, "Biotic/abiotic" = "both")) %>% 
+  ##    dplyr::select(-Notes) %>% 
+  ##    filter(Biotic_abiotic != "NA")
   
   ## then merge this with the distance results
   #distance_biotic = 
@@ -215,6 +167,66 @@ compute_transformation_summaries = function(transformations_c, transformations_s
   
   
 }
+
+# 4. load drake plans -----------------------------------------------------
+fticr_processing_plan_for_transformations = drake_plan(
+  
+  # 1. process the reports --------------------------------------------------
+  # these targets are the same as the initial few targets in the fticr_processing_plan
+  report1 = read.csv(file_in(REPORT1)),
+  report2 = read.csv(file_in(REPORT2)),
+  
+  corekey = read.csv(file_in(COREKEY)),
+  dockey = read.csv(file_in(DOCKEY)),
+  
+  datareport = combine_fticr_reports(report1, report2),
+  fticr_meta = make_fticr_meta(datareport)$meta2,
+  #fticr_data_longform = make_fticr_data(datareport, dockey, depth, Site, length, drying, saturation)$data_long_key_repfiltered,
+  fticr_data_trt = make_fticr_data(datareport, dockey, depth, Site, length, drying, saturation)$data_long_trt,
+  meta_formula = make_fticr_meta(datareport)$meta_formula,
+  
+  #
+  # 2. load transformation file ---------------------------------------------
+  #trans_full =  read.csv("data/fticr/Transformation_Database_10-2019.csv"),
+  biotic_class = read.csv("data/fticr/transformation_database_biotic_abiotic_2020.csv", na.strings = ""),
+  
+  ## set error term for later calculations
+  error_term = 0.000010,
+  
+  t1 = print(Sys.time()),
+  
+  transformations_c = compute_transformations(dat = fticr_data_trt %>% 
+                                                filter(Site == "CPCRW" & length != "timezero"),
+                                              meta_formula = meta_formula, 
+                                              biotic_class = biotic_class),
+  transformations_s = compute_transformations(dat = fticr_data_trt %>% 
+                                                filter(Site == "SR" & length != "timezero"),
+                                              meta_formula = meta_formula, 
+                                              biotic_class = biotic_class),
+  transformations_tz = compute_transformations(dat = fticr_data_trt %>% 
+                                                filter(length == "timezero"),
+                                              meta_formula = meta_formula, 
+                                              biotic_class = biotic_class),
+  
+  # transformations_c took 3 hours to complete
+  # transformations_s took 9 hours to complete
+  # transformations_tz took 15 minutes to complete
+  
+  
+  # 3. calculate transformation summaries -----------------------------------
+  transformation_summary = compute_transformation_summaries(transformations_c, transformations_s, transformations_tz),
+  
+  # 4. export files ---------------------------------------------------------
+  transformation_summary$biotic_abiotic_counts %>% write.csv("data/processed/fticr/transformation_biotic_abiotic.csv", row.names = FALSE, na = ""),
+  transformation_summary$transformation_count_long %>% write.csv("data/processed/fticr/transformation_count_long.csv", row.names = FALSE, na = ""),
+  transformation_summary$transformation_count_wide %>% write.csv("data/processed/fticr/transformation_count_wide.csv", row.names = FALSE, na = ""),
+  transformation_summary$transformation_count_wide_relabund %>% write.csv("data/processed/fticr/transformation_count_wide_relabund.csv", row.names = FALSE, na = ""),
+  
+)
+
+make(fticr_processing_plan_for_transformations, lock_cache = FALSE)
+
+
 
 
 
