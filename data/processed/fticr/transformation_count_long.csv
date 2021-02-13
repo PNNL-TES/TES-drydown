@@ -1,0 +1,1429 @@
+"sample","Biotic_abiotic","Trans_name","count","total","percentage"
+"0-5cm_CPCRW_150d_CW_saturated","Abiotic","acetotacetate (-H2O)",88,36,244.444444444444
+"0-5cm_CPCRW_150d_CW_saturated","Abiotic","acetylation (-H2O)",6,36,16.6666666666667
+"0-5cm_CPCRW_150d_CW_saturated","Abiotic","C2H2",381,36,1058.33333333333
+"0-5cm_CPCRW_150d_CW_saturated","Abiotic","Carboxylation",6,36,16.6666666666667
+"0-5cm_CPCRW_150d_CW_saturated","Abiotic","condensation/dehydration",4,36,11.1111111111111
+"0-5cm_CPCRW_150d_CW_saturated","Abiotic","ethyl addition (-H2O)",1,36,2.77777777777778
+"0-5cm_CPCRW_150d_CW_saturated","Abiotic","Formic Acid (-H2O)",10,36,27.7777777777778
+"0-5cm_CPCRW_150d_CW_saturated","Abiotic","glyoxylate (-H2O)",8,36,22.2222222222222
+"0-5cm_CPCRW_150d_CW_saturated","Abiotic","H2S",11,36,30.5555555555556
+"0-5cm_CPCRW_150d_CW_saturated","Abiotic","hydrogenation/dehydrogenation",4,36,11.1111111111111
+"0-5cm_CPCRW_150d_CW_saturated","Abiotic","hydroxylation (-H)",5,36,13.8888888888889
+"0-5cm_CPCRW_150d_CW_saturated","Abiotic","Inorganic Phosphate",1,36,2.77777777777778
+"0-5cm_CPCRW_150d_CW_saturated","Abiotic","NO3-",1,36,2.77777777777778
+"0-5cm_CPCRW_150d_CW_saturated","Abiotic","SO42-",2,36,5.55555555555556
+"0-5cm_CPCRW_150d_CW_saturated","Abiotic","sulfate (-H2O)",1,36,2.77777777777778
+"0-5cm_CPCRW_150d_CW_saturated","Biotic","Alanine",3,36,8.33333333333333
+"0-5cm_CPCRW_150d_CW_saturated","Biotic","Aspartic Acid",1,36,2.77777777777778
+"0-5cm_CPCRW_150d_CW_saturated","Biotic","CH4_O",380,36,1055.55555555556
+"0-5cm_CPCRW_150d_CW_saturated","Biotic","Cystine",1,36,2.77777777777778
+"0-5cm_CPCRW_150d_CW_saturated","Biotic","Glutamic Acid",2,36,5.55555555555556
+"0-5cm_CPCRW_150d_CW_saturated","Biotic","Glycine",1,36,2.77777777777778
+"0-5cm_CPCRW_150d_CW_saturated","Biotic","Isoleucine",1,36,2.77777777777778
+"0-5cm_CPCRW_150d_CW_saturated","Biotic","malonyl group (-H2O)",237,36,658.333333333333
+"0-5cm_CPCRW_150d_CW_saturated","Biotic","NH_CH2",8,36,22.2222222222222
+"0-5cm_CPCRW_150d_CW_saturated","Biotic","palmitoylation (-H2O)",24,36,66.6666666666667
+"0-5cm_CPCRW_150d_CW_saturated","Biotic","Phenylalanine",8,36,22.2222222222222
+"0-5cm_CPCRW_150d_CW_saturated","Biotic","Proline",1,36,2.77777777777778
+"0-5cm_CPCRW_150d_CW_saturated","Biotic","secondary amine",3,36,8.33333333333333
+"0-5cm_CPCRW_150d_CW_saturated","Biotic","Serine",74,36,205.555555555556
+"0-5cm_CPCRW_150d_CW_saturated","Biotic","Threonine",1,36,2.77777777777778
+"0-5cm_CPCRW_150d_CW_saturated","both","C6H10O5",104,36,288.888888888889
+"0-5cm_CPCRW_150d_CW_saturated","both","C6H10O6",83,36,230.555555555556
+"0-5cm_CPCRW_150d_CW_saturated","both","D-Ribose (-H2O) (ribosylation)",4,36,11.1111111111111
+"0-5cm_CPCRW_150d_CW_saturated","both","disaccharide (-H2O)",9,36,25
+"0-5cm_CPCRW_150d_CW_saturated","both","erythose (-H2O)",197,36,547.222222222222
+"0-5cm_CPCRW_150d_CW_saturated","both","Glucuronic Acid (-H2O)",12,36,33.3333333333333
+"0-5cm_CPCRW_150d_FAD_saturated","Abiotic","acetotacetate (-H2O)",78,31,251.612903225806
+"0-5cm_CPCRW_150d_FAD_saturated","Abiotic","acetylation (-H2O)",6,31,19.3548387096774
+"0-5cm_CPCRW_150d_FAD_saturated","Abiotic","C2H2",343,31,1106.45161290323
+"0-5cm_CPCRW_150d_FAD_saturated","Abiotic","Carboxylation",4,31,12.9032258064516
+"0-5cm_CPCRW_150d_FAD_saturated","Abiotic","condensation/dehydration",3,31,9.67741935483871
+"0-5cm_CPCRW_150d_FAD_saturated","Abiotic","ethyl addition (-H2O)",1,31,3.2258064516129
+"0-5cm_CPCRW_150d_FAD_saturated","Abiotic","Formic Acid (-H2O)",9,31,29.0322580645161
+"0-5cm_CPCRW_150d_FAD_saturated","Abiotic","glyoxylate (-H2O)",8,31,25.8064516129032
+"0-5cm_CPCRW_150d_FAD_saturated","Abiotic","H2S",4,31,12.9032258064516
+"0-5cm_CPCRW_150d_FAD_saturated","Abiotic","hydrogenation/dehydrogenation",4,31,12.9032258064516
+"0-5cm_CPCRW_150d_FAD_saturated","Abiotic","hydroxylation (-H)",5,31,16.1290322580645
+"0-5cm_CPCRW_150d_FAD_saturated","Abiotic","NO3-",1,31,3.2258064516129
+"0-5cm_CPCRW_150d_FAD_saturated","Biotic","Alanine",2,31,6.45161290322581
+"0-5cm_CPCRW_150d_FAD_saturated","Biotic","Asparagine",1,31,3.2258064516129
+"0-5cm_CPCRW_150d_FAD_saturated","Biotic","Aspartic Acid",1,31,3.2258064516129
+"0-5cm_CPCRW_150d_FAD_saturated","Biotic","CH4_O",302,31,974.193548387097
+"0-5cm_CPCRW_150d_FAD_saturated","Biotic","Glutamic Acid",1,31,3.2258064516129
+"0-5cm_CPCRW_150d_FAD_saturated","Biotic","Glycine",1,31,3.2258064516129
+"0-5cm_CPCRW_150d_FAD_saturated","Biotic","malonyl group (-H2O)",197,31,635.483870967742
+"0-5cm_CPCRW_150d_FAD_saturated","Biotic","NH_CH2",5,31,16.1290322580645
+"0-5cm_CPCRW_150d_FAD_saturated","Biotic","palmitoylation (-H2O)",19,31,61.2903225806452
+"0-5cm_CPCRW_150d_FAD_saturated","Biotic","Phenylalanine",4,31,12.9032258064516
+"0-5cm_CPCRW_150d_FAD_saturated","Biotic","secondary amine",2,31,6.45161290322581
+"0-5cm_CPCRW_150d_FAD_saturated","Biotic","Serine",71,31,229.032258064516
+"0-5cm_CPCRW_150d_FAD_saturated","Biotic","Threonine",1,31,3.2258064516129
+"0-5cm_CPCRW_150d_FAD_saturated","both","C6H10O5",72,31,232.258064516129
+"0-5cm_CPCRW_150d_FAD_saturated","both","C6H10O6",52,31,167.741935483871
+"0-5cm_CPCRW_150d_FAD_saturated","both","D-Ribose (-H2O) (ribosylation)",2,31,6.45161290322581
+"0-5cm_CPCRW_150d_FAD_saturated","both","disaccharide (-H2O)",4,31,12.9032258064516
+"0-5cm_CPCRW_150d_FAD_saturated","both","erythose (-H2O)",166,31,535.483870967742
+"0-5cm_CPCRW_150d_FAD_saturated","both","Glucuronic Acid (-H2O)",9,31,29.0322580645161
+"0-5cm_CPCRW_30d_CW_saturated","Abiotic","acetotacetate (-H2O)",89,36,247.222222222222
+"0-5cm_CPCRW_30d_CW_saturated","Abiotic","acetylation (-H2O)",6,36,16.6666666666667
+"0-5cm_CPCRW_30d_CW_saturated","Abiotic","C2H2",380,36,1055.55555555556
+"0-5cm_CPCRW_30d_CW_saturated","Abiotic","Carboxylation",6,36,16.6666666666667
+"0-5cm_CPCRW_30d_CW_saturated","Abiotic","condensation/dehydration",5,36,13.8888888888889
+"0-5cm_CPCRW_30d_CW_saturated","Abiotic","ethyl addition (-H2O)",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_CW_saturated","Abiotic","Formic Acid (-H2O)",10,36,27.7777777777778
+"0-5cm_CPCRW_30d_CW_saturated","Abiotic","glyoxylate (-H2O)",9,36,25
+"0-5cm_CPCRW_30d_CW_saturated","Abiotic","H2S",13,36,36.1111111111111
+"0-5cm_CPCRW_30d_CW_saturated","Abiotic","hydrogenation/dehydrogenation",4,36,11.1111111111111
+"0-5cm_CPCRW_30d_CW_saturated","Abiotic","hydroxylation (-H)",5,36,13.8888888888889
+"0-5cm_CPCRW_30d_CW_saturated","Abiotic","methanol (-H2O)",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_CW_saturated","Abiotic","NO3-",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_CW_saturated","Abiotic","SO42-",2,36,5.55555555555556
+"0-5cm_CPCRW_30d_CW_saturated","Abiotic","sulfate (-H2O)",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_CW_saturated","Biotic","Alanine",3,36,8.33333333333333
+"0-5cm_CPCRW_30d_CW_saturated","Biotic","Aspartic Acid",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_CW_saturated","Biotic","CH4_O",368,36,1022.22222222222
+"0-5cm_CPCRW_30d_CW_saturated","Biotic","Cystine",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_CW_saturated","Biotic","Glutamic Acid",2,36,5.55555555555556
+"0-5cm_CPCRW_30d_CW_saturated","Biotic","Glycine",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_CW_saturated","Biotic","Isoleucine",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_CW_saturated","Biotic","malonyl group (-H2O)",220,36,611.111111111111
+"0-5cm_CPCRW_30d_CW_saturated","Biotic","NH_CH2",6,36,16.6666666666667
+"0-5cm_CPCRW_30d_CW_saturated","Biotic","palmitoylation (-H2O)",21,36,58.3333333333333
+"0-5cm_CPCRW_30d_CW_saturated","Biotic","Phenylalanine",8,36,22.2222222222222
+"0-5cm_CPCRW_30d_CW_saturated","Biotic","Proline",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_CW_saturated","Biotic","secondary amine",4,36,11.1111111111111
+"0-5cm_CPCRW_30d_CW_saturated","Biotic","Serine",75,36,208.333333333333
+"0-5cm_CPCRW_30d_CW_saturated","Biotic","Threonine",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_CW_saturated","both","C6H10O5",95,36,263.888888888889
+"0-5cm_CPCRW_30d_CW_saturated","both","C6H10O6",79,36,219.444444444444
+"0-5cm_CPCRW_30d_CW_saturated","both","D-Ribose (-H2O) (ribosylation)",3,36,8.33333333333333
+"0-5cm_CPCRW_30d_CW_saturated","both","disaccharide (-H2O)",7,36,19.4444444444444
+"0-5cm_CPCRW_30d_CW_saturated","both","erythose (-H2O)",200,36,555.555555555556
+"0-5cm_CPCRW_30d_CW_saturated","both","Glucuronic Acid (-H2O)",11,36,30.5555555555556
+"0-5cm_CPCRW_30d_FAD_saturated","Abiotic","acetotacetate (-H2O)",95,36,263.888888888889
+"0-5cm_CPCRW_30d_FAD_saturated","Abiotic","acetylation (-H2O)",6,36,16.6666666666667
+"0-5cm_CPCRW_30d_FAD_saturated","Abiotic","C2H2",390,36,1083.33333333333
+"0-5cm_CPCRW_30d_FAD_saturated","Abiotic","Carboxylation",7,36,19.4444444444444
+"0-5cm_CPCRW_30d_FAD_saturated","Abiotic","condensation/dehydration",5,36,13.8888888888889
+"0-5cm_CPCRW_30d_FAD_saturated","Abiotic","ethyl addition (-H2O)",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_FAD_saturated","Abiotic","Formic Acid (-H2O)",11,36,30.5555555555556
+"0-5cm_CPCRW_30d_FAD_saturated","Abiotic","glyoxylate (-H2O)",8,36,22.2222222222222
+"0-5cm_CPCRW_30d_FAD_saturated","Abiotic","H2S",9,36,25
+"0-5cm_CPCRW_30d_FAD_saturated","Abiotic","hydrogenation/dehydrogenation",4,36,11.1111111111111
+"0-5cm_CPCRW_30d_FAD_saturated","Abiotic","hydroxylation (-H)",5,36,13.8888888888889
+"0-5cm_CPCRW_30d_FAD_saturated","Abiotic","methanol (-H2O)",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_FAD_saturated","Abiotic","NO3-",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_FAD_saturated","Abiotic","SO42-",2,36,5.55555555555556
+"0-5cm_CPCRW_30d_FAD_saturated","Biotic","Alanine",3,36,8.33333333333333
+"0-5cm_CPCRW_30d_FAD_saturated","Biotic","Asparagine",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_FAD_saturated","Biotic","Aspartic Acid",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_FAD_saturated","Biotic","CH4_O",397,36,1102.77777777778
+"0-5cm_CPCRW_30d_FAD_saturated","Biotic","Cystine",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_FAD_saturated","Biotic","Glutamic Acid",2,36,5.55555555555556
+"0-5cm_CPCRW_30d_FAD_saturated","Biotic","Glycine",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_FAD_saturated","Biotic","Isoleucine",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_FAD_saturated","Biotic","malonyl group (-H2O)",239,36,663.888888888889
+"0-5cm_CPCRW_30d_FAD_saturated","Biotic","NH_CH2",8,36,22.2222222222222
+"0-5cm_CPCRW_30d_FAD_saturated","Biotic","palmitoylation (-H2O)",28,36,77.7777777777778
+"0-5cm_CPCRW_30d_FAD_saturated","Biotic","Phenylalanine",5,36,13.8888888888889
+"0-5cm_CPCRW_30d_FAD_saturated","Biotic","Proline",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_FAD_saturated","Biotic","secondary amine",3,36,8.33333333333333
+"0-5cm_CPCRW_30d_FAD_saturated","Biotic","Serine",89,36,247.222222222222
+"0-5cm_CPCRW_30d_FAD_saturated","Biotic","Threonine",1,36,2.77777777777778
+"0-5cm_CPCRW_30d_FAD_saturated","both","C6H10O5",107,36,297.222222222222
+"0-5cm_CPCRW_30d_FAD_saturated","both","C6H10O6",85,36,236.111111111111
+"0-5cm_CPCRW_30d_FAD_saturated","both","D-Ribose (-H2O) (ribosylation)",4,36,11.1111111111111
+"0-5cm_CPCRW_30d_FAD_saturated","both","disaccharide (-H2O)",8,36,22.2222222222222
+"0-5cm_CPCRW_30d_FAD_saturated","both","erythose (-H2O)",213,36,591.666666666667
+"0-5cm_CPCRW_30d_FAD_saturated","both","Glucuronic Acid (-H2O)",11,36,30.5555555555556
+"0-5cm_CPCRW_90d_CW_instant chemistry","Abiotic","acetotacetate (-H2O)",82,34,241.176470588235
+"0-5cm_CPCRW_90d_CW_instant chemistry","Abiotic","acetylation (-H2O)",5,34,14.7058823529412
+"0-5cm_CPCRW_90d_CW_instant chemistry","Abiotic","C2H2",374,34,1100
+"0-5cm_CPCRW_90d_CW_instant chemistry","Abiotic","Carboxylation",9,34,26.4705882352941
+"0-5cm_CPCRW_90d_CW_instant chemistry","Abiotic","condensation/dehydration",3,34,8.82352941176471
+"0-5cm_CPCRW_90d_CW_instant chemistry","Abiotic","ethyl addition (-H2O)",1,34,2.94117647058824
+"0-5cm_CPCRW_90d_CW_instant chemistry","Abiotic","Formic Acid (-H2O)",8,34,23.5294117647059
+"0-5cm_CPCRW_90d_CW_instant chemistry","Abiotic","glyoxylate (-H2O)",8,34,23.5294117647059
+"0-5cm_CPCRW_90d_CW_instant chemistry","Abiotic","H2S",5,34,14.7058823529412
+"0-5cm_CPCRW_90d_CW_instant chemistry","Abiotic","hydrogenation/dehydrogenation",4,34,11.7647058823529
+"0-5cm_CPCRW_90d_CW_instant chemistry","Abiotic","hydroxylation (-H)",7,34,20.5882352941176
+"0-5cm_CPCRW_90d_CW_instant chemistry","Abiotic","NO3-",3,34,8.82352941176471
+"0-5cm_CPCRW_90d_CW_instant chemistry","Biotic","Alanine",2,34,5.88235294117647
+"0-5cm_CPCRW_90d_CW_instant chemistry","Biotic","Arginine",15,34,44.1176470588235
+"0-5cm_CPCRW_90d_CW_instant chemistry","Biotic","Asparagine",1,34,2.94117647058824
+"0-5cm_CPCRW_90d_CW_instant chemistry","Biotic","Aspartic Acid",3,34,8.82352941176471
+"0-5cm_CPCRW_90d_CW_instant chemistry","Biotic","CH4_O",366,34,1076.47058823529
+"0-5cm_CPCRW_90d_CW_instant chemistry","Biotic","Cystine",2,34,5.88235294117647
+"0-5cm_CPCRW_90d_CW_instant chemistry","Biotic","Glutamic Acid",3,34,8.82352941176471
+"0-5cm_CPCRW_90d_CW_instant chemistry","Biotic","Isoleucine",2,34,5.88235294117647
+"0-5cm_CPCRW_90d_CW_instant chemistry","Biotic","malonyl group (-H2O)",232,34,682.352941176471
+"0-5cm_CPCRW_90d_CW_instant chemistry","Biotic","NH_CH2",4,34,11.7647058823529
+"0-5cm_CPCRW_90d_CW_instant chemistry","Biotic","palmitoylation (-H2O)",20,34,58.8235294117647
+"0-5cm_CPCRW_90d_CW_instant chemistry","Biotic","Phenylalanine",3,34,8.82352941176471
+"0-5cm_CPCRW_90d_CW_instant chemistry","Biotic","Proline",1,34,2.94117647058824
+"0-5cm_CPCRW_90d_CW_instant chemistry","Biotic","secondary amine",1,34,2.94117647058824
+"0-5cm_CPCRW_90d_CW_instant chemistry","Biotic","Serine",83,34,244.117647058824
+"0-5cm_CPCRW_90d_CW_instant chemistry","Biotic","Threonine",2,34,5.88235294117647
+"0-5cm_CPCRW_90d_CW_instant chemistry","both","C6H10O5",99,34,291.176470588235
+"0-5cm_CPCRW_90d_CW_instant chemistry","both","C6H10O6",77,34,226.470588235294
+"0-5cm_CPCRW_90d_CW_instant chemistry","both","D-Ribose (-H2O) (ribosylation)",3,34,8.82352941176471
+"0-5cm_CPCRW_90d_CW_instant chemistry","both","disaccharide (-H2O)",5,34,14.7058823529412
+"0-5cm_CPCRW_90d_CW_instant chemistry","both","erythose (-H2O)",203,34,597.058823529412
+"0-5cm_CPCRW_90d_CW_instant chemistry","both","Glucuronic Acid (-H2O)",10,34,29.4117647058824
+"0-5cm_CPCRW_90d_CW_saturated","Abiotic","acetotacetate (-H2O)",90,36,250
+"0-5cm_CPCRW_90d_CW_saturated","Abiotic","acetylation (-H2O)",6,36,16.6666666666667
+"0-5cm_CPCRW_90d_CW_saturated","Abiotic","C2H2",382,36,1061.11111111111
+"0-5cm_CPCRW_90d_CW_saturated","Abiotic","Carboxylation",5,36,13.8888888888889
+"0-5cm_CPCRW_90d_CW_saturated","Abiotic","condensation/dehydration",5,36,13.8888888888889
+"0-5cm_CPCRW_90d_CW_saturated","Abiotic","ethyl addition (-H2O)",2,36,5.55555555555556
+"0-5cm_CPCRW_90d_CW_saturated","Abiotic","Formic Acid (-H2O)",10,36,27.7777777777778
+"0-5cm_CPCRW_90d_CW_saturated","Abiotic","glyoxylate (-H2O)",8,36,22.2222222222222
+"0-5cm_CPCRW_90d_CW_saturated","Abiotic","H2S",8,36,22.2222222222222
+"0-5cm_CPCRW_90d_CW_saturated","Abiotic","hydrogenation/dehydrogenation",4,36,11.1111111111111
+"0-5cm_CPCRW_90d_CW_saturated","Abiotic","hydroxylation (-H)",5,36,13.8888888888889
+"0-5cm_CPCRW_90d_CW_saturated","Abiotic","Inorganic Phosphate",1,36,2.77777777777778
+"0-5cm_CPCRW_90d_CW_saturated","Abiotic","methanol (-H2O)",1,36,2.77777777777778
+"0-5cm_CPCRW_90d_CW_saturated","Abiotic","SO42-",2,36,5.55555555555556
+"0-5cm_CPCRW_90d_CW_saturated","Abiotic","sulfate (-H2O)",1,36,2.77777777777778
+"0-5cm_CPCRW_90d_CW_saturated","Biotic","Alanine",2,36,5.55555555555556
+"0-5cm_CPCRW_90d_CW_saturated","Biotic","Aspartic Acid",1,36,2.77777777777778
+"0-5cm_CPCRW_90d_CW_saturated","Biotic","CH4_O",363,36,1008.33333333333
+"0-5cm_CPCRW_90d_CW_saturated","Biotic","Cystine",1,36,2.77777777777778
+"0-5cm_CPCRW_90d_CW_saturated","Biotic","Glutamic Acid",2,36,5.55555555555556
+"0-5cm_CPCRW_90d_CW_saturated","Biotic","Glycine",1,36,2.77777777777778
+"0-5cm_CPCRW_90d_CW_saturated","Biotic","Isoleucine",1,36,2.77777777777778
+"0-5cm_CPCRW_90d_CW_saturated","Biotic","malonyl group (-H2O)",226,36,627.777777777778
+"0-5cm_CPCRW_90d_CW_saturated","Biotic","NH_CH2",7,36,19.4444444444444
+"0-5cm_CPCRW_90d_CW_saturated","Biotic","palmitoylation (-H2O)",25,36,69.4444444444444
+"0-5cm_CPCRW_90d_CW_saturated","Biotic","Phenylalanine",5,36,13.8888888888889
+"0-5cm_CPCRW_90d_CW_saturated","Biotic","Proline",1,36,2.77777777777778
+"0-5cm_CPCRW_90d_CW_saturated","Biotic","secondary amine",4,36,11.1111111111111
+"0-5cm_CPCRW_90d_CW_saturated","Biotic","Serine",74,36,205.555555555556
+"0-5cm_CPCRW_90d_CW_saturated","Biotic","Threonine",1,36,2.77777777777778
+"0-5cm_CPCRW_90d_CW_saturated","both","C6H10O5",103,36,286.111111111111
+"0-5cm_CPCRW_90d_CW_saturated","both","C6H10O6",86,36,238.888888888889
+"0-5cm_CPCRW_90d_CW_saturated","both","D-Ribose (-H2O) (ribosylation)",3,36,8.33333333333333
+"0-5cm_CPCRW_90d_CW_saturated","both","disaccharide (-H2O)",7,36,19.4444444444444
+"0-5cm_CPCRW_90d_CW_saturated","both","erythose (-H2O)",202,36,561.111111111111
+"0-5cm_CPCRW_90d_CW_saturated","both","Glucuronic Acid (-H2O)",12,36,33.3333333333333
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Abiotic","acetotacetate (-H2O)",80,36,222.222222222222
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Abiotic","acetylation (-H2O)",6,36,16.6666666666667
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Abiotic","C2H2",347,36,963.888888888889
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Abiotic","Carboxylation",8,36,22.2222222222222
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Abiotic","condensation/dehydration",3,36,8.33333333333333
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Abiotic","Formic Acid (-H2O)",8,36,22.2222222222222
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Abiotic","glyoxylate (-H2O)",7,36,19.4444444444444
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Abiotic","H2S",6,36,16.6666666666667
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Abiotic","hydrogenation/dehydrogenation",4,36,11.1111111111111
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Abiotic","hydroxylation (-H)",6,36,16.6666666666667
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Abiotic","NO3-",1,36,2.77777777777778
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","Alanine",2,36,5.55555555555556
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","Arginine",14,36,38.8888888888889
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","Asparagine",1,36,2.77777777777778
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","Aspartic Acid",3,36,8.33333333333333
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","CH4_O",339,36,941.666666666667
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","Cystine",1,36,2.77777777777778
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","Glutamic Acid",2,36,5.55555555555556
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","Glycine",1,36,2.77777777777778
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","Isoleucine",2,36,5.55555555555556
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","malonyl group (-H2O)",198,36,550
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","NH_CH2",3,36,8.33333333333333
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","palmitoylation (-H2O)",21,36,58.3333333333333
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","Phenylalanine",4,36,11.1111111111111
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","Proline",1,36,2.77777777777778
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","secondary amine",1,36,2.77777777777778
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","Serine",80,36,222.222222222222
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","Threonine",2,36,5.55555555555556
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic","urea addition (-H)",1,36,2.77777777777778
+"0-5cm_CPCRW_90d_FAD_instant chemistry","both","C6H10O5",91,36,252.777777777778
+"0-5cm_CPCRW_90d_FAD_instant chemistry","both","C6H10O6",65,36,180.555555555556
+"0-5cm_CPCRW_90d_FAD_instant chemistry","both","D-Ribose (-H2O) (ribosylation)",2,36,5.55555555555556
+"0-5cm_CPCRW_90d_FAD_instant chemistry","both","disaccharide (-H2O)",4,36,11.1111111111111
+"0-5cm_CPCRW_90d_FAD_instant chemistry","both","erythose (-H2O)",173,36,480.555555555556
+"0-5cm_CPCRW_90d_FAD_instant chemistry","both","Glucuronic Acid (-H2O)",8,36,22.2222222222222
+"0-5cm_CPCRW_90d_FAD_instant chemistry","both","transamination (-O)",1,36,2.77777777777778
+"0-5cm_CPCRW_90d_FAD_saturated","Abiotic","acetotacetate (-H2O)",89,35,254.285714285714
+"0-5cm_CPCRW_90d_FAD_saturated","Abiotic","acetylation (-H2O)",6,35,17.1428571428571
+"0-5cm_CPCRW_90d_FAD_saturated","Abiotic","C2H2",372,35,1062.85714285714
+"0-5cm_CPCRW_90d_FAD_saturated","Abiotic","Carboxylation",6,35,17.1428571428571
+"0-5cm_CPCRW_90d_FAD_saturated","Abiotic","condensation/dehydration",3,35,8.57142857142857
+"0-5cm_CPCRW_90d_FAD_saturated","Abiotic","ethyl addition (-H2O)",1,35,2.85714285714286
+"0-5cm_CPCRW_90d_FAD_saturated","Abiotic","Formic Acid (-H2O)",10,35,28.5714285714286
+"0-5cm_CPCRW_90d_FAD_saturated","Abiotic","glyoxylate (-H2O)",7,35,20
+"0-5cm_CPCRW_90d_FAD_saturated","Abiotic","H2S",8,35,22.8571428571429
+"0-5cm_CPCRW_90d_FAD_saturated","Abiotic","hydrogenation/dehydrogenation",4,35,11.4285714285714
+"0-5cm_CPCRW_90d_FAD_saturated","Abiotic","hydroxylation (-H)",6,35,17.1428571428571
+"0-5cm_CPCRW_90d_FAD_saturated","Abiotic","NO3-",1,35,2.85714285714286
+"0-5cm_CPCRW_90d_FAD_saturated","Abiotic","SO42-",1,35,2.85714285714286
+"0-5cm_CPCRW_90d_FAD_saturated","Biotic","Alanine",2,35,5.71428571428571
+"0-5cm_CPCRW_90d_FAD_saturated","Biotic","Asparagine",1,35,2.85714285714286
+"0-5cm_CPCRW_90d_FAD_saturated","Biotic","Aspartic Acid",1,35,2.85714285714286
+"0-5cm_CPCRW_90d_FAD_saturated","Biotic","CH4_O",347,35,991.428571428571
+"0-5cm_CPCRW_90d_FAD_saturated","Biotic","Cystine",1,35,2.85714285714286
+"0-5cm_CPCRW_90d_FAD_saturated","Biotic","Glutamic Acid",2,35,5.71428571428571
+"0-5cm_CPCRW_90d_FAD_saturated","Biotic","Glycine",1,35,2.85714285714286
+"0-5cm_CPCRW_90d_FAD_saturated","Biotic","Isoleucine",1,35,2.85714285714286
+"0-5cm_CPCRW_90d_FAD_saturated","Biotic","malonyl group (-H2O)",215,35,614.285714285714
+"0-5cm_CPCRW_90d_FAD_saturated","Biotic","NH_CH2",5,35,14.2857142857143
+"0-5cm_CPCRW_90d_FAD_saturated","Biotic","palmitoylation (-H2O)",26,35,74.2857142857143
+"0-5cm_CPCRW_90d_FAD_saturated","Biotic","Phenylalanine",4,35,11.4285714285714
+"0-5cm_CPCRW_90d_FAD_saturated","Biotic","Proline",1,35,2.85714285714286
+"0-5cm_CPCRW_90d_FAD_saturated","Biotic","secondary amine",2,35,5.71428571428571
+"0-5cm_CPCRW_90d_FAD_saturated","Biotic","Serine",83,35,237.142857142857
+"0-5cm_CPCRW_90d_FAD_saturated","Biotic","Threonine",1,35,2.85714285714286
+"0-5cm_CPCRW_90d_FAD_saturated","both","C6H10O5",99,35,282.857142857143
+"0-5cm_CPCRW_90d_FAD_saturated","both","C6H10O6",71,35,202.857142857143
+"0-5cm_CPCRW_90d_FAD_saturated","both","D-Ribose (-H2O) (ribosylation)",3,35,8.57142857142857
+"0-5cm_CPCRW_90d_FAD_saturated","both","disaccharide (-H2O)",6,35,17.1428571428571
+"0-5cm_CPCRW_90d_FAD_saturated","both","erythose (-H2O)",189,35,540
+"0-5cm_CPCRW_90d_FAD_saturated","both","Glucuronic Acid (-H2O)",11,35,31.4285714285714
+"0-5cm_CPCRW_timezero__timezero","Abiotic","acetotacetate (-H2O)",67,33,203.030303030303
+"0-5cm_CPCRW_timezero__timezero","Abiotic","acetylation (-H2O)",2,33,6.06060606060606
+"0-5cm_CPCRW_timezero__timezero","Abiotic","C2H2",289,33,875.757575757576
+"0-5cm_CPCRW_timezero__timezero","Abiotic","Carboxylation",8,33,24.2424242424242
+"0-5cm_CPCRW_timezero__timezero","Abiotic","condensation/dehydration",3,33,9.09090909090909
+"0-5cm_CPCRW_timezero__timezero","Abiotic","Formic Acid (-H2O)",7,33,21.2121212121212
+"0-5cm_CPCRW_timezero__timezero","Abiotic","glyoxylate (-H2O)",8,33,24.2424242424242
+"0-5cm_CPCRW_timezero__timezero","Abiotic","H2S",3,33,9.09090909090909
+"0-5cm_CPCRW_timezero__timezero","Abiotic","hydrogenation/dehydrogenation",2,33,6.06060606060606
+"0-5cm_CPCRW_timezero__timezero","Abiotic","hydroxylation (-H)",4,33,12.1212121212121
+"0-5cm_CPCRW_timezero__timezero","Abiotic","NO3-",1,33,3.03030303030303
+"0-5cm_CPCRW_timezero__timezero","Abiotic","PO43-",1,33,3.03030303030303
+"0-5cm_CPCRW_timezero__timezero","Abiotic","SO42-",1,33,3.03030303030303
+"0-5cm_CPCRW_timezero__timezero","Biotic","Alanine",3,33,9.09090909090909
+"0-5cm_CPCRW_timezero__timezero","Biotic","Aspartic Acid",2,33,6.06060606060606
+"0-5cm_CPCRW_timezero__timezero","Biotic","CH4_O",260,33,787.878787878788
+"0-5cm_CPCRW_timezero__timezero","Biotic","Cystine",1,33,3.03030303030303
+"0-5cm_CPCRW_timezero__timezero","Biotic","Glutamic Acid",1,33,3.03030303030303
+"0-5cm_CPCRW_timezero__timezero","Biotic","Glycine",1,33,3.03030303030303
+"0-5cm_CPCRW_timezero__timezero","Biotic","malonyl group (-H2O)",171,33,518.181818181818
+"0-5cm_CPCRW_timezero__timezero","Biotic","NH_CH2",4,33,12.1212121212121
+"0-5cm_CPCRW_timezero__timezero","Biotic","palmitoylation (-H2O)",15,33,45.4545454545455
+"0-5cm_CPCRW_timezero__timezero","Biotic","Phenylalanine",4,33,12.1212121212121
+"0-5cm_CPCRW_timezero__timezero","Biotic","Proline",1,33,3.03030303030303
+"0-5cm_CPCRW_timezero__timezero","Biotic","secondary amine",1,33,3.03030303030303
+"0-5cm_CPCRW_timezero__timezero","Biotic","Serine",54,33,163.636363636364
+"0-5cm_CPCRW_timezero__timezero","Biotic","Threonine",1,33,3.03030303030303
+"0-5cm_CPCRW_timezero__timezero","both","C6H10O5",71,33,215.151515151515
+"0-5cm_CPCRW_timezero__timezero","both","C6H10O6",53,33,160.606060606061
+"0-5cm_CPCRW_timezero__timezero","both","D-Ribose (-H2O) (ribosylation)",2,33,6.06060606060606
+"0-5cm_CPCRW_timezero__timezero","both","disaccharide (-H2O)",1,33,3.03030303030303
+"0-5cm_CPCRW_timezero__timezero","both","erythose (-H2O)",156,33,472.727272727273
+"0-5cm_CPCRW_timezero__timezero","both","Glucuronic Acid (-H2O)",6,33,18.1818181818182
+"0-5cm_SR_150d_CW_saturated","Abiotic","acetotacetate (-H2O)",86,36,238.888888888889
+"0-5cm_SR_150d_CW_saturated","Abiotic","acetylation (-H2O)",6,36,16.6666666666667
+"0-5cm_SR_150d_CW_saturated","Abiotic","C2H2",389,36,1080.55555555556
+"0-5cm_SR_150d_CW_saturated","Abiotic","Carboxylation",6,36,16.6666666666667
+"0-5cm_SR_150d_CW_saturated","Abiotic","condensation/dehydration",3,36,8.33333333333333
+"0-5cm_SR_150d_CW_saturated","Abiotic","ethyl addition (-H2O)",1,36,2.77777777777778
+"0-5cm_SR_150d_CW_saturated","Abiotic","Formic Acid (-H2O)",10,36,27.7777777777778
+"0-5cm_SR_150d_CW_saturated","Abiotic","glyoxylate (-H2O)",8,36,22.2222222222222
+"0-5cm_SR_150d_CW_saturated","Abiotic","H2S",14,36,38.8888888888889
+"0-5cm_SR_150d_CW_saturated","Abiotic","hydrogenation/dehydrogenation",4,36,11.1111111111111
+"0-5cm_SR_150d_CW_saturated","Abiotic","hydroxylation (-H)",6,36,16.6666666666667
+"0-5cm_SR_150d_CW_saturated","Abiotic","Inorganic Phosphate",1,36,2.77777777777778
+"0-5cm_SR_150d_CW_saturated","Abiotic","NO3-",1,36,2.77777777777778
+"0-5cm_SR_150d_CW_saturated","Abiotic","SO42-",1,36,2.77777777777778
+"0-5cm_SR_150d_CW_saturated","Biotic","Alanine",2,36,5.55555555555556
+"0-5cm_SR_150d_CW_saturated","Biotic","Asparagine",1,36,2.77777777777778
+"0-5cm_SR_150d_CW_saturated","Biotic","Aspartic Acid",1,36,2.77777777777778
+"0-5cm_SR_150d_CW_saturated","Biotic","biotinyl (-H2O)",1,36,2.77777777777778
+"0-5cm_SR_150d_CW_saturated","Biotic","CH4_O",359,36,997.222222222222
+"0-5cm_SR_150d_CW_saturated","Biotic","Cystine",1,36,2.77777777777778
+"0-5cm_SR_150d_CW_saturated","Biotic","Glutamic Acid",2,36,5.55555555555556
+"0-5cm_SR_150d_CW_saturated","Biotic","Glycine",1,36,2.77777777777778
+"0-5cm_SR_150d_CW_saturated","Biotic","malonyl group (-H2O)",235,36,652.777777777778
+"0-5cm_SR_150d_CW_saturated","Biotic","NH_CH2",6,36,16.6666666666667
+"0-5cm_SR_150d_CW_saturated","Biotic","palmitoylation (-H2O)",25,36,69.4444444444444
+"0-5cm_SR_150d_CW_saturated","Biotic","Phenylalanine",6,36,16.6666666666667
+"0-5cm_SR_150d_CW_saturated","Biotic","Proline",1,36,2.77777777777778
+"0-5cm_SR_150d_CW_saturated","Biotic","secondary amine",3,36,8.33333333333333
+"0-5cm_SR_150d_CW_saturated","Biotic","Serine",87,36,241.666666666667
+"0-5cm_SR_150d_CW_saturated","Biotic","Threonine",1,36,2.77777777777778
+"0-5cm_SR_150d_CW_saturated","both","C6H10O5",101,36,280.555555555556
+"0-5cm_SR_150d_CW_saturated","both","C6H10O6",75,36,208.333333333333
+"0-5cm_SR_150d_CW_saturated","both","D-Ribose (-H2O) (ribosylation)",4,36,11.1111111111111
+"0-5cm_SR_150d_CW_saturated","both","disaccharide (-H2O)",6,36,16.6666666666667
+"0-5cm_SR_150d_CW_saturated","both","erythose (-H2O)",200,36,555.555555555556
+"0-5cm_SR_150d_CW_saturated","both","Glucuronic Acid (-H2O)",11,36,30.5555555555556
+"0-5cm_SR_150d_FAD_saturated","Abiotic","acetotacetate (-H2O)",82,34,241.176470588235
+"0-5cm_SR_150d_FAD_saturated","Abiotic","acetylation (-H2O)",6,34,17.6470588235294
+"0-5cm_SR_150d_FAD_saturated","Abiotic","C2H2",359,34,1055.88235294118
+"0-5cm_SR_150d_FAD_saturated","Abiotic","Carboxylation",4,34,11.7647058823529
+"0-5cm_SR_150d_FAD_saturated","Abiotic","condensation/dehydration",3,34,8.82352941176471
+"0-5cm_SR_150d_FAD_saturated","Abiotic","ethyl addition (-H2O)",1,34,2.94117647058824
+"0-5cm_SR_150d_FAD_saturated","Abiotic","Formic Acid (-H2O)",8,34,23.5294117647059
+"0-5cm_SR_150d_FAD_saturated","Abiotic","glyoxylate (-H2O)",7,34,20.5882352941176
+"0-5cm_SR_150d_FAD_saturated","Abiotic","H2S",14,34,41.1764705882353
+"0-5cm_SR_150d_FAD_saturated","Abiotic","hydrogenation/dehydrogenation",4,34,11.7647058823529
+"0-5cm_SR_150d_FAD_saturated","Abiotic","hydroxylation (-H)",6,34,17.6470588235294
+"0-5cm_SR_150d_FAD_saturated","Abiotic","NO3-",1,34,2.94117647058824
+"0-5cm_SR_150d_FAD_saturated","Abiotic","SO42-",1,34,2.94117647058824
+"0-5cm_SR_150d_FAD_saturated","Biotic","Alanine",2,34,5.88235294117647
+"0-5cm_SR_150d_FAD_saturated","Biotic","Asparagine",1,34,2.94117647058824
+"0-5cm_SR_150d_FAD_saturated","Biotic","Aspartic Acid",1,34,2.94117647058824
+"0-5cm_SR_150d_FAD_saturated","Biotic","CH4_O",333,34,979.411764705882
+"0-5cm_SR_150d_FAD_saturated","Biotic","Cystine",1,34,2.94117647058824
+"0-5cm_SR_150d_FAD_saturated","Biotic","Glutamic Acid",2,34,5.88235294117647
+"0-5cm_SR_150d_FAD_saturated","Biotic","Glycine",1,34,2.94117647058824
+"0-5cm_SR_150d_FAD_saturated","Biotic","malonyl group (-H2O)",212,34,623.529411764706
+"0-5cm_SR_150d_FAD_saturated","Biotic","NH_CH2",4,34,11.7647058823529
+"0-5cm_SR_150d_FAD_saturated","Biotic","palmitoylation (-H2O)",22,34,64.7058823529412
+"0-5cm_SR_150d_FAD_saturated","Biotic","Phenylalanine",4,34,11.7647058823529
+"0-5cm_SR_150d_FAD_saturated","Biotic","Proline",1,34,2.94117647058824
+"0-5cm_SR_150d_FAD_saturated","Biotic","secondary amine",3,34,8.82352941176471
+"0-5cm_SR_150d_FAD_saturated","Biotic","Serine",78,34,229.411764705882
+"0-5cm_SR_150d_FAD_saturated","Biotic","Threonine",1,34,2.94117647058824
+"0-5cm_SR_150d_FAD_saturated","both","C6H10O5",94,34,276.470588235294
+"0-5cm_SR_150d_FAD_saturated","both","C6H10O6",67,34,197.058823529412
+"0-5cm_SR_150d_FAD_saturated","both","D-Ribose (-H2O) (ribosylation)",3,34,8.82352941176471
+"0-5cm_SR_150d_FAD_saturated","both","disaccharide (-H2O)",4,34,11.7647058823529
+"0-5cm_SR_150d_FAD_saturated","both","erythose (-H2O)",183,34,538.235294117647
+"0-5cm_SR_150d_FAD_saturated","both","Glucuronic Acid (-H2O)",11,34,32.3529411764706
+"0-5cm_SR_30d_CW_instant chemistry","Abiotic","acetotacetate (-H2O)",89,37,240.540540540541
+"0-5cm_SR_30d_CW_instant chemistry","Abiotic","acetylation (-H2O)",6,37,16.2162162162162
+"0-5cm_SR_30d_CW_instant chemistry","Abiotic","C2H2",398,37,1075.67567567568
+"0-5cm_SR_30d_CW_instant chemistry","Abiotic","Carboxylation",8,37,21.6216216216216
+"0-5cm_SR_30d_CW_instant chemistry","Abiotic","condensation/dehydration",3,37,8.10810810810811
+"0-5cm_SR_30d_CW_instant chemistry","Abiotic","ethyl addition (-H2O)",1,37,2.7027027027027
+"0-5cm_SR_30d_CW_instant chemistry","Abiotic","Formic Acid (-H2O)",9,37,24.3243243243243
+"0-5cm_SR_30d_CW_instant chemistry","Abiotic","glyoxylate (-H2O)",10,37,27.027027027027
+"0-5cm_SR_30d_CW_instant chemistry","Abiotic","H2S",12,37,32.4324324324324
+"0-5cm_SR_30d_CW_instant chemistry","Abiotic","hydrogenation/dehydrogenation",4,37,10.8108108108108
+"0-5cm_SR_30d_CW_instant chemistry","Abiotic","hydroxylation (-H)",8,37,21.6216216216216
+"0-5cm_SR_30d_CW_instant chemistry","Abiotic","methanol (-H2O)",1,37,2.7027027027027
+"0-5cm_SR_30d_CW_instant chemistry","Abiotic","NO3-",3,37,8.10810810810811
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","Alanine",2,37,5.40540540540541
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","Arginine",12,37,32.4324324324324
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","Asparagine",2,37,5.40540540540541
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","Aspartic Acid",2,37,5.40540540540541
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","CH4_O",380,37,1027.02702702703
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","Cysteine",1,37,2.7027027027027
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","Glutamic Acid",2,37,5.40540540540541
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","Glycine",1,37,2.7027027027027
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","Isoleucine",2,37,5.40540540540541
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","malonyl group (-H2O)",244,37,659.459459459459
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","NH_CH2",5,37,13.5135135135135
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","palmitoylation (-H2O)",22,37,59.4594594594595
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","Phenylalanine",3,37,8.10810810810811
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","Proline",1,37,2.7027027027027
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","secondary amine",2,37,5.40540540540541
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","Serine",93,37,251.351351351351
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","Threonine",2,37,5.40540540540541
+"0-5cm_SR_30d_CW_instant chemistry","Biotic","urea addition (-H)",1,37,2.7027027027027
+"0-5cm_SR_30d_CW_instant chemistry","both","C6H10O5",102,37,275.675675675676
+"0-5cm_SR_30d_CW_instant chemistry","both","C6H10O6",75,37,202.702702702703
+"0-5cm_SR_30d_CW_instant chemistry","both","D-Ribose (-H2O) (ribosylation)",3,37,8.10810810810811
+"0-5cm_SR_30d_CW_instant chemistry","both","disaccharide (-H2O)",6,37,16.2162162162162
+"0-5cm_SR_30d_CW_instant chemistry","both","erythose (-H2O)",210,37,567.567567567567
+"0-5cm_SR_30d_CW_instant chemistry","both","Glucuronic Acid (-H2O)",13,37,35.1351351351351
+"0-5cm_SR_30d_CW_saturated","Abiotic","acetotacetate (-H2O)",83,34,244.117647058824
+"0-5cm_SR_30d_CW_saturated","Abiotic","acetylation (-H2O)",7,34,20.5882352941176
+"0-5cm_SR_30d_CW_saturated","Abiotic","C2H2",387,34,1138.23529411765
+"0-5cm_SR_30d_CW_saturated","Abiotic","Carboxylation",4,34,11.7647058823529
+"0-5cm_SR_30d_CW_saturated","Abiotic","condensation/dehydration",4,34,11.7647058823529
+"0-5cm_SR_30d_CW_saturated","Abiotic","ethyl addition (-H2O)",2,34,5.88235294117647
+"0-5cm_SR_30d_CW_saturated","Abiotic","Formic Acid (-H2O)",9,34,26.4705882352941
+"0-5cm_SR_30d_CW_saturated","Abiotic","glyoxylate (-H2O)",8,34,23.5294117647059
+"0-5cm_SR_30d_CW_saturated","Abiotic","H2S",14,34,41.1764705882353
+"0-5cm_SR_30d_CW_saturated","Abiotic","hydrogenation/dehydrogenation",4,34,11.7647058823529
+"0-5cm_SR_30d_CW_saturated","Abiotic","hydroxylation (-H)",5,34,14.7058823529412
+"0-5cm_SR_30d_CW_saturated","Abiotic","NO3-",1,34,2.94117647058824
+"0-5cm_SR_30d_CW_saturated","Abiotic","SO42-",2,34,5.88235294117647
+"0-5cm_SR_30d_CW_saturated","Biotic","Alanine",3,34,8.82352941176471
+"0-5cm_SR_30d_CW_saturated","Biotic","Aspartic Acid",1,34,2.94117647058824
+"0-5cm_SR_30d_CW_saturated","Biotic","CH4_O",367,34,1079.41176470588
+"0-5cm_SR_30d_CW_saturated","Biotic","Cystine",2,34,5.88235294117647
+"0-5cm_SR_30d_CW_saturated","Biotic","Glutamic Acid",2,34,5.88235294117647
+"0-5cm_SR_30d_CW_saturated","Biotic","Glycine",1,34,2.94117647058824
+"0-5cm_SR_30d_CW_saturated","Biotic","Isoleucine",1,34,2.94117647058824
+"0-5cm_SR_30d_CW_saturated","Biotic","malonyl group (-H2O)",219,34,644.117647058824
+"0-5cm_SR_30d_CW_saturated","Biotic","NH_CH2",6,34,17.6470588235294
+"0-5cm_SR_30d_CW_saturated","Biotic","palmitoylation (-H2O)",23,34,67.6470588235294
+"0-5cm_SR_30d_CW_saturated","Biotic","Phenylalanine",9,34,26.4705882352941
+"0-5cm_SR_30d_CW_saturated","Biotic","Proline",1,34,2.94117647058824
+"0-5cm_SR_30d_CW_saturated","Biotic","secondary amine",5,34,14.7058823529412
+"0-5cm_SR_30d_CW_saturated","Biotic","Serine",81,34,238.235294117647
+"0-5cm_SR_30d_CW_saturated","Biotic","Threonine",1,34,2.94117647058824
+"0-5cm_SR_30d_CW_saturated","both","C6H10O5",101,34,297.058823529412
+"0-5cm_SR_30d_CW_saturated","both","C6H10O6",76,34,223.529411764706
+"0-5cm_SR_30d_CW_saturated","both","D-Ribose (-H2O) (ribosylation)",3,34,8.82352941176471
+"0-5cm_SR_30d_CW_saturated","both","disaccharide (-H2O)",8,34,23.5294117647059
+"0-5cm_SR_30d_CW_saturated","both","erythose (-H2O)",198,34,582.352941176471
+"0-5cm_SR_30d_CW_saturated","both","Glucuronic Acid (-H2O)",11,34,32.3529411764706
+"0-5cm_SR_30d_FAD_instant chemistry","Abiotic","acetotacetate (-H2O)",78,36,216.666666666667
+"0-5cm_SR_30d_FAD_instant chemistry","Abiotic","acetylation (-H2O)",6,36,16.6666666666667
+"0-5cm_SR_30d_FAD_instant chemistry","Abiotic","C2H2",333,36,925
+"0-5cm_SR_30d_FAD_instant chemistry","Abiotic","Carboxylation",7,36,19.4444444444444
+"0-5cm_SR_30d_FAD_instant chemistry","Abiotic","condensation/dehydration",2,36,5.55555555555556
+"0-5cm_SR_30d_FAD_instant chemistry","Abiotic","ethyl addition (-H2O)",1,36,2.77777777777778
+"0-5cm_SR_30d_FAD_instant chemistry","Abiotic","Formic Acid (-H2O)",10,36,27.7777777777778
+"0-5cm_SR_30d_FAD_instant chemistry","Abiotic","glyoxylate (-H2O)",9,36,25
+"0-5cm_SR_30d_FAD_instant chemistry","Abiotic","H2S",4,36,11.1111111111111
+"0-5cm_SR_30d_FAD_instant chemistry","Abiotic","hydrogenation/dehydrogenation",4,36,11.1111111111111
+"0-5cm_SR_30d_FAD_instant chemistry","Abiotic","hydroxylation (-H)",7,36,19.4444444444444
+"0-5cm_SR_30d_FAD_instant chemistry","Abiotic","NO3-",1,36,2.77777777777778
+"0-5cm_SR_30d_FAD_instant chemistry","Abiotic","phosphate",1,36,2.77777777777778
+"0-5cm_SR_30d_FAD_instant chemistry","Biotic","Alanine",2,36,5.55555555555556
+"0-5cm_SR_30d_FAD_instant chemistry","Biotic","Arginine",6,36,16.6666666666667
+"0-5cm_SR_30d_FAD_instant chemistry","Biotic","Asparagine",1,36,2.77777777777778
+"0-5cm_SR_30d_FAD_instant chemistry","Biotic","Aspartic Acid",2,36,5.55555555555556
+"0-5cm_SR_30d_FAD_instant chemistry","Biotic","CH4_O",316,36,877.777777777778
+"0-5cm_SR_30d_FAD_instant chemistry","Biotic","Glutamic Acid",2,36,5.55555555555556
+"0-5cm_SR_30d_FAD_instant chemistry","Biotic","Glycine",1,36,2.77777777777778
+"0-5cm_SR_30d_FAD_instant chemistry","Biotic","malonyl group (-H2O)",204,36,566.666666666667
+"0-5cm_SR_30d_FAD_instant chemistry","Biotic","NH_CH2",3,36,8.33333333333333
+"0-5cm_SR_30d_FAD_instant chemistry","Biotic","palmitoylation (-H2O)",16,36,44.4444444444444
+"0-5cm_SR_30d_FAD_instant chemistry","Biotic","Phenylalanine",3,36,8.33333333333333
+"0-5cm_SR_30d_FAD_instant chemistry","Biotic","Proline",1,36,2.77777777777778
+"0-5cm_SR_30d_FAD_instant chemistry","Biotic","secondary amine",2,36,5.55555555555556
+"0-5cm_SR_30d_FAD_instant chemistry","Biotic","Serine",73,36,202.777777777778
+"0-5cm_SR_30d_FAD_instant chemistry","Biotic","Threonine",2,36,5.55555555555556
+"0-5cm_SR_30d_FAD_instant chemistry","Biotic","urea addition (-H)",1,36,2.77777777777778
+"0-5cm_SR_30d_FAD_instant chemistry","both","C6H10O5",86,36,238.888888888889
+"0-5cm_SR_30d_FAD_instant chemistry","both","C6H10O6",58,36,161.111111111111
+"0-5cm_SR_30d_FAD_instant chemistry","both","D-Ribose (-H2O) (ribosylation)",3,36,8.33333333333333
+"0-5cm_SR_30d_FAD_instant chemistry","both","disaccharide (-H2O)",2,36,5.55555555555556
+"0-5cm_SR_30d_FAD_instant chemistry","both","erythose (-H2O)",170,36,472.222222222222
+"0-5cm_SR_30d_FAD_instant chemistry","both","Glucuronic Acid (-H2O)",9,36,25
+"0-5cm_SR_30d_FAD_instant chemistry","both","transamination (-O)",1,36,2.77777777777778
+"0-5cm_SR_30d_FAD_saturated","Abiotic","acetotacetate (-H2O)",80,34,235.294117647059
+"0-5cm_SR_30d_FAD_saturated","Abiotic","acetylation (-H2O)",6,34,17.6470588235294
+"0-5cm_SR_30d_FAD_saturated","Abiotic","C2H2",372,34,1094.11764705882
+"0-5cm_SR_30d_FAD_saturated","Abiotic","Carboxylation",5,34,14.7058823529412
+"0-5cm_SR_30d_FAD_saturated","Abiotic","condensation/dehydration",2,34,5.88235294117647
+"0-5cm_SR_30d_FAD_saturated","Abiotic","ethyl addition (-H2O)",1,34,2.94117647058824
+"0-5cm_SR_30d_FAD_saturated","Abiotic","Formic Acid (-H2O)",9,34,26.4705882352941
+"0-5cm_SR_30d_FAD_saturated","Abiotic","glyoxylate (-H2O)",7,34,20.5882352941176
+"0-5cm_SR_30d_FAD_saturated","Abiotic","H2S",12,34,35.2941176470588
+"0-5cm_SR_30d_FAD_saturated","Abiotic","hydrogenation/dehydrogenation",4,34,11.7647058823529
+"0-5cm_SR_30d_FAD_saturated","Abiotic","hydroxylation (-H)",6,34,17.6470588235294
+"0-5cm_SR_30d_FAD_saturated","Abiotic","NO3-",1,34,2.94117647058824
+"0-5cm_SR_30d_FAD_saturated","Abiotic","PO43-",1,34,2.94117647058824
+"0-5cm_SR_30d_FAD_saturated","Abiotic","SO42-",1,34,2.94117647058824
+"0-5cm_SR_30d_FAD_saturated","Biotic","Alanine",2,34,5.88235294117647
+"0-5cm_SR_30d_FAD_saturated","Biotic","Aspartic Acid",1,34,2.94117647058824
+"0-5cm_SR_30d_FAD_saturated","Biotic","CH4_O",335,34,985.294117647059
+"0-5cm_SR_30d_FAD_saturated","Biotic","Glutamic Acid",1,34,2.94117647058824
+"0-5cm_SR_30d_FAD_saturated","Biotic","Glycine",1,34,2.94117647058824
+"0-5cm_SR_30d_FAD_saturated","Biotic","malonyl group (-H2O)",218,34,641.176470588235
+"0-5cm_SR_30d_FAD_saturated","Biotic","NH_CH2",6,34,17.6470588235294
+"0-5cm_SR_30d_FAD_saturated","Biotic","palmitoylation (-H2O)",22,34,64.7058823529412
+"0-5cm_SR_30d_FAD_saturated","Biotic","Phenylalanine",5,34,14.7058823529412
+"0-5cm_SR_30d_FAD_saturated","Biotic","Proline",1,34,2.94117647058824
+"0-5cm_SR_30d_FAD_saturated","Biotic","secondary amine",4,34,11.7647058823529
+"0-5cm_SR_30d_FAD_saturated","Biotic","Serine",71,34,208.823529411765
+"0-5cm_SR_30d_FAD_saturated","Biotic","Threonine",1,34,2.94117647058824
+"0-5cm_SR_30d_FAD_saturated","Biotic","urea addition (-H)",1,34,2.94117647058824
+"0-5cm_SR_30d_FAD_saturated","both","C6H10O5",95,34,279.411764705882
+"0-5cm_SR_30d_FAD_saturated","both","C6H10O6",73,34,214.705882352941
+"0-5cm_SR_30d_FAD_saturated","both","D-Ribose (-H2O) (ribosylation)",4,34,11.7647058823529
+"0-5cm_SR_30d_FAD_saturated","both","disaccharide (-H2O)",8,34,23.5294117647059
+"0-5cm_SR_30d_FAD_saturated","both","erythose (-H2O)",187,34,550
+"0-5cm_SR_30d_FAD_saturated","both","Glucuronic Acid (-H2O)",11,34,32.3529411764706
+"0-5cm_SR_90d_CW_instant chemistry","Abiotic","acetotacetate (-H2O)",90,38,236.842105263158
+"0-5cm_SR_90d_CW_instant chemistry","Abiotic","acetylation (-H2O)",6,38,15.7894736842105
+"0-5cm_SR_90d_CW_instant chemistry","Abiotic","C2H2",392,38,1031.57894736842
+"0-5cm_SR_90d_CW_instant chemistry","Abiotic","Carboxylation",9,38,23.6842105263158
+"0-5cm_SR_90d_CW_instant chemistry","Abiotic","condensation/dehydration",3,38,7.89473684210526
+"0-5cm_SR_90d_CW_instant chemistry","Abiotic","ethyl addition (-H2O)",1,38,2.63157894736842
+"0-5cm_SR_90d_CW_instant chemistry","Abiotic","Formic Acid (-H2O)",10,38,26.3157894736842
+"0-5cm_SR_90d_CW_instant chemistry","Abiotic","glyoxylate (-H2O)",9,38,23.6842105263158
+"0-5cm_SR_90d_CW_instant chemistry","Abiotic","H2S",10,38,26.3157894736842
+"0-5cm_SR_90d_CW_instant chemistry","Abiotic","hydrogenation/dehydrogenation",4,38,10.5263157894737
+"0-5cm_SR_90d_CW_instant chemistry","Abiotic","hydroxylation (-H)",9,38,23.6842105263158
+"0-5cm_SR_90d_CW_instant chemistry","Abiotic","NO3-",1,38,2.63157894736842
+"0-5cm_SR_90d_CW_instant chemistry","Abiotic","phosphate",1,38,2.63157894736842
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","Alanine",2,38,5.26315789473684
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","Arginine",15,38,39.4736842105263
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","Asparagine",1,38,2.63157894736842
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","Aspartic Acid",2,38,5.26315789473684
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","CH4_O",381,38,1002.63157894737
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","Cysteine",1,38,2.63157894736842
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","Glutamic Acid",3,38,7.89473684210526
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","Glycine",1,38,2.63157894736842
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","guanosine (-H2O)",1,38,2.63157894736842
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","Isoleucine",2,38,5.26315789473684
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","malonyl group (-H2O)",237,38,623.684210526316
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","NH_CH2",6,38,15.7894736842105
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","palmitoylation (-H2O)",20,38,52.6315789473684
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","Phenylalanine",4,38,10.5263157894737
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","Proline",1,38,2.63157894736842
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","secondary amine",2,38,5.26315789473684
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","Serine",95,38,250
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","Threonine",2,38,5.26315789473684
+"0-5cm_SR_90d_CW_instant chemistry","Biotic","urea addition (-H)",1,38,2.63157894736842
+"0-5cm_SR_90d_CW_instant chemistry","both","C6H10O5",104,38,273.684210526316
+"0-5cm_SR_90d_CW_instant chemistry","both","C6H10O6",69,38,181.578947368421
+"0-5cm_SR_90d_CW_instant chemistry","both","D-Ribose (-H2O) (ribosylation)",4,38,10.5263157894737
+"0-5cm_SR_90d_CW_instant chemistry","both","disaccharide (-H2O)",5,38,13.1578947368421
+"0-5cm_SR_90d_CW_instant chemistry","both","erythose (-H2O)",203,38,534.210526315789
+"0-5cm_SR_90d_CW_instant chemistry","both","Glucuronic Acid (-H2O)",11,38,28.9473684210526
+"0-5cm_SR_90d_CW_saturated","Abiotic","acetotacetate (-H2O)",91,36,252.777777777778
+"0-5cm_SR_90d_CW_saturated","Abiotic","acetylation (-H2O)",6,36,16.6666666666667
+"0-5cm_SR_90d_CW_saturated","Abiotic","C2H2",391,36,1086.11111111111
+"0-5cm_SR_90d_CW_saturated","Abiotic","Carboxylation",5,36,13.8888888888889
+"0-5cm_SR_90d_CW_saturated","Abiotic","condensation/dehydration",4,36,11.1111111111111
+"0-5cm_SR_90d_CW_saturated","Abiotic","ethyl addition (-H2O)",1,36,2.77777777777778
+"0-5cm_SR_90d_CW_saturated","Abiotic","Formic Acid (-H2O)",11,36,30.5555555555556
+"0-5cm_SR_90d_CW_saturated","Abiotic","glyoxylate (-H2O)",7,36,19.4444444444444
+"0-5cm_SR_90d_CW_saturated","Abiotic","H2S",19,36,52.7777777777778
+"0-5cm_SR_90d_CW_saturated","Abiotic","hydrogenation/dehydrogenation",4,36,11.1111111111111
+"0-5cm_SR_90d_CW_saturated","Abiotic","hydroxylation (-H)",7,36,19.4444444444444
+"0-5cm_SR_90d_CW_saturated","Abiotic","NO3-",1,36,2.77777777777778
+"0-5cm_SR_90d_CW_saturated","Abiotic","SO42-",2,36,5.55555555555556
+"0-5cm_SR_90d_CW_saturated","Abiotic","sulfate (-H2O)",1,36,2.77777777777778
+"0-5cm_SR_90d_CW_saturated","Biotic","Alanine",2,36,5.55555555555556
+"0-5cm_SR_90d_CW_saturated","Biotic","Asparagine",1,36,2.77777777777778
+"0-5cm_SR_90d_CW_saturated","Biotic","Aspartic Acid",1,36,2.77777777777778
+"0-5cm_SR_90d_CW_saturated","Biotic","CH4_O",371,36,1030.55555555556
+"0-5cm_SR_90d_CW_saturated","Biotic","Cystine",2,36,5.55555555555556
+"0-5cm_SR_90d_CW_saturated","Biotic","Glutamic Acid",2,36,5.55555555555556
+"0-5cm_SR_90d_CW_saturated","Biotic","Glycine",1,36,2.77777777777778
+"0-5cm_SR_90d_CW_saturated","Biotic","malonyl group (-H2O)",230,36,638.888888888889
+"0-5cm_SR_90d_CW_saturated","Biotic","NH_CH2",6,36,16.6666666666667
+"0-5cm_SR_90d_CW_saturated","Biotic","palmitoylation (-H2O)",26,36,72.2222222222222
+"0-5cm_SR_90d_CW_saturated","Biotic","Phenylalanine",7,36,19.4444444444444
+"0-5cm_SR_90d_CW_saturated","Biotic","Proline",1,36,2.77777777777778
+"0-5cm_SR_90d_CW_saturated","Biotic","secondary amine",4,36,11.1111111111111
+"0-5cm_SR_90d_CW_saturated","Biotic","Serine",84,36,233.333333333333
+"0-5cm_SR_90d_CW_saturated","Biotic","Threonine",1,36,2.77777777777778
+"0-5cm_SR_90d_CW_saturated","Biotic","urea addition (-H)",1,36,2.77777777777778
+"0-5cm_SR_90d_CW_saturated","both","C6H10O5",104,36,288.888888888889
+"0-5cm_SR_90d_CW_saturated","both","C6H10O6",77,36,213.888888888889
+"0-5cm_SR_90d_CW_saturated","both","D-Ribose (-H2O) (ribosylation)",3,36,8.33333333333333
+"0-5cm_SR_90d_CW_saturated","both","disaccharide (-H2O)",9,36,25
+"0-5cm_SR_90d_CW_saturated","both","erythose (-H2O)",209,36,580.555555555556
+"0-5cm_SR_90d_CW_saturated","both","Glucuronic Acid (-H2O)",13,36,36.1111111111111
+"0-5cm_SR_90d_FAD_instant chemistry","Abiotic","acetotacetate (-H2O)",92,38,242.105263157895
+"0-5cm_SR_90d_FAD_instant chemistry","Abiotic","acetylation (-H2O)",6,38,15.7894736842105
+"0-5cm_SR_90d_FAD_instant chemistry","Abiotic","C2H2",411,38,1081.57894736842
+"0-5cm_SR_90d_FAD_instant chemistry","Abiotic","Carboxylation",10,38,26.3157894736842
+"0-5cm_SR_90d_FAD_instant chemistry","Abiotic","condensation/dehydration",3,38,7.89473684210526
+"0-5cm_SR_90d_FAD_instant chemistry","Abiotic","ethyl addition (-H2O)",1,38,2.63157894736842
+"0-5cm_SR_90d_FAD_instant chemistry","Abiotic","Formic Acid (-H2O)",10,38,26.3157894736842
+"0-5cm_SR_90d_FAD_instant chemistry","Abiotic","glyoxylate (-H2O)",9,38,23.6842105263158
+"0-5cm_SR_90d_FAD_instant chemistry","Abiotic","H2S",9,38,23.6842105263158
+"0-5cm_SR_90d_FAD_instant chemistry","Abiotic","hydrogenation/dehydrogenation",4,38,10.5263157894737
+"0-5cm_SR_90d_FAD_instant chemistry","Abiotic","hydroxylation (-H)",7,38,18.4210526315789
+"0-5cm_SR_90d_FAD_instant chemistry","Abiotic","NH4+",1,38,2.63157894736842
+"0-5cm_SR_90d_FAD_instant chemistry","Abiotic","NO3-",1,38,2.63157894736842
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","Alanine",2,38,5.26315789473684
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","Arginine",11,38,28.9473684210526
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","Asparagine",1,38,2.63157894736842
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","Aspartic Acid",3,38,7.89473684210526
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","biotinyl (-H2O)",1,38,2.63157894736842
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","CH4_O",381,38,1002.63157894737
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","Cystine",1,38,2.63157894736842
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","Glutamic Acid",3,38,7.89473684210526
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","Glycine",1,38,2.63157894736842
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","Isoleucine",1,38,2.63157894736842
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","malonyl group (-H2O)",239,38,628.947368421053
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","NH_CH2",4,38,10.5263157894737
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","palmitoylation (-H2O)",24,38,63.1578947368421
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","Phenylalanine",7,38,18.4210526315789
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","Proline",1,38,2.63157894736842
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","secondary amine",2,38,5.26315789473684
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","Serine",96,38,252.631578947368
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","Threonine",2,38,5.26315789473684
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic","urea addition (-H)",1,38,2.63157894736842
+"0-5cm_SR_90d_FAD_instant chemistry","both","C6H10O5",106,38,278.947368421053
+"0-5cm_SR_90d_FAD_instant chemistry","both","C6H10O6",79,38,207.894736842105
+"0-5cm_SR_90d_FAD_instant chemistry","both","D-Ribose (-H2O) (ribosylation)",4,38,10.5263157894737
+"0-5cm_SR_90d_FAD_instant chemistry","both","disaccharide (-H2O)",8,38,21.0526315789474
+"0-5cm_SR_90d_FAD_instant chemistry","both","erythose (-H2O)",205,38,539.473684210526
+"0-5cm_SR_90d_FAD_instant chemistry","both","Glucuronic Acid (-H2O)",13,38,34.2105263157895
+"0-5cm_SR_90d_FAD_saturated","Abiotic","acetotacetate (-H2O)",89,34,261.764705882353
+"0-5cm_SR_90d_FAD_saturated","Abiotic","acetylation (-H2O)",6,34,17.6470588235294
+"0-5cm_SR_90d_FAD_saturated","Abiotic","C2H2",377,34,1108.82352941176
+"0-5cm_SR_90d_FAD_saturated","Abiotic","Carboxylation",5,34,14.7058823529412
+"0-5cm_SR_90d_FAD_saturated","Abiotic","condensation/dehydration",4,34,11.7647058823529
+"0-5cm_SR_90d_FAD_saturated","Abiotic","ethyl addition (-H2O)",1,34,2.94117647058824
+"0-5cm_SR_90d_FAD_saturated","Abiotic","Formic Acid (-H2O)",10,34,29.4117647058824
+"0-5cm_SR_90d_FAD_saturated","Abiotic","glyoxylate (-H2O)",8,34,23.5294117647059
+"0-5cm_SR_90d_FAD_saturated","Abiotic","H2S",16,34,47.0588235294118
+"0-5cm_SR_90d_FAD_saturated","Abiotic","hydrogenation/dehydrogenation",5,34,14.7058823529412
+"0-5cm_SR_90d_FAD_saturated","Abiotic","hydroxylation (-H)",6,34,17.6470588235294
+"0-5cm_SR_90d_FAD_saturated","Abiotic","NO3-",1,34,2.94117647058824
+"0-5cm_SR_90d_FAD_saturated","Abiotic","SO42-",2,34,5.88235294117647
+"0-5cm_SR_90d_FAD_saturated","Biotic","Alanine",2,34,5.88235294117647
+"0-5cm_SR_90d_FAD_saturated","Biotic","Asparagine",1,34,2.94117647058824
+"0-5cm_SR_90d_FAD_saturated","Biotic","Aspartic Acid",1,34,2.94117647058824
+"0-5cm_SR_90d_FAD_saturated","Biotic","CH4_O",359,34,1055.88235294118
+"0-5cm_SR_90d_FAD_saturated","Biotic","Cystine",1,34,2.94117647058824
+"0-5cm_SR_90d_FAD_saturated","Biotic","Glutamic Acid",2,34,5.88235294117647
+"0-5cm_SR_90d_FAD_saturated","Biotic","Glycine",1,34,2.94117647058824
+"0-5cm_SR_90d_FAD_saturated","Biotic","malonyl group (-H2O)",221,34,650
+"0-5cm_SR_90d_FAD_saturated","Biotic","NH_CH2",6,34,17.6470588235294
+"0-5cm_SR_90d_FAD_saturated","Biotic","palmitoylation (-H2O)",26,34,76.4705882352941
+"0-5cm_SR_90d_FAD_saturated","Biotic","Phenylalanine",6,34,17.6470588235294
+"0-5cm_SR_90d_FAD_saturated","Biotic","Proline",1,34,2.94117647058824
+"0-5cm_SR_90d_FAD_saturated","Biotic","secondary amine",4,34,11.7647058823529
+"0-5cm_SR_90d_FAD_saturated","Biotic","Serine",74,34,217.647058823529
+"0-5cm_SR_90d_FAD_saturated","Biotic","Threonine",1,34,2.94117647058824
+"0-5cm_SR_90d_FAD_saturated","both","C6H10O5",94,34,276.470588235294
+"0-5cm_SR_90d_FAD_saturated","both","C6H10O6",77,34,226.470588235294
+"0-5cm_SR_90d_FAD_saturated","both","D-Ribose (-H2O) (ribosylation)",3,34,8.82352941176471
+"0-5cm_SR_90d_FAD_saturated","both","disaccharide (-H2O)",7,34,20.5882352941176
+"0-5cm_SR_90d_FAD_saturated","both","erythose (-H2O)",202,34,594.117647058824
+"0-5cm_SR_90d_FAD_saturated","both","Glucuronic Acid (-H2O)",13,34,38.2352941176471
+"0-5cm_SR_timezero__timezero","Abiotic","acetotacetate (-H2O)",68,35,194.285714285714
+"0-5cm_SR_timezero__timezero","Abiotic","acetylation (-H2O)",2,35,5.71428571428571
+"0-5cm_SR_timezero__timezero","Abiotic","C2H2",295,35,842.857142857143
+"0-5cm_SR_timezero__timezero","Abiotic","Carboxylation",7,35,20
+"0-5cm_SR_timezero__timezero","Abiotic","condensation/dehydration",3,35,8.57142857142857
+"0-5cm_SR_timezero__timezero","Abiotic","ethyl addition (-H2O)",1,35,2.85714285714286
+"0-5cm_SR_timezero__timezero","Abiotic","Formic Acid (-H2O)",8,35,22.8571428571429
+"0-5cm_SR_timezero__timezero","Abiotic","glyoxylate (-H2O)",7,35,20
+"0-5cm_SR_timezero__timezero","Abiotic","H2S",8,35,22.8571428571429
+"0-5cm_SR_timezero__timezero","Abiotic","hydrogenation/dehydrogenation",2,35,5.71428571428571
+"0-5cm_SR_timezero__timezero","Abiotic","hydroxylation (-H)",5,35,14.2857142857143
+"0-5cm_SR_timezero__timezero","Abiotic","NH4+",1,35,2.85714285714286
+"0-5cm_SR_timezero__timezero","Abiotic","NO3-",1,35,2.85714285714286
+"0-5cm_SR_timezero__timezero","Abiotic","PO43-",1,35,2.85714285714286
+"0-5cm_SR_timezero__timezero","Abiotic","SO42-",2,35,5.71428571428571
+"0-5cm_SR_timezero__timezero","Biotic","Alanine",2,35,5.71428571428571
+"0-5cm_SR_timezero__timezero","Biotic","Aspartic Acid",2,35,5.71428571428571
+"0-5cm_SR_timezero__timezero","Biotic","carbamoyl P transfer (-H2PO4)",1,35,2.85714285714286
+"0-5cm_SR_timezero__timezero","Biotic","CH4_O",267,35,762.857142857143
+"0-5cm_SR_timezero__timezero","Biotic","Glutamic Acid",1,35,2.85714285714286
+"0-5cm_SR_timezero__timezero","Biotic","Glycine",1,35,2.85714285714286
+"0-5cm_SR_timezero__timezero","Biotic","malonyl group (-H2O)",178,35,508.571428571429
+"0-5cm_SR_timezero__timezero","Biotic","NH_CH2",1,35,2.85714285714286
+"0-5cm_SR_timezero__timezero","Biotic","palmitoylation (-H2O)",15,35,42.8571428571429
+"0-5cm_SR_timezero__timezero","Biotic","Phenylalanine",6,35,17.1428571428571
+"0-5cm_SR_timezero__timezero","Biotic","Proline",1,35,2.85714285714286
+"0-5cm_SR_timezero__timezero","Biotic","secondary amine",2,35,5.71428571428571
+"0-5cm_SR_timezero__timezero","Biotic","Serine",55,35,157.142857142857
+"0-5cm_SR_timezero__timezero","Biotic","Threonine",1,35,2.85714285714286
+"0-5cm_SR_timezero__timezero","both","C6H10O5",79,35,225.714285714286
+"0-5cm_SR_timezero__timezero","both","C6H10O6",60,35,171.428571428571
+"0-5cm_SR_timezero__timezero","both","D-Ribose (-H2O) (ribosylation)",2,35,5.71428571428571
+"0-5cm_SR_timezero__timezero","both","disaccharide (-H2O)",2,35,5.71428571428571
+"0-5cm_SR_timezero__timezero","both","erythose (-H2O)",155,35,442.857142857143
+"0-5cm_SR_timezero__timezero","both","Glucuronic Acid (-H2O)",6,35,17.1428571428571
+"5cm-end_CPCRW_150d_CW_saturated","Abiotic","acetotacetate (-H2O)",90,36,250
+"5cm-end_CPCRW_150d_CW_saturated","Abiotic","acetylation (-H)",1,36,2.77777777777778
+"5cm-end_CPCRW_150d_CW_saturated","Abiotic","acetylation (-H2O)",6,36,16.6666666666667
+"5cm-end_CPCRW_150d_CW_saturated","Abiotic","C2H2",387,36,1075
+"5cm-end_CPCRW_150d_CW_saturated","Abiotic","Carboxylation",6,36,16.6666666666667
+"5cm-end_CPCRW_150d_CW_saturated","Abiotic","CHO2",1,36,2.77777777777778
+"5cm-end_CPCRW_150d_CW_saturated","Abiotic","condensation/dehydration",4,36,11.1111111111111
+"5cm-end_CPCRW_150d_CW_saturated","Abiotic","ethyl addition (-H2O)",1,36,2.77777777777778
+"5cm-end_CPCRW_150d_CW_saturated","Abiotic","Formic Acid (-H2O)",11,36,30.5555555555556
+"5cm-end_CPCRW_150d_CW_saturated","Abiotic","glyoxylate (-H2O)",11,36,30.5555555555556
+"5cm-end_CPCRW_150d_CW_saturated","Abiotic","H2S",11,36,30.5555555555556
+"5cm-end_CPCRW_150d_CW_saturated","Abiotic","hydrogenation/dehydrogenation",4,36,11.1111111111111
+"5cm-end_CPCRW_150d_CW_saturated","Abiotic","hydroxylation (-H)",5,36,13.8888888888889
+"5cm-end_CPCRW_150d_CW_saturated","Abiotic","Inorganic Phosphate",1,36,2.77777777777778
+"5cm-end_CPCRW_150d_CW_saturated","Abiotic","methanol (-H2O)",1,36,2.77777777777778
+"5cm-end_CPCRW_150d_CW_saturated","Abiotic","NO3-",1,36,2.77777777777778
+"5cm-end_CPCRW_150d_CW_saturated","Biotic","Alanine",3,36,8.33333333333333
+"5cm-end_CPCRW_150d_CW_saturated","Biotic","Aspartic Acid",1,36,2.77777777777778
+"5cm-end_CPCRW_150d_CW_saturated","Biotic","CH4_O",372,36,1033.33333333333
+"5cm-end_CPCRW_150d_CW_saturated","Biotic","Glutamic Acid",2,36,5.55555555555556
+"5cm-end_CPCRW_150d_CW_saturated","Biotic","Glycine",1,36,2.77777777777778
+"5cm-end_CPCRW_150d_CW_saturated","Biotic","Isoleucine",1,36,2.77777777777778
+"5cm-end_CPCRW_150d_CW_saturated","Biotic","malonyl group (-H2O)",239,36,663.888888888889
+"5cm-end_CPCRW_150d_CW_saturated","Biotic","NH_CH2",4,36,11.1111111111111
+"5cm-end_CPCRW_150d_CW_saturated","Biotic","palmitoylation (-H2O)",27,36,75
+"5cm-end_CPCRW_150d_CW_saturated","Biotic","Phenylalanine",9,36,25
+"5cm-end_CPCRW_150d_CW_saturated","Biotic","Proline",1,36,2.77777777777778
+"5cm-end_CPCRW_150d_CW_saturated","Biotic","secondary amine",2,36,5.55555555555556
+"5cm-end_CPCRW_150d_CW_saturated","Biotic","Serine",78,36,216.666666666667
+"5cm-end_CPCRW_150d_CW_saturated","Biotic","Threonine",1,36,2.77777777777778
+"5cm-end_CPCRW_150d_CW_saturated","both","C6H10O5",98,36,272.222222222222
+"5cm-end_CPCRW_150d_CW_saturated","both","C6H10O6",88,36,244.444444444444
+"5cm-end_CPCRW_150d_CW_saturated","both","D-Ribose (-H2O) (ribosylation)",4,36,11.1111111111111
+"5cm-end_CPCRW_150d_CW_saturated","both","disaccharide (-H2O)",8,36,22.2222222222222
+"5cm-end_CPCRW_150d_CW_saturated","both","erythose (-H2O)",205,36,569.444444444444
+"5cm-end_CPCRW_150d_CW_saturated","both","Glucuronic Acid (-H2O)",12,36,33.3333333333333
+"5cm-end_CPCRW_150d_FAD_saturated","Abiotic","acetotacetate (-H2O)",91,32,284.375
+"5cm-end_CPCRW_150d_FAD_saturated","Abiotic","acetylation (-H2O)",6,32,18.75
+"5cm-end_CPCRW_150d_FAD_saturated","Abiotic","C2H2",392,32,1225
+"5cm-end_CPCRW_150d_FAD_saturated","Abiotic","Carboxylation",5,32,15.625
+"5cm-end_CPCRW_150d_FAD_saturated","Abiotic","condensation/dehydration",4,32,12.5
+"5cm-end_CPCRW_150d_FAD_saturated","Abiotic","Formic Acid (-H2O)",11,32,34.375
+"5cm-end_CPCRW_150d_FAD_saturated","Abiotic","glyoxylate (-H2O)",7,32,21.875
+"5cm-end_CPCRW_150d_FAD_saturated","Abiotic","H2S",6,32,18.75
+"5cm-end_CPCRW_150d_FAD_saturated","Abiotic","hydrogenation/dehydrogenation",4,32,12.5
+"5cm-end_CPCRW_150d_FAD_saturated","Abiotic","hydroxylation (-H)",6,32,18.75
+"5cm-end_CPCRW_150d_FAD_saturated","Abiotic","methanol (-H2O)",1,32,3.125
+"5cm-end_CPCRW_150d_FAD_saturated","Abiotic","NO3-",1,32,3.125
+"5cm-end_CPCRW_150d_FAD_saturated","Biotic","Alanine",3,32,9.375
+"5cm-end_CPCRW_150d_FAD_saturated","Biotic","Aspartic Acid",1,32,3.125
+"5cm-end_CPCRW_150d_FAD_saturated","Biotic","CH4_O",390,32,1218.75
+"5cm-end_CPCRW_150d_FAD_saturated","Biotic","Glutamic Acid",2,32,6.25
+"5cm-end_CPCRW_150d_FAD_saturated","Biotic","Glycine",1,32,3.125
+"5cm-end_CPCRW_150d_FAD_saturated","Biotic","Isoleucine",1,32,3.125
+"5cm-end_CPCRW_150d_FAD_saturated","Biotic","malonyl group (-H2O)",240,32,750
+"5cm-end_CPCRW_150d_FAD_saturated","Biotic","NH_CH2",6,32,18.75
+"5cm-end_CPCRW_150d_FAD_saturated","Biotic","palmitoylation (-H2O)",26,32,81.25
+"5cm-end_CPCRW_150d_FAD_saturated","Biotic","Phenylalanine",10,32,31.25
+"5cm-end_CPCRW_150d_FAD_saturated","Biotic","Proline",1,32,3.125
+"5cm-end_CPCRW_150d_FAD_saturated","Biotic","secondary amine",4,32,12.5
+"5cm-end_CPCRW_150d_FAD_saturated","Biotic","Serine",77,32,240.625
+"5cm-end_CPCRW_150d_FAD_saturated","Biotic","Threonine",1,32,3.125
+"5cm-end_CPCRW_150d_FAD_saturated","both","C6H10O5",106,32,331.25
+"5cm-end_CPCRW_150d_FAD_saturated","both","C6H10O6",87,32,271.875
+"5cm-end_CPCRW_150d_FAD_saturated","both","D-Ribose (-H2O) (ribosylation)",4,32,12.5
+"5cm-end_CPCRW_150d_FAD_saturated","both","disaccharide (-H2O)",7,32,21.875
+"5cm-end_CPCRW_150d_FAD_saturated","both","erythose (-H2O)",215,32,671.875
+"5cm-end_CPCRW_150d_FAD_saturated","both","Glucuronic Acid (-H2O)",12,32,37.5
+"5cm-end_CPCRW_30d_CW_saturated","Abiotic","acetotacetate (-H2O)",92,35,262.857142857143
+"5cm-end_CPCRW_30d_CW_saturated","Abiotic","acetylation (-H)",2,35,5.71428571428571
+"5cm-end_CPCRW_30d_CW_saturated","Abiotic","acetylation (-H2O)",6,35,17.1428571428571
+"5cm-end_CPCRW_30d_CW_saturated","Abiotic","C2H2",391,35,1117.14285714286
+"5cm-end_CPCRW_30d_CW_saturated","Abiotic","Carboxylation",7,35,20
+"5cm-end_CPCRW_30d_CW_saturated","Abiotic","condensation/dehydration",5,35,14.2857142857143
+"5cm-end_CPCRW_30d_CW_saturated","Abiotic","Formic Acid (-H2O)",10,35,28.5714285714286
+"5cm-end_CPCRW_30d_CW_saturated","Abiotic","glyoxylate (-H2O)",11,35,31.4285714285714
+"5cm-end_CPCRW_30d_CW_saturated","Abiotic","H2S",14,35,40
+"5cm-end_CPCRW_30d_CW_saturated","Abiotic","hydrogenation/dehydrogenation",4,35,11.4285714285714
+"5cm-end_CPCRW_30d_CW_saturated","Abiotic","hydroxylation (-H)",6,35,17.1428571428571
+"5cm-end_CPCRW_30d_CW_saturated","Abiotic","Inorganic Phosphate",2,35,5.71428571428571
+"5cm-end_CPCRW_30d_CW_saturated","Abiotic","methanol (-H2O)",1,35,2.85714285714286
+"5cm-end_CPCRW_30d_CW_saturated","Abiotic","SO42-",1,35,2.85714285714286
+"5cm-end_CPCRW_30d_CW_saturated","Biotic","Alanine",3,35,8.57142857142857
+"5cm-end_CPCRW_30d_CW_saturated","Biotic","Aspartic Acid",2,35,5.71428571428571
+"5cm-end_CPCRW_30d_CW_saturated","Biotic","CH4_O",385,35,1100
+"5cm-end_CPCRW_30d_CW_saturated","Biotic","Cystine",1,35,2.85714285714286
+"5cm-end_CPCRW_30d_CW_saturated","Biotic","Glutamic Acid",2,35,5.71428571428571
+"5cm-end_CPCRW_30d_CW_saturated","Biotic","Glycine",1,35,2.85714285714286
+"5cm-end_CPCRW_30d_CW_saturated","Biotic","Isoleucine",1,35,2.85714285714286
+"5cm-end_CPCRW_30d_CW_saturated","Biotic","malonyl group (-H2O)",257,35,734.285714285714
+"5cm-end_CPCRW_30d_CW_saturated","Biotic","NH_CH2",6,35,17.1428571428571
+"5cm-end_CPCRW_30d_CW_saturated","Biotic","palmitoylation (-H2O)",20,35,57.1428571428571
+"5cm-end_CPCRW_30d_CW_saturated","Biotic","Phenylalanine",13,35,37.1428571428571
+"5cm-end_CPCRW_30d_CW_saturated","Biotic","Proline",1,35,2.85714285714286
+"5cm-end_CPCRW_30d_CW_saturated","Biotic","secondary amine",5,35,14.2857142857143
+"5cm-end_CPCRW_30d_CW_saturated","Biotic","Serine",87,35,248.571428571429
+"5cm-end_CPCRW_30d_CW_saturated","Biotic","Threonine",1,35,2.85714285714286
+"5cm-end_CPCRW_30d_CW_saturated","both","C6H10O5",104,35,297.142857142857
+"5cm-end_CPCRW_30d_CW_saturated","both","C6H10O6",93,35,265.714285714286
+"5cm-end_CPCRW_30d_CW_saturated","both","D-Ribose (-H2O) (ribosylation)",3,35,8.57142857142857
+"5cm-end_CPCRW_30d_CW_saturated","both","disaccharide (-H2O)",9,35,25.7142857142857
+"5cm-end_CPCRW_30d_CW_saturated","both","erythose (-H2O)",221,35,631.428571428571
+"5cm-end_CPCRW_30d_CW_saturated","both","Glucuronic Acid (-H2O)",12,35,34.2857142857143
+"5cm-end_CPCRW_30d_FAD_saturated","Abiotic","acetotacetate (-H2O)",92,37,248.648648648649
+"5cm-end_CPCRW_30d_FAD_saturated","Abiotic","acetylation (-H)",1,37,2.7027027027027
+"5cm-end_CPCRW_30d_FAD_saturated","Abiotic","acetylation (-H2O)",6,37,16.2162162162162
+"5cm-end_CPCRW_30d_FAD_saturated","Abiotic","C2H2",407,37,1100
+"5cm-end_CPCRW_30d_FAD_saturated","Abiotic","Carboxylation",6,37,16.2162162162162
+"5cm-end_CPCRW_30d_FAD_saturated","Abiotic","CHO2",1,37,2.7027027027027
+"5cm-end_CPCRW_30d_FAD_saturated","Abiotic","condensation/dehydration",5,37,13.5135135135135
+"5cm-end_CPCRW_30d_FAD_saturated","Abiotic","Formic Acid (-H2O)",10,37,27.027027027027
+"5cm-end_CPCRW_30d_FAD_saturated","Abiotic","glyoxylate (-H2O)",10,37,27.027027027027
+"5cm-end_CPCRW_30d_FAD_saturated","Abiotic","H2S",9,37,24.3243243243243
+"5cm-end_CPCRW_30d_FAD_saturated","Abiotic","hydrogenation/dehydrogenation",4,37,10.8108108108108
+"5cm-end_CPCRW_30d_FAD_saturated","Abiotic","hydroxylation (-H)",5,37,13.5135135135135
+"5cm-end_CPCRW_30d_FAD_saturated","Abiotic","Inorganic Phosphate",2,37,5.40540540540541
+"5cm-end_CPCRW_30d_FAD_saturated","Abiotic","methanol (-H2O)",1,37,2.7027027027027
+"5cm-end_CPCRW_30d_FAD_saturated","Abiotic","NO3-",1,37,2.7027027027027
+"5cm-end_CPCRW_30d_FAD_saturated","Abiotic","SO42-",1,37,2.7027027027027
+"5cm-end_CPCRW_30d_FAD_saturated","Biotic","Alanine",3,37,8.10810810810811
+"5cm-end_CPCRW_30d_FAD_saturated","Biotic","Aspartic Acid",1,37,2.7027027027027
+"5cm-end_CPCRW_30d_FAD_saturated","Biotic","CH4_O",407,37,1100
+"5cm-end_CPCRW_30d_FAD_saturated","Biotic","Cystine",1,37,2.7027027027027
+"5cm-end_CPCRW_30d_FAD_saturated","Biotic","Glutamic Acid",2,37,5.40540540540541
+"5cm-end_CPCRW_30d_FAD_saturated","Biotic","Glycine",1,37,2.7027027027027
+"5cm-end_CPCRW_30d_FAD_saturated","Biotic","Isoleucine",1,37,2.7027027027027
+"5cm-end_CPCRW_30d_FAD_saturated","Biotic","malonyl group (-H2O)",256,37,691.891891891892
+"5cm-end_CPCRW_30d_FAD_saturated","Biotic","NH_CH2",6,37,16.2162162162162
+"5cm-end_CPCRW_30d_FAD_saturated","Biotic","palmitoylation (-H2O)",29,37,78.3783783783784
+"5cm-end_CPCRW_30d_FAD_saturated","Biotic","Phenylalanine",10,37,27.027027027027
+"5cm-end_CPCRW_30d_FAD_saturated","Biotic","Proline",1,37,2.7027027027027
+"5cm-end_CPCRW_30d_FAD_saturated","Biotic","secondary amine",4,37,10.8108108108108
+"5cm-end_CPCRW_30d_FAD_saturated","Biotic","Serine",82,37,221.621621621622
+"5cm-end_CPCRW_30d_FAD_saturated","Biotic","Threonine",1,37,2.7027027027027
+"5cm-end_CPCRW_30d_FAD_saturated","both","C6H10O5",125,37,337.837837837838
+"5cm-end_CPCRW_30d_FAD_saturated","both","C6H10O6",106,37,286.486486486487
+"5cm-end_CPCRW_30d_FAD_saturated","both","D-Ribose (-H2O) (ribosylation)",4,37,10.8108108108108
+"5cm-end_CPCRW_30d_FAD_saturated","both","disaccharide (-H2O)",11,37,29.7297297297297
+"5cm-end_CPCRW_30d_FAD_saturated","both","erythose (-H2O)",226,37,610.810810810811
+"5cm-end_CPCRW_30d_FAD_saturated","both","Glucuronic Acid (-H2O)",14,37,37.8378378378378
+"5cm-end_CPCRW_90d_CW_instant chemistry","Abiotic","acetotacetate (-H2O)",85,35,242.857142857143
+"5cm-end_CPCRW_90d_CW_instant chemistry","Abiotic","acetylation (-H2O)",6,35,17.1428571428571
+"5cm-end_CPCRW_90d_CW_instant chemistry","Abiotic","C2H2",383,35,1094.28571428571
+"5cm-end_CPCRW_90d_CW_instant chemistry","Abiotic","Carboxylation",8,35,22.8571428571429
+"5cm-end_CPCRW_90d_CW_instant chemistry","Abiotic","condensation/dehydration",4,35,11.4285714285714
+"5cm-end_CPCRW_90d_CW_instant chemistry","Abiotic","Formic Acid (-H2O)",11,35,31.4285714285714
+"5cm-end_CPCRW_90d_CW_instant chemistry","Abiotic","glyoxylate (-H2O)",8,35,22.8571428571429
+"5cm-end_CPCRW_90d_CW_instant chemistry","Abiotic","H2S",5,35,14.2857142857143
+"5cm-end_CPCRW_90d_CW_instant chemistry","Abiotic","hydrogenation/dehydrogenation",4,35,11.4285714285714
+"5cm-end_CPCRW_90d_CW_instant chemistry","Abiotic","hydroxylation (-H)",5,35,14.2857142857143
+"5cm-end_CPCRW_90d_CW_instant chemistry","Abiotic","Inorganic Phosphate",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_instant chemistry","Abiotic","NO3-",2,35,5.71428571428571
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic","Alanine",3,35,8.57142857142857
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic","Aspartic Acid",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic","CH4_O",365,35,1042.85714285714
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic","Glutamic Acid",2,35,5.71428571428571
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic","Glycine",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic","Isoleucine",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic","isoprene addition (-H)",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic","malonyl group (-H2O)",232,35,662.857142857143
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic","NH_CH2",4,35,11.4285714285714
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic","palmitoylation (-H2O)",24,35,68.5714285714286
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic","Phenylalanine",6,35,17.1428571428571
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic","Proline",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic","secondary amine",3,35,8.57142857142857
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic","Serine",73,35,208.571428571429
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic","Threonine",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic","urea addition (-H)",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic","uridine (-H2O)",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_instant chemistry","both","C6H10O5",108,35,308.571428571429
+"5cm-end_CPCRW_90d_CW_instant chemistry","both","C6H10O6",89,35,254.285714285714
+"5cm-end_CPCRW_90d_CW_instant chemistry","both","D-Ribose (-H2O) (ribosylation)",4,35,11.4285714285714
+"5cm-end_CPCRW_90d_CW_instant chemistry","both","disaccharide (-H2O)",9,35,25.7142857142857
+"5cm-end_CPCRW_90d_CW_instant chemistry","both","erythose (-H2O)",210,35,600
+"5cm-end_CPCRW_90d_CW_instant chemistry","both","Glucuronic Acid (-H2O)",9,35,25.7142857142857
+"5cm-end_CPCRW_90d_CW_saturated","Abiotic","acetotacetate (-H2O)",93,35,265.714285714286
+"5cm-end_CPCRW_90d_CW_saturated","Abiotic","acetylation (-H2O)",6,35,17.1428571428571
+"5cm-end_CPCRW_90d_CW_saturated","Abiotic","C2H2",390,35,1114.28571428571
+"5cm-end_CPCRW_90d_CW_saturated","Abiotic","Carboxylation",7,35,20
+"5cm-end_CPCRW_90d_CW_saturated","Abiotic","condensation/dehydration",6,35,17.1428571428571
+"5cm-end_CPCRW_90d_CW_saturated","Abiotic","ethyl addition (-H2O)",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_saturated","Abiotic","Formic Acid (-H2O)",10,35,28.5714285714286
+"5cm-end_CPCRW_90d_CW_saturated","Abiotic","glyoxylate (-H2O)",11,35,31.4285714285714
+"5cm-end_CPCRW_90d_CW_saturated","Abiotic","H2S",13,35,37.1428571428571
+"5cm-end_CPCRW_90d_CW_saturated","Abiotic","hydrogenation/dehydrogenation",4,35,11.4285714285714
+"5cm-end_CPCRW_90d_CW_saturated","Abiotic","hydroxylation (-H)",5,35,14.2857142857143
+"5cm-end_CPCRW_90d_CW_saturated","Abiotic","Inorganic Phosphate",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_saturated","Abiotic","methanol (-H2O)",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_saturated","Abiotic","SO42-",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_saturated","Biotic","Alanine",3,35,8.57142857142857
+"5cm-end_CPCRW_90d_CW_saturated","Biotic","Aspartic Acid",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_saturated","Biotic","CH4_O",384,35,1097.14285714286
+"5cm-end_CPCRW_90d_CW_saturated","Biotic","Cystine",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_saturated","Biotic","Glutamic Acid",2,35,5.71428571428571
+"5cm-end_CPCRW_90d_CW_saturated","Biotic","Glycine",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_saturated","Biotic","Isoleucine",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_saturated","Biotic","malonyl group (-H2O)",242,35,691.428571428571
+"5cm-end_CPCRW_90d_CW_saturated","Biotic","NH_CH2",6,35,17.1428571428571
+"5cm-end_CPCRW_90d_CW_saturated","Biotic","palmitoylation (-H2O)",25,35,71.4285714285714
+"5cm-end_CPCRW_90d_CW_saturated","Biotic","Phenylalanine",13,35,37.1428571428571
+"5cm-end_CPCRW_90d_CW_saturated","Biotic","Proline",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_saturated","Biotic","secondary amine",4,35,11.4285714285714
+"5cm-end_CPCRW_90d_CW_saturated","Biotic","Serine",80,35,228.571428571429
+"5cm-end_CPCRW_90d_CW_saturated","Biotic","Threonine",1,35,2.85714285714286
+"5cm-end_CPCRW_90d_CW_saturated","both","C6H10O5",104,35,297.142857142857
+"5cm-end_CPCRW_90d_CW_saturated","both","C6H10O6",94,35,268.571428571429
+"5cm-end_CPCRW_90d_CW_saturated","both","D-Ribose (-H2O) (ribosylation)",3,35,8.57142857142857
+"5cm-end_CPCRW_90d_CW_saturated","both","disaccharide (-H2O)",9,35,25.7142857142857
+"5cm-end_CPCRW_90d_CW_saturated","both","erythose (-H2O)",216,35,617.142857142857
+"5cm-end_CPCRW_90d_CW_saturated","both","Glucuronic Acid (-H2O)",12,35,34.2857142857143
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Abiotic","acetotacetate (-H2O)",80,38,210.526315789474
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Abiotic","acetylation (-H2O)",5,38,13.1578947368421
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Abiotic","C2H2",351,38,923.684210526316
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Abiotic","Carboxylation",8,38,21.0526315789474
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Abiotic","condensation/dehydration",3,38,7.89473684210526
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Abiotic","Formic Acid (-H2O)",10,38,26.3157894736842
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Abiotic","glyoxylate (-H2O)",9,38,23.6842105263158
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Abiotic","H2S",14,38,36.8421052631579
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Abiotic","hydrogenation/dehydrogenation",4,38,10.5263157894737
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Abiotic","hydroxylation (-H)",7,38,18.4210526315789
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Abiotic","NO3-",1,38,2.63157894736842
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","Alanine",1,38,2.63157894736842
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","Arginine",13,38,34.2105263157895
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","Asparagine",1,38,2.63157894736842
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","Aspartic Acid",3,38,7.89473684210526
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","biotinyl (-H)",1,38,2.63157894736842
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","CH4_O",335,38,881.578947368421
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","Cysteine",1,38,2.63157894736842
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","Glutamic Acid",3,38,7.89473684210526
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","Glycine",1,38,2.63157894736842
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","Isoleucine",1,38,2.63157894736842
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","malonyl group (-H2O)",219,38,576.315789473684
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","NH_CH2",2,38,5.26315789473684
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","palmitoylation (-H2O)",14,38,36.8421052631579
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","Phenylalanine",4,38,10.5263157894737
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","secondary amine",1,38,2.63157894736842
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","Serine",80,38,210.526315789474
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","Threonine",2,38,5.26315789473684
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","thymidine (-H2O)",1,38,2.63157894736842
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","urea addition (-H)",1,38,2.63157894736842
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic","uridine (-H2O)",1,38,2.63157894736842
+"5cm-end_CPCRW_90d_FAD_instant chemistry","both","C6H10O5",88,38,231.578947368421
+"5cm-end_CPCRW_90d_FAD_instant chemistry","both","C6H10O6",57,38,150
+"5cm-end_CPCRW_90d_FAD_instant chemistry","both","D-Ribose (-H2O) (ribosylation)",2,38,5.26315789473684
+"5cm-end_CPCRW_90d_FAD_instant chemistry","both","disaccharide (-H2O)",1,38,2.63157894736842
+"5cm-end_CPCRW_90d_FAD_instant chemistry","both","erythose (-H2O)",182,38,478.947368421053
+"5cm-end_CPCRW_90d_FAD_instant chemistry","both","Glucuronic Acid (-H2O)",10,38,26.3157894736842
+"5cm-end_CPCRW_90d_FAD_instant chemistry","both","transamination (-O)",1,38,2.63157894736842
+"5cm-end_CPCRW_90d_FAD_saturated","Abiotic","acetotacetate (-H2O)",89,32,278.125
+"5cm-end_CPCRW_90d_FAD_saturated","Abiotic","acetylation (-H2O)",6,32,18.75
+"5cm-end_CPCRW_90d_FAD_saturated","Abiotic","C2H2",387,32,1209.375
+"5cm-end_CPCRW_90d_FAD_saturated","Abiotic","Carboxylation",5,32,15.625
+"5cm-end_CPCRW_90d_FAD_saturated","Abiotic","condensation/dehydration",4,32,12.5
+"5cm-end_CPCRW_90d_FAD_saturated","Abiotic","Formic Acid (-H2O)",9,32,28.125
+"5cm-end_CPCRW_90d_FAD_saturated","Abiotic","glyoxylate (-H2O)",8,32,25
+"5cm-end_CPCRW_90d_FAD_saturated","Abiotic","H2S",6,32,18.75
+"5cm-end_CPCRW_90d_FAD_saturated","Abiotic","hydrogenation/dehydrogenation",4,32,12.5
+"5cm-end_CPCRW_90d_FAD_saturated","Abiotic","hydroxylation (-H)",5,32,15.625
+"5cm-end_CPCRW_90d_FAD_saturated","Abiotic","methanol (-H2O)",1,32,3.125
+"5cm-end_CPCRW_90d_FAD_saturated","Abiotic","NO3-",1,32,3.125
+"5cm-end_CPCRW_90d_FAD_saturated","Biotic","Alanine",3,32,9.375
+"5cm-end_CPCRW_90d_FAD_saturated","Biotic","Aspartic Acid",1,32,3.125
+"5cm-end_CPCRW_90d_FAD_saturated","Biotic","CH4_O",385,32,1203.125
+"5cm-end_CPCRW_90d_FAD_saturated","Biotic","Glutamic Acid",2,32,6.25
+"5cm-end_CPCRW_90d_FAD_saturated","Biotic","Glycine",1,32,3.125
+"5cm-end_CPCRW_90d_FAD_saturated","Biotic","Isoleucine",1,32,3.125
+"5cm-end_CPCRW_90d_FAD_saturated","Biotic","malonyl group (-H2O)",239,32,746.875
+"5cm-end_CPCRW_90d_FAD_saturated","Biotic","NH_CH2",5,32,15.625
+"5cm-end_CPCRW_90d_FAD_saturated","Biotic","palmitoylation (-H2O)",26,32,81.25
+"5cm-end_CPCRW_90d_FAD_saturated","Biotic","Phenylalanine",9,32,28.125
+"5cm-end_CPCRW_90d_FAD_saturated","Biotic","Proline",1,32,3.125
+"5cm-end_CPCRW_90d_FAD_saturated","Biotic","secondary amine",4,32,12.5
+"5cm-end_CPCRW_90d_FAD_saturated","Biotic","Serine",78,32,243.75
+"5cm-end_CPCRW_90d_FAD_saturated","Biotic","Threonine",1,32,3.125
+"5cm-end_CPCRW_90d_FAD_saturated","both","C6H10O5",106,32,331.25
+"5cm-end_CPCRW_90d_FAD_saturated","both","C6H10O6",91,32,284.375
+"5cm-end_CPCRW_90d_FAD_saturated","both","D-Ribose (-H2O) (ribosylation)",4,32,12.5
+"5cm-end_CPCRW_90d_FAD_saturated","both","disaccharide (-H2O)",6,32,18.75
+"5cm-end_CPCRW_90d_FAD_saturated","both","erythose (-H2O)",206,32,643.75
+"5cm-end_CPCRW_90d_FAD_saturated","both","Glucuronic Acid (-H2O)",12,32,37.5
+"5cm-end_CPCRW_timezero__timezero","Abiotic","acetotacetate (-H2O)",61,32,190.625
+"5cm-end_CPCRW_timezero__timezero","Abiotic","acetylation (-H2O)",2,32,6.25
+"5cm-end_CPCRW_timezero__timezero","Abiotic","C2H2",291,32,909.375
+"5cm-end_CPCRW_timezero__timezero","Abiotic","Carboxylation",8,32,25
+"5cm-end_CPCRW_timezero__timezero","Abiotic","condensation/dehydration",2,32,6.25
+"5cm-end_CPCRW_timezero__timezero","Abiotic","Formic Acid (-H2O)",8,32,25
+"5cm-end_CPCRW_timezero__timezero","Abiotic","glyoxylate (-H2O)",8,32,25
+"5cm-end_CPCRW_timezero__timezero","Abiotic","H2S",5,32,15.625
+"5cm-end_CPCRW_timezero__timezero","Abiotic","hydrogenation/dehydrogenation",3,32,9.375
+"5cm-end_CPCRW_timezero__timezero","Abiotic","hydroxylation (-H)",5,32,15.625
+"5cm-end_CPCRW_timezero__timezero","Abiotic","Inorganic Phosphate",1,32,3.125
+"5cm-end_CPCRW_timezero__timezero","Abiotic","NO3-",1,32,3.125
+"5cm-end_CPCRW_timezero__timezero","Abiotic","PO43-",1,32,3.125
+"5cm-end_CPCRW_timezero__timezero","Biotic","Alanine",2,32,6.25
+"5cm-end_CPCRW_timezero__timezero","Biotic","Aspartic Acid",2,32,6.25
+"5cm-end_CPCRW_timezero__timezero","Biotic","CH4_O",262,32,818.75
+"5cm-end_CPCRW_timezero__timezero","Biotic","Cystine",1,32,3.125
+"5cm-end_CPCRW_timezero__timezero","Biotic","Glutamic Acid",1,32,3.125
+"5cm-end_CPCRW_timezero__timezero","Biotic","Glycine",1,32,3.125
+"5cm-end_CPCRW_timezero__timezero","Biotic","malonyl group (-H2O)",173,32,540.625
+"5cm-end_CPCRW_timezero__timezero","Biotic","NH_CH2",3,32,9.375
+"5cm-end_CPCRW_timezero__timezero","Biotic","palmitoylation (-H2O)",14,32,43.75
+"5cm-end_CPCRW_timezero__timezero","Biotic","Phenylalanine",4,32,12.5
+"5cm-end_CPCRW_timezero__timezero","Biotic","secondary amine",1,32,3.125
+"5cm-end_CPCRW_timezero__timezero","Biotic","Serine",52,32,162.5
+"5cm-end_CPCRW_timezero__timezero","Biotic","Threonine",1,32,3.125
+"5cm-end_CPCRW_timezero__timezero","both","C6H10O5",78,32,243.75
+"5cm-end_CPCRW_timezero__timezero","both","C6H10O6",51,32,159.375
+"5cm-end_CPCRW_timezero__timezero","both","D-Ribose (-H2O) (ribosylation)",2,32,6.25
+"5cm-end_CPCRW_timezero__timezero","both","disaccharide (-H2O)",3,32,9.375
+"5cm-end_CPCRW_timezero__timezero","both","erythose (-H2O)",152,32,475
+"5cm-end_CPCRW_timezero__timezero","both","Glucuronic Acid (-H2O)",7,32,21.875
+"5cm-end_SR_150d_CW_saturated","Abiotic","acetotacetate (-H2O)",87,42,207.142857142857
+"5cm-end_SR_150d_CW_saturated","Abiotic","acetylation (-H)",2,42,4.76190476190476
+"5cm-end_SR_150d_CW_saturated","Abiotic","acetylation (-H2O)",6,42,14.2857142857143
+"5cm-end_SR_150d_CW_saturated","Abiotic","C2H2",384,42,914.285714285714
+"5cm-end_SR_150d_CW_saturated","Abiotic","Carboxylation",5,42,11.9047619047619
+"5cm-end_SR_150d_CW_saturated","Abiotic","CHO2",3,42,7.14285714285714
+"5cm-end_SR_150d_CW_saturated","Abiotic","condensation/dehydration",5,42,11.9047619047619
+"5cm-end_SR_150d_CW_saturated","Abiotic","Formic Acid (-H2O)",9,42,21.4285714285714
+"5cm-end_SR_150d_CW_saturated","Abiotic","glyoxylate (-H2O)",9,42,21.4285714285714
+"5cm-end_SR_150d_CW_saturated","Abiotic","H2S",10,42,23.8095238095238
+"5cm-end_SR_150d_CW_saturated","Abiotic","hydrogenation/dehydrogenation",4,42,9.52380952380952
+"5cm-end_SR_150d_CW_saturated","Abiotic","hydroxylation (-H)",5,42,11.9047619047619
+"5cm-end_SR_150d_CW_saturated","Abiotic","Inorganic Phosphate",2,42,4.76190476190476
+"5cm-end_SR_150d_CW_saturated","Abiotic","methanol (-H2O)",1,42,2.38095238095238
+"5cm-end_SR_150d_CW_saturated","Abiotic","NO3-",1,42,2.38095238095238
+"5cm-end_SR_150d_CW_saturated","Abiotic","SO42-",1,42,2.38095238095238
+"5cm-end_SR_150d_CW_saturated","Biotic","Alanine",3,42,7.14285714285714
+"5cm-end_SR_150d_CW_saturated","Biotic","Aspartic Acid",1,42,2.38095238095238
+"5cm-end_SR_150d_CW_saturated","Biotic","carbamoyl P transfer (-H2PO4)",1,42,2.38095238095238
+"5cm-end_SR_150d_CW_saturated","Biotic","CH4_O",380,42,904.761904761905
+"5cm-end_SR_150d_CW_saturated","Biotic","Cystine",2,42,4.76190476190476
+"5cm-end_SR_150d_CW_saturated","Biotic","deoxythymidine 5' diphosphate (-H2O)",1,42,2.38095238095238
+"5cm-end_SR_150d_CW_saturated","Biotic","Glutamic Acid",3,42,7.14285714285714
+"5cm-end_SR_150d_CW_saturated","Biotic","Glycine",1,42,2.38095238095238
+"5cm-end_SR_150d_CW_saturated","Biotic","Isoleucine",1,42,2.38095238095238
+"5cm-end_SR_150d_CW_saturated","Biotic","isoprene addition (-H)",1,42,2.38095238095238
+"5cm-end_SR_150d_CW_saturated","Biotic","malonyl group (-H2O)",246,42,585.714285714286
+"5cm-end_SR_150d_CW_saturated","Biotic","NH_CH2",4,42,9.52380952380952
+"5cm-end_SR_150d_CW_saturated","Biotic","palmitoylation (-H2O)",19,42,45.2380952380952
+"5cm-end_SR_150d_CW_saturated","Biotic","Phenylalanine",11,42,26.1904761904762
+"5cm-end_SR_150d_CW_saturated","Biotic","Proline",1,42,2.38095238095238
+"5cm-end_SR_150d_CW_saturated","Biotic","secondary amine",3,42,7.14285714285714
+"5cm-end_SR_150d_CW_saturated","Biotic","Serine",79,42,188.095238095238
+"5cm-end_SR_150d_CW_saturated","Biotic","Threonine",1,42,2.38095238095238
+"5cm-end_SR_150d_CW_saturated","Biotic","urea addition (-H)",1,42,2.38095238095238
+"5cm-end_SR_150d_CW_saturated","Biotic","uridine 5' diphosphate (-H2O)",1,42,2.38095238095238
+"5cm-end_SR_150d_CW_saturated","both","C6H10O5",104,42,247.619047619048
+"5cm-end_SR_150d_CW_saturated","both","C6H10O6",98,42,233.333333333333
+"5cm-end_SR_150d_CW_saturated","both","D-Ribose (-H2O) (ribosylation)",4,42,9.52380952380952
+"5cm-end_SR_150d_CW_saturated","both","disaccharide (-H2O)",9,42,21.4285714285714
+"5cm-end_SR_150d_CW_saturated","both","erythose (-H2O)",211,42,502.380952380952
+"5cm-end_SR_150d_CW_saturated","both","Glucuronic Acid (-H2O)",10,42,23.8095238095238
+"5cm-end_SR_150d_FAD_saturated","Abiotic","acetotacetate (-H2O)",84,37,227.027027027027
+"5cm-end_SR_150d_FAD_saturated","Abiotic","acetylation (-H2O)",5,37,13.5135135135135
+"5cm-end_SR_150d_FAD_saturated","Abiotic","C2H2",384,37,1037.83783783784
+"5cm-end_SR_150d_FAD_saturated","Abiotic","Carboxylation",5,37,13.5135135135135
+"5cm-end_SR_150d_FAD_saturated","Abiotic","condensation/dehydration",4,37,10.8108108108108
+"5cm-end_SR_150d_FAD_saturated","Abiotic","Formic Acid (-H2O)",10,37,27.027027027027
+"5cm-end_SR_150d_FAD_saturated","Abiotic","glyoxylate (-H2O)",7,37,18.9189189189189
+"5cm-end_SR_150d_FAD_saturated","Abiotic","H2S",8,37,21.6216216216216
+"5cm-end_SR_150d_FAD_saturated","Abiotic","hydrogenation/dehydrogenation",4,37,10.8108108108108
+"5cm-end_SR_150d_FAD_saturated","Abiotic","hydroxylation (-H)",5,37,13.5135135135135
+"5cm-end_SR_150d_FAD_saturated","Abiotic","Inorganic Phosphate",2,37,5.40540540540541
+"5cm-end_SR_150d_FAD_saturated","Abiotic","NO3-",1,37,2.7027027027027
+"5cm-end_SR_150d_FAD_saturated","Abiotic","SO42-",1,37,2.7027027027027
+"5cm-end_SR_150d_FAD_saturated","Biotic","Alanine",3,37,8.10810810810811
+"5cm-end_SR_150d_FAD_saturated","Biotic","Aspartic Acid",1,37,2.7027027027027
+"5cm-end_SR_150d_FAD_saturated","Biotic","carbamoyl P transfer (-H2PO4)",1,37,2.7027027027027
+"5cm-end_SR_150d_FAD_saturated","Biotic","CH4_O",361,37,975.675675675676
+"5cm-end_SR_150d_FAD_saturated","Biotic","Cystine",2,37,5.40540540540541
+"5cm-end_SR_150d_FAD_saturated","Biotic","deoxythymidine 5' diphosphate (-H2O)",1,37,2.7027027027027
+"5cm-end_SR_150d_FAD_saturated","Biotic","Glutamic Acid",2,37,5.40540540540541
+"5cm-end_SR_150d_FAD_saturated","Biotic","Glycine",1,37,2.7027027027027
+"5cm-end_SR_150d_FAD_saturated","Biotic","Isoleucine",1,37,2.7027027027027
+"5cm-end_SR_150d_FAD_saturated","Biotic","malonyl group (-H2O)",231,37,624.324324324324
+"5cm-end_SR_150d_FAD_saturated","Biotic","NH_CH2",3,37,8.10810810810811
+"5cm-end_SR_150d_FAD_saturated","Biotic","palmitoylation (-H2O)",22,37,59.4594594594595
+"5cm-end_SR_150d_FAD_saturated","Biotic","Phenylalanine",10,37,27.027027027027
+"5cm-end_SR_150d_FAD_saturated","Biotic","Proline",1,37,2.7027027027027
+"5cm-end_SR_150d_FAD_saturated","Biotic","secondary amine",2,37,5.40540540540541
+"5cm-end_SR_150d_FAD_saturated","Biotic","Serine",75,37,202.702702702703
+"5cm-end_SR_150d_FAD_saturated","Biotic","Threonine",1,37,2.7027027027027
+"5cm-end_SR_150d_FAD_saturated","Biotic","uridine 5' diphosphate (-H2O)",1,37,2.7027027027027
+"5cm-end_SR_150d_FAD_saturated","both","C6H10O5",98,37,264.864864864865
+"5cm-end_SR_150d_FAD_saturated","both","C6H10O6",86,37,232.432432432432
+"5cm-end_SR_150d_FAD_saturated","both","D-Ribose (-H2O) (ribosylation)",3,37,8.10810810810811
+"5cm-end_SR_150d_FAD_saturated","both","disaccharide (-H2O)",10,37,27.027027027027
+"5cm-end_SR_150d_FAD_saturated","both","erythose (-H2O)",208,37,562.162162162162
+"5cm-end_SR_150d_FAD_saturated","both","Glucuronic Acid (-H2O)",11,37,29.7297297297297
+"5cm-end_SR_30d_CW_instant chemistry","Abiotic","acetotacetate (-H2O)",77,38,202.631578947368
+"5cm-end_SR_30d_CW_instant chemistry","Abiotic","acetylation (-H2O)",5,38,13.1578947368421
+"5cm-end_SR_30d_CW_instant chemistry","Abiotic","C2H2",346,38,910.526315789474
+"5cm-end_SR_30d_CW_instant chemistry","Abiotic","Carboxylation",10,38,26.3157894736842
+"5cm-end_SR_30d_CW_instant chemistry","Abiotic","condensation/dehydration",3,38,7.89473684210526
+"5cm-end_SR_30d_CW_instant chemistry","Abiotic","ethyl addition (-H2O)",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_instant chemistry","Abiotic","Formic Acid (-H2O)",9,38,23.6842105263158
+"5cm-end_SR_30d_CW_instant chemistry","Abiotic","glyoxylate (-H2O)",8,38,21.0526315789474
+"5cm-end_SR_30d_CW_instant chemistry","Abiotic","H2S",10,38,26.3157894736842
+"5cm-end_SR_30d_CW_instant chemistry","Abiotic","hydrogenation/dehydrogenation",4,38,10.5263157894737
+"5cm-end_SR_30d_CW_instant chemistry","Abiotic","hydroxylation (-H)",8,38,21.0526315789474
+"5cm-end_SR_30d_CW_instant chemistry","Abiotic","NO3-",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","Alanine",2,38,5.26315789473684
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","Arginine",9,38,23.6842105263158
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","Asparagine",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","Aspartic Acid",2,38,5.26315789473684
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","biotinyl (-H2O)",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","CH4_O",323,38,850
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","Cysteine",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","Glutamic Acid",2,38,5.26315789473684
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","Glycine",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","guanosine (-H2O)",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","Isoleucine",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","malonyl group (-H2O)",204,38,536.842105263158
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","NH_CH2",3,38,7.89473684210526
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","palmitoylation (-H2O)",16,38,42.1052631578947
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","Phenylalanine",6,38,15.7894736842105
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","secondary amine",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","Serine",83,38,218.421052631579
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","Threonine",2,38,5.26315789473684
+"5cm-end_SR_30d_CW_instant chemistry","Biotic","urea addition (-H)",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_instant chemistry","both","C6H10O5",82,38,215.789473684211
+"5cm-end_SR_30d_CW_instant chemistry","both","C6H10O6",53,38,139.473684210526
+"5cm-end_SR_30d_CW_instant chemistry","both","D-Ribose (-H2O) (ribosylation)",2,38,5.26315789473684
+"5cm-end_SR_30d_CW_instant chemistry","both","disaccharide (-H2O)",2,38,5.26315789473684
+"5cm-end_SR_30d_CW_instant chemistry","both","erythose (-H2O)",161,38,423.684210526316
+"5cm-end_SR_30d_CW_instant chemistry","both","Glucuronic Acid (-H2O)",12,38,31.5789473684211
+"5cm-end_SR_30d_CW_instant chemistry","both","transamination (-O)",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_saturated","Abiotic","acetotacetate (-H2O)",93,38,244.736842105263
+"5cm-end_SR_30d_CW_saturated","Abiotic","acetylation (-H2O)",6,38,15.7894736842105
+"5cm-end_SR_30d_CW_saturated","Abiotic","C2H2",405,38,1065.78947368421
+"5cm-end_SR_30d_CW_saturated","Abiotic","Carboxylation",5,38,13.1578947368421
+"5cm-end_SR_30d_CW_saturated","Abiotic","condensation/dehydration",5,38,13.1578947368421
+"5cm-end_SR_30d_CW_saturated","Abiotic","ethyl addition (-H2O)",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_saturated","Abiotic","Formic Acid (-H2O)",11,38,28.9473684210526
+"5cm-end_SR_30d_CW_saturated","Abiotic","glyoxylate (-H2O)",8,38,21.0526315789474
+"5cm-end_SR_30d_CW_saturated","Abiotic","H2S",11,38,28.9473684210526
+"5cm-end_SR_30d_CW_saturated","Abiotic","hydrogenation/dehydrogenation",4,38,10.5263157894737
+"5cm-end_SR_30d_CW_saturated","Abiotic","hydroxylation (-H)",5,38,13.1578947368421
+"5cm-end_SR_30d_CW_saturated","Abiotic","Inorganic Phosphate",2,38,5.26315789473684
+"5cm-end_SR_30d_CW_saturated","Abiotic","methanol (-H2O)",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_saturated","Abiotic","NO3-",2,38,5.26315789473684
+"5cm-end_SR_30d_CW_saturated","Abiotic","SO42-",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_saturated","Biotic","Alanine",3,38,7.89473684210526
+"5cm-end_SR_30d_CW_saturated","Biotic","Aspartic Acid",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_saturated","Biotic","carbamoyl P transfer (-H2PO4)",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_saturated","Biotic","CH4_O",391,38,1028.94736842105
+"5cm-end_SR_30d_CW_saturated","Biotic","Glutamic Acid",2,38,5.26315789473684
+"5cm-end_SR_30d_CW_saturated","Biotic","Glycine",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_saturated","Biotic","Isoleucine",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_saturated","Biotic","isoprene addition (-H)",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_saturated","Biotic","malonyl group (-H2O)",248,38,652.631578947368
+"5cm-end_SR_30d_CW_saturated","Biotic","NH_CH2",5,38,13.1578947368421
+"5cm-end_SR_30d_CW_saturated","Biotic","palmitoylation (-H2O)",23,38,60.5263157894737
+"5cm-end_SR_30d_CW_saturated","Biotic","Phenylalanine",13,38,34.2105263157895
+"5cm-end_SR_30d_CW_saturated","Biotic","Proline",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_saturated","Biotic","secondary amine",2,38,5.26315789473684
+"5cm-end_SR_30d_CW_saturated","Biotic","Serine",83,38,218.421052631579
+"5cm-end_SR_30d_CW_saturated","Biotic","Threonine",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_saturated","Biotic","urea addition (-H)",1,38,2.63157894736842
+"5cm-end_SR_30d_CW_saturated","both","C6H10O5",109,38,286.842105263158
+"5cm-end_SR_30d_CW_saturated","both","C6H10O6",96,38,252.631578947368
+"5cm-end_SR_30d_CW_saturated","both","D-Ribose (-H2O) (ribosylation)",3,38,7.89473684210526
+"5cm-end_SR_30d_CW_saturated","both","disaccharide (-H2O)",9,38,23.6842105263158
+"5cm-end_SR_30d_CW_saturated","both","erythose (-H2O)",213,38,560.526315789474
+"5cm-end_SR_30d_CW_saturated","both","Glucuronic Acid (-H2O)",11,38,28.9473684210526
+"5cm-end_SR_30d_FAD_instant chemistry","Abiotic","acetotacetate (-H2O)",98,39,251.282051282051
+"5cm-end_SR_30d_FAD_instant chemistry","Abiotic","acetylation (-H2O)",6,39,15.3846153846154
+"5cm-end_SR_30d_FAD_instant chemistry","Abiotic","C2H2",429,39,1100
+"5cm-end_SR_30d_FAD_instant chemistry","Abiotic","Carboxylation",8,39,20.5128205128205
+"5cm-end_SR_30d_FAD_instant chemistry","Abiotic","condensation/dehydration",2,39,5.12820512820513
+"5cm-end_SR_30d_FAD_instant chemistry","Abiotic","ethyl addition (-H2O)",1,39,2.56410256410256
+"5cm-end_SR_30d_FAD_instant chemistry","Abiotic","Formic Acid (-H2O)",10,39,25.6410256410256
+"5cm-end_SR_30d_FAD_instant chemistry","Abiotic","glyoxylate (-H2O)",10,39,25.6410256410256
+"5cm-end_SR_30d_FAD_instant chemistry","Abiotic","H2S",13,39,33.3333333333333
+"5cm-end_SR_30d_FAD_instant chemistry","Abiotic","hydrogenation/dehydrogenation",4,39,10.2564102564103
+"5cm-end_SR_30d_FAD_instant chemistry","Abiotic","hydroxylation (-H)",8,39,20.5128205128205
+"5cm-end_SR_30d_FAD_instant chemistry","Abiotic","Inorganic Phosphate",2,39,5.12820512820513
+"5cm-end_SR_30d_FAD_instant chemistry","Abiotic","NH4+",1,39,2.56410256410256
+"5cm-end_SR_30d_FAD_instant chemistry","Abiotic","NO3-",3,39,7.69230769230769
+"5cm-end_SR_30d_FAD_instant chemistry","Abiotic","SO42-",1,39,2.56410256410256
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","Alanine",2,39,5.12820512820513
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","Arginine",9,39,23.0769230769231
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","Asparagine",1,39,2.56410256410256
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","Aspartic Acid",2,39,5.12820512820513
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","biotinyl (-H2O)",2,39,5.12820512820513
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","CH4_O",408,39,1046.15384615385
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","Glutamic Acid",3,39,7.69230769230769
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","Glycine",1,39,2.56410256410256
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","Isoleucine",2,39,5.12820512820513
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","malonyl group (-H2O)",244,39,625.641025641026
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","NH_CH2",5,39,12.8205128205128
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","palmitoylation (-H2O)",20,39,51.2820512820513
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","Phenylalanine",7,39,17.9487179487179
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","Proline",1,39,2.56410256410256
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","secondary amine",2,39,5.12820512820513
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","Serine",107,39,274.358974358974
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","Threonine",2,39,5.12820512820513
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic","urea addition (-H)",1,39,2.56410256410256
+"5cm-end_SR_30d_FAD_instant chemistry","both","C6H10O5",108,39,276.923076923077
+"5cm-end_SR_30d_FAD_instant chemistry","both","C6H10O6",85,39,217.948717948718
+"5cm-end_SR_30d_FAD_instant chemistry","both","D-Ribose (-H2O) (ribosylation)",4,39,10.2564102564103
+"5cm-end_SR_30d_FAD_instant chemistry","both","disaccharide (-H2O)",9,39,23.0769230769231
+"5cm-end_SR_30d_FAD_instant chemistry","both","erythose (-H2O)",215,39,551.282051282051
+"5cm-end_SR_30d_FAD_instant chemistry","both","Glucuronic Acid (-H2O)",11,39,28.2051282051282
+"5cm-end_SR_30d_FAD_saturated","Abiotic","acetotacetate (-H2O)",83,41,202.439024390244
+"5cm-end_SR_30d_FAD_saturated","Abiotic","acetylation (-H)",2,41,4.8780487804878
+"5cm-end_SR_30d_FAD_saturated","Abiotic","acetylation (-H2O)",6,41,14.6341463414634
+"5cm-end_SR_30d_FAD_saturated","Abiotic","C2H2",372,41,907.317073170732
+"5cm-end_SR_30d_FAD_saturated","Abiotic","Carboxylation",5,41,12.1951219512195
+"5cm-end_SR_30d_FAD_saturated","Abiotic","CHO2",1,41,2.4390243902439
+"5cm-end_SR_30d_FAD_saturated","Abiotic","condensation/dehydration",4,41,9.75609756097561
+"5cm-end_SR_30d_FAD_saturated","Abiotic","Formic Acid (-H2O)",10,41,24.390243902439
+"5cm-end_SR_30d_FAD_saturated","Abiotic","glyoxylate (-H2O)",8,41,19.5121951219512
+"5cm-end_SR_30d_FAD_saturated","Abiotic","H2S",8,41,19.5121951219512
+"5cm-end_SR_30d_FAD_saturated","Abiotic","hydrogenation/dehydrogenation",4,41,9.75609756097561
+"5cm-end_SR_30d_FAD_saturated","Abiotic","hydroxylation (-H)",5,41,12.1951219512195
+"5cm-end_SR_30d_FAD_saturated","Abiotic","Inorganic Phosphate",1,41,2.4390243902439
+"5cm-end_SR_30d_FAD_saturated","Abiotic","methanol (-H2O)",1,41,2.4390243902439
+"5cm-end_SR_30d_FAD_saturated","Abiotic","NO3-",1,41,2.4390243902439
+"5cm-end_SR_30d_FAD_saturated","Abiotic","SO42-",1,41,2.4390243902439
+"5cm-end_SR_30d_FAD_saturated","Biotic","Alanine",3,41,7.31707317073171
+"5cm-end_SR_30d_FAD_saturated","Biotic","Aspartic Acid",1,41,2.4390243902439
+"5cm-end_SR_30d_FAD_saturated","Biotic","carbamoyl P transfer (-H2PO4)",1,41,2.4390243902439
+"5cm-end_SR_30d_FAD_saturated","Biotic","CH4_O",355,41,865.853658536585
+"5cm-end_SR_30d_FAD_saturated","Biotic","Cystine",2,41,4.8780487804878
+"5cm-end_SR_30d_FAD_saturated","Biotic","deoxythymidine 5' diphosphate (-H2O)",1,41,2.4390243902439
+"5cm-end_SR_30d_FAD_saturated","Biotic","Glutamic Acid",2,41,4.8780487804878
+"5cm-end_SR_30d_FAD_saturated","Biotic","Glycine",1,41,2.4390243902439
+"5cm-end_SR_30d_FAD_saturated","Biotic","Isoleucine",1,41,2.4390243902439
+"5cm-end_SR_30d_FAD_saturated","Biotic","isoprene addition (-H)",1,41,2.4390243902439
+"5cm-end_SR_30d_FAD_saturated","Biotic","malonyl group (-H2O)",233,41,568.292682926829
+"5cm-end_SR_30d_FAD_saturated","Biotic","NH_CH2",3,41,7.31707317073171
+"5cm-end_SR_30d_FAD_saturated","Biotic","palmitoylation (-H2O)",22,41,53.6585365853659
+"5cm-end_SR_30d_FAD_saturated","Biotic","Phenylalanine",10,41,24.390243902439
+"5cm-end_SR_30d_FAD_saturated","Biotic","Proline",1,41,2.4390243902439
+"5cm-end_SR_30d_FAD_saturated","Biotic","secondary amine",3,41,7.31707317073171
+"5cm-end_SR_30d_FAD_saturated","Biotic","Serine",79,41,192.682926829268
+"5cm-end_SR_30d_FAD_saturated","Biotic","Threonine",1,41,2.4390243902439
+"5cm-end_SR_30d_FAD_saturated","Biotic","uridine 5' diphosphate (-H2O)",1,41,2.4390243902439
+"5cm-end_SR_30d_FAD_saturated","both","C6H10O5",101,41,246.341463414634
+"5cm-end_SR_30d_FAD_saturated","both","C6H10O6",91,41,221.951219512195
+"5cm-end_SR_30d_FAD_saturated","both","D-Ribose (-H2O) (ribosylation)",4,41,9.75609756097561
+"5cm-end_SR_30d_FAD_saturated","both","disaccharide (-H2O)",8,41,19.5121951219512
+"5cm-end_SR_30d_FAD_saturated","both","erythose (-H2O)",207,41,504.878048780488
+"5cm-end_SR_30d_FAD_saturated","both","Glucuronic Acid (-H2O)",10,41,24.390243902439
+"5cm-end_SR_90d_CW_instant chemistry","Abiotic","acetotacetate (-H2O)",90,38,236.842105263158
+"5cm-end_SR_90d_CW_instant chemistry","Abiotic","acetylation (-H2O)",6,38,15.7894736842105
+"5cm-end_SR_90d_CW_instant chemistry","Abiotic","C2H2",415,38,1092.10526315789
+"5cm-end_SR_90d_CW_instant chemistry","Abiotic","Carboxylation",9,38,23.6842105263158
+"5cm-end_SR_90d_CW_instant chemistry","Abiotic","condensation/dehydration",3,38,7.89473684210526
+"5cm-end_SR_90d_CW_instant chemistry","Abiotic","ethyl addition (-H2O)",1,38,2.63157894736842
+"5cm-end_SR_90d_CW_instant chemistry","Abiotic","Formic Acid (-H2O)",9,38,23.6842105263158
+"5cm-end_SR_90d_CW_instant chemistry","Abiotic","glyoxylate (-H2O)",8,38,21.0526315789474
+"5cm-end_SR_90d_CW_instant chemistry","Abiotic","H2S",10,38,26.3157894736842
+"5cm-end_SR_90d_CW_instant chemistry","Abiotic","hydrogenation/dehydrogenation",4,38,10.5263157894737
+"5cm-end_SR_90d_CW_instant chemistry","Abiotic","hydroxylation (-H)",8,38,21.0526315789474
+"5cm-end_SR_90d_CW_instant chemistry","Abiotic","Inorganic Phosphate",1,38,2.63157894736842
+"5cm-end_SR_90d_CW_instant chemistry","Abiotic","NO3-",1,38,2.63157894736842
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","Alanine",2,38,5.26315789473684
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","Arginine",9,38,23.6842105263158
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","Asparagine",1,38,2.63157894736842
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","Aspartic Acid",2,38,5.26315789473684
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","carbamoyl P transfer (-H2PO4)",1,38,2.63157894736842
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","CH4_O",389,38,1023.68421052632
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","Glutamic Acid",3,38,7.89473684210526
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","Glycine",1,38,2.63157894736842
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","Isoleucine",2,38,5.26315789473684
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","malonyl group (-H2O)",234,38,615.789473684211
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","NH_CH2",5,38,13.1578947368421
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","palmitoylation (-H2O)",22,38,57.8947368421053
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","Phenylalanine",5,38,13.1578947368421
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","Proline",1,38,2.63157894736842
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","secondary amine",3,38,7.89473684210526
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","Serine",94,38,247.368421052632
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","Threonine",2,38,5.26315789473684
+"5cm-end_SR_90d_CW_instant chemistry","Biotic","urea addition (-H)",1,38,2.63157894736842
+"5cm-end_SR_90d_CW_instant chemistry","both","C6H10O5",100,38,263.157894736842
+"5cm-end_SR_90d_CW_instant chemistry","both","C6H10O6",81,38,213.157894736842
+"5cm-end_SR_90d_CW_instant chemistry","both","D-Ribose (-H2O) (ribosylation)",4,38,10.5263157894737
+"5cm-end_SR_90d_CW_instant chemistry","both","disaccharide (-H2O)",9,38,23.6842105263158
+"5cm-end_SR_90d_CW_instant chemistry","both","erythose (-H2O)",203,38,534.210526315789
+"5cm-end_SR_90d_CW_instant chemistry","both","Glucuronic Acid (-H2O)",12,38,31.5789473684211
+"5cm-end_SR_90d_CW_instant chemistry","both","transamination (-O)",1,38,2.63157894736842
+"5cm-end_SR_90d_CW_saturated","Abiotic","acetotacetate (-H2O)",89,34,261.764705882353
+"5cm-end_SR_90d_CW_saturated","Abiotic","acetylation (-H2O)",6,34,17.6470588235294
+"5cm-end_SR_90d_CW_saturated","Abiotic","C2H2",403,34,1185.29411764706
+"5cm-end_SR_90d_CW_saturated","Abiotic","Carboxylation",5,34,14.7058823529412
+"5cm-end_SR_90d_CW_saturated","Abiotic","condensation/dehydration",4,34,11.7647058823529
+"5cm-end_SR_90d_CW_saturated","Abiotic","ethyl addition (-H2O)",1,34,2.94117647058824
+"5cm-end_SR_90d_CW_saturated","Abiotic","Formic Acid (-H2O)",11,34,32.3529411764706
+"5cm-end_SR_90d_CW_saturated","Abiotic","glyoxylate (-H2O)",7,34,20.5882352941176
+"5cm-end_SR_90d_CW_saturated","Abiotic","H2S",10,34,29.4117647058824
+"5cm-end_SR_90d_CW_saturated","Abiotic","hydrogenation/dehydrogenation",4,34,11.7647058823529
+"5cm-end_SR_90d_CW_saturated","Abiotic","hydroxylation (-H)",6,34,17.6470588235294
+"5cm-end_SR_90d_CW_saturated","Abiotic","Inorganic Phosphate",1,34,2.94117647058824
+"5cm-end_SR_90d_CW_saturated","Abiotic","NO3-",1,34,2.94117647058824
+"5cm-end_SR_90d_CW_saturated","Abiotic","SO42-",1,34,2.94117647058824
+"5cm-end_SR_90d_CW_saturated","Biotic","Alanine",3,34,8.82352941176471
+"5cm-end_SR_90d_CW_saturated","Biotic","Aspartic Acid",1,34,2.94117647058824
+"5cm-end_SR_90d_CW_saturated","Biotic","CH4_O",384,34,1129.41176470588
+"5cm-end_SR_90d_CW_saturated","Biotic","Glutamic Acid",2,34,5.88235294117647
+"5cm-end_SR_90d_CW_saturated","Biotic","Glycine",1,34,2.94117647058824
+"5cm-end_SR_90d_CW_saturated","Biotic","Isoleucine",1,34,2.94117647058824
+"5cm-end_SR_90d_CW_saturated","Biotic","malonyl group (-H2O)",242,34,711.764705882353
+"5cm-end_SR_90d_CW_saturated","Biotic","NH_CH2",7,34,20.5882352941176
+"5cm-end_SR_90d_CW_saturated","Biotic","palmitoylation (-H2O)",22,34,64.7058823529412
+"5cm-end_SR_90d_CW_saturated","Biotic","Phenylalanine",10,34,29.4117647058824
+"5cm-end_SR_90d_CW_saturated","Biotic","Proline",1,34,2.94117647058824
+"5cm-end_SR_90d_CW_saturated","Biotic","secondary amine",4,34,11.7647058823529
+"5cm-end_SR_90d_CW_saturated","Biotic","Serine",77,34,226.470588235294
+"5cm-end_SR_90d_CW_saturated","Biotic","Threonine",1,34,2.94117647058824
+"5cm-end_SR_90d_CW_saturated","both","C6H10O5",108,34,317.647058823529
+"5cm-end_SR_90d_CW_saturated","both","C6H10O6",94,34,276.470588235294
+"5cm-end_SR_90d_CW_saturated","both","D-Ribose (-H2O) (ribosylation)",3,34,8.82352941176471
+"5cm-end_SR_90d_CW_saturated","both","disaccharide (-H2O)",10,34,29.4117647058824
+"5cm-end_SR_90d_CW_saturated","both","erythose (-H2O)",213,34,626.470588235294
+"5cm-end_SR_90d_CW_saturated","both","Glucuronic Acid (-H2O)",12,34,35.2941176470588
+"5cm-end_SR_90d_FAD_instant chemistry","Abiotic","acetotacetate (-H2O)",95,39,243.589743589744
+"5cm-end_SR_90d_FAD_instant chemistry","Abiotic","acetylation (-H2O)",6,39,15.3846153846154
+"5cm-end_SR_90d_FAD_instant chemistry","Abiotic","C2H2",404,39,1035.89743589744
+"5cm-end_SR_90d_FAD_instant chemistry","Abiotic","Carboxylation",9,39,23.0769230769231
+"5cm-end_SR_90d_FAD_instant chemistry","Abiotic","condensation/dehydration",3,39,7.69230769230769
+"5cm-end_SR_90d_FAD_instant chemistry","Abiotic","ethyl addition (-H2O)",1,39,2.56410256410256
+"5cm-end_SR_90d_FAD_instant chemistry","Abiotic","Formic Acid (-H2O)",10,39,25.6410256410256
+"5cm-end_SR_90d_FAD_instant chemistry","Abiotic","glyoxylate (-H2O)",8,39,20.5128205128205
+"5cm-end_SR_90d_FAD_instant chemistry","Abiotic","H2S",13,39,33.3333333333333
+"5cm-end_SR_90d_FAD_instant chemistry","Abiotic","hydrogenation/dehydrogenation",4,39,10.2564102564103
+"5cm-end_SR_90d_FAD_instant chemistry","Abiotic","hydroxylation (-H)",7,39,17.9487179487179
+"5cm-end_SR_90d_FAD_instant chemistry","Abiotic","Inorganic Phosphate",2,39,5.12820512820513
+"5cm-end_SR_90d_FAD_instant chemistry","Abiotic","NO3-",1,39,2.56410256410256
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","Alanine",2,39,5.12820512820513
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","Arginine",11,39,28.2051282051282
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","Asparagine",1,39,2.56410256410256
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","Aspartic Acid",2,39,5.12820512820513
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","biotinyl (-H2O)",2,39,5.12820512820513
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","CH4_O",392,39,1005.12820512821
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","Glutamic Acid",3,39,7.69230769230769
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","Glycine",1,39,2.56410256410256
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","Isoleucine",2,39,5.12820512820513
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","malonyl group (-H2O)",239,39,612.820512820513
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","NH_CH2",5,39,12.8205128205128
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","palmitoylation (-H2O)",21,39,53.8461538461538
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","Phenylalanine",8,39,20.5128205128205
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","Proline",1,39,2.56410256410256
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","secondary amine",1,39,2.56410256410256
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","Serine",98,39,251.282051282051
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","Threonine",2,39,5.12820512820513
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","thymidine 5' monophosphate (-H2O)",1,39,2.56410256410256
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic","urea addition (-H)",1,39,2.56410256410256
+"5cm-end_SR_90d_FAD_instant chemistry","both","C6H10O5",109,39,279.487179487179
+"5cm-end_SR_90d_FAD_instant chemistry","both","C6H10O6",82,39,210.25641025641
+"5cm-end_SR_90d_FAD_instant chemistry","both","D-Ribose (-H2O) (ribosylation)",4,39,10.2564102564103
+"5cm-end_SR_90d_FAD_instant chemistry","both","disaccharide (-H2O)",8,39,20.5128205128205
+"5cm-end_SR_90d_FAD_instant chemistry","both","erythose (-H2O)",208,39,533.333333333333
+"5cm-end_SR_90d_FAD_instant chemistry","both","Glucuronic Acid (-H2O)",12,39,30.7692307692308
+"5cm-end_SR_90d_FAD_instant chemistry","both","transamination (-O)",1,39,2.56410256410256
+"5cm-end_SR_90d_FAD_saturated","Abiotic","acetotacetate (-H2O)",95,35,271.428571428571
+"5cm-end_SR_90d_FAD_saturated","Abiotic","acetylation (-H2O)",7,35,20
+"5cm-end_SR_90d_FAD_saturated","Abiotic","C2H2",405,35,1157.14285714286
+"5cm-end_SR_90d_FAD_saturated","Abiotic","Carboxylation",5,35,14.2857142857143
+"5cm-end_SR_90d_FAD_saturated","Abiotic","condensation/dehydration",4,35,11.4285714285714
+"5cm-end_SR_90d_FAD_saturated","Abiotic","ethyl addition (-H2O)",2,35,5.71428571428571
+"5cm-end_SR_90d_FAD_saturated","Abiotic","Formic Acid (-H2O)",11,35,31.4285714285714
+"5cm-end_SR_90d_FAD_saturated","Abiotic","glyoxylate (-H2O)",9,35,25.7142857142857
+"5cm-end_SR_90d_FAD_saturated","Abiotic","H2S",12,35,34.2857142857143
+"5cm-end_SR_90d_FAD_saturated","Abiotic","hydrogenation/dehydrogenation",4,35,11.4285714285714
+"5cm-end_SR_90d_FAD_saturated","Abiotic","hydroxylation (-H)",5,35,14.2857142857143
+"5cm-end_SR_90d_FAD_saturated","Abiotic","Inorganic Phosphate",2,35,5.71428571428571
+"5cm-end_SR_90d_FAD_saturated","Abiotic","NO3-",2,35,5.71428571428571
+"5cm-end_SR_90d_FAD_saturated","Abiotic","SO42-",2,35,5.71428571428571
+"5cm-end_SR_90d_FAD_saturated","Biotic","Alanine",3,35,8.57142857142857
+"5cm-end_SR_90d_FAD_saturated","Biotic","Aspartic Acid",1,35,2.85714285714286
+"5cm-end_SR_90d_FAD_saturated","Biotic","CH4_O",396,35,1131.42857142857
+"5cm-end_SR_90d_FAD_saturated","Biotic","Cystine",2,35,5.71428571428571
+"5cm-end_SR_90d_FAD_saturated","Biotic","Glutamic Acid",2,35,5.71428571428571
+"5cm-end_SR_90d_FAD_saturated","Biotic","Glycine",1,35,2.85714285714286
+"5cm-end_SR_90d_FAD_saturated","Biotic","Isoleucine",1,35,2.85714285714286
+"5cm-end_SR_90d_FAD_saturated","Biotic","malonyl group (-H2O)",241,35,688.571428571429
+"5cm-end_SR_90d_FAD_saturated","Biotic","NH_CH2",7,35,20
+"5cm-end_SR_90d_FAD_saturated","Biotic","palmitoylation (-H2O)",24,35,68.5714285714286
+"5cm-end_SR_90d_FAD_saturated","Biotic","Phenylalanine",13,35,37.1428571428571
+"5cm-end_SR_90d_FAD_saturated","Biotic","Proline",1,35,2.85714285714286
+"5cm-end_SR_90d_FAD_saturated","Biotic","secondary amine",5,35,14.2857142857143
+"5cm-end_SR_90d_FAD_saturated","Biotic","Serine",79,35,225.714285714286
+"5cm-end_SR_90d_FAD_saturated","Biotic","Threonine",1,35,2.85714285714286
+"5cm-end_SR_90d_FAD_saturated","both","C6H10O5",114,35,325.714285714286
+"5cm-end_SR_90d_FAD_saturated","both","C6H10O6",99,35,282.857142857143
+"5cm-end_SR_90d_FAD_saturated","both","D-Ribose (-H2O) (ribosylation)",3,35,8.57142857142857
+"5cm-end_SR_90d_FAD_saturated","both","disaccharide (-H2O)",9,35,25.7142857142857
+"5cm-end_SR_90d_FAD_saturated","both","erythose (-H2O)",217,35,620
+"5cm-end_SR_90d_FAD_saturated","both","Glucuronic Acid (-H2O)",10,35,28.5714285714286
+"5cm-end_SR_timezero__timezero","Abiotic","acetotacetate (-H2O)",57,30,190
+"5cm-end_SR_timezero__timezero","Abiotic","acetylation (-H2O)",2,30,6.66666666666667
+"5cm-end_SR_timezero__timezero","Abiotic","C2H2",221,30,736.666666666667
+"5cm-end_SR_timezero__timezero","Abiotic","Carboxylation",5,30,16.6666666666667
+"5cm-end_SR_timezero__timezero","Abiotic","condensation/dehydration",2,30,6.66666666666667
+"5cm-end_SR_timezero__timezero","Abiotic","ethyl addition (-H2O)",1,30,3.33333333333333
+"5cm-end_SR_timezero__timezero","Abiotic","Formic Acid (-H2O)",8,30,26.6666666666667
+"5cm-end_SR_timezero__timezero","Abiotic","glyoxylate (-H2O)",4,30,13.3333333333333
+"5cm-end_SR_timezero__timezero","Abiotic","H2S",7,30,23.3333333333333
+"5cm-end_SR_timezero__timezero","Abiotic","hydrogenation/dehydrogenation",2,30,6.66666666666667
+"5cm-end_SR_timezero__timezero","Abiotic","hydroxylation (-H)",5,30,16.6666666666667
+"5cm-end_SR_timezero__timezero","Abiotic","SO42-",1,30,3.33333333333333
+"5cm-end_SR_timezero__timezero","Biotic","Alanine",1,30,3.33333333333333
+"5cm-end_SR_timezero__timezero","Biotic","Aspartic Acid",2,30,6.66666666666667
+"5cm-end_SR_timezero__timezero","Biotic","CH4_O",188,30,626.666666666667
+"5cm-end_SR_timezero__timezero","Biotic","Glutamic Acid",1,30,3.33333333333333
+"5cm-end_SR_timezero__timezero","Biotic","Glycine",1,30,3.33333333333333
+"5cm-end_SR_timezero__timezero","Biotic","malonyl group (-H2O)",132,30,440
+"5cm-end_SR_timezero__timezero","Biotic","NH_CH2",1,30,3.33333333333333
+"5cm-end_SR_timezero__timezero","Biotic","palmitoylation (-H2O)",7,30,23.3333333333333
+"5cm-end_SR_timezero__timezero","Biotic","Phenylalanine",1,30,3.33333333333333
+"5cm-end_SR_timezero__timezero","Biotic","secondary amine",1,30,3.33333333333333
+"5cm-end_SR_timezero__timezero","Biotic","Serine",39,30,130
+"5cm-end_SR_timezero__timezero","Biotic","Threonine",1,30,3.33333333333333
+"5cm-end_SR_timezero__timezero","both","C6H10O5",45,30,150
+"5cm-end_SR_timezero__timezero","both","C6H10O6",30,30,100
+"5cm-end_SR_timezero__timezero","both","D-Ribose (-H2O) (ribosylation)",1,30,3.33333333333333
+"5cm-end_SR_timezero__timezero","both","disaccharide (-H2O)",1,30,3.33333333333333
+"5cm-end_SR_timezero__timezero","both","erythose (-H2O)",108,30,360
+"5cm-end_SR_timezero__timezero","both","Glucuronic Acid (-H2O)",3,30,10

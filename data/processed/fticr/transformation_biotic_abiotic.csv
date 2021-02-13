@@ -1,0 +1,121 @@
+"sample","Biotic_abiotic","n","total","percentage"
+"0-5cm_CPCRW_150d_CW_saturated","Abiotic",529,1683,31.4319667260844
+"0-5cm_CPCRW_150d_CW_saturated","Biotic",745,1683,44.2661913250149
+"0-5cm_CPCRW_150d_CW_saturated","both",409,1683,24.3018419489008
+"0-5cm_CPCRW_150d_FAD_saturated","Abiotic",466,1378,33.8171262699565
+"0-5cm_CPCRW_150d_FAD_saturated","Biotic",607,1378,44.0493468795356
+"0-5cm_CPCRW_150d_FAD_saturated","both",305,1378,22.133526850508
+"0-5cm_CPCRW_30d_CW_saturated","Abiotic",533,1641,32.4801950030469
+"0-5cm_CPCRW_30d_CW_saturated","Biotic",713,1641,43.4491163924436
+"0-5cm_CPCRW_30d_CW_saturated","both",395,1641,24.0706886045094
+"0-5cm_CPCRW_30d_FAD_saturated","Abiotic",545,1754,31.0718358038769
+"0-5cm_CPCRW_30d_FAD_saturated","Biotic",781,1754,44.5267958950969
+"0-5cm_CPCRW_30d_FAD_saturated","both",428,1754,24.4013683010262
+"0-5cm_CPCRW_90d_CW_instant chemistry","Abiotic",509,1646,30.9234507897934
+"0-5cm_CPCRW_90d_CW_instant chemistry","Biotic",740,1646,44.9574726609964
+"0-5cm_CPCRW_90d_CW_instant chemistry","both",397,1646,24.1190765492102
+"0-5cm_CPCRW_90d_CW_saturated","Abiotic",530,1657,31.985515992758
+"0-5cm_CPCRW_90d_CW_saturated","Biotic",714,1657,43.0899215449608
+"0-5cm_CPCRW_90d_CW_saturated","both",413,1657,24.9245624622812
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Abiotic",476,1496,31.8181818181818
+"0-5cm_CPCRW_90d_FAD_instant chemistry","Biotic",676,1496,45.1871657754011
+"0-5cm_CPCRW_90d_FAD_instant chemistry","both",344,1496,22.9946524064171
+"0-5cm_CPCRW_90d_FAD_saturated","Abiotic",514,1586,32.4085750315258
+"0-5cm_CPCRW_90d_FAD_saturated","Biotic",693,1586,43.6948297604035
+"0-5cm_CPCRW_90d_FAD_saturated","both",379,1586,23.8965952080706
+"0-5cm_CPCRW_timezero__timezero","Abiotic",396,1204,32.890365448505
+"0-5cm_CPCRW_timezero__timezero","Biotic",519,1204,43.1063122923588
+"0-5cm_CPCRW_timezero__timezero","both",289,1204,24.0033222591362
+"0-5cm_SR_150d_CW_saturated","Abiotic",536,1665,32.1921921921922
+"0-5cm_SR_150d_CW_saturated","Biotic",732,1665,43.963963963964
+"0-5cm_SR_150d_CW_saturated","both",397,1665,23.8438438438438
+"0-5cm_SR_150d_FAD_saturated","Abiotic",496,1524,32.5459317585302
+"0-5cm_SR_150d_FAD_saturated","Biotic",666,1524,43.7007874015748
+"0-5cm_SR_150d_FAD_saturated","both",362,1524,23.753280839895
+"0-5cm_SR_30d_CW_instant chemistry","Abiotic",552,1738,31.7606444188723
+"0-5cm_SR_30d_CW_instant chemistry","Biotic",777,1738,44.7065592635213
+"0-5cm_SR_30d_CW_instant chemistry","both",409,1738,23.5327963176064
+"0-5cm_SR_30d_CW_saturated","Abiotic",530,1649,32.1406913280776
+"0-5cm_SR_30d_CW_saturated","Biotic",722,1649,43.7841115827774
+"0-5cm_SR_30d_CW_saturated","both",397,1649,24.0751970891449
+"0-5cm_SR_30d_FAD_instant chemistry","Abiotic",463,1427,32.4456902592852
+"0-5cm_SR_30d_FAD_instant chemistry","Biotic",635,1427,44.4989488437281
+"0-5cm_SR_30d_FAD_instant chemistry","both",329,1427,23.0553608969867
+"0-5cm_SR_30d_FAD_saturated","Abiotic",507,1554,32.6254826254826
+"0-5cm_SR_30d_FAD_saturated","Biotic",669,1554,43.050193050193
+"0-5cm_SR_30d_FAD_saturated","both",378,1554,24.3243243243243
+"0-5cm_SR_90d_CW_instant chemistry","Abiotic",545,1718,31.7229336437718
+"0-5cm_SR_90d_CW_instant chemistry","Biotic",777,1718,45.2270081490105
+"0-5cm_SR_90d_CW_instant chemistry","both",396,1718,23.0500582072177
+"0-5cm_SR_90d_CW_saturated","Abiotic",550,1705,32.258064516129
+"0-5cm_SR_90d_CW_saturated","Biotic",740,1705,43.4017595307918
+"0-5cm_SR_90d_CW_saturated","both",415,1705,24.3401759530792
+"0-5cm_SR_90d_FAD_instant chemistry","Abiotic",564,1760,32.0454545454545
+"0-5cm_SR_90d_FAD_instant chemistry","Biotic",781,1760,44.375
+"0-5cm_SR_90d_FAD_instant chemistry","both",415,1760,23.5795454545455
+"0-5cm_SR_90d_FAD_saturated","Abiotic",530,1632,32.4754901960784
+"0-5cm_SR_90d_FAD_saturated","Biotic",706,1632,43.2598039215686
+"0-5cm_SR_90d_FAD_saturated","both",396,1632,24.2647058823529
+"0-5cm_SR_timezero__timezero","Abiotic",411,1248,32.9326923076923
+"0-5cm_SR_timezero__timezero","Biotic",533,1248,42.7083333333333
+"0-5cm_SR_timezero__timezero","both",304,1248,24.3589743589744
+"5cm-end_CPCRW_150d_CW_saturated","Abiotic",541,1697,31.8797878609311
+"5cm-end_CPCRW_150d_CW_saturated","Biotic",741,1697,43.6652916912198
+"5cm-end_CPCRW_150d_CW_saturated","both",415,1697,24.4549204478491
+"5cm-end_CPCRW_150d_FAD_saturated","Abiotic",534,1728,30.9027777777778
+"5cm-end_CPCRW_150d_FAD_saturated","Biotic",763,1728,44.1550925925926
+"5cm-end_CPCRW_150d_FAD_saturated","both",431,1728,24.9421296296296
+"5cm-end_CPCRW_30d_CW_saturated","Abiotic",552,1779,31.0286677908938
+"5cm-end_CPCRW_30d_CW_saturated","Biotic",785,1779,44.1259134345138
+"5cm-end_CPCRW_30d_CW_saturated","both",442,1779,24.8454187745925
+"5cm-end_CPCRW_30d_FAD_saturated","Abiotic",561,1852,30.2915766738661
+"5cm-end_CPCRW_30d_FAD_saturated","Biotic",805,1852,43.4665226781857
+"5cm-end_CPCRW_30d_FAD_saturated","both",486,1852,26.2419006479482
+"5cm-end_CPCRW_90d_CW_instant chemistry","Abiotic",522,1671,31.2387791741472
+"5cm-end_CPCRW_90d_CW_instant chemistry","Biotic",720,1671,43.0879712746858
+"5cm-end_CPCRW_90d_CW_instant chemistry","both",429,1671,25.673249551167
+"5cm-end_CPCRW_90d_CW_saturated","Abiotic",549,1752,31.3356164383562
+"5cm-end_CPCRW_90d_CW_saturated","Biotic",765,1752,43.6643835616438
+"5cm-end_CPCRW_90d_CW_saturated","both",438,1752,25
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Abiotic",492,1518,32.4110671936759
+"5cm-end_CPCRW_90d_FAD_instant chemistry","Biotic",685,1518,45.1251646903821
+"5cm-end_CPCRW_90d_FAD_instant chemistry","both",341,1518,22.463768115942
+"5cm-end_CPCRW_90d_FAD_saturated","Abiotic",525,1706,30.7737397420868
+"5cm-end_CPCRW_90d_FAD_saturated","Biotic",756,1706,44.3141852286049
+"5cm-end_CPCRW_90d_FAD_saturated","both",425,1706,24.9120750293083
+"5cm-end_CPCRW_timezero__timezero","Abiotic",396,1206,32.8358208955224
+"5cm-end_CPCRW_timezero__timezero","Biotic",517,1206,42.8689883913764
+"5cm-end_CPCRW_timezero__timezero","both",293,1206,24.2951907131012
+"5cm-end_SR_150d_CW_saturated","Abiotic",534,1730,30.8670520231214
+"5cm-end_SR_150d_CW_saturated","Biotic",760,1730,43.9306358381503
+"5cm-end_SR_150d_CW_saturated","both",436,1730,25.2023121387283
+"5cm-end_SR_150d_FAD_saturated","Abiotic",520,1655,31.4199395770393
+"5cm-end_SR_150d_FAD_saturated","Biotic",719,1655,43.4441087613293
+"5cm-end_SR_150d_FAD_saturated","both",416,1655,25.1359516616314
+"5cm-end_SR_30d_CW_instant chemistry","Abiotic",482,1455,33.127147766323
+"5cm-end_SR_30d_CW_instant chemistry","Biotic",660,1455,45.360824742268
+"5cm-end_SR_30d_CW_instant chemistry","both",313,1455,21.5120274914089
+"5cm-end_SR_30d_CW_saturated","Abiotic",560,1779,31.4783586284429
+"5cm-end_SR_30d_CW_saturated","Biotic",778,1779,43.7324339516582
+"5cm-end_SR_30d_CW_saturated","both",441,1779,24.7892074198988
+"5cm-end_SR_30d_FAD_instant chemistry","Abiotic",596,1847,32.2685435841906
+"5cm-end_SR_30d_FAD_instant chemistry","Biotic",819,1847,44.3421765024364
+"5cm-end_SR_30d_FAD_instant chemistry","both",432,1847,23.389279913373
+"5cm-end_SR_30d_FAD_saturated","Abiotic",512,1654,30.9552599758162
+"5cm-end_SR_30d_FAD_saturated","Biotic",721,1654,43.5912938331318
+"5cm-end_SR_30d_FAD_saturated","both",421,1654,25.453446191052
+"5cm-end_SR_90d_CW_instant chemistry","Abiotic",565,1752,32.2488584474886
+"5cm-end_SR_90d_CW_instant chemistry","Biotic",777,1752,44.3493150684931
+"5cm-end_SR_90d_CW_instant chemistry","both",410,1752,23.4018264840183
+"5cm-end_SR_90d_CW_saturated","Abiotic",549,1745,31.4613180515759
+"5cm-end_SR_90d_CW_saturated","Biotic",756,1745,43.323782234957
+"5cm-end_SR_90d_CW_saturated","both",440,1745,25.214899713467
+"5cm-end_SR_90d_FAD_instant chemistry","Abiotic",563,1780,31.6292134831461
+"5cm-end_SR_90d_FAD_instant chemistry","Biotic",793,1780,44.5505617977528
+"5cm-end_SR_90d_FAD_instant chemistry","both",424,1780,23.8202247191011
+"5cm-end_SR_90d_FAD_saturated","Abiotic",565,1794,31.4938684503902
+"5cm-end_SR_90d_FAD_saturated","Biotic",777,1794,43.3110367892977
+"5cm-end_SR_90d_FAD_saturated","both",452,1794,25.1950947603122
+"5cm-end_SR_timezero__timezero","Abiotic",315,878,35.876993166287
+"5cm-end_SR_timezero__timezero","Biotic",375,878,42.7107061503417
+"5cm-end_SR_timezero__timezero","both",188,878,21.4123006833713
