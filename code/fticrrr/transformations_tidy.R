@@ -4,6 +4,9 @@
 
 ## Use this script to calculate mass differences for each sample, linked to potential biotic/abiotic transformations
 
+## NOTE: THIS SCRIPT TAKES MANY, MANY HOURS TO RUN. SO RUN IT OVERNIGHT, WHEN YOU DON'T NEED TO USE R FOR OTHER WORK.
+## MAKE SURE YOUR COMPUTER DOES NOT GO TO SLEEP MID-SCRIPT
+
 #####################
 #####################
 
@@ -145,8 +148,8 @@ compute_transformation_summaries = function(transformations_c, transformations_s
     group_by(sample, Biotic_abiotic, Trans_name) %>% 
     dplyr::summarise(count = n()) %>% 
     group_by(sample) %>% 
-    mutate(total = n(),
-           percentage = (count/total)*100)
+    mutate(total = sum(count),
+           percentage = round((count/total)*100, 2))
   
   transformation_count_wide = 
     transformation_count_long %>% 
