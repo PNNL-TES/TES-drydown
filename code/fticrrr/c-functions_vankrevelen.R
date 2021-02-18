@@ -260,7 +260,7 @@ plot_tzero_diff = function(fticr_data_trt, fticr_meta){
     mutate(trt = replace_na(trt, 0),
            tzero = replace_na(tzero, 0),
            diff = trt-tzero,
-           loss_gain = recode(diff, `-1` = "loss", `1` = "gain", `0` = NA_character_)) %>% 
+           loss_gain = recode(diff, `-1` = "lost", `1` = "gained", `0` = NA_character_)) %>% 
     filter(!(Site=="CPCRW" & length=="30d" & saturation=="instant chemistry"))
     
   tzero_diff_hcoc = 
@@ -269,12 +269,24 @@ plot_tzero_diff = function(fticr_data_trt, fticr_meta){
     left_join(dplyr::select(fticr_meta, formula, HC, OC), by = "formula") %>% 
     reorder_length(.)
   
+  label_tzero_diff = 
+    tzero_diff_hcoc %>% 
+    group_by(depth, Site, length, drying, saturation, loss_gain) %>% 
+    dplyr::summarise(n = n()) %>% 
+    ungroup() %>% 
+    pivot_wider(names_from = loss_gain, values_from = n) %>% 
+    mutate(label = paste0("lost: ", lost, "; gained: ", gained)) %>% 
+    reorder_length(.)
+  
   ## create plots ----
   tz_diff_c_instant = 
     tzero_diff_hcoc %>% 
     filter(Site == "CPCRW" & saturation == "instant chemistry") %>% 
     gg_vankrev(aes(x = OC, y = HC, color = loss_gain))+
     stat_ellipse(level = 0.90, show.legend = FALSE)+
+    geom_text(data = label_tzero_diff %>% 
+                filter(Site == "CPCRW" & saturation == "instant chemistry"), 
+              aes(x = 0.6, y = 0.2, label = label), color = "black", size = 3)+
     labs(title = "compared to time zero",
          subtitle = "CPCRW, instant chemistry")+
     scale_color_manual(values = rev(soil_palette("redox", 2)))+
@@ -286,8 +298,11 @@ plot_tzero_diff = function(fticr_data_trt, fticr_meta){
     filter(Site == "CPCRW") %>% 
     gg_vankrev(aes(x = OC, y = HC, color = loss_gain))+
     stat_ellipse(level = 0.90, show.legend = FALSE)+
+    geom_text(data = label_tzero_diff %>% 
+                filter(Site == "CPCRW"), 
+              aes(x = 0.6, y = 0.2, label = label), color = "black", size = 3)+
     labs(title = "compared to time zero",
-         subtitle = "CPCRW, saturated")+
+         subtitle = "CPCRW")+
     scale_color_manual(values = rev(soil_palette("redox", 2)))+
     facet_grid(saturation + depth ~ drying + length)+
     theme_kp()
@@ -297,6 +312,9 @@ plot_tzero_diff = function(fticr_data_trt, fticr_meta){
     filter(Site == "SR" & saturation == "instant chemistry") %>% 
     gg_vankrev(aes(x = OC, y = HC, color = loss_gain))+
     stat_ellipse(level = 0.90, show.legend = FALSE)+
+    geom_text(data = label_tzero_diff %>% 
+                filter(Site == "SR" & saturation == "instant chemistry"), 
+              aes(x = 0.6, y = 0.2, label = label), color = "black", size = 3)+
     labs(title = "compared to time zero",
          subtitle = "SR, instant chemistry")+
     scale_color_manual(values = rev(soil_palette("redox", 2)))+
@@ -308,8 +326,11 @@ plot_tzero_diff = function(fticr_data_trt, fticr_meta){
     filter(Site == "SR") %>% 
     gg_vankrev(aes(x = OC, y = HC, color = loss_gain))+
     stat_ellipse(level = 0.90, show.legend = FALSE)+
+    geom_text(data = label_tzero_diff %>% 
+                filter(Site == "SR"), 
+              aes(x = 0.6, y = 0.2, label = label), color = "black", size = 3)+
     labs(title = "compared to time zero",
-         subtitle = "SR, saturated")+
+         subtitle = "SR")+
     scale_color_manual(values = rev(soil_palette("redox", 2)))+
     facet_grid(saturation + depth ~ drying + length)+
     theme_kp()
