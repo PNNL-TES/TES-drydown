@@ -318,3 +318,36 @@ plot_tzero_diff = function(fticr_data_trt, fticr_meta){
        )
 }
 
+################################################## #
+################################################## #
+
+
+# NOSC figures ------------------------------------------------------------
+loadd(fticr_data_trt)
+loadd(fticr_meta)
+
+make_nosc_figures = function(fticr_data_trt, fticr_meta){
+  fticr_data_nosc = 
+    fticr_data_trt %>% 
+    left_join(dplyr::select(fticr_meta, formula, NOSC)) %>% 
+    mutate(length = factor(length, levels = c("timezero", "30d", "90d", "150d")))
+  
+  nosc_by_drying = 
+    fticr_data_nosc %>% 
+    ggplot(aes(x = NOSC, fill = drying, color = drying))+
+    geom_histogram(binwidth = 0.25, position = "identity", alpha = 0.5)+
+    facet_grid(Site + depth ~ length + saturation)+
+    theme_kp()+
+    NULL
+  
+  nosc_by_saturation = 
+    fticr_data_nosc %>% 
+    ggplot(aes(x = NOSC, fill = saturation, color = saturation))+
+    geom_histogram(binwidth = 0.25, position = "identity", alpha = 0.5)+
+    facet_grid(Site + depth ~ length + drying)+
+    theme_kp()+
+    NULL
+  
+  list(nosc_by_drying = nosc_by_drying,
+       nosc_by_saturation = nosc_by_saturation)
+}
