@@ -188,6 +188,7 @@ compute_fticr_pca_tzero = function(relabund_cores){
 compute_permanova = function(relabund_cores){
   relabund_wide = 
     relabund_cores %>% 
+    filter(length != "timezero") %>% 
     ungroup() %>% 
     mutate(Class = factor(Class, 
                           levels = c("aliphatic", "unsaturated/lignin", 
