@@ -154,7 +154,6 @@ plot_vk_saturation = function(fticr_data_trt, fticr_meta){
     pivot_wider(names_from = lossgain, values_from = n) %>% 
     mutate(label = paste0("lost: ", lost, "; gained: ", gained))
   
-  
   peakslossgain_saturation %>% 
     gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
     stat_ellipse(level = 0.90, show.legend = F)+
@@ -211,7 +210,7 @@ plot_vk_drying = function(fticr_data_trt, fticr_meta){
     gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
     stat_ellipse(level = 0.90, show.legend = F)+
     geom_text(data = label_drying, aes(x = 0.6, y = 0.2, label = label), color = "black", size = 3)+
-    facet_grid(depth + saturation ~ Site+length)+
+    facet_grid(length + depth ~ Site + saturation)+
     scale_color_manual(values = rev(soil_palette("redox", 2)))+
     labs(title = "CW vs. FAD",
          subtitle = "peaks lost/gained during the forced drying")+
@@ -278,6 +277,7 @@ plot_tzero_diff = function(fticr_data_trt, fticr_meta){
     stat_ellipse(level = 0.90, show.legend = FALSE)+
     labs(title = "compared to time zero",
          subtitle = "CPCRW, instant chemistry")+
+    scale_color_manual(values = rev(soil_palette("redox", 2)))+
     facet_grid(depth ~ drying + length)+
     theme_kp()
   
@@ -288,6 +288,7 @@ plot_tzero_diff = function(fticr_data_trt, fticr_meta){
     stat_ellipse(level = 0.90, show.legend = FALSE)+
     labs(title = "compared to time zero",
          subtitle = "CPCRW, saturated")+
+    scale_color_manual(values = rev(soil_palette("redox", 2)))+
     facet_grid(saturation + depth ~ drying + length)+
     theme_kp()
     
@@ -298,6 +299,7 @@ plot_tzero_diff = function(fticr_data_trt, fticr_meta){
     stat_ellipse(level = 0.90, show.legend = FALSE)+
     labs(title = "compared to time zero",
          subtitle = "SR, instant chemistry")+
+    scale_color_manual(values = rev(soil_palette("redox", 2)))+
     facet_grid(depth ~ drying + length)+
     theme_kp()
   
@@ -308,6 +310,7 @@ plot_tzero_diff = function(fticr_data_trt, fticr_meta){
     stat_ellipse(level = 0.90, show.legend = FALSE)+
     labs(title = "compared to time zero",
          subtitle = "SR, saturated")+
+    scale_color_manual(values = rev(soil_palette("redox", 2)))+
     facet_grid(saturation + depth ~ drying + length)+
     theme_kp()
   
