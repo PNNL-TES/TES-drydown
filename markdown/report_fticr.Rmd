@@ -16,6 +16,62 @@ knitr::opts_chunk$set(echo = FALSE,
 library(drake)
 ```
 
+---
+
+<details>
+  <summary>RESEARCH QUESTIONS -- click to open</summary>
+
+1. effect of drought duration?
+1. effect of drought intensity? **CW** (constant weight drying) vs. **FAD** (forced air drying, more intense)
+1. effect of post-drought rewetting? instant rewet (no saturation) vs. 2 week saturation
+1. difference by site?
+1. difference by soil depth? 0-5 cm vs. 5cm-end
+
+</details>
+
+---
+
+<details>
+  <summary>EXPLORATORY ANALYSIS -- click to open</summary>
+
+## EXPLORATORY ANALYSIS
+### Van Krevelen domains
+```{r vk_domains, fig.height=5, fig.width=5}
+readd(gg_vankrevelen_domains)
+```
+
+### Van Krevelen plots by treatment
+```{r vk_plots, fig.height=10, fig.width=8}
+readd(gg_vankrevelens)$gg_cpcrw_all
+readd(gg_vankrevelens)$gg_sr_all
+```
+
+### RELATIVE ABUNDANCE
+
+```{r relabund_barplot, fig.height=10, fig.width=10}
+readd(gg_relabund_bar)$relabund_bar_trt
+```
+
+</details>
+
+---
+
+<details>
+  <summary>PCA -- click to open</summary>
+
+## PCA
+
+```{r pca}
+readd(gg_pca)
+```
+
+</details>
+
+--- 
+
+<details>
+  <summary>TIME ZERO -- click to open</summary>
+
 ## TIME ZERO SAMPLES
 ### Van Krevelen plots
 ```{r vk_tzero}
@@ -39,36 +95,26 @@ readd(gg_relabund_bar)$relabund_bar_tzero
 ```
 
 
-## EXPLORATORY ANALYSIS
-### Van Krevelen domains
-```{r vk_domains, fig.height=5, fig.width=5}
-readd(gg_vankrevelen_domains)
+</details>
+
+---
+
+<details>
+  <summary>EFFECT OF DROUGHT -- click to open</summary>
+
+## HOW DID DROUGHT SAMPLES COMPARE TO TIME ZERO?
+```{r vk_tzero_diff, fig.width=10, fig.height=8}
+readd(gg_vk_tzero_diff)
 ```
 
-### Van Krevelen plots by treatment
-```{r vk_plots, fig.height=10, fig.width=8}
-readd(gg_vankrevelens)$gg_cpcrw_all
-readd(gg_vankrevelens)$gg_sr_all
-```
 
-### RELATIVE ABUNDANCE
+</details>
 
-```{r relabund_barplot, fig.height=10, fig.width=10}
-readd(gg_relabund_bar)$relabund_bar_trt
-```
+---
 
-## NOSC
 
-NOSC by drying
-```{r nosc_drying, fig.height=8, fig.width=10}
-readd(gg_nosc)$nosc_by_drying
-```
-
-NOSC by saturation
-```{r nosc_saturation, fig.height=8, fig.width=10}
-readd(gg_nosc)$nosc_by_drying
-```
-
+<details>
+  <summary>DROUGHT INTENSITY -- click to open</summary>
 
 ## HOW DID DRYING (CW VS. FAD) INFLUENCE CHEMISTRY?
 ```{r vk_drying, fig.height= 6, fig.width=8}
@@ -81,24 +127,44 @@ readd(gg_vk_newpeaks_drying)
 ```
 
 
+
+</details>
+
+---
+
+<details>
+  <summary>REWETTING -- click to open</summary>
+
 ## HOW DID WETTING (INSTANT REWET VS. SATURATION INCUBATION) INFLUENCE CHEMISTRY?
 ```{r vk_newpeaks_saturation, fig.height=10, fig.width=10}
 readd(gg_vk_newpeaks_saturation)
 ```
 
-## HOW DID DROUGHT SAMPLES COMPARE TO TIME ZERO?
-```{r vk_tzero_diff, fig.width=10, fig.height=8}
-readd(gg_vk_tzero_diff)
+</details>
+
+---
+
+<details>
+  <summary>OXIDATION STATE -- click to open</summary>
+  
+## NOSC
+
+NOSC by drying
+```{r nosc_drying, fig.height=8, fig.width=10}
+readd(gg_nosc)$nosc_by_drying
 ```
 
-
-
-## PCA
-
-```{r pca}
-readd(gg_pca)
+NOSC by saturation
+```{r nosc_saturation, fig.height=8, fig.width=10}
+readd(gg_nosc)$nosc_by_drying
 ```
 
+</details>
+
+---
+
+<details>
+  <summary>STATISTICS -- click to open</summary>
 
 ## STATISTICS
 ### PERMANOVA
@@ -106,3 +172,18 @@ readd(gg_pca)
 readd(fticr_permanova)
 ```
 
+
+</details>
+
+---
+
+<details>
+  <summary>SESSION INFO -- click to open</summary>
+
+date run: `r Sys.Date()`
+
+```{r}
+sessionInfo()
+```
+
+</details>
