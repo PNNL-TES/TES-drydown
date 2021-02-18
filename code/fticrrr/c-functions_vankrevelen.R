@@ -146,10 +146,21 @@ plot_vk_saturation = function(fticr_data_trt, fticr_meta){
     ungroup() %>% 
     mutate(lossgain = dplyr::recode(saturation, "saturated" = "gained", "instant chemistry" = "lost"))
   
+  label_saturation = 
+    peakslossgain_saturation %>% 
+    group_by(depth, Site, length, drying, lossgain) %>% 
+    dplyr::summarise(n = n()) %>% 
+    ungroup() %>% 
+    pivot_wider(names_from = lossgain, values_from = n) %>% 
+    mutate(label = paste0("lost: ", lost, "; gained: ", gained))
+  
+  
   peakslossgain_saturation %>% 
     gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
     stat_ellipse(level = 0.90, show.legend = F)+
+    geom_text(data = label_saturation, aes(x = 0.6, y = 0.2, label = label), color = "black", size = 3)+
     facet_grid(length+depth ~ Site + drying)+
+    scale_color_manual(values = rev(soil_palette("redox", 2)))+
     labs(subtitle = "instant chemistry vs. saturated")+
     theme_kp()+
     NULL
@@ -164,18 +175,44 @@ plot_vk_drying = function(fticr_data_trt, fticr_meta){
   
   peakslossgain_drying = 
     fticr_hcoc %>% 
-    filter(saturation == "saturated") %>% 
-    group_by(formula, Site, depth, length) %>% 
+    filter(saturation != "timezero") %>% 
+    group_by(formula, Site, depth, length, saturation) %>% 
     dplyr::mutate(n = n()) %>% 
     filter(n == 1) %>% 
     ungroup() %>% 
-    mutate(lossgain = dplyr::recode(drying, "FAD" = "gained", "CW" = "lost"))
+    mutate(lossgain = dplyr::recode(drying, "FAD" = "gained", "CW" = "lost")) %>% 
+    mutate(length = factor(length, levels = c("timezero", "30d", "90d", "150d")))
   
-  peakslossgain_drying %>% 
-    mutate(length = factor(length, levels = c("30d", "90d", "150d"))) %>% 
+  label_drying = 
+    peakslossgain_drying %>% 
+    group_by(depth, Site, length, saturation, lossgain) %>% 
+    dplyr::summarise(n = n()) %>% 
+    ungroup() %>% 
+    pivot_wider(names_from = lossgain, values_from = n) %>% 
+    mutate(label = paste0("lost: ", lost, "; gained: ", gained)) %>% 
+    mutate(length = factor(length, levels = c("timezero", "30d", "90d", "150d")))
+  
+  # overall
+  lossgain_overall = 
+    peakslossgain_drying %>% 
+    distinct(formula, Site, depth, saturation, HC, OC, lossgain) %>% 
     gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
     stat_ellipse(level = 0.90, show.legend = F)+
-    facet_grid(depth ~ Site+length)+
+    #geom_text(data = label_drying, aes(x = 0.6, y = 0.2, label = label), color = "black", size = 3)+
+    facet_grid(depth ~ Site)+
+    scale_color_manual(values = rev(soil_palette("redox", 2)))+
+    labs(title = "CW vs. FAD",
+         subtitle = "peaks lost/gained during the forced drying")+
+    theme_kp()+
+    NULL 
+  
+  
+  peakslossgain_drying %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
+    stat_ellipse(level = 0.90, show.legend = F)+
+    geom_text(data = label_drying, aes(x = 0.6, y = 0.2, label = label), color = "black", size = 3)+
+    facet_grid(depth + saturation ~ Site+length)+
+    scale_color_manual(values = rev(soil_palette("redox", 2)))+
     labs(title = "CW vs. FAD",
          subtitle = "peaks lost/gained during the forced drying")+
     theme_kp()+
@@ -280,3 +317,4 @@ plot_tzero_diff = function(fticr_data_trt, fticr_meta){
        tz_diff_s_saturated = tz_diff_s_saturated
        )
 }
+
