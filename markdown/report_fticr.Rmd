@@ -57,13 +57,26 @@ readd(gg_vankrevelens)$gg_sr_all
 readd(gg_relabund_bar)$relabund_bar_trt
 ```
 
+## NOSC
+
+NOSC by drying
+```{r nosc_drying, fig.height=8, fig.width=10}
+readd(gg_nosc)$nosc_by_drying
+```
+
+NOSC by saturation
+```{r nosc_saturation, fig.height=8, fig.width=10}
+readd(gg_nosc)$nosc_by_drying
+```
+
+
 ## HOW DID DRYING (CW VS. FAD) INFLUENCE CHEMISTRY?
 ```{r vk_drying, fig.height= 6, fig.width=8}
 readd(gg_vankrevelens)$gg_cpcrw_drying
 readd(gg_vankrevelens)$gg_sr_drying
 ```
 
-```{r vk_newpeaks_drying, fig.height=8, fig.width=20}
+```{r vk_newpeaks_drying, fig.height=15, fig.width=10}
 readd(gg_vk_newpeaks_drying)
 ```
 

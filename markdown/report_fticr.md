@@ -49,6 +49,13 @@ This document contains results for FTICR-MS data.
 
 ![](images-markdown-fticr/relabund_barplot-1.png)<!-- -->
 
+## NOSC
+
+NOSC by drying ![](images-markdown-fticr/nosc_drying-1.png)<!-- -->
+
+NOSC by saturation
+![](images-markdown-fticr/nosc_saturation-1.png)<!-- -->
+
 ## HOW DID DRYING (CW VS. FAD) INFLUENCE CHEMISTRY?
 
 ![](images-markdown-fticr/vk_drying-1.png)<!-- -->![](images-markdown-fticr/vk_drying-2.png)<!-- -->
@@ -96,22 +103,22 @@ This document contains results for FTICR-MS data.
 ### PERMANOVA
 
     #> # A tibble: 17 x 7
-    #>    term                 df SumsOfSqs   MeanSqs F.Model      R2 p.value
-    #>    <chr>             <dbl>     <dbl>     <dbl>   <dbl>   <dbl>   <dbl>
-    #>  1 depth                 1   0.0981   0.0981    179.   0.191     0.001
-    #>  2 Site                  1   0.0166   0.0166     30.4  0.0324    0.001
-    #>  3 length                3   0.0553   0.0184     33.7  0.108     0.001
-    #>  4 drying                1   0.0115   0.0115     21.0  0.0223    0.001
-    #>  5 saturation            1   0.125    0.125     228.   0.243     0.001
-    #>  6 depth:Site            1   0.00673  0.00673    12.3  0.0131    0.002
-    #>  7 depth:length          3   0.0425   0.0142     25.9  0.0828    0.001
-    #>  8 depth:drying          1   0.00770  0.00770    14.1  0.0150    0.001
-    #>  9 depth:saturation      1   0.0128   0.0128     23.4  0.0249    0.001
-    #> 10 Site:length           3   0.00627  0.00209     3.82 0.0122    0.005
-    #> 11 Site:drying           1   0.0260   0.0260     47.6  0.0507    0.001
-    #> 12 Site:saturation       1   0.00619  0.00619    11.3  0.0121    0.001
-    #> 13 length:drying         2   0.00410  0.00205     3.75 0.00798   0.019
-    #> 14 length:saturation     1   0.00677  0.00677    12.4  0.0132    0.001
-    #> 15 drying:saturation     1   0.00325  0.00325     5.94 0.00633   0.013
-    #> 16 Residuals           155   0.0848   0.000547   NA    0.165    NA    
-    #> 17 Total               177   0.514   NA          NA    1        NA
+    #>    term              df SumsOfSqs  MeanSqs F.Model      R2 p.value
+    #>    <chr>          <dbl>     <dbl>    <dbl>   <dbl>   <dbl>   <dbl>
+    #>  1 depth              1   0.0981   9.81e-2  179.   0.191     0.001
+    #>  2 Site               1   0.0166   1.66e-2   30.4  0.0324    0.001
+    #>  3 length             3   0.0553   1.84e-2   33.7  0.108     0.001
+    #>  4 drying             1   0.0115   1.15e-2   21.0  0.0223    0.001
+    #>  5 saturation         1   0.125    1.25e-1  228.   0.243     0.001
+    #>  6 depth:Site         1   0.00673  6.73e-3   12.3  0.0131    0.002
+    #>  7 depth:length       3   0.0425   1.42e-2   25.9  0.0828    0.001
+    #>  8 depth:drying       1   0.00770  7.70e-3   14.1  0.0150    0.001
+    #>  9 depth:saturat…     1   0.0128   1.28e-2   23.4  0.0249    0.001
+    #> 10 Site:length        3   0.00627  2.09e-3    3.82 0.0122    0.005
+    #> 11 Site:drying        1   0.0260   2.60e-2   47.6  0.0507    0.001
+    #> 12 Site:saturati…     1   0.00619  6.19e-3   11.3  0.0121    0.001
+    #> 13 length:drying      2   0.00410  2.05e-3    3.75 0.00798   0.019
+    #> 14 length:satura…     1   0.00677  6.77e-3   12.4  0.0132    0.001
+    #> 15 drying:satura…     1   0.00325  3.25e-3    5.94 0.00633   0.013
+    #> 16 Residuals        155   0.0848   5.47e-4   NA    0.165    NA    
+    #> 17 Total            177   0.514   NA         NA    1        NA

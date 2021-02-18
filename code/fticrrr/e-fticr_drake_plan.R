@@ -16,6 +16,8 @@
 # 0. load packages --------------------------------------------------------
 library(drake)
 library(tidyverse)
+library(PNWColors)
+library(soilpalettes)
 
 # 1. SET input file paths -------------------------------
 COREKEY = "data/processed/corekey.csv"
@@ -69,6 +71,9 @@ fticr_processing_plan = drake_plan(
   ## PCA
   gg_pca = compute_fticr_pca(relabund_cores), 
   gg_pca_tzero = compute_fticr_pca_tzero(relabund_cores),
+  
+  # e. NOSC ----
+  gg_nosc = make_nosc_figures(fticr_data_trt, fticr_meta),
   
   # e. OUTPUT FILES ----
   #  fticr_meta %>% write.csv(),
