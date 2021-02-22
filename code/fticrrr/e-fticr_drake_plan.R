@@ -76,8 +76,8 @@ fticr_processing_plan = drake_plan(
   gg_nosc = make_nosc_figures(fticr_data_trt, fticr_meta),
   
   # e. OUTPUT FILES ----
-  #  fticr_meta %>% write.csv(),
-  #  fticr_data_trt %>% write.csv(),
+    fticr_meta %>% write.csv("data/processed/fticr/fticr_meta.csv", row.names = FALSE),
+    fticr_data_trt %>% write.csv("data/processed/fticr/fticr_data_by_treatment.csv", row.names = FALSE),
   #  fticr_data_longform %>% write.csv() 
   
   # REPORT
