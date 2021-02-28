@@ -158,6 +158,94 @@ compute_fticr_pca = function(relabund_cores){
        gg_pca_sr = gg_pca_sr
        )
 }
+compute_fticr_pca2 = function(relabund_cores){
+  ## PCA input files ----
+
+  pca_timezero = fit_pca_function(relabund_cores %>% filter(length == "timezero"))
+  pca_drought = fit_pca_function(relabund_cores %>% filter(length != "timezero"))
+  
+  gg_pca_saturation = 
+    ggbiplot(pca_drought$pca_int, obs.scale = 1, var.scale = 1,
+             groups = as.character(pca_drought$grp$saturation), 
+             ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+    geom_point(size=2,stroke=1, shape = 21, alpha = 0.5, 
+               aes(color = groups))+
+    #scale_shape_manual(values = c(1,2,0,16,17,15, 5), name = "")+
+    #scale_color_manual(values = c("red", "blue"), name = "")+
+    #scale_fill_manual(values = c("red", "blue"), name = "")+
+    xlim(-4,4)+
+    ylim(-3.5,3.5)+
+    labs(shape="",
+         title = "all samples",
+         subtitle = "separation by saturation type")+
+    theme_kp()+
+    NULL
+ 
+  gg_pca_depth = 
+      ggbiplot(pca_drought$pca_int, obs.scale = 1, var.scale = 1,
+               groups = as.character(pca_drought$grp$depth), 
+               ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+      geom_point(size=2,stroke=1, shape = 21, alpha = 0.5, 
+                 aes(color = groups))+
+      xlim(-4,4)+
+      ylim(-3.5,3.5)+
+      labs(shape="",
+           title = "all samples",
+           subtitle = "separation by depth")+
+      theme_kp()+
+      NULL
+  
+  gg_pca_length = 
+      ggbiplot(pca_drought$pca_int, obs.scale = 1, var.scale = 1,
+               groups = as.character(pca_drought$grp$length), 
+               ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+      geom_point(size=2,stroke=1, shape = 21, alpha = 0.5, 
+                 aes(color = groups))+
+      xlim(-4,4)+
+      ylim(-3.5,3.5)+
+      labs(shape="",
+           title = "all samples",
+           subtitle = "separation by length")+
+      theme_kp()+
+      NULL
+  
+  gg_pca_drying = 
+      ggbiplot(pca_drought$pca_int, obs.scale = 1, var.scale = 1,
+               groups = as.character(pca_drought$grp$drying), 
+               ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+      geom_point(size=2,stroke=1, shape = 21, alpha = 0.5, 
+                 aes(color = groups))+
+      xlim(-4,4)+
+      ylim(-3.5,3.5)+
+      labs(shape="",
+           title = "all samples",
+           subtitle = "separation by drying intensity")+
+      theme_kp()+
+      NULL
+  
+  gg_pca_site = 
+      ggbiplot(pca_drought$pca_int, obs.scale = 1, var.scale = 1,
+               groups = as.character(pca_drought$grp$Site), 
+               ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+      geom_point(size=2,stroke=1, shape = 21, alpha = 0.5, 
+                 aes(color = groups))+
+      xlim(-4,4)+
+      ylim(-3.5,3.5)+
+      labs(shape="",
+           title = "all samples",
+           subtitle = "separation by depth")+
+      theme_kp()+
+      NULL
+  
+  
+  
+  list(gg_pca_saturation = gg_pca_saturation,
+       gg_pca_depth = gg_pca_depth,
+       gg_pca_length = gg_pca_length,
+       gg_pca_drying = gg_pca_drying,
+       gg_pca_site = gg_pca_site
+  )
+}
 
 compute_fticr_pca_tzero = function(relabund_cores){
   ## PCA input files ----
@@ -166,7 +254,7 @@ compute_fticr_pca_tzero = function(relabund_cores){
   ## PCA plots timezero ----
   gg_pca_tzero = 
     ggbiplot(pca_timezero$pca_int, obs.scale = 1, var.scale = 1,
-             groups = as.character(pca_timezero$grp$Site), 
+             groups = as.character(pca_timezero$grp$depth), 
              ellipse = TRUE, circle = FALSE, var.axes = TRUE) +
     geom_point(size=4,stroke=1, 
                aes(shape = pca_timezero$grp$depth,
@@ -223,6 +311,53 @@ compute_permanova_tzero = function(relabund_cores){
            data = relabund_wide)
   broom::tidy(permanova_fticr_all$aov.tab)
 }
+
+compute_permanova_drought = function(relabund_cores){
+  relabund_wide = 
+    relabund_cores %>% 
+    filter(saturation != "instant chemistry") %>% 
+    mutate(drought = if_else(saturation == "timezero", "timezero", "drought")) %>% 
+    ungroup() %>% 
+#    dplyr::select(-drying, -saturation) %>% 
+    mutate(Class = factor(Class, 
+                          levels = c("aliphatic", "unsaturated/lignin", 
+                                     "aromatic", "condensed aromatic"))) %>% 
+    dplyr::select(-c(abund, total)) %>% 
+    spread(Class, relabund) %>% 
+    replace(is.na(.), 0)
+  
+  permanova_fticr_all = 
+    adonis(relabund_wide %>% dplyr::select(aliphatic:`condensed aromatic`) ~ 
+             (drought+depth+drying)^2, 
+           data = relabund_wide)
+  broom::tidy(permanova_fticr_all$aov.tab)
+}
+
+
 ##  variables = c("sat_level", "treatment")
 ##  indepvar = paste(variables, collapse = " + ")
 ##  compute_permanova(indepvar)
+
+
+
+# relabund anova ----------------------------------------------------------
+compute_relabund_anova = function(relabund_cores){
+  fit_anova = function(dat){
+    l = lm(relabund ~ (length + saturation + drying)^2, data = dat, singular.ok = TRUE)
+    a = car::Anova(l)
+    broom::tidy((a)) %>% filter(term != "Residuals") %>% 
+      mutate(`p.value` = round(`p.value`,4))
+    
+  }
+  
+  x = relabund_cores %>% 
+    filter(Class != "other" & saturation != "timezero") %>% 
+    group_by(Class) %>% 
+    do(fit_anova(.)) %>% 
+    dplyr::select(Class, `p.value`, term) %>% 
+    pivot_wider(names_from = "Class", values_from = "p.value")
+  
+  
+  
+}
+
