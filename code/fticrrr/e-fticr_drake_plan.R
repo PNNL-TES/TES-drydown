@@ -70,6 +70,7 @@ fticr_processing_plan = drake_plan(
   
   ## PCA
   gg_pca = compute_fticr_pca(relabund_cores), 
+  gg_pca2 = compute_fticr_pca2(relabund_cores), 
   gg_pca_tzero = compute_fticr_pca_tzero(relabund_cores),
   
   # e. NOSC ----
