@@ -343,12 +343,96 @@ plot_tzero_diff = function(fticr_data_trt, fticr_meta){
 }
 
 ################################################## #
+plot_vk_saturation2 = function(fticr_data_trt, fticr_meta){
+  fticr_hcoc = 
+    fticr_data_trt %>% 
+    left_join(dplyr::select(fticr_meta, formula, HC, OC), by = "formula")
+  
+  peakslossgain_saturation = 
+    fticr_hcoc %>% 
+    filter(
+      (Site == "CPCRW" & length == "90d")|
+        (Site == "SR" & length == "30d")|
+        (Site == "SR" & length == "90d")) %>% 
+    group_by(formula, Site, depth, length, drying) %>% 
+    dplyr::mutate(n = n()) %>% 
+    filter(n == 1) %>% 
+    ungroup() %>% 
+    mutate(lossgain = dplyr::recode(saturation, "saturated" = "gained", "instant chemistry" = "lost"))
+
+  peakslossgain_saturation %>% 
+    distinct(lossgain, formula, HC, OC, depth, drying) %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
+    stat_ellipse(level = 0.90, show.legend = F)+
+    facet_grid(depth ~ .)+
+    scale_color_manual(values = rev(soil_palette("redox", 2)))+
+    labs(subtitle = "instant chemistry vs. saturated")+
+    theme_kp()+
+    NULL
+  
+  
+    ##  peakslossgain_saturation_nosc = 
+    ##    peakslossgain_saturation %>% 
+    ##    left_join(fticr_meta %>% dplyr::select(formula, NOSC), by = "formula")
+    ##  
+    ##  peakslossgain_saturation_nosc %>% 
+    ##    distinct(lossgain, formula, HC, OC, NOSC, depth, drying) %>% 
+    ##    ggplot(aes(x = NOSC, fill = lossgain, color = lossgain)) +
+    ##    geom_histogram(alpha = 0.3, position = "identity")+
+    ##    facet_grid(drying ~ depth)+
+    ##    theme_kp()
+  
+}
+plot_vk_drying2 = function(fticr_data_trt, fticr_meta){
+  fticr_hcoc = 
+    fticr_data_trt %>% 
+    left_join(dplyr::select(fticr_meta, formula, HC, OC), by = "formula")
+  
+  peakslossgain_drying = 
+    fticr_hcoc %>% 
+    filter(saturation != "timezero") %>% 
+    group_by(formula, Site, depth, length, saturation) %>% 
+    dplyr::mutate(n = n()) %>% 
+    filter(n == 1) %>% 
+    ungroup() %>% 
+    mutate(lossgain = dplyr::recode(drying, "FAD" = "gained", "CW" = "lost")) %>% 
+    mutate(length = factor(length, levels = c("timezero", "30d", "90d", "150d")))
+  
+  peakslossgain_drying %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
+    stat_ellipse(level = 0.90, show.legend = F)+
+    #geom_text(data = label_drying, aes(x = 0.6, y = 0.2, label = label), color = "black", size = 3)+
+    facet_grid(depth ~ saturation)+
+    scale_color_manual(values = rev(soil_palette("redox", 2)))+
+    labs(title = "CW vs. FAD",
+         subtitle = "peaks lost/gained during the forced drying")+
+    theme_kp()+
+    NULL 
+  
+  
+  ##  peakslossgain_drying_nosc = 
+  ##    peakslossgain_drying %>% 
+  ##    left_join(fticr_meta %>% dplyr::select(formula, NOSC), by = "formula")
+  ##  
+  ##  peakslossgain_drying_nosc %>% 
+  ##    distinct(lossgain, formula, HC, OC, NOSC, depth, saturation) %>% 
+  ##    ggplot(aes(x = NOSC, fill = lossgain, color = lossgain)) +
+  ##    geom_histogram(alpha = 0.3, position = "identity")+
+  ##    facet_grid(saturation ~ depth)+
+  ##    theme_kp()
+  
+  
+  
+}
+
+
+
+################################################## #
 ################################################## #
 
 
 # NOSC figures ------------------------------------------------------------
-loadd(fticr_data_trt)
-loadd(fticr_meta)
+
 
 make_nosc_figures = function(fticr_data_trt, fticr_meta){
   fticr_data_nosc = 
@@ -374,4 +458,22 @@ make_nosc_figures = function(fticr_data_trt, fticr_meta){
   
   list(nosc_by_drying = nosc_by_drying,
        nosc_by_saturation = nosc_by_saturation)
+  
+  
+## fticr_data_nosc %>% 
+##   distinct(formula, NOSC, saturation, depth) %>% 
+##   ggplot(aes(x = NOSC, fill = saturation, color = saturation))+
+##   geom_histogram(binwidth = 0.25, position = "identity", alpha = 0.5)+
+##   facet_grid(depth ~ .)+
+##   theme_kp()+
+##   NULL
+## 
+## fticr_data_nosc %>% 
+##   distinct(formula, NOSC, saturation, drying, depth) %>% 
+##   ggplot(aes(x = NOSC, fill = drying, color = drying))+
+##   geom_histogram(binwidth = 0.25, position = "identity", alpha = 0.5)+
+##   facet_grid(depth ~ saturation)+
+##   theme_kp()+
+##   NULL
+  
 }
