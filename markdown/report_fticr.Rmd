@@ -67,7 +67,7 @@ readd(gg_pca)
 
 </details>
 
---- 
+---
 
 <details>
   <summary>TIME ZERO -- click to open</summary>
@@ -94,10 +94,48 @@ readd(fticr_permanova_tzero)
 readd(gg_relabund_bar)$relabund_bar_tzero
 ```
 
+class-wise ANOVA: 
+
+- aromatic, condensed aromatic influenced by Site and depth
+- aliphatic, lignin did not change significantly by Site or depth
 
 </details>
 
 ---
+
+<details>
+  <summary>STATISTICS -- click to open</summary>
+
+## STATISTICS
+### PERMANOVA
+```{r permanova}
+readd(fticr_permanova)
+```
+
+PERMANOVA results for *drought samples only*. i.e. no time zero
+
+- All variables showed a significant influence on WEOC composition. 
+- Saturation and depth were the strongest predictors, each accounting for **~28 %** of total variation (see `R2` column). 
+- Site, drought length, drought intensity were significant, but each accounted only for 2-3 % of total variation. 
+
+</details>
+
+---
+
+<details>
+  <summary>PCA on drought samples -- click to open</summary>
+  
+## PCA2
+
+```{r pca2}
+readd(gg_pca2)
+```
+
+</details>
+
+--- 
+
+
 
 <details>
   <summary>EFFECT OF DROUGHT -- click to open</summary>
@@ -163,19 +201,6 @@ readd(gg_nosc)$nosc_by_drying
 
 ---
 
-<details>
-  <summary>STATISTICS -- click to open</summary>
-
-## STATISTICS
-### PERMANOVA
-```{r permanova}
-readd(fticr_permanova)
-```
-
-
-</details>
-
----
 
 <details>
   <summary>SESSION INFO -- click to open</summary>
