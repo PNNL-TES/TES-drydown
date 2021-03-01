@@ -360,8 +360,22 @@ plot_vk_saturation2 = function(fticr_data_trt, fticr_meta){
     ungroup() %>% 
     mutate(lossgain = dplyr::recode(saturation, "saturated" = "gained", "instant chemistry" = "lost"))
 
+  
+  
+  ##  peakslossgain_saturation_nosc = 
+  ##    peakslossgain_saturation %>% 
+  ##    left_join(fticr_meta %>% dplyr::select(formula, NOSC), by = "formula")
+  ##  
+  ##  peakslossgain_saturation_nosc %>% 
+  ##    distinct(lossgain, formula, HC, OC, NOSC, depth, drying) %>% 
+  ##    ggplot(aes(x = NOSC, fill = lossgain, color = lossgain)) +
+  ##    geom_histogram(alpha = 0.3, position = "identity")+
+  ##    facet_grid(drying ~ depth)+
+  ##    theme_kp()
+  
+  
   peakslossgain_saturation %>% 
-    distinct(lossgain, formula, HC, OC, depth, drying) %>% 
+    distinct(lossgain, formula, HC, OC, depth) %>% 
     gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
     stat_ellipse(level = 0.90, show.legend = F)+
     facet_grid(depth ~ .)+
@@ -369,18 +383,7 @@ plot_vk_saturation2 = function(fticr_data_trt, fticr_meta){
     labs(subtitle = "instant chemistry vs. saturated")+
     theme_kp()+
     NULL
-  
-  
-    ##  peakslossgain_saturation_nosc = 
-    ##    peakslossgain_saturation %>% 
-    ##    left_join(fticr_meta %>% dplyr::select(formula, NOSC), by = "formula")
-    ##  
-    ##  peakslossgain_saturation_nosc %>% 
-    ##    distinct(lossgain, formula, HC, OC, NOSC, depth, drying) %>% 
-    ##    ggplot(aes(x = NOSC, fill = lossgain, color = lossgain)) +
-    ##    geom_histogram(alpha = 0.3, position = "identity")+
-    ##    facet_grid(drying ~ depth)+
-    ##    theme_kp()
+
   
 }
 plot_vk_drying2 = function(fticr_data_trt, fticr_meta){
@@ -398,18 +401,6 @@ plot_vk_drying2 = function(fticr_data_trt, fticr_meta){
     mutate(lossgain = dplyr::recode(drying, "FAD" = "gained", "CW" = "lost")) %>% 
     mutate(length = factor(length, levels = c("timezero", "30d", "90d", "150d")))
   
-  peakslossgain_drying %>% 
-    gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
-    stat_ellipse(level = 0.90, show.legend = F)+
-    #geom_text(data = label_drying, aes(x = 0.6, y = 0.2, label = label), color = "black", size = 3)+
-    facet_grid(depth ~ saturation)+
-    scale_color_manual(values = rev(soil_palette("redox", 2)))+
-    labs(title = "CW vs. FAD",
-         subtitle = "peaks lost/gained during the forced drying")+
-    theme_kp()+
-    NULL 
-  
-  
   ##  peakslossgain_drying_nosc = 
   ##    peakslossgain_drying %>% 
   ##    left_join(fticr_meta %>% dplyr::select(formula, NOSC), by = "formula")
@@ -422,7 +413,16 @@ plot_vk_drying2 = function(fticr_data_trt, fticr_meta){
   ##    theme_kp()
   
   
-  
+  peakslossgain_drying %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
+    stat_ellipse(level = 0.90, show.legend = F)+
+    #geom_text(data = label_drying, aes(x = 0.6, y = 0.2, label = label), color = "black", size = 3)+
+    facet_grid(depth ~ saturation)+
+    scale_color_manual(values = rev(soil_palette("redox", 2)))+
+    labs(title = "CW vs. FAD",
+         subtitle = "peaks lost/gained during the forced drying")+
+    theme_kp()+
+    NULL 
 }
 
 
