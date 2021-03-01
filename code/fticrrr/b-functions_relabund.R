@@ -80,7 +80,9 @@ plot_relabund = function(relabund_cores, TREATMENTS){
          x = "",
          y = "% relative abundance")+
     facet_grid(. ~ Site)+
-    theme_kp()
+    theme_kp()+
+    theme(legend.position = "right")+
+    NULL
   
   list(relabund_bar_trt = relabund_bar_trt,
        relabund_bar_tzero = relabund_bar_tzero)
