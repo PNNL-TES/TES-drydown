@@ -1,0 +1,157 @@
+---
+title: "FTICR"
+output: html_document
+---
+
+This document contains results for FTICR-MS data.  
+Click [here](https://github.com/PNNL-TES/TES-drydown/blob/master/markdown/report_fticr_full.md) for a more detailed report, with additional analyses.
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      collapse = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      comment = "#>",
+                      fig.path = ("images-markdown-fticr/subset/"))
+
+library(drake)
+```
+
+---
+
+<details>
+  <summary>RESEARCH QUESTIONS -- click to open</summary>
+
+1. effect of drought duration?
+1. effect of drought intensity? **CW** (constant weight drying) vs. **FAD** (forced air drying, more intense)
+1. effect of post-drought rewetting? instant rewet (no saturation) vs. 2 week saturation
+1. difference by site?
+1. difference by soil depth? 0-5 cm vs. 5cm-end
+
+</details>
+
+---
+
+<details>
+  <summary>TIME ZERO -- click to open</summary>
+
+## TIME ZERO SAMPLES
+### Van Krevelen plots
+```{r vk_tzero, fig.height=4, fig.width=6}
+readd(gg_vk_timezero)
+```
+
+
+There was no significant influence of site, but there was a significant influence of depth (0-5cm vs. 5cm-end).
+
+<details>
+  <summary>statistics</summary>
+  
+#### PCA
+
+```{r pca_tzero}
+readd(gg_pca_tzero)
+```
+
+#### PERMANOVA
+```{r permanova_tzero}
+readd(fticr_permanova_tzero)
+```
+
+</details>
+
+#### Relative abundance
+```{r relabund_tzero}
+readd(gg_relabund_bar)$relabund_bar_tzero
+```
+
+(ANOVA): 
+
+- aromatic, condensed aromatic influenced by Site and depth
+- aliphatic, lignin did not change significantly by Site or depth
+
+</details>
+
+---
+
+<details>
+  <summary>STATISTICS -- click to open</summary>
+
+## STATISTICS
+### PERMANOVA
+```{r permanova}
+readd(fticr_permanova)
+```
+
+PERMANOVA results for *drought samples only*. i.e. no time zero
+
+- All variables showed a significant influence on WEOC composition. 
+- Saturation and depth were the strongest predictors, each accounting for **~28 %** of total variation (see `R2` column). 
+- Site, drought length, drought intensity were significant, but each accounted only for 2-3 % of total variation. 
+
+</details>
+
+---
+
+<details>
+  <summary>PCA on drought samples -- click to open</summary>
+  
+## PCA
+ 
+**including time-zero samples**
+
+```{r pca_sat}
+readd(gg_pca)$gg_pca_overall1
+```
+
+**drought samples only**
+```{r pca2}
+readd(gg_pca2)
+```
+
+</details>
+
+--- 
+
+<details>
+  <summary>DROUGHT INTENSITY -- click to open</summary>
+
+## HOW DID DRYING (CW VS. FAD) INFLUENCE CHEMISTRY?
+
+```{r vk_newpeaks_drying2, fig.height=6, fig.width=6}
+readd(gg_newpeaks_drying_overall)
+```
+
+
+</details>
+
+---
+
+<details>
+  <summary>REWETTING -- click to open</summary>
+
+## HOW DID WETTING (INSTANT REWET VS. SATURATION INCUBATION) INFLUENCE CHEMISTRY?
+
+```{r vk_newpeaks_saturation2, fig.height=6, fig.width=3.5}
+readd(gg_newpeaks_saturation_overall)
+```
+
+</details>
+
+---
+
+
+---
+
+
+<details>
+  <summary>SESSION INFO -- click to open</summary>
+
+date run: `r Sys.Date()`
+
+```{r}
+sessionInfo()
+```
+
+</details>
