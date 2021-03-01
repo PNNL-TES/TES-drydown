@@ -254,7 +254,7 @@ compute_fticr_pca_tzero = function(relabund_cores){
   ## PCA plots timezero ----
   gg_pca_tzero = 
     ggbiplot(pca_timezero$pca_int, obs.scale = 1, var.scale = 1,
-             groups = as.character(pca_timezero$grp$depth), 
+             groups = as.character(pca_timezero$grp$Site), 
              ellipse = TRUE, circle = FALSE, var.axes = TRUE) +
     geom_point(size=4,stroke=1, 
                aes(shape = pca_timezero$grp$depth,
