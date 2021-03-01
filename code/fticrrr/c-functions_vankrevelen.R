@@ -38,7 +38,7 @@ theme_kp <- function() {  # this for all the elements common across plots
 gg_vankrev <- function(data,mapping){
   ggplot(data,mapping) +
     # plot points
-    geom_point(size=0.5, alpha = 0.2) + # set size and transparency
+    geom_point(size=0.5, alpha = 0.5) + # set size and transparency
     # axis labels
     ylab("H/C") +
     xlab("O/C") +
@@ -224,15 +224,40 @@ plot_vk_timezero = function(fticr_data_trt, fticr_meta){
     filter(length == "timezero") %>% 
     left_join(dplyr::select(fticr_meta, formula, HC, OC), by = "formula")
   
-
-  tzero %>% 
+  gg_tzero = 
+    tzero %>% 
     gg_vankrev(aes(x = OC, y = HC, color = depth))+
     stat_ellipse(level = 0.90, show.legend = F)+
     facet_grid(. ~ Site)+
     labs(title = "time zero peaks",
          subtitle = "")+
+    scale_color_manual(values = PNWColors::pnw_palette("Bay",2))+
     theme_kp()+
     NULL
+  
+  tzero_unique = 
+    tzero %>% 
+    distinct(formula, HC, OC, Site, saturation) %>% 
+    group_by(formula) %>% 
+    dplyr::mutate(n = n())
+  
+  (gg_tzero_unique = 
+    tzero_unique %>% 
+    filter(n == 1) %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = Site))+
+    labs(title = "unique peaks per site")+
+    #stat_ellipse(level = 0.90, show.legend = F)+
+    annotate("text", label = "aliphatic", x = 1.0, y = 1.8, size = 3)+
+      annotate("text", label = "unsaturated/\nlignin", x = 1.0, y = 1.2, size = 3)+
+      annotate("text", label = "aromatic", x = 1.0, y = 0.5, size = 3)+
+      annotate("text", label = "condensed \naromatic", x = 1.0, y = 0.2, size = 3)+
+      
+      facet_grid(. ~ Site)+
+    theme_kp()+
+    NULL)
+  
+  list(gg_tzero = gg_tzero,
+       gg_tzero_unique = gg_tzero_unique)
 }
 
 plot_tzero_diff = function(fticr_data_trt, fticr_meta){
