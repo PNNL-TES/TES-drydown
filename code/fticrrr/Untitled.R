@@ -44,8 +44,15 @@ combined_transformations %>%
 fticr_meta_elements = 
   fticr_meta %>% 
   mutate(N_temp = str_extract(formula, "N[0-9]"),
-         N = parse_number(N_temp)) %>% 
-  replace(is.na(.), 0)
+         N = parse_number(N_temp),
+         C_temp = str_extract(formula, "C[0-9][0-9]"),
+         C_temp2 = str_extract(formula, "C[0-9]"),
+         C1 = parse_number(C_temp),
+         C2 = parse_number(C_temp2),
+         C = case_when(is.na(C1) ~ C2,
+                            !is.na(C1) ~C1)) %>% 
+  replace(is.na(.), 0) %>% 
+  mutate(NC = N/C)
 
 fticr_meta_elements %>% 
   gg_vankrev(aes(x = OC, y = HC, color = as.character(N)))+
@@ -67,7 +74,12 @@ fticr_meta_elements %>%
   theme_minimal()+
   NULL
 
-
+fticr_meta_elements %>% 
+  gg_vankrev(aes(x = OC, y = NC, color = Class))+
+  scale_color_manual(values = pnw_palette("Sunset2", 8))+
+  ylim(0, 1)+
+  theme_minimal()+
+  NULL  
 
 # -------------------------------------------------------------------------
 
