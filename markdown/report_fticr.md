@@ -155,7 +155,7 @@ PERMANOVA results for *drought samples only*. i.e. no time zero
 
 -   All variables showed a significant influence on WEOC composition.
 -   Saturation and depth were the strongest predictors, each accounting
-    for **\~28 %** of total variation.
+    for **\~28 %** of total variation (see `R2` column).
 -   Site, drought length, drought intensity were significant, but each
     accounted only for 2-3 % of total variation.
 
@@ -229,6 +229,8 @@ DROUGHT INTENSITY – click to open
 
 ![](images-markdown-fticr/vk_newpeaks_drying-1.png)<!-- -->
 
+![](images-markdown-fticr/vk_newpeaks_drying2-1.png)<!-- -->
+
 </details>
 
 ------------------------------------------------------------------------
@@ -241,6 +243,8 @@ REWETTING – click to open
 ## HOW DID WETTING (INSTANT REWET VS. SATURATION INCUBATION) INFLUENCE CHEMISTRY?
 
 ![](images-markdown-fticr/vk_newpeaks_saturation-1.png)<!-- -->
+
+![](images-markdown-fticr/vk_newpeaks_saturation2-1.png)<!-- -->
 
 </details>
 
@@ -284,39 +288,29 @@ date run: 2021-02-28
     #> [1] stats     graphics  grDevices utils     datasets  methods   base     
     #> 
     #> other attached packages:
-    #>  [1] cluster_2.1.0      patchwork_1.1.1    vegan_2.5-7       
-    #>  [4] lattice_0.20-41    permute_0.9-5      ggbiplot_0.55     
-    #>  [7] soilpalettes_0.1.0 PNWColors_0.1.0    forcats_0.5.1     
-    #> [10] stringr_1.4.0      dplyr_1.0.4        purrr_0.3.4       
-    #> [13] readr_1.4.0        tidyr_1.1.2        tibble_3.0.6      
-    #> [16] ggplot2_3.3.3      tidyverse_1.3.0    drake_7.13.1      
+    #>  [1] ggExtra_0.9        cluster_2.1.0      patchwork_1.1.1    vegan_2.5-7       
+    #>  [5] lattice_0.20-41    permute_0.9-5      ggbiplot_0.55      soilpalettes_0.1.0
+    #>  [9] PNWColors_0.1.0    forcats_0.5.1      stringr_1.4.0      dplyr_1.0.4       
+    #> [13] purrr_0.3.4        readr_1.4.0        tidyr_1.1.2        tibble_3.0.6      
+    #> [17] ggplot2_3.3.3      tidyverse_1.3.0    drake_7.13.1      
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] nlme_3.1-152      fs_1.5.0          lubridate_1.7.9.2
-    #>  [4] filelock_1.0.2    progress_1.2.2    httr_1.4.2       
-    #>  [7] tools_4.0.2       backports_1.2.1   utf8_1.1.4       
-    #> [10] R6_2.5.0          DBI_1.1.1         mgcv_1.8-33      
-    #> [13] colorspace_2.0-0  withr_2.4.1       tidyselect_1.1.0 
-    #> [16] prettyunits_1.1.1 curl_4.3          compiler_4.0.2   
-    #> [19] cli_2.2.0         rvest_0.3.6       xml2_1.3.2       
-    #> [22] labeling_0.4.2    scales_1.1.1      digest_0.6.27    
-    #> [25] foreign_0.8-81    txtq_0.2.3        rmarkdown_2.6.6  
-    #> [28] rio_0.5.16        pkgconfig_2.0.3   htmltools_0.5.1.1
-    #> [31] highr_0.8         dbplyr_2.0.0      rlang_0.4.10     
-    #> [34] readxl_1.3.1      rstudioapi_0.13   generics_0.1.0   
-    #> [37] farver_2.0.3      jsonlite_1.7.2    zip_2.1.1        
-    #> [40] car_3.0-10        magrittr_2.0.1    Matrix_1.3-2     
-    #> [43] Rcpp_1.0.6        munsell_0.5.0     fansi_0.4.2      
-    #> [46] abind_1.4-5       lifecycle_0.2.0   stringi_1.5.3    
-    #> [49] yaml_2.2.1        carData_3.0-4     MASS_7.3-53      
-    #> [52] storr_1.2.5       plyr_1.8.6        grid_4.0.2       
-    #> [55] parallel_4.0.2    crayon_1.4.0      haven_2.3.1      
-    #> [58] splines_4.0.2     hms_1.0.0         knitr_1.31       
-    #> [61] pillar_1.4.7      igraph_1.2.6      base64url_1.4    
-    #> [64] reprex_1.0.0      glue_1.4.2        evaluate_0.14    
-    #> [67] data.table_1.13.6 modelr_0.1.8      vctrs_0.3.6      
-    #> [70] cellranger_1.1.0  gtable_0.3.0      assertthat_0.2.1 
-    #> [73] xfun_0.20         openxlsx_4.2.3    broom_0.7.4      
-    #> [76] ellipsis_0.3.1
+    #>  [1] nlme_3.1-152      fs_1.5.0          lubridate_1.7.9.2 filelock_1.0.2    progress_1.2.2   
+    #>  [6] httr_1.4.2        tools_4.0.2       backports_1.2.1   utf8_1.1.4        R6_2.5.0         
+    #> [11] DBI_1.1.1         mgcv_1.8-33       colorspace_2.0-0  withr_2.4.1       tidyselect_1.1.0 
+    #> [16] prettyunits_1.1.1 curl_4.3          compiler_4.0.2    cli_2.2.0         rvest_0.3.6      
+    #> [21] xml2_1.3.2        labeling_0.4.2    scales_1.1.1      digest_0.6.27     foreign_0.8-81   
+    #> [26] txtq_0.2.3        rmarkdown_2.6.6   rio_0.5.16        pkgconfig_2.0.3   htmltools_0.5.1.1
+    #> [31] fastmap_1.1.0     highr_0.8         dbplyr_2.0.0      rlang_0.4.10      readxl_1.3.1     
+    #> [36] rstudioapi_0.13   shiny_1.6.0       generics_0.1.0    farver_2.0.3      jsonlite_1.7.2   
+    #> [41] zip_2.1.1         car_3.0-10        magrittr_2.0.1    Matrix_1.3-2      Rcpp_1.0.6       
+    #> [46] munsell_0.5.0     fansi_0.4.2       abind_1.4-5       lifecycle_0.2.0   stringi_1.5.3    
+    #> [51] yaml_2.2.1        carData_3.0-4     MASS_7.3-53       storr_1.2.5       plyr_1.8.6       
+    #> [56] grid_4.0.2        promises_1.1.1    parallel_4.0.2    crayon_1.4.0      miniUI_0.1.1.1   
+    #> [61] cowplot_1.1.1     haven_2.3.1       splines_4.0.2     hms_1.0.0         knitr_1.31       
+    #> [66] pillar_1.4.7      igraph_1.2.6      base64url_1.4     reprex_1.0.0      glue_1.4.2       
+    #> [71] evaluate_0.14     data.table_1.13.6 modelr_0.1.8      httpuv_1.5.5      vctrs_0.3.6      
+    #> [76] cellranger_1.1.0  gtable_0.3.0      assertthat_0.2.1  xfun_0.20         openxlsx_4.2.3   
+    #> [81] mime_0.9          xtable_1.8-4      broom_0.7.4       later_1.1.0.1     ellipsis_0.3.1
 
 </details>

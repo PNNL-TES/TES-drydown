@@ -164,6 +164,9 @@ readd(gg_vankrevelens)$gg_sr_drying
 readd(gg_vk_newpeaks_drying)
 ```
 
+```{r vk_newpeaks_drying2, fig.height=8, fig.width=8}
+readd(gg_newpeaks_drying_overall)
+```
 
 
 </details>
@@ -176,6 +179,10 @@ readd(gg_vk_newpeaks_drying)
 ## HOW DID WETTING (INSTANT REWET VS. SATURATION INCUBATION) INFLUENCE CHEMISTRY?
 ```{r vk_newpeaks_saturation, fig.height=10, fig.width=10}
 readd(gg_vk_newpeaks_saturation)
+```
+
+```{r vk_newpeaks_saturation2, fig.height=7, fig.width=4}
+readd(gg_newpeaks_saturation_overall)
 ```
 
 </details>
