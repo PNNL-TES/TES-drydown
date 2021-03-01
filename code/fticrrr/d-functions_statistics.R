@@ -233,7 +233,7 @@ compute_fticr_pca2 = function(relabund_cores){
       ylim(-3.5,3.5)+
       labs(shape="",
            title = "all samples",
-           subtitle = "separation by depth")+
+           subtitle = "separation by site")+
       theme_kp()+
       NULL
   
