@@ -44,11 +44,11 @@ compute_fticr_pca = function(relabund_cores){
   gg_pca_overall1 = 
     ggbiplot(pca_overall$pca_int, obs.scale = 1, var.scale = 1,
            groups = as.character(pca_overall$grp$saturation), 
-           ellipse = TRUE, circle = FALSE, var.axes = TRUE) +
-    geom_point(size=4,stroke=1, 
-               aes(shape = interaction(pca_overall$grp$length, pca_overall$grp$drying),
-                   fill = groups, color = groups))+
-    scale_shape_manual(values = c(1,2,0,16,17,15, 5), name = "")+
+           ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+    geom_point(size=2,stroke=1, alpha = 0.5,
+               aes(shape = groups,
+                   color = groups))+
+    scale_shape_manual(values = c(21, 21, 19), name = "", guide = "none")+
     #scale_color_manual(values = c("red", "blue"), name = "")+
     #scale_fill_manual(values = c("red", "blue"), name = "")+
     xlim(-4,4)+
