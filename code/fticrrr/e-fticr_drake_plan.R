@@ -63,6 +63,10 @@ fticr_processing_plan = drake_plan(
   gg_vk_newpeaks_drying = plot_vk_drying(fticr_data_trt, fticr_meta),
   gg_vk_timezero = plot_vk_timezero(fticr_data_trt, fticr_meta),
   gg_vk_tzero_diff = plot_tzero_diff(fticr_data_trt, fticr_meta),
+  
+  gg_newpeaks_saturation_overall = plot_vk_saturation2(fticr_data_trt, fticr_meta),
+  gg_newpeaks_drying_overall = plot_vk_drying2(fticr_data_trt, fticr_meta),
+  
   # d. STATISTICS ---- 
   ## PERMANOVA
   fticr_permanova = compute_permanova(relabund_cores),
