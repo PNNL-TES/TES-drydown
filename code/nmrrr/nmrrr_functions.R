@@ -22,7 +22,7 @@ import_nmr_peaks = function(PEAKS_FILES){
         stop("Formatting problem: data don't appear to be in 9-column groups")
       }
       names(df)[noname_cols] <- "Obs"  # give them a name
-
+      
       # Step 3. Extract each group in turn and store temporarily in a list
       nmr_list <- lapply(noname_cols, function(x) df[x:(x + 8)])
       
@@ -34,24 +34,39 @@ import_nmr_peaks = function(PEAKS_FILES){
       nmr_dat[["source"]] <- rep(path, nrow(df))
       
       nmr_dat
-      }
+    }
     
     # now create an object from the function
     align_columns(path)
     # this will be repeated for each file in the input folder
     
-    }))
+  }))
   
   # process the dataset
-  peaks_rawdat %>% 
-    mutate(DOC_ID = str_remove(source, paste0(PEAKS_FILES, "/")),
-           DOC_ID = str_remove(DOC_ID, ".csv"),
-           DOC_ID = paste0("DOC-", DOC_ID)) %>% 
-    dplyr::select(-Obs, -source)
+  process_peaks_data = function(peaks_rawdat){
+    WATER_start = 3; WATER_stop = 4
+    DMSO_start = 2.25; DMSO_stop = 2.75
+    
+    peaks_rawdat %>% 
+      filter(ppm>=0&ppm<=10) %>% 
+      filter(Intensity > 0) %>% 
+      # remove solvent regions
+      filter(!(ppm>DMSO_start & ppm<DMSO_stop)) %>% 
+      filter(!(ppm>WATER_start & ppm<WATER_stop)) %>% 
+      filter(!is.na(ppm)) %>% 
+      # remove peaks with 0 intensity, and peaks flagged as weak 
+      filter(!Flags=="Weak") %>% 
+      mutate(DOC_ID = str_remove(source, paste0(PEAKS_FILES, "/")),
+             DOC_ID = str_remove(DOC_ID, ".csv"),
+             DOC_ID = paste0("DOC-", DOC_ID)) %>% 
+      dplyr::select(-Obs, -source)
   }
+  process_peaks_data(peaks_rawdat)
+}
 
 x = import_nmr_peaks(PEAKS_FILES)
   
   
   
   
+
