@@ -1,6 +1,8 @@
 library(tidyverse)
 
 
+# NMR peaks ---------------------------------------------------------------
+
 PEAKS_FILES = "data/nmr-data/nmr_peaks"
 
 
@@ -64,9 +66,33 @@ import_nmr_peaks = function(PEAKS_FILES){
   process_peaks_data(peaks_rawdat)
 }
 
-x = import_nmr_peaks(PEAKS_FILES)
+nmr_peaks_processed = import_nmr_peaks(PEAKS_FILES)
+
+
+compute_nmr_relabund = function(nmr_peaks_processed, bins2, corekey){
+  corekey = read.csv("data/doc_analysis_key.csv")
+  rel_abund_cores = 
+    subset(merge(nmr_peaks_processed, bins2), start <= ppm & ppm <= stop) %>% 
+    #dplyr::select(source,ppm, Area, group) %>% 
+    #filter(!(ppm>DMSO_start&ppm<DMSO_stop)) %>% 
+    group_by(DOC_ID, group) %>% 
+    dplyr::summarize(area = sum(Area)) %>% 
+    group_by(DOC_ID) %>% 
+    dplyr::mutate(total = sum(area),
+                  relabund = round((area/total)*100,2)) %>% 
+    dplyr::select(DOC_ID, group, relabund) %>% 
+    replace(is.na(.), 0) %>% 
+    left_join(corekey, by = "DOC_ID")
   
   
-  
+}
+
   
 
+rel_abund2 %>% 
+  ggplot(aes(x = DOC_ID, y = relabund, fill = group))+
+  geom_bar(stat = "identity")+
+  facet_wrap(depth ~ drying, scales = "free_x")
+    
+  
+ 
