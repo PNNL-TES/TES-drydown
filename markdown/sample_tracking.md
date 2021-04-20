@@ -4,14 +4,15 @@ sample\_tracking
 **Which samples have been run?**
 
 <details>
-
-<summary>Click to expand</summary>
+<summary>
+Click to expand
+</summary>
 
 1000-day drought samples have been excluded.  
 POM needs to be recalculated
 
 | coreID | Core\_assignment          | tctn\_run | pom\_run |
-| :----- | :------------------------ | :-------- | :------- |
+|:-------|:--------------------------|:----------|:---------|
 | C0     | Ambient                   |           |          |
 | C1     | CPCRW\_90d\_up\_FAD\_r1   | TRUE      |          |
 | C3     | CPCRW\_30d\_up\_CW\_r4    | TRUE      |          |
@@ -112,7 +113,7 @@ POM needs to be recalculated
 
 </details>
 
------
+------------------------------------------------------------------------
 
 **Which samples should we process for further analyses?**
 
@@ -120,7 +121,7 @@ WEOC/NMR/FTICR analysis
 randomly selecting three replicates per treatment set
 
 | coreID | Site  | length | location | drying | rep |
-| :----- | :---- | :----- | :------- | :----- | :-- |
+|:-------|:------|:-------|:---------|:-------|:----|
 | C55    | CPCRW | 150d   | low      | CW     | r4  |
 | C60    | CPCRW | 150d   | low      | CW     | r1  |
 | C72    | CPCRW | 150d   | low      | CW     | r3  |
@@ -159,7 +160,7 @@ randomly selecting three replicates per treatment set
 | C18    | CPCRW | 90d    | up       | FAD    | r3  |
 
 | coreID | Site | length | location | drying | rep |
-| :----- | :--- | :----- | :------- | :----- | :-- |
+|:-------|:-----|:-------|:---------|:-------|:----|
 | S13    | SR   | 150d   | low      | CW     | r2  |
 | S26    | SR   | 150d   | low      | CW     | r3  |
 | S4     | SR   | 150d   | low      | CW     | r4  |
@@ -195,17 +196,18 @@ randomly selecting three replicates per treatment set
 | S72    | SR   | 90d    | up       | FAD    | r4  |
 | S78    | SR   | 90d    | up       | FAD    | r1  |
 
------
+------------------------------------------------------------------------
 
 <details>
+<summary>
+Session Info
+</summary>
 
-<summary>Session Info</summary>
-
-Last run: 2020-09-02
+Last run: 2021-04-20
 
     #> R version 4.0.2 (2020-06-22)
     #> Platform: x86_64-apple-darwin17.0 (64-bit)
-    #> Running under: macOS Catalina 10.15.6
+    #> Running under: macOS Catalina 10.15.7
     #> 
     #> Matrix products: default
     #> BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
@@ -218,23 +220,23 @@ Last run: 2020-09-02
     #> [1] stats     graphics  grDevices utils     datasets  methods   base     
     #> 
     #> other attached packages:
-    #>  [1] here_0.1        forcats_0.5.0   stringr_1.4.0   dplyr_1.0.1    
-    #>  [5] purrr_0.3.4     readr_1.3.1     tidyr_1.1.1     tibble_3.0.3   
-    #>  [9] ggplot2_3.3.2   tidyverse_1.3.0
+    #>  [1] here_1.0.1      forcats_0.5.1   stringr_1.4.0   dplyr_1.0.4    
+    #>  [5] purrr_0.3.4     readr_1.4.0     tidyr_1.1.2     tibble_3.0.6   
+    #>  [9] ggplot2_3.3.3   tidyverse_1.3.0
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] tidyselect_1.1.0 xfun_0.16        haven_2.3.1      colorspace_1.4-1
-    #>  [5] vctrs_0.3.2      generics_0.0.2   htmltools_0.5.0  yaml_2.2.1      
-    #>  [9] blob_1.2.1       rlang_0.4.7      pillar_1.4.6     glue_1.4.1      
-    #> [13] withr_2.2.0      DBI_1.1.0        dbplyr_1.4.4     modelr_0.1.8    
-    #> [17] readxl_1.3.1     lifecycle_0.2.0  munsell_0.5.0    gtable_0.3.0    
-    #> [21] cellranger_1.1.0 rvest_0.3.6      evaluate_0.14    knitr_1.29      
-    #> [25] fansi_0.4.1      highr_0.8        broom_0.7.0      Rcpp_1.0.5      
-    #> [29] scales_1.1.1     backports_1.1.8  jsonlite_1.7.0   fs_1.5.0        
-    #> [33] hms_0.5.3        digest_0.6.25    stringi_1.4.6    grid_4.0.2      
-    #> [37] rprojroot_1.3-2  cli_2.0.2        tools_4.0.2      magrittr_1.5    
-    #> [41] crayon_1.3.4     pkgconfig_2.0.3  ellipsis_0.3.1   xml2_1.3.2      
-    #> [45] reprex_0.3.0     lubridate_1.7.9  assertthat_0.2.1 rmarkdown_2.3   
-    #> [49] httr_1.4.2       rstudioapi_0.11  R6_2.4.1         compiler_4.0.2
+    #>  [1] tidyselect_1.1.0  xfun_0.20         haven_2.3.1       colorspace_2.0-0 
+    #>  [5] vctrs_0.3.6       generics_0.1.0    htmltools_0.5.1.1 yaml_2.2.1       
+    #>  [9] rlang_0.4.10      pillar_1.4.7      glue_1.4.2        withr_2.4.1      
+    #> [13] DBI_1.1.1         dbplyr_2.0.0      modelr_0.1.8      readxl_1.3.1     
+    #> [17] lifecycle_0.2.0   munsell_0.5.0     gtable_0.3.0      cellranger_1.1.0 
+    #> [21] rvest_0.3.6       evaluate_0.14     knitr_1.31        fansi_0.4.2      
+    #> [25] highr_0.8         broom_0.7.4       Rcpp_1.0.6        scales_1.1.1     
+    #> [29] backports_1.2.1   jsonlite_1.7.2    fs_1.5.0          hms_1.0.0        
+    #> [33] digest_0.6.27     stringi_1.5.3     grid_4.0.2        rprojroot_2.0.2  
+    #> [37] cli_2.2.0         tools_4.0.2       magrittr_2.0.1    crayon_1.4.0     
+    #> [41] pkgconfig_2.0.3   ellipsis_0.3.1    xml2_1.3.2        reprex_1.0.0     
+    #> [45] lubridate_1.7.9.2 assertthat_0.2.1  rmarkdown_2.6.6   httr_1.4.2       
+    #> [49] rstudioapi_0.13   R6_2.5.0          compiler_4.0.2
 
 </details>
