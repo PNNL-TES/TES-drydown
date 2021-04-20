@@ -11,105 +11,227 @@ Click to expand
 1000-day drought samples have been excluded.  
 POM needs to be recalculated
 
-| coreID | Core\_assignment          | tctn\_run | pom\_run |
-|:-------|:--------------------------|:----------|:---------|
-| C0     | Ambient                   |           |          |
-| C1     | CPCRW\_90d\_up\_FAD\_r1   | TRUE      |          |
-| C3     | CPCRW\_30d\_up\_CW\_r4    | TRUE      |          |
-| C4     | CPCRW\_150d\_up\_CW\_r4   | TRUE      |          |
-| C6     | CPCRW\_30d\_up\_FAD\_r1   | TRUE      |          |
-| C8     | CPCRW\_150d\_up\_FAD\_r3  | TRUE      |          |
-| C9     | CPCRW\_30d\_up\_CW\_r2    | TRUE      |          |
-| C11    | CPCRW\_90d\_up\_CW\_r1    | TRUE      |          |
-| C13    | CPCRW\_150d\_up\_CW\_r2   | TRUE      |          |
-| C14    | CPCRW\_150d\_up\_FAD\_r4  | TRUE      |          |
-| C15    | CPCRW\_90d\_up\_CW\_r2    | TRUE      |          |
-| C16    | CPCRW\_30d\_up\_FAD\_r2   | TRUE      |          |
-| C18    | CPCRW\_90d\_up\_FAD\_r3   | TRUE      |          |
-| C20    | CPCRW\_30d\_up\_CW\_r3    | TRUE      |          |
-| C25    | CPCRW\_90d\_up\_CW\_r4    | TRUE      |          |
-| C26    | CPCRW\_150d\_up\_CW\_r3   | TRUE      |          |
-| C27    | CPCRW\_30d\_up\_FAD\_r3   | TRUE      |          |
-| C28    | CPCRW\_150d\_up\_CW\_r1   | TRUE      |          |
-| C33    | CPCRW\_150d\_up\_FAD\_r1  | TRUE      |          |
-| C34    | CPCRW\_90d\_up\_CW\_r3    | TRUE      |          |
-| C35    | CPCRW\_150d\_up\_FAD\_r2  | TRUE      |          |
-| C37    | CPCRW\_90d\_up\_FAD\_r4   | TRUE      |          |
-| C39    | CPCRW\_30d\_up\_FAD\_r4   | TRUE      |          |
-| C44    | CPCRW\_30d\_low\_FAD\_r3  | TRUE      |          |
-| C46    | CPCRW\_150d\_low\_FAD\_r4 | TRUE      |          |
-| C49    | CPCRW\_150d\_low\_FAD\_r3 | TRUE      |          |
-| C50    | CPCRW\_30d\_low\_FAD\_r1  | TRUE      |          |
-| C52    | CPCRW\_90d\_low\_FAD\_r3  | TRUE      |          |
-| C53    | CPCRW\_90d\_low\_CW\_r4   | TRUE      |          |
-| C54    | CPCRW\_30d\_low\_CW\_r4   | TRUE      |          |
-| C55    | CPCRW\_150d\_low\_CW\_r4  | TRUE      |          |
-| C56    | CPCRW\_30d\_low\_FAD\_r4  | TRUE      |          |
-| C60    | CPCRW\_150d\_low\_CW\_r1  | TRUE      |          |
-| C61    | CPCRW\_90d\_low\_CW\_r2   | TRUE      |          |
-| C62    | CPCRW\_150d\_low\_CW\_r2  | TRUE      |          |
-| C64    | CPCRW\_90d\_low\_CW\_r3   | TRUE      |          |
-| C65    | CPCRW\_30d\_low\_CW\_r3   | TRUE      |          |
-| C66    | CPCRW\_30d\_low\_CW\_r2   | TRUE      |          |
-| C69    | CPCRW\_30d\_low\_CW\_r1   | TRUE      |          |
-| C71    | CPCRW\_90d\_low\_FAD\_r4  | TRUE      |          |
-| C72    | CPCRW\_150d\_low\_CW\_r3  | TRUE      |          |
-| C75    | CPCRW\_30d\_low\_FAD\_r2  | TRUE      |          |
-| C77    | CPCRW\_90d\_low\_FAD\_r1  |           |          |
-| C79    | CPCRW\_150d\_low\_FAD\_r2 | TRUE      |          |
-| C82    | CPCRW\_30d\_up\_CW\_r1    | TRUE      |          |
-| C85    | CPCRW\_150d\_low\_FAD\_r1 | TRUE      |          |
-| C86    | CPCRW\_90d\_low\_CW\_r1   | TRUE      |          |
-| S1     | SR\_90d\_low\_FAD\_r1     |           |          |
-| S3     | SR\_30d\_low\_CW\_r4      | TRUE      |          |
-| S4     | SR\_150d\_low\_CW\_r4     |           |          |
-| S6     | SR\_30d\_low\_FAD\_r1     | TRUE      |          |
-| S8     | SR\_150d\_low\_FAD\_r3    |           |          |
-| S9     | SR\_30d\_low\_CW\_r2      | TRUE      |          |
-| S11    | SR\_90d\_low\_CW\_r1      | TRUE      | TRUE     |
-| S13    | SR\_150d\_low\_CW\_r2     |           |          |
-| S14    | SR\_150d\_low\_FAD\_r4    |           |          |
-| S15    | SR\_90d\_low\_CW\_r2      | TRUE      | TRUE     |
-| S16    | SR\_30d\_low\_FAD\_r2     | TRUE      |          |
-| S18    | SR\_90d\_low\_FAD\_r3     | TRUE      | TRUE     |
-| S20    | SR\_30d\_low\_CW\_r3      | TRUE      |          |
-| S25    | SR\_90d\_low\_CW\_r4      |           |          |
-| S26    | SR\_150d\_low\_CW\_r3     |           |          |
-| S27    | SR\_30d\_low\_FAD\_r3     |           |          |
-| S28    | SR\_150d\_low\_CW\_r1     |           |          |
-| S29    | time0                     |           |          |
-| S33    | SR\_150d\_low\_FAD\_r1    |           |          |
-| S34    | SR\_90d\_low\_CW\_r3      | TRUE      | TRUE     |
-| S35    | SR\_150d\_low\_FAD\_r2    |           |          |
-| S37    | SR\_90d\_low\_FAD\_r4     | TRUE      | TRUE     |
-| S39    | SR\_30d\_low\_FAD\_r4     | TRUE      |          |
-| S44    | SR\_30d\_low\_FAD\_r3     | TRUE      |          |
-| S46    | SR\_150d\_low\_FAD\_r4    |           |          |
-| S49    | SR\_150d\_low\_FAD\_r3    |           |          |
-| S50    | SR\_30d\_low\_FAD\_r1     |           |          |
-| S52    | SR\_90d\_up\_FAD\_r3      | TRUE      | TRUE     |
-| S53    | SR\_90d\_up\_CW\_r4       | TRUE      | TRUE     |
-| S54    | SR\_30d\_up\_CW\_r4       | TRUE      |          |
-| S56    | SR\_150d\_up\_CW\_r4      |           |          |
-| S57    | SR\_30d\_up\_FAD\_r4      | TRUE      |          |
-| S61    | SR\_150d\_up\_CW\_r1      |           |          |
-| S62    | SR\_90d\_up\_CW\_r2       | TRUE      | TRUE     |
-| S63    | SR\_150d\_up\_CW\_r2      |           |          |
-| S65    | SR\_90d\_up\_CW\_r3       | TRUE      | TRUE     |
-| S66    | SR\_30d\_up\_CW\_r3       | TRUE      |          |
-| S67    | SR\_30d\_up\_CW\_r2       | TRUE      | TRUE     |
-| S68    | time0                     |           |          |
-| S70    | SR\_30d\_up\_CW\_r1       | TRUE      |          |
-| S72    | SR\_90d\_up\_FAD\_r4      | TRUE      | TRUE     |
-| S73    | SR\_150d\_up\_CW\_r3      |           |          |
-| S74    | time0                     |           |          |
-| S76    | SR\_30d\_up\_FAD\_r2      | TRUE      |          |
-| S78    | SR\_90d\_up\_FAD\_r1      | TRUE      | TRUE     |
-| S80    | SR\_150d\_up\_FAD\_r2     |           |          |
-| S82    | time0                     |           |          |
-| S83    | SR\_30d\_up\_CW\_r1       | TRUE      |          |
-| S86    | SR\_150d\_up\_FAD\_r1     |           |          |
-| S87    | SR\_90d\_up\_CW\_r1       | TRUE      | TRUE     |
+| coreID | depth   | DOC\_ID | tctn\_run | pom\_run |
+|:-------|:--------|:--------|:----------|:---------|
+| C1     | 0-5cm   | DOC-034 | TRUE      |          |
+| C1     | 5cm-end | DOC-070 | TRUE      |          |
+| C11    | 0-5cm   | DOC-033 | TRUE      |          |
+| C11    | 5cm-end | DOC-069 | TRUE      |          |
+| C13    | 5cm-end |         | TRUE      |          |
+| C13    | 0-5cm   |         | TRUE      |          |
+| C14    | 0-5cm   |         | TRUE      |          |
+| C14    | 5cm-end |         | TRUE      |          |
+| C15    | 0-5cm   | DOC-032 | TRUE      |          |
+| C15    | 5cm-end | DOC-068 | TRUE      |          |
+| C16    | 5cm-end |         | TRUE      |          |
+| C16    | 0-5cm   |         | TRUE      |          |
+| C18    | 0-5cm   | DOC-036 | TRUE      |          |
+| C18    | 5cm-end | DOC-072 | TRUE      |          |
+| C20    | 0-5cm   | DOC-019 | TRUE      |          |
+| C20    | 5cm-end | DOC-055 | TRUE      |          |
+| C25    | 0-5cm   | DOC-031 | TRUE      |          |
+| C25    | 5cm-end | DOC-067 | TRUE      |          |
+| C26    | 5cm-end | DOC-045 | TRUE      |          |
+| C26    | 0-5cm   | DOC-009 | TRUE      |          |
+| C27    | 5cm-end | DOC-060 | TRUE      |          |
+| C27    | 0-5cm   | DOC-024 | TRUE      |          |
+| C28    | 0-5cm   | DOC-007 | TRUE      |          |
+| C28    | 5cm-end | DOC-043 | TRUE      |          |
+| C29    | 0-5cm   | DOC-180 |           |          |
+| C29    | 5cm-end | DOC-184 |           |          |
+| C3     | 0-5cm   | DOC-020 | TRUE      |          |
+| C3     | 5cm-end | DOC-056 | TRUE      |          |
+| C33    | 0-5cm   | DOC-011 | TRUE      |          |
+| C33    | 5cm-end | DOC-047 | TRUE      |          |
+| C34    | 0-5cm   |         | TRUE      |          |
+| C35    | 0-5cm   | DOC-010 | TRUE      |          |
+| C35    | 5cm-end | DOC-046 | TRUE      |          |
+| C37    | 5cm-end | DOC-071 | TRUE      |          |
+| C37    | 0-5cm   | DOC-035 | TRUE      |          |
+| C39    | 5cm-end | DOC-059 | TRUE      |          |
+| C39    | 0-5cm   | DOC-023 | TRUE      |          |
+| C4     | 5cm-end | DOC-044 | TRUE      |          |
+| C4     | 0-5cm   | DOC-008 | TRUE      |          |
+| C44    | 5cm-end | DOC-053 | TRUE      |          |
+| C44    | 0-5cm   | DOC-017 | TRUE      |          |
+| C46    | 0-5cm   | DOC-005 | TRUE      |          |
+| C46    | 5cm-end | DOC-041 | TRUE      |          |
+| C49    | 0-5cm   | DOC-004 | TRUE      |          |
+| C49    | 5cm-end | DOC-040 | TRUE      |          |
+| C50    | 0-5cm   | DOC-016 | TRUE      |          |
+| C50    | 5cm-end | DOC-052 | TRUE      |          |
+| C52    | 5cm-end | DOC-066 | TRUE      |          |
+| C52    | 0-5cm   | DOC-030 | TRUE      |          |
+| C53    | 0-5cm   | DOC-027 | TRUE      |          |
+| C53    | 5cm-end | DOC-063 | TRUE      |          |
+| C54    | 0-5cm   |         | TRUE      |          |
+| C54    | 5cm-end |         | TRUE      |          |
+| C55    | 5cm-end | DOC-037 | TRUE      |          |
+| C55    | 0-5cm   | DOC-001 | TRUE      |          |
+| C56    | 0-5cm   | DOC-018 | TRUE      |          |
+| C56    | 5cm-end | DOC-054 | TRUE      |          |
+| C6     | 5cm-end | DOC-058 | TRUE      |          |
+| C6     | 0-5cm   | DOC-022 | TRUE      |          |
+| C60    | 0-5cm   | DOC-002 | TRUE      |          |
+| C60    | 5cm-end | DOC-038 | TRUE      |          |
+| C61    | 0-5cm   | DOC-061 | TRUE      |          |
+| C61    | 5cm-end | DOC-025 | TRUE      |          |
+| C62    | 5cm-end |         | TRUE      |          |
+| C62    | 0-5cm   |         | TRUE      |          |
+| C64    | 0-5cm   |         | TRUE      |          |
+| C64    | 5cm-end |         | TRUE      |          |
+| C65    | 0-5cm   | DOC-013 | TRUE      |          |
+| C65    | 5cm-end | DOC-049 | TRUE      |          |
+| C66    | 0-5cm   | DOC-014 | TRUE      |          |
+| C66    | 5cm-end | DOC-050 | TRUE      |          |
+| C67    | 0-5cm   | DOC-177 |           |          |
+| C67    | 5cm-end | DOC-181 |           |          |
+| C69    | 0-5cm   | DOC-015 | TRUE      |          |
+| C69    | 5cm-end | DOC-051 | TRUE      |          |
+| C70    | 0-5cm   | DOC-144 |           |          |
+| C70    | 5cm-end | DOC-150 |           |          |
+| C71    | 0-5cm   | DOC-028 | TRUE      |          |
+| C71    | 5cm-end | DOC-064 | TRUE      |          |
+| C72    | 5cm-end | DOC-039 | TRUE      |          |
+| C72    | 0-5cm   | DOC-003 | TRUE      |          |
+| C73    | 0-5cm   | DOC-178 |           |          |
+| C73    | 5cm-end | DOC-182 |           |          |
+| C75    | 0-5cm   |         | TRUE      |          |
+| C75    | 5cm-end |         | TRUE      |          |
+| C76    | 0-5cm   | DOC-142 |           |          |
+| C76    | 5cm-end | DOC-148 |           |          |
+| C77    | 0-5cm   | DOC-029 |           |          |
+| C77    | 5cm-end | DOC-065 |           |          |
+| C78    | 0-5cm   | DOC-141 |           |          |
+| C78    | 5cm-end | DOC-147 |           |          |
+| C79    | 0-5cm   | DOC-006 | TRUE      |          |
+| C79    | 5cm-end | DOC-042 | TRUE      |          |
+| C8     | 0-5cm   | DOC-012 | TRUE      |          |
+| C8     | 5cm-end | DOC-048 | TRUE      |          |
+| C80    | 0-5cm   | DOC-145 |           |          |
+| C80    | 5cm-end | DOC-151 |           |          |
+| C81    | 0-5cm   | DOC-179 |           |          |
+| C81    | 5cm-end | DOC-183 |           |          |
+| C82    | 0-5cm   |         | TRUE      |          |
+| C82    | 5cm-end |         | TRUE      |          |
+| C83    | 0-5cm   | DOC-146 |           |          |
+| C83    | 5cm-end | DOC-152 |           |          |
+| C84    | 0-5cm   | DOC-143 |           |          |
+| C84    | 5cm-end | DOC-149 |           |          |
+| C85    | 0-5cm   |         | TRUE      |          |
+| C85    | 5cm-end |         | TRUE      |          |
+| C86    | 0-5cm   | DOC-026 | TRUE      |          |
+| C86    | 5cm-end | DOC-062 | TRUE      |          |
+| C9     | 0-5cm   | DOC-021 | TRUE      |          |
+| C9     | 5cm-end | DOC-057 | TRUE      |          |
+| S1     | 0-5cm   | DOC-098 |           |          |
+| S1     | 5cm-end | DOC-132 |           |          |
+| S11    | 0-5cm   | DOC-096 | TRUE      | TRUE     |
+| S11    | 5cm-end | DOC-130 | TRUE      | TRUE     |
+| S13    | 0-5cm   | DOC-073 |           |          |
+| S13    | 5cm-end | DOC-107 |           |          |
+| S14    | 0-5cm   | DOC-078 |           |          |
+| S14    | 5cm-end | DOC-112 |           |          |
+| S15    | 0-5cm   | DOC-095 | TRUE      | TRUE     |
+| S15    | 5cm-end | DOC-129 | TRUE      | TRUE     |
+| S16    | 5cm-end | DOC-122 | TRUE      |          |
+| S16    | 0-5cm   | DOC-088 | TRUE      |          |
+| S18    | 5cm-end | DOC-133 | TRUE      | TRUE     |
+| S18    | 0-5cm   | DOC-099 | TRUE      |          |
+| S20    | 0-5cm   | DOC-086 | TRUE      |          |
+| S20    | 5cm-end | DOC-120 | TRUE      |          |
+| S21    | 0-5cm   | DOC-162 |           |          |
+| S21    | 5cm-end | DOC-174 |           |          |
+| S24    | 0-5cm   | DOC-154 |           |          |
+| S24    | 5cm-end | DOC-166 |           |          |
+| S25    | 0-5cm   | DOC-097 |           |          |
+| S25    | 5cm-end | DOC-131 |           |          |
+| S25    | 0-5cm   | DOC-186 |           |          |
+| S25    | 5cm-end | DOC-189 |           |          |
+| S26    | 0-5cm   | DOC-074 |           |          |
+| S26    | 5cm-end | DOC-108 |           |          |
+| S3     | 0-5cm   | DOC-084 | TRUE      |          |
+| S3     | 5cm-end | DOC-118 | TRUE      |          |
+| S32    | 0-5cm   | DOC-161 |           |          |
+| S32    | 5cm-end | DOC-173 |           |          |
+| S34    | 0-5cm   |         | TRUE      | TRUE     |
+| S34    | 5cm-end |         | TRUE      | TRUE     |
+| S37    | 0-5cm   | DOC-100 | TRUE      | TRUE     |
+| S37    | 5cm-end | DOC-134 | TRUE      | TRUE     |
+| S39    | 0-5cm   | DOC-089 | TRUE      |          |
+| S39    | 5cm-end | DOC-123 | TRUE      |          |
+| S4     | 0-5cm   | DOC-075 |           |          |
+| S4     | 5cm-end | DOC-109 |           |          |
+| S43    | 0-5cm   | DOC-157 |           |          |
+| S43    | 5cm-end | DOC-169 |           |          |
+| S44    | 0-5cm   |         | TRUE      |          |
+| S44    | 5cm-end |         | TRUE      |          |
+| S45    | 0-5cm   | DOC-156 |           |          |
+| S45    | 5cm-end | DOC-168 |           |          |
+| S47    | 0-5cm   | DOC-163 |           |          |
+| S47    | 5cm-end | DOC-175 |           |          |
+| S49    | 0-5cm   | DOC-077 |           |          |
+| S49    | 5cm-end | DOC-111 |           |          |
+| S52    | 0-5cm   | DOC-104 | TRUE      | TRUE     |
+| S52    | 5cm-end | DOC-138 | TRUE      | TRUE     |
+| S53    | 5cm-end | DOC-135 | TRUE      | TRUE     |
+| S53    | 0-5cm   | DOC-101 | TRUE      | TRUE     |
+| S54    | 0-5cm   | DOC-091 | TRUE      |          |
+| S54    | 5cm-end | DOC-125 | TRUE      |          |
+| S56    | 0-5cm   | DOC-079 |           |          |
+| S56    | 5cm-end | DOC-113 |           |          |
+| S57    | 0-5cm   | DOC-093 | TRUE      |          |
+| S57    | 5cm-end | DOC-127 | TRUE      |          |
+| S58    | 0-5cm   | DOC-185 |           |          |
+| S58    | 5cm-end | DOC-188 |           |          |
+| S6     | 0-5cm   | DOC-087 | TRUE      |          |
+| S6     | 5cm-end | DOC-121 | TRUE      |          |
+| S61    | 0-5cm   | DOC-080 |           |          |
+| S61    | 5cm-end | DOC-114 |           |          |
+| S62    | 0-5cm   |         | TRUE      | TRUE     |
+| S62    | 5cm-end |         | TRUE      | TRUE     |
+| S63    | 0-5cm   | DOC-081 |           |          |
+| S63    | 5cm-end | DOC-115 |           |          |
+| S65    | 5cm-end | DOC-137 | TRUE      | TRUE     |
+| S65    | 0-5cm   | DOC-103 | TRUE      | TRUE     |
+| S66    | 0-5cm   | DOC-092 | TRUE      |          |
+| S66    | 5cm-end | DOC-126 | TRUE      |          |
+| S67    | 5cm-end |         | TRUE      |          |
+| S67    | 0-5cm   |         | TRUE      | TRUE     |
+| S70    | 5cm-end |         | TRUE      |          |
+| S70    | 0-5cm   |         | TRUE      |          |
+| S72    | 0-5cm   | DOC-105 | TRUE      | TRUE     |
+| S72    | 5cm-end | DOC-139 | TRUE      | TRUE     |
+| S76    | 0-5cm   | DOC-094 | TRUE      |          |
+| S76    | 5cm-end | DOC-128 | TRUE      |          |
+| S78    | 0-5cm   | DOC-106 | TRUE      | TRUE     |
+| S78    | 5cm-end | DOC-140 | TRUE      | TRUE     |
+| S79    | 0-5cm   | DOC-158 |           |          |
+| S79    | 5cm-end | DOC-170 |           |          |
+| S8     | 0-5cm   | DOC-076 |           |          |
+| S8     | 5cm-end | DOC-110 |           |          |
+| S80    | 0-5cm   | DOC-082 |           |          |
+| S80    | 5cm-end | DOC-116 |           |          |
+| S81    | 0-5cm   | DOC-155 |           |          |
+| S81    | 5cm-end | DOC-167 |           |          |
+| S83    | 5cm-end | DOC-124 | TRUE      |          |
+| S83    | 0-5cm   | DOC-090 | TRUE      |          |
+| S84    | 0-5cm   | DOC-160 |           |          |
+| S84    | 5cm-end | DOC-172 |           |          |
+| S86    | 0-5cm   | DOC-083 |           |          |
+| S86    | 5cm-end | DOC-117 |           |          |
+| S87    | 5cm-end | DOC-136 | TRUE      | TRUE     |
+| S87    | 0-5cm   | DOC-102 | TRUE      | TRUE     |
+| S89    | 0-5cm   | DOC-164 |           |          |
+| S89    | 5cm-end | DOC-176 |           |          |
+| S9     | 0-5cm   | DOC-085 | TRUE      |          |
+| S9     | 5cm-end | DOC-119 | TRUE      |          |
+| S91    | 0-5cm   | DOC-153 |           |          |
+| S91    | 5cm-end | DOC-165 |           |          |
+| S92    | 0-5cm   | DOC-187 |           |          |
+| S92    | 5cm-end | DOC-190 |           |          |
+| S95    | 0-5cm   | DOC-159 |           |          |
+| S95    | 5cm-end | DOC-171 |           |          |
 
 </details>
 

@@ -21,24 +21,36 @@ library(here)
 
 
 # 1. which samples have been run for TC-TN? ----
-tctn_samples = read.csv(here::here("data/combined_site_tctn.csv")) %>% 
-  dplyr::mutate(coreID = str_replace(sample, " 0-5cm",""),
-                coreID = str_replace(coreID, " 5-end",""),
-                coreID = str_replace(coreID, ", 0-5cm",""),
-                coreID = str_replace(coreID, ", 5cm-end",""),
-                coreID = str_replace(coreID, ",","")) %>% 
-  filter((flag != "skip"))
+  ## tctn_samples = read.csv(here::here("data/combined_site_tctn.csv")) %>% 
+  ##   dplyr::mutate(coreID = str_replace(sample, " 0-5cm",""),
+  ##                 coreID = str_replace(coreID, " 5-end",""),
+  ##                 coreID = str_replace(coreID, ", 0-5cm",""),
+  ##                 coreID = str_replace(coreID, ", 5cm-end",""),
+  ##                 coreID = str_replace(coreID, ",","")) %>% 
+  ##   filter((flag != "skip"))
+
+tctn_data = read.csv(here::here("data/combined_site_tctn.csv")) 
+
+# make all the depth values consistent, and then separate the sample column into coreID and depth
+tctn_samples = 
+  tctn_data %>% 
+  dplyr::mutate(sample2 = sample,
+                sample2 = str_remove(sample2, ","),
+                sample2 = str_replace(sample2, "5-end","5cm-end")) %>% 
+  separate(sample2, sep = " ", into = c("coreID", "depth")) %>% 
+  #filter((flag != "skip")) %>% 
+  force()
 
 corekey = read.csv(here::here("data/processed/corekey.csv"))
-
 
 matched_tctn = 
   corekey %>% 
   left_join(tctn_samples, by = "coreID") %>% 
   dplyr::mutate(tctn_run = !is.na(sample)) %>% 
   filter(!length == "1000 day") %>% 
-  dplyr::select(coreID, Core_assignment, sample, tctn_run) %>% 
-  distinct(coreID,Core_assignment, tctn_run)
+  dplyr::select(coreID, depth, sample, tctn_run) %>% 
+  # distinct(coreID,Core_assignment, tctn_run) %>% 
+  force()
 
 #
 
@@ -49,7 +61,9 @@ matched_tctn =
 # 2. which samples have been run for POM-non-POM? ----
 pom_samples = read.csv(here::here("data/combined_site_pom.csv"))
 pom_key = read.csv(here::here("data/pom_key.csv")) %>% 
-  dplyr::select(-Sample)
+  dplyr::select(-Sample) %>% 
+  rename(depth= Depth) %>% 
+  mutate(depth = str_remove(depth, " "))
 
 pom_tctn = 
   pom_key %>% 
@@ -57,11 +71,12 @@ pom_tctn =
   filter(!is.na(C.N..ratio))
 
 matched_pom = 
-  corekey %>% 
-  left_join(pom_tctn, by = "coreID") %>% 
+  pom_tctn %>% 
+  full_join(corekey, by = "coreID") %>% 
   dplyr::mutate(pom_run = !is.na(POM_ID)) %>% 
-  dplyr::select(coreID, pom_run, POM_ID) %>% 
-  distinct(coreID, pom_run)
+  dplyr::select(coreID, depth, pom_run) %>% 
+  distinct() %>% 
+  drop_na()
   
 #
 
@@ -79,11 +94,24 @@ POM needs to be recalculated
 ```{r, include=T}
 # 3. combine all ----
 samples_run = 
-  left_join(matched_tctn, matched_pom, by = "coreID")
+  left_join(matched_tctn, matched_pom)
 
-samples_run %>% 
+# 3b. combine with DOC key
+doc_key = read.csv("data/doc_analysis_key.csv") %>% 
+  dplyr::select(coreID, depth, DOC_ID) 
+
+samples_run_doc = 
+  samples_run %>% 
+  full_join(doc_key) %>% 
+  filter(!is.na(depth)) %>% 
+  group_by(coreID) %>% dplyr::mutate(n = n())
+
+samples_run_doc %>% 
+  arrange(coreID) %>% 
+  dplyr::select(coreID, depth, DOC_ID, tctn_run, pom_run) %>% 
   dplyr::mutate(tctn_run = if_else(tctn_run=="FALSE"," ", as.character(tctn_run))) %>% 
   dplyr::mutate(pom_run = if_else(pom_run=="FALSE"," ", as.character(pom_run))) %>% 
+  replace(is.na(.), " ") %>% 
   knitr::kable()
 ```
 
