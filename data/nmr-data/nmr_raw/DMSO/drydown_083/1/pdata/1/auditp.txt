@@ -1,0 +1,36 @@
+##TITLE= Audit trail, TopSpin 3.6.0
+##JCAMPDX= 5.01
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmr
+$$ C:/Bruker/TopSpin3.6.0/data/sfansler/nmr/drydown_083/1/pdata/1/auditp.txt
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2021-04-03 19:36:45.762 -0700>,<nmr>,<bsf2231>,<go4>,<TopSpin 3.6.0>,
+      <created by zg
+	started at 2021-04-03 17:19:57.814 -0700,
+	POWCHK enabled, PULCHK disabled,
+       configuration hash MD5:
+       15 7C 2A E7 DC 27 C4 1E E7 AA E0 86 D8 47 CE 53
+       data hash MD5: 64K
+       9F 89 C4 03 27 DB 87 AB 36 DA A0 1F 5B C4 D1 B7>)
+(   2,<2021-04-03 19:36:46.168 -0700>,<nmr>,<bsf2231>,<audit>,<TopSpin 3.6.0>,
+      <user comment:
+       ICON-NMR User ID: sfansler
+       data hash MD5: 64K
+       9F 89 C4 03 27 DB 87 AB 36 DA A0 1F 5B C4 D1 B7>)
+(   3,<2021-04-03 19:36:46.840 -0700>,<nmr>,<bsf2231>,<proc1d>,<TopSpin 3.6.0>,
+      <Start of raw data processing
+       ef LB = 0.3 FT_mod = 6 PKNL = 1 SI = 64K 
+       data hash MD5: 64K
+       0A 7A B5 70 15 88 A4 77 12 DD 4E 9C FA 04 60 CD>)
+(   4,<2021-04-03 19:36:47.106 -0700>,<nmr>,<bsf2231>,<proc1d>,<TopSpin 3.6.0>,
+      <apk 
+       data hash MD5: 64K
+       66 37 D9 E7 1D 20 C5 6F 7D 5D 60 15 B8 48 F5 F1>)
+(   5,<2021-04-03 19:36:47.277 -0700>,<nmr>,<bsf2231>,<proc1d>,<TopSpin 3.6.0>,
+      <abs ABSG = 5 
+       data hash MD5: 64K
+       68 51 B9 4F FB 24 BD C0 6F BA A3 37 07 0A 19 0A>)
+##END=
+
+$$ hash MD5
+$$ 37 49 F8 DE 2B 42 0F 9C 5A F5 B3 23 0F A8 54 05

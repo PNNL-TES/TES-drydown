@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PeakList>
+  <PeakList1D>
+    <PeakList1DHeader creator="nmr" date="2021-03-29T04:04:53.300-07:00" expNo="1" name="drydown_033" owner="" procNo="1" source="C:/Bruker/TopSpin3.6.0/data/sfansler/nmr">
+      <PeakPickDetails>F1=16.187771ppm, F2=-3.837772ppm, MI=0.10cm, MAXI=10000.00cm, PC=1.000
+      </PeakPickDetails>
+    </PeakList1DHeader>
+    <Peak1D F1="7.225873" intensity="1.048216e+000" type="0"/>
+    <Peak1D F1="3.336666" intensity="1.500000e+001" type="0"/>
+    <Peak1D F1="3.120422" intensity="1.589595e-001" type="0"/>
+    <Peak1D F1="2.513772" intensity="1.408993e+001" type="0"/>
+    <Peak1D F1="2.509353" intensity="2.032800e+001" type="0"/>
+    <Peak1D F1="2.504958" intensity="1.632372e+001" type="0"/>
+    <Peak1D F1="2.345084" intensity="2.382403e-001" type="0"/>
+    <Peak1D F1="2.340675" intensity="2.750356e-001" type="0"/>
+    <Peak1D F1="2.336243" intensity="3.038682e-001" type="0"/>
+    <Peak1D F1="2.331825" intensity="2.793143e-001" type="0"/>
+    <Peak1D F1="2.092828" intensity="1.130011e-001" type="0"/>
+    <Peak1D F1="2.052355" intensity="1.140585e-001" type="0"/>
+    <Peak1D F1="2.037261" intensity="1.142527e-001" type="0"/>
+    <Peak1D F1="1.916182" intensity="1.148133e-001" type="0"/>
+    <Peak1D F1="1.836044" intensity="1.103128e-001" type="0"/>
+    <Peak1D F1="1.241200" intensity="1.314942e-001" type="0"/>
+    <Peak1D F1="1.153742" intensity="1.512332e-001" type="0"/>
+    <Peak1D F1="1.121775" intensity="1.360321e-001" type="0"/>
+    <Peak1D F1="1.098742" intensity="1.315966e-001" type="0"/>
+    <Peak1D F1="1.083195" intensity="1.227445e-001" type="0"/>
+  </PeakList1D>
+</PeakList>
