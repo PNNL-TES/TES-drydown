@@ -1,10 +1,18 @@
-library(tidyverse)
+## TES Drydown
+## NMRRR functions
+## Kaizad F. Patel
+## 06 May, 2021
 
+## Functions to process NMR peaks and spectra data, obtained from MestreNova.
+## Do not run this script.
+## This script will be sourced from the drake plan.
+
+########################
+########################
 
 # NMR peaks ---------------------------------------------------------------
-
-PEAKS_FILES = "data/nmr-data/nmr_peaks"
-
+# this function will import NMR peaks data, align and combine, 
+# and then process and clean the dataset.
 
 import_nmr_peaks = function(PEAKS_FILES){
   filePaths_peaks <- list.files(path = PEAKS_FILES,pattern = "*.csv", full.names = TRUE)
@@ -46,8 +54,8 @@ import_nmr_peaks = function(PEAKS_FILES){
   
   # process the dataset
   process_peaks_data = function(peaks_rawdat){
-    WATER_start = 3; WATER_stop = 4
-    DMSO_start = 2.25; DMSO_stop = 2.75
+   # WATER_start = 3; WATER_stop = 4
+   # DMSO_start = 2.25; DMSO_stop = 2.75
     
     peaks_rawdat %>% 
       filter(ppm>=0&ppm<=10) %>% 
@@ -58,16 +66,16 @@ import_nmr_peaks = function(PEAKS_FILES){
       filter(!is.na(ppm)) %>% 
       # remove peaks with 0 intensity, and peaks flagged as weak 
       filter(!Flags=="Weak") %>% 
-      mutate(DOC_ID = str_remove(source, paste0(PEAKS_FILES, "/")),
-             DOC_ID = str_remove(DOC_ID, ".csv"),
-             DOC_ID = paste0("DOC-", DOC_ID)) %>% 
+      mutate(DOC_ID = str_remove(source, paste0(PEAKS_FILES, "/"))) %>% 
+      mutate(DOC_ID = str_remove(DOC_ID, ".csv")) %>% 
+      mutate(DOC_ID = paste0("DOC-", DOC_ID)) %>% 
       dplyr::select(-Obs, -source)
   }
   process_peaks_data(peaks_rawdat)
 }
+# nmr_peaks_processed = import_nmr_peaks(PEAKS_FILES)
 
-nmr_peaks_processed = import_nmr_peaks(PEAKS_FILES)
-
+# this function will compute relative abundance based on NMR peaks data
 
 compute_nmr_relabund = function(nmr_peaks_processed, bins2, corekey){
   corekey = read.csv("data/doc_analysis_key.csv")
@@ -76,6 +84,7 @@ compute_nmr_relabund = function(nmr_peaks_processed, bins2, corekey){
     #dplyr::select(source,ppm, Area, group) %>% 
     #filter(!(ppm>DMSO_start&ppm<DMSO_stop)) %>% 
     group_by(DOC_ID, group) %>% 
+    filter(group != "oalkyl") %>% 
     dplyr::summarize(area = sum(Area)) %>% 
     group_by(DOC_ID) %>% 
     dplyr::mutate(total = sum(area),
@@ -84,15 +93,35 @@ compute_nmr_relabund = function(nmr_peaks_processed, bins2, corekey){
     replace(is.na(.), 0) %>% 
     left_join(corekey, by = "DOC_ID")
   
-  
+  list(rel_abund_cores = rel_abund_cores)
+}
+#rel_abund_cores = compute_nmr_relabund(nmr_peaks_processed, bins2, corekey)$rel_abund_cores  
+
+
+#
+# NMR spectra -------------------------------------------------------------
+# this function will import NMR spectra data, combine, and clean 
+import_nmr_spectra_data = function(SPECTRA_FILES, dockey){
+  filePaths_spectra <- list.files(path = SPECTRA_FILES,pattern = "*.csv", full.names = TRUE)
+  spectra_dat <- do.call(rbind, lapply(filePaths_spectra, function(path) {
+    # the files are tab-delimited, so read.csv will not work. import using read.table
+    # there is no header. so create new column names
+    # then add a new column `source` to denote the file name
+    df <- read.table(path, header=FALSE, col.names = c("ppm", "intensity"))
+    df[["source"]] <- rep(path, nrow(df))
+    df}))
+
+  process_spectra_data = function(spectra_dat, dockey){
+    spectra_dat %>% 
+      # retain only values 0-10ppm
+      filter(ppm >= 0 & ppm <= 10) %>% 
+      mutate(source = str_remove(source, paste0(SPECTRA_FILES, "/"))) %>% 
+      mutate(source = str_remove(source, ".csv")) %>% 
+      mutate(source = paste0("DOC-",source)) %>% 
+      dplyr::rename(DOC_ID = source) %>% 
+      left_join(dockey, by = "DOC_ID")
+  }
+  process_spectra_data(spectra_dat, dockey)
 }
 
-  
 
-rel_abund2 %>% 
-  ggplot(aes(x = DOC_ID, y = relabund, fill = group))+
-  geom_bar(stat = "identity")+
-  facet_wrap(depth ~ drying, scales = "free_x")
-    
-  
- 
