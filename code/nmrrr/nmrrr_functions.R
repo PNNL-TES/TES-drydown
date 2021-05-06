@@ -13,7 +13,6 @@
 # NMR peaks ---------------------------------------------------------------
 # this function will import NMR peaks data, align and combine, 
 # and then process and clean the dataset.
-
 import_nmr_peaks = function(PEAKS_FILES){
   filePaths_peaks <- list.files(path = PEAKS_FILES,pattern = "*.csv", full.names = TRUE)
   peaks_rawdat <- do.call(bind_rows, lapply(filePaths_peaks, function(path) {
@@ -73,12 +72,9 @@ import_nmr_peaks = function(PEAKS_FILES){
   }
   process_peaks_data(peaks_rawdat)
 }
-# nmr_peaks_processed = import_nmr_peaks(PEAKS_FILES)
 
 # this function will compute relative abundance based on NMR peaks data
-
-compute_nmr_relabund = function(nmr_peaks_processed, bins2, corekey){
-  corekey = read.csv("data/doc_analysis_key.csv")
+compute_nmr_relabund = function(nmr_peaks_processed, bins2, doc_key){
   rel_abund_cores = 
     subset(merge(nmr_peaks_processed, bins2), start <= ppm & ppm <= stop) %>% 
     #dplyr::select(source,ppm, Area, group) %>% 
@@ -91,17 +87,16 @@ compute_nmr_relabund = function(nmr_peaks_processed, bins2, corekey){
                   relabund = round((area/total)*100,2)) %>% 
     dplyr::select(DOC_ID, group, relabund) %>% 
     replace(is.na(.), 0) %>% 
-    left_join(corekey, by = "DOC_ID")
+    left_join(doc_key, by = "DOC_ID")
   
   list(rel_abund_cores = rel_abund_cores)
 }
-#rel_abund_cores = compute_nmr_relabund(nmr_peaks_processed, bins2, corekey)$rel_abund_cores  
 
 
 #
 # NMR spectra -------------------------------------------------------------
 # this function will import NMR spectra data, combine, and clean 
-import_nmr_spectra_data = function(SPECTRA_FILES, dockey){
+import_nmr_spectra_data = function(SPECTRA_FILES, doc_key){
   filePaths_spectra <- list.files(path = SPECTRA_FILES,pattern = "*.csv", full.names = TRUE)
   spectra_dat <- do.call(rbind, lapply(filePaths_spectra, function(path) {
     # the files are tab-delimited, so read.csv will not work. import using read.table
@@ -111,7 +106,7 @@ import_nmr_spectra_data = function(SPECTRA_FILES, dockey){
     df[["source"]] <- rep(path, nrow(df))
     df}))
 
-  process_spectra_data = function(spectra_dat, dockey){
+  process_spectra_data = function(spectra_dat, doc_key){
     spectra_dat %>% 
       # retain only values 0-10ppm
       filter(ppm >= 0 & ppm <= 10) %>% 
@@ -119,9 +114,9 @@ import_nmr_spectra_data = function(SPECTRA_FILES, dockey){
       mutate(source = str_remove(source, ".csv")) %>% 
       mutate(source = paste0("DOC-",source)) %>% 
       dplyr::rename(DOC_ID = source) %>% 
-      left_join(dockey, by = "DOC_ID")
+      left_join(doc_key, by = "DOC_ID")
   }
-  process_spectra_data(spectra_dat, dockey)
+  process_spectra_data(spectra_dat, doc_key)
 }
 
 
