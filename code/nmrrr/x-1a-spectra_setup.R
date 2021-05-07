@@ -52,15 +52,15 @@ gg_nmr1 =
 gg_nmr2 =
   ggplot()+
 # stagger bracketing lines for odd vs. even rows  
-  ##   geom_rect(data=bins2 %>% dplyr::filter(row_number() %% 2 == 0), 
-  ##             aes(xmin=start, xmax=stop, ymin=2, ymax=2), color = "black")+
-  ##   geom_rect(data=bins2 %>% dplyr::filter(row_number() %% 2 == 1), 
-  ##             aes(xmin=start, xmax=stop, ymin=1.8, ymax=1.8), color = "black")+
-  ## # stagger numbering like the lines
-  ##   geom_text(data=bins2 %>% dplyr::filter(row_number() %% 2 == 0), 
-  ##             aes(x = (start+stop)/2, y = 2.1, label = number))+
-  ##   geom_text(data=bins2 %>% dplyr::filter(row_number() %% 2 == 1), 
-  ##             aes(x = (start+stop)/2, y = 1.9, label = number))+
+     geom_rect(data=bins2 %>% dplyr::filter(row_number() %% 2 == 0), 
+               aes(xmin=start, xmax=stop, ymin=2, ymax=2), color = "black")+
+     geom_rect(data=bins2 %>% dplyr::filter(row_number() %% 2 == 1), 
+               aes(xmin=start, xmax=stop, ymin=1.8, ymax=1.8), color = "black")+
+   # stagger numbering like the lines
+     geom_text(data=bins2 %>% dplyr::filter(row_number() %% 2 == 0), 
+               aes(x = (start+stop)/2, y = 2.1, label = number))+
+     geom_text(data=bins2 %>% dplyr::filter(row_number() %% 2 == 1), 
+               aes(x = (start+stop)/2, y = 1.9, label = number))+
   scale_x_reverse(limits = c(10,0), breaks = seq(0,10,2))+
   xlab("shift, ppm")+
   ylab("intensity")+

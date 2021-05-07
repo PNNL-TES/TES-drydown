@@ -1,4 +1,4 @@
-source("0-nmr_setup.R")
+source("code/nmrrr/0-nmr_setup.R")
 
 
 
