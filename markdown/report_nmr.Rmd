@@ -1,0 +1,114 @@
+---
+title: "NMR"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      collapse = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      comment = "#>",
+                      fig.path = ("images-markdown-nmr/"))
+library(drake)
+```
+
+---
+
+<details>
+  <summary>Time Zero -- click to open</summary>
+
+
+## Time Zero
+Time Zero soils had mostly aliphatic groups, with < 15 % aromatic
+
+```{r, fig.width=5}
+readd(gg_relabund_barplot)$relabund_bar_timezero
+```
+
+#### PERMANOVA
+```{r}
+readd(nmr_permanova)$permanova_tzero$aov.tab %>% 
+  broom::tidy() %>% 
+  knitr::kable()
+```
+For time-zero samples, NMR-based composition did not differ by Site or depth.
+
+</details>
+
+---
+
+<details>
+  <summary>Drought Samples - Statistics</summary>
+  
+In drought-incubated samples, NMR-based composition was significantly influenced by saturation type, Site, and depth. Drought length or drought intensity did not significantly influence WEOC composition.
+
+Saturation type (instant chemistry vs. saturated) accounted for 32 % of total variation (R2 value).
+
+```{r}
+readd(nmr_permanova)$permanova_drought$aov.tab %>% 
+  broom::tidy() %>% 
+  knitr::kable()
+```
+
+
+</details>
+
+---
+
+<details>
+  <summary>PCA</summary>
+  
+#### Including Time Zero samples
+```{r, fig.height=6, fig.width=6}
+readd(gg_pca)$gg_pca_overall1 + theme(legend.position = "right")
+```
+
+Time-zero samples had a greater contribution of aliphatic groups. Instant-rewet samples had a greater contribution of aliphatic, alpha-H and amide groups. Saturated soils had a greater contribution of aromatic groups.
+
+
+
+#### Only drought samples (no Time Zero)
+```{r, fig.height=10, fig.width=10}
+readd(gg_pca)$gg_pca_drought
+```
+
+</details>
+
+---
+
+<details>
+  <summary>Relative abundance bar plots for all samples</summary>
+  
+```{r, fig.height=12, fig.width=12}
+readd(gg_relabund_barplot)$relabund_bar_cores
+```
+  
+</details>
+
+---
+
+<details>
+  <summary>NMR Spectra</summary>
+```{r, fig.height=7, fig.width=15}
+readd(gg_spectra)
+```
+  
+  
+</details>
+
+---
+
+---
+
+<details>
+  <summary>Session Info</summary>
+
+date run: `r Sys.Date()`
+
+```{r}
+sessionInfo()
+```
+
+
+</details>
