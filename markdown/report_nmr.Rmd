@@ -80,8 +80,16 @@ readd(gg_pca)$gg_pca_drought
 <details>
   <summary>Relative abundance bar plots for all samples</summary>
   
+```{r, fig.width=5}
+readd(gg_relabund_barplot)$relabund_bar_timezero
+```
+
 ```{r, fig.height=12, fig.width=12}
 readd(gg_relabund_barplot)$relabund_bar_cores
+```
+
+```{r, fig.height=6, fig.width=12}
+readd(gg_relabund_barplot)$relabund_bar_top
 ```
   
 </details>

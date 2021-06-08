@@ -234,6 +234,13 @@ plot_relabund_bargraphs = function(rel_abund_cores){
     geom_bar(stat = "identity")+
     facet_grid(depth + saturation ~ Site + drying)
   
+  relabund_bar_top = 
+    relabund_summary %>% 
+    filter(depth == "0-5cm" & length != "timezero") %>% 
+    ggplot(aes(x = length, y = relabund_mean, fill = group))+
+    geom_bar(stat = "identity")+
+    facet_grid(depth + saturation ~ Site + drying)
+  
   relabund_bar_timezero = 
     relabund_summary %>%
     filter(length == "timezero") %>% 
@@ -245,6 +252,7 @@ plot_relabund_bargraphs = function(rel_abund_cores){
   
   list(relabund_bar_cores = relabund_bar_cores,
        relabund_bar = relabund_bar,
+       relabund_bar_top = relabund_bar_top,
        relabund_bar_timezero = relabund_bar_timezero)
 }
 

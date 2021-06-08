@@ -95,6 +95,10 @@ Relative abundance bar plots for all samples
 
 ![](images-markdown-nmr/unnamed-chunk-6-1.png)<!-- -->
 
+![](images-markdown-nmr/unnamed-chunk-7-1.png)<!-- -->
+
+![](images-markdown-nmr/unnamed-chunk-8-1.png)<!-- -->
+
 </details>
 
 ------------------------------------------------------------------------
@@ -106,17 +110,17 @@ NMR Spectra
 
     #> $spectra_tzero
 
-![](images-markdown-nmr/unnamed-chunk-7-1.png)<!-- -->
+![](images-markdown-nmr/unnamed-chunk-9-1.png)<!-- -->
 
     #> 
     #> $spectra_cpcrw
 
-![](images-markdown-nmr/unnamed-chunk-7-2.png)<!-- -->
+![](images-markdown-nmr/unnamed-chunk-9-2.png)<!-- -->
 
     #> 
     #> $spectra_sr
 
-![](images-markdown-nmr/unnamed-chunk-7-3.png)<!-- -->
+![](images-markdown-nmr/unnamed-chunk-9-3.png)<!-- -->
 
 </details>
 
@@ -129,7 +133,7 @@ NMR Spectra
 Session Info
 </summary>
 
-date run: 2021-05-07
+date run: 2021-06-08
 
     #> R version 4.0.2 (2020-06-22)
     #> Platform: x86_64-apple-darwin17.0 (64-bit)
@@ -146,47 +150,37 @@ date run: 2021-05-07
     #> [1] stats     graphics  grDevices utils     datasets  methods   base     
     #> 
     #> other attached packages:
-    #>  [1] ggbiplot_0.55      magrittr_2.0.1     vegan_2.5-7       
-    #>  [4] lattice_0.20-41    permute_0.9-5      picarro.data_0.1.1
-    #>  [7] forcats_0.5.1      stringr_1.4.0      dplyr_1.0.4       
-    #> [10] purrr_0.3.4        readr_1.4.0        tidyr_1.1.2       
-    #> [13] tibble_3.0.6       tidyverse_1.3.0    drake_7.13.1      
-    #> [16] agricolae_1.3-3    car_3.0-10         carData_3.0-4     
-    #> [19] nlme_3.1-152       stringi_1.5.3      ggExtra_0.9       
-    #> [22] ggalt_0.6.2        ggplot2_3.3.3      lubridate_1.7.9.2 
-    #> [25] readxl_1.3.1      
+    #>  [1] vegan_2.5-7        lattice_0.20-41    permute_0.9-5      picarro.data_0.1.1
+    #>  [5] forcats_0.5.1      stringr_1.4.0      dplyr_1.0.6        purrr_0.3.4       
+    #>  [9] readr_1.4.0        tidyr_1.1.3        tibble_3.1.2       tidyverse_1.3.1   
+    #> [13] drake_7.13.1       agricolae_1.3-3    car_3.0-10         carData_3.0-4     
+    #> [17] nlme_3.1-152       stringi_1.5.3      ggExtra_0.9        ggalt_0.6.2       
+    #> [21] ggplot2_3.3.3      lubridate_1.7.10   readxl_1.3.1      
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] colorspace_2.0-0   ellipsis_0.3.1     rio_0.5.16        
-    #>  [4] fs_1.5.0           rstudioapi_0.13    farver_2.0.3      
-    #>  [7] fansi_0.4.2        xml2_1.3.2         splines_4.0.2     
-    #> [10] extrafont_0.17     knitr_1.31         jsonlite_1.7.2    
-    #> [13] broom_0.7.4        Rttf2pt1_1.3.8     cluster_2.1.0     
-    #> [16] dbplyr_2.0.0       shiny_1.6.0        compiler_4.0.2    
-    #> [19] httr_1.4.2         backports_1.2.1    assertthat_0.2.1  
-    #> [22] Matrix_1.3-2       fastmap_1.1.0      cli_2.2.0         
-    #> [25] later_1.1.0.1      htmltools_0.5.1.1  prettyunits_1.1.1 
-    #> [28] tools_4.0.2        igraph_1.2.6       gtable_0.3.0      
-    #> [31] glue_1.4.2         maps_3.3.0         Rcpp_1.0.6        
-    #> [34] cellranger_1.1.0   vctrs_0.3.6        extrafontdb_1.0   
-    #> [37] xfun_0.20          openxlsx_4.2.3     rvest_0.3.6       
-    #> [40] mime_0.9           miniUI_0.1.1.1     lifecycle_0.2.0   
-    #> [43] MASS_7.3-53        scales_1.1.1       hms_1.0.0         
-    #> [46] promises_1.1.1     parallel_4.0.2     proj4_1.0-10.1    
-    #> [49] RColorBrewer_1.1-2 yaml_2.2.1         curl_4.3          
-    #> [52] labelled_2.7.0     highr_0.8          klaR_0.6-15       
-    #> [55] AlgDesign_1.2.0    filelock_1.0.2     zip_2.1.1         
-    #> [58] storr_1.2.5        rlang_0.4.10       pkgconfig_2.0.3   
-    #> [61] evaluate_0.14      labeling_0.4.2     cowplot_1.1.1     
-    #> [64] tidyselect_1.1.0   plyr_1.8.6         R6_2.5.0          
-    #> [67] generics_0.1.0     base64url_1.4      combinat_0.0-8    
-    #> [70] txtq_0.2.3         DBI_1.1.1          pillar_1.4.7      
-    #> [73] haven_2.3.1        foreign_0.8-81     withr_2.4.1       
-    #> [76] mgcv_1.8-33        abind_1.4-5        ash_1.0-15        
-    #> [79] modelr_0.1.8       crayon_1.4.0       questionr_0.7.4   
-    #> [82] KernSmooth_2.23-18 utf8_1.1.4         rmarkdown_2.6.6   
-    #> [85] progress_1.2.2     grid_4.0.2         data.table_1.13.6 
-    #> [88] reprex_1.0.0       digest_0.6.27      xtable_1.8-4      
-    #> [91] httpuv_1.5.5       munsell_0.5.0
+    #>  [1] colorspace_2.0-0   ellipsis_0.3.2     rio_0.5.16         ggbiplot_0.55     
+    #>  [5] fs_1.5.0           rstudioapi_0.13    farver_2.0.3       fansi_0.4.2       
+    #>  [9] xml2_1.3.2         splines_4.0.2      extrafont_0.17     knitr_1.31        
+    #> [13] jsonlite_1.7.2     broom_0.7.6        Rttf2pt1_1.3.8     cluster_2.1.0     
+    #> [17] dbplyr_2.1.1       shiny_1.6.0        compiler_4.0.2     httr_1.4.2        
+    #> [21] backports_1.2.1    assertthat_0.2.1   Matrix_1.3-2       fastmap_1.1.0     
+    #> [25] cli_2.5.0          later_1.1.0.1      htmltools_0.5.1.1  prettyunits_1.1.1 
+    #> [29] tools_4.0.2        igraph_1.2.6       gtable_0.3.0       glue_1.4.2        
+    #> [33] maps_3.3.0         tinytex_0.29       Rcpp_1.0.6         cellranger_1.1.0  
+    #> [37] vctrs_0.3.8        extrafontdb_1.0    xfun_0.20          openxlsx_4.2.3    
+    #> [41] rvest_1.0.0        mime_0.9           miniUI_0.1.1.1     lifecycle_1.0.0   
+    #> [45] MASS_7.3-53        scales_1.1.1       hms_1.0.0          promises_1.1.1    
+    #> [49] parallel_4.0.2     proj4_1.0-10.1     RColorBrewer_1.1-2 yaml_2.2.1        
+    #> [53] curl_4.3           labelled_2.7.0     highr_0.8          klaR_0.6-15       
+    #> [57] AlgDesign_1.2.0    filelock_1.0.2     zip_2.1.1          storr_1.2.5       
+    #> [61] rlang_0.4.10       pkgconfig_2.0.3    evaluate_0.14      labeling_0.4.2    
+    #> [65] cowplot_1.1.1      tidyselect_1.1.0   plyr_1.8.6         magrittr_2.0.1    
+    #> [69] R6_2.5.0           generics_0.1.0     base64url_1.4      combinat_0.0-8    
+    #> [73] txtq_0.2.3         DBI_1.1.1          pillar_1.6.1       haven_2.3.1       
+    #> [77] foreign_0.8-81     withr_2.4.1        mgcv_1.8-33        abind_1.4-5       
+    #> [81] ash_1.0-15         modelr_0.1.8       crayon_1.4.1       questionr_0.7.4   
+    #> [85] KernSmooth_2.23-18 utf8_1.1.4         rmarkdown_2.6.6    progress_1.2.2    
+    #> [89] grid_4.0.2         data.table_1.13.6  reprex_2.0.0       digest_0.6.27     
+    #> [93] xtable_1.8-4       httpuv_1.5.5       munsell_0.5.0
 
 </details>
