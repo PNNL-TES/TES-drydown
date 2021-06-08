@@ -5,28 +5,16 @@
 ## packages ####
 library(readxl)
 library(lubridate)     # 1.6.0
-library(luzlogr)       # 0.2.0
-#library(Rmisc)
-library(data.table)
-library(cowplot)
-#library(qwraps2)
-library(knitr)
-#library(reshape2)
 library(ggalt)
 library(ggExtra)
 library(stringi)
 library(nlme)
 library(car)
 library(agricolae)
-#library(googlesheets)
-#library(gsheet)
-library(multcomp)
 #library(DescTools)
 
 library(drake)
 pkgconfig::set_config("drake::strings_in_dots" = "literals")
-#library(googlesheets)
-library(readxl)
 library(tidyverse)
 
 # My 'picarro.data' package isn't on CRAN (yet) so need to install it via:
