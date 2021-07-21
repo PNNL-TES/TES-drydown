@@ -250,10 +250,39 @@ plot_relabund_bargraphs = function(rel_abund_cores){
     theme_kp()+
     theme(legend.position = "right")
   
+  relabund_summary_simple = 
+    rel_abund_cores %>% 
+    group_by(Site, depth, drying, saturation, group) %>% 
+    dplyr::summarise(relabund_mean = mean(relabund))
+  
+  relabund_bar_simple = 
+    relabund_summary_simple %>% 
+    filter(saturation != "timezero" & depth == "0-5cm") %>% 
+    ggplot(aes(x = interaction(drying, saturation), y = relabund_mean, fill = group))+
+    geom_bar(stat = "identity")+
+    annotate("text", label = "Instant Chem", x = 1.5, y = 110)+
+    annotate("text", label = "Saturated", x = 3.5, y = 110)+
+    geom_vline(xintercept = 2.5, linetype = "dashed")+
+    scale_x_discrete(labels = c("CW", "FAD", "CW", "FAD"))+
+    labs(x = "",
+         y = "Relative contribution, %",
+         title = "NMR relative abundance",
+         subtitle = "combined across drying length")+
+    
+    facet_grid(depth ~ Site)+
+    theme_kp()+
+#    theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+    NULL
+  
+  
+  
+  
+  
   list(relabund_bar_cores = relabund_bar_cores,
        relabund_bar = relabund_bar,
        relabund_bar_top = relabund_bar_top,
-       relabund_bar_timezero = relabund_bar_timezero)
+       relabund_bar_timezero = relabund_bar_timezero,
+       relabund_bar_simple = relabund_bar_simple)
 }
 
 #

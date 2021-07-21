@@ -90,14 +90,18 @@ groups.
 
 <details>
 <summary>
-Relative abundance bar plots for all samples
+Relative abundance bar plots
 </summary>
 
 ![](images-markdown-nmr/unnamed-chunk-6-1.png)<!-- -->
 
+### All samples
+
 ![](images-markdown-nmr/unnamed-chunk-7-1.png)<!-- -->
 
 ![](images-markdown-nmr/unnamed-chunk-8-1.png)<!-- -->
+
+![](images-markdown-nmr/unnamed-chunk-9-1.png)<!-- -->
 
 </details>
 
@@ -110,17 +114,17 @@ NMR Spectra
 
     #> $spectra_tzero
 
-![](images-markdown-nmr/unnamed-chunk-9-1.png)<!-- -->
+![](images-markdown-nmr/unnamed-chunk-10-1.png)<!-- -->
 
     #> 
     #> $spectra_cpcrw
 
-![](images-markdown-nmr/unnamed-chunk-9-2.png)<!-- -->
+![](images-markdown-nmr/unnamed-chunk-10-2.png)<!-- -->
 
     #> 
     #> $spectra_sr
 
-![](images-markdown-nmr/unnamed-chunk-9-3.png)<!-- -->
+![](images-markdown-nmr/unnamed-chunk-10-3.png)<!-- -->
 
 </details>
 
@@ -133,7 +137,7 @@ NMR Spectra
 Session Info
 </summary>
 
-date run: 2021-06-08
+date run: 2021-07-21
 
     #> R version 4.0.2 (2020-06-22)
     #> Platform: x86_64-apple-darwin17.0 (64-bit)
