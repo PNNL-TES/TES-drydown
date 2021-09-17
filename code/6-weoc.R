@@ -1,11 +1,17 @@
 
 source("code/0-drydown_functions.R")
+library(googlesheets4)
 
 doc_key = read.csv("data/doc_analysis_key.csv") 
 core_weights = read.csv("data/processed/core_weights_depth.csv") 
 weoc_subsampling = read.csv("data/weoc_subsampling_weights.csv") %>% 
   mutate(coreID = case_when(Site == "CPCRW" ~ paste0("C", Core),
                             Site == "SR" ~ paste0("S", Core)))
+
+weoc_subsampling = read_sheet("1Ld-oTByerCn_C506_E1h8Kcnb5wpTVMxfPZh8bCoBwY") %>% 
+  mutate(coreID = case_when(Site == "CPCRW" ~ paste0("C", Core),
+                            Site == "SR" ~ paste0("S", Core)),
+         depth = str_remove_all(depth, " "))
 
 filePaths_npoc <- list.files(path = "data/npoc",pattern = "*.csv", full.names = TRUE)
 
@@ -24,5 +30,41 @@ npoc_data_processed =
          id = sprintf("%03d", id),
          DOC_ID = paste0("DOC-", id)) %>% 
   dplyr::select(DOC_ID, npoc_mg_l) %>% 
-  left_join(doc_key) %>% 
-  left_join(weoc_subsampling)
+  left_join(doc_key %>% dplyr::select(DOC_ID, coreID, depth)) %>% 
+  left_join(weoc_subsampling %>% dplyr::select(coreID, depth, moisture_perc, fticr_wt_g), by = c("coreID", "depth")) %>% 
+  mutate(ode_g = fticr_wt_g/((moisture_perc/100) + 1),
+         soilwater_mL = fticr_wt_g - ode_g,
+         npoc_mg_g = npoc_mg_l * (40 + soilwater_mL) * (1/1000) * (1/ode_g)) %>% 
+  left_join(doc_key)
+
+
+npoc_data_processed %>% 
+  filter(!is.na(npoc_mg_g)) %>% 
+  ggplot(aes(x = length, y = npoc_mg_g, color = saturation))+
+  geom_point(position = position_dodge(width = 0.7))+
+  facet_grid(depth ~ Site)
+
+npoc_summary = 
+  npoc_data_processed %>% 
+  filter(saturation != "timezero") %>% 
+  group_by(Site, depth, length, drying, saturation) %>% 
+  dplyr::summarise(npoc_mean = mean(npoc_mg_g),
+                   se = sd(npoc_mg_g)/sqrt(n()),
+                   npoc_mean = round(npoc_mean, 2),
+                   se = round(se, 2),
+                   relabund = paste(npoc_mean, "\u00b1", se)) %>% 
+  dplyr::select(-npoc_mean, -se)
+
+npoc_summary %>% 
+  pivot_wider(names_from = "length", values_from = "relabund") %>% 
+  knitr::kable()
+
+
+## LME for WEOC
+npoc_data_processed %>% 
+  filter(saturation != "timezero") %$% 
+  nlme::lme(npoc_mg_g ~ saturation + length + drying + depth, random = ~1|Site,
+            na.action = na.omit) %>% 
+  anova()
+  
+
