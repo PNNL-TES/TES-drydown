@@ -1,0 +1,23 @@
+##TITLE= Audit trail, TopSpin 3.6.0
+##JCAMPDX= 5.01
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmr
+$$ C:/Bruker/TopSpin3.6.0/data/sfansler/nmr/drydown_026_DMSO/1/audita.txt
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2021-09-12 11:13:27.485 -0700>,<nmr>,<bsf2231>,<go4>,<TopSpin 3.6.0>,
+      <created by zg
+	started at 2021-09-12 08:56:39.500 -0700,
+	POWCHK enabled, PULCHK disabled,
+       configuration hash MD5:
+       15 7C 2A E7 DC 27 C4 1E E7 AA E0 86 D8 47 CE 53
+       data hash MD5: 64K
+       39 73 83 D0 0E 5D 2D 65 8D B1 45 CC 90 20 57 7B>)
+(   2,<2021-09-12 11:13:27.594 -0700>,<nmr>,<bsf2231>,<audit>,<TopSpin 3.6.0>,
+      <user comment:
+       ICON-NMR User ID: sfansler
+       data hash MD5: 64K
+       39 73 83 D0 0E 5D 2D 65 8D B1 45 CC 90 20 57 7B>)
+##END=
+
+$$ hash MD5
+$$ E2 F8 E1 05 06 90 9C 2B 9D FC 8D 74 D7 C8 C7 A7

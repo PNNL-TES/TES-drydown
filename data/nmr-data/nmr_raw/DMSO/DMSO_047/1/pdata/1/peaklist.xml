@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PeakList>
+  <PeakList1D>
+    <PeakList1DHeader creator="nmrsu" date="2021-05-12T06:37:14.244-07:00" expNo="1" name="DMSO_047" owner="" procNo="1" source="C:/Bruker/TopSpin3.6.0/data/sfansler/nmr">
+      <PeakPickDetails>F1=16.109171ppm, F2=-3.916370ppm, MI=0.10cm, MAXI=10000.00cm, PC=1.000
+      </PeakPickDetails>
+    </PeakList1DHeader>
+    <Peak1D F1="3.250585" intensity="1.500000e+001" type="0"/>
+    <Peak1D F1="3.228626" intensity="1.402685e+000" type="0"/>
+    <Peak1D F1="2.601169" intensity="1.019777e-001" type="0"/>
+    <Peak1D F1="2.432186" intensity="1.525653e+001" type="0"/>
+    <Peak1D F1="2.259252" intensity="1.423040e-001" type="0"/>
+  </PeakList1D>
+</PeakList>
