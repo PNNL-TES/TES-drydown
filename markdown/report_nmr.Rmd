@@ -43,13 +43,29 @@ For time-zero samples, NMR-based composition did not differ by Site or depth.
   
 In drought-incubated samples, NMR-based composition was significantly influenced by saturation type, Site, and depth. Drought length or drought intensity did not significantly influence WEOC composition.
 
-Saturation type (instant chemistry vs. saturated) accounted for 32 % of total variation (R2 value).
+Saturation type (instant chemistry vs. saturated) accounted for 13 % of total variation (R2 value).
 
 ```{r}
 readd(nmr_permanova)$permanova_drought$aov.tab %>% 
   broom::tidy() %>% 
   knitr::kable()
 ```
+
+**0-5cm only**
+
+Saturation type (instant chemistry vs. saturated) accounted for 25 % of total variation (R2 value).  
+
+Site (CPCRW vs. SR) accounted for 5 % of total variation (R2 value).
+
+
+```{r}
+readd(nmr_permanova)$permanova_drought_toponly$aov.tab %>% 
+  broom::tidy() %>% 
+  knitr::kable()
+```
+
+
+
 
 
 </details>
