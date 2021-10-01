@@ -302,9 +302,17 @@ compute_nmr_permanova = function(rel_abund_wide){
     adonis(relabund_permanova %>% dplyr::select(aliphatic1, aliphatic2, aromatic, alphah, amide)  ~ 
              (Site + depth + length + saturation + drying)^2,
            data = relabund_permanova)
+  
+  permanova_drought_toponly = 
+    adonis(relabund_permanova %>% 
+             filter(depth == "0-5cm") %>% 
+             dplyr::select(aliphatic1, aliphatic2, aromatic, alphah, amide)  ~ 
+             (Site + length + saturation + drying)^2,
+           data = relabund_permanova %>% filter(depth == "0-5cm"))
  
   list(permanova_tzero = permanova_tzero,
-       permanova_drought = permanova_drought) 
+       permanova_drought = permanova_drought,
+       permanova_drought_toponly = permanova_drought_toponly) 
 }
 
 #
