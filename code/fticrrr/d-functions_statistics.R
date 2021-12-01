@@ -6,6 +6,7 @@ library(patchwork)
 fit_pca_function = function(dat){
   relabund_pca=
     dat %>% 
+    filter(!is.na(CoreID)) %>% 
     ungroup %>% 
     dplyr::select(-c(abund, total)) %>% 
     spread(Class, relabund) %>% 
@@ -271,6 +272,75 @@ compute_fticr_pca_tzero = function(relabund_cores){
   
   
 }  
+
+
+compute_fticr_pca_drying_vs_dw = function(relabund_cores){
+  ## PCA input files ----
+  pca_drying_vs_dw = fit_pca_function(relabund_cores)
+  pca_drying_vs_dw_cpcrw = fit_pca_function(relabund_cores %>% filter(Site == "CPCRW"))
+  pca_drying_vs_dw_sr = fit_pca_function(relabund_cores %>% filter(Site == "SR"))
+  
+  gg_pca_drying_vs_dw = 
+    ggbiplot(pca_drying_vs_dw$pca_int, obs.scale = 1, var.scale = 1,
+             groups = as.character(pca_drying_vs_dw$grp$saturation), 
+             ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+    geom_point(size=4,stroke=1, 
+               aes(shape = interaction(pca_drying_vs_dw$grp$depth, pca_drying_vs_dw$grp$Site),
+                   fill = groups, color = groups))+
+    scale_shape_manual(values = c(1,2,16,17,15, 5), name = "")+
+    #scale_color_manual(values = c("red", "blue"), name = "")+
+    #scale_fill_manual(values = c("red", "blue"), name = "")+
+    xlim(-4,4)+
+    ylim(-3.5,3.5)+
+    labs(shape="",
+         title = "time zero")+
+    theme_kp()+
+    NULL
+  
+  gg_pca_drying_vs_dw_c = 
+    ggbiplot(pca_drying_vs_dw_cpcrw$pca_int, obs.scale = 1, var.scale = 1,
+             groups = as.character(pca_drying_vs_dw_cpcrw$grp$saturation), 
+             ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+    geom_point(size=4,stroke=1, 
+               aes(shape = (pca_drying_vs_dw_cpcrw$grp$depth),
+                   fill = groups, color = groups))+
+    scale_shape_manual(values = c(1,2,16,17,15, 5), name = "")+
+    #scale_color_manual(values = c("red", "blue"), name = "")+
+    #scale_fill_manual(values = c("red", "blue"), name = "")+
+    xlim(-4,4)+
+    ylim(-3.5,3.5)+
+    labs(shape="",
+         title = "time zero")+
+    theme_kp()+
+    NULL
+  
+  
+  gg_pca_drying_vs_dw_s = 
+    ggbiplot(pca_drying_vs_dw_sr$pca_int, obs.scale = 1, var.scale = 1,
+             groups = as.character(pca_drying_vs_dw_sr$grp$saturation), 
+             ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+    geom_point(size=4,stroke=1, 
+               aes(shape = (pca_drying_vs_dw_sr$grp$depth),
+                   fill = groups, color = groups))+
+    scale_shape_manual(values = c(1,2,16,17,15, 5), name = "")+
+    #scale_color_manual(values = c("red", "blue"), name = "")+
+    #scale_fill_manual(values = c("red", "blue"), name = "")+
+    xlim(-4,4)+
+    ylim(-3.5,3.5)+
+    labs(shape="",
+         title = "time zero")+
+    theme_kp()+
+    NULL
+  
+  list(gg_pca_drying_vs_dw = gg_pca_drying_vs_dw,
+       gg_pca_drying_vs_dw_c = gg_pca_drying_vs_dw_c,
+       gg_pca_drying_vs_dw_s = gg_pca_drying_vs_dw_s
+       )
+}  
+
+
+
+
 # permanova -----------------------------------------------------------
 
 compute_permanova = function(relabund_cores){

@@ -367,6 +367,81 @@ plot_tzero_diff = function(fticr_data_trt, fticr_meta){
        )
 }
 
+
+plot_vk_drying_vs_dw = function(fticr_data_trt, fticr_meta){
+  fticr_hcoc = 
+    fticr_data_trt %>% 
+    drop_na() %>% 
+    left_join(dplyr::select(fticr_meta, formula, HC, OC), by = "formula")
+  
+  vk_timezero = 
+    fticr_hcoc %>% 
+    filter(saturation == "timezero") %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = depth))+
+    stat_ellipse(level = 0.90, show.legend = F)+
+    facet_grid(. ~ Site)+
+    scale_color_manual(values = rev(soil_palette("redox", 2)))+
+    labs(subtitle = "timezero")+
+    theme_kp()+
+    NULL
+  
+  vk_drying_vs_rewet = 
+    fticr_hcoc %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = saturation))+
+    stat_ellipse(level = 0.90, show.legend = F)+
+    facet_grid(depth ~ Site)+
+    scale_color_manual(values = rev(soil_palette("redox2", 3)))+
+    labs(subtitle = "instant chemistry vs. saturated")+
+    theme_kp()+
+    NULL
+  
+  fticr_hcoc_lossgain_drought = 
+    fticr_hcoc %>% 
+    filter(saturation == c("timezero", "instant chemistry")) %>% 
+    group_by(formula, HC, OC, Site, depth) %>% 
+    dplyr::mutate(n = n()) %>% 
+    filter(n == 1) %>% 
+    mutate(lossgain = 
+             case_when(saturation == "timezero" ~ "drought: lost",
+                       saturation == "instant chemistry" ~ "drought: gained"))
+
+  fticr_hcoc_lossgain_rewetting = 
+    fticr_hcoc %>% 
+    filter(saturation == c("instant chemistry", "saturated")) %>% 
+    group_by(formula, HC, OC, Site, depth) %>% 
+    dplyr::mutate(n = n()) %>% 
+    filter(n == 1) %>% 
+    mutate(lossgain = 
+             case_when(saturation == "saturated" ~ "rewet: gained",
+                       saturation == "instant chemistry" ~ "rewet: lost"))
+  
+  
+  fticr_hcoc_lossgain = 
+    fticr_hcoc_lossgain_drought %>% 
+    bind_rows(fticr_hcoc_lossgain_rewetting) %>% 
+    dplyr::select(-saturation) %>% 
+    separate(lossgain, sep = ": ", into = c("treatment", "lossgain"))
+  
+  vk_lossgain = 
+    fticr_hcoc_lossgain %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
+    stat_ellipse(level = 0.90, show.legend = F)+
+    facet_grid(Site + depth ~ treatment)+
+    scale_color_manual(values = rev(soil_palette("redox", 2)))+
+    # labs(subtitle = "instant chemistry vs. saturated, unique peaks")+
+    theme_kp()+
+    NULL    
+  
+
+  list(vk_timezero = vk_timezero,
+       vk_drying_vs_rewet = vk_drying_vs_rewet,
+       vk_lossgain = vk_lossgain)
+
+}
+
+
+
+
 ################################################## #
 plot_vk_saturation2 = function(fticr_data_trt, fticr_meta){
   fticr_hcoc = 
