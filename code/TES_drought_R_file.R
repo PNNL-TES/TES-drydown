@@ -21,7 +21,7 @@ library(tidyverse)
 ######Stacked Barplot
 ###################
 ###################
-setwd("~/OneDrive - PNNL/Desktop/kaizad_sarah_drought_experiment")
+
 phyla = read.table("taxtable2_transposed.txt", sep="\t", header=TRUE,row.names=1)
 
 NAMES = rownames(phyla)
@@ -798,7 +798,6 @@ TukeyHSD(species_anova)
 ###Phyloseq analysis
 rm(list=ls())
 
-setwd("~/OneDrive - PNNL/Desktop/kaizad_sarah_drought_experiment/phyloseq")
 
 OTU = read.table("OTU_table.txt", sep="\t", header=TRUE,row.names=1)
 taxa = read.table("Tax_table.txt", sep="\t", header=TRUE,row.names=1)
