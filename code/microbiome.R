@@ -1,4 +1,4 @@
-rm(list=ls())
+## rm(list=ls())
 
 #if (!requireNamespace("BiocManager", quietly = TRUE))
 #  install.packages("BiocManager", type = "binary") # (not binary if you're on linux)
@@ -30,8 +30,7 @@ library(ape)
 ######Stacked Barplot
 ###################
 ###################
-setwd("~/OneDrive - PNNL/Desktop/kaizad_sarah_drought_experiment")
-phyla = read.table("taxtable2_transposed.txt", sep="\t", header=TRUE,row.names=1)
+phyla = read.table("data/microbiome/taxtable2_transposed.txt", sep="\t", header=TRUE,row.names=1)
 
 NAMES = rownames(phyla)
 g_matrix = phyla[,9:67]
@@ -50,9 +49,9 @@ rownames(g_sample) = NAMES
 g_rel = make_relative(g_matrix)
 phyla_merged = merge(g_sample, g_rel, by="row.names")
 
-#write.table(phyla_merged, "phyla_relative_abundance.txt",sep="\t")
+write.table(phyla_merged, "data/microbiome/phyla_relative_abundance.txt",sep="\t")
 
-phyla = read.table("phyla_relative_abundance.txt", sep="\t", header=TRUE)
+phyla = read.table("data/microbiome/phyla_relative_abundance.txt", sep="\t", header=TRUE)
 phyla_long = gather(phyla, phyla, counts, k__Archaea.p__Crenarchaeota:Other, factor_key=TRUE)
 
 
@@ -66,7 +65,7 @@ ggplot(phyla_long, aes(fill=phyla, y=counts,x=Sample))+
 
 ##### PCOA plot
 
-species = read.table("merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
 
 #species[is.na(species)] = 0
 
@@ -193,7 +192,7 @@ adonis(g_matrix~g_sample$rep,method="bray",permutations=999)
 
 ##################Alpha diversity
 
-species = read.table("merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
 #species = read.table("merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
 
 species = species[species$Site %in% "SR", ]
@@ -370,13 +369,13 @@ TukeyHSD(species_anova)
 ###########################
 ##########################
 ###Phyloseq analysis
-rm(list=ls())
+## rm(list=ls())
 
-setwd("~/OneDrive - PNNL/Desktop/kaizad_sarah_drought_experiment/phyloseq")
+## setwd("~/OneDrive - PNNL/Desktop/kaizad_sarah_drought_experiment/phyloseq")
 
-OTU = read.table("OTU_table.txt", sep="\t", header=TRUE,row.names=1)
-taxa = read.table("Tax_table.txt", sep="\t", header=TRUE,row.names=1)
-metadata = read.table("heatmap_order_metadata.txt", sep="\t", header=TRUE,row.names=1)
+OTU = read.table("data/microbiome/OTU_table.txt", sep="\t", header=TRUE,row.names=1)
+taxa = read.table("data/microbiome/Tax_table.txt", sep="\t", header=TRUE,row.names=1)
+metadata = read.table("data/microbiome/heatmap_order_metadata.txt", sep="\t", header=TRUE,row.names=1)
 
 
 OTU_mat = as.matrix(OTU)
@@ -427,9 +426,9 @@ ord_explore(data=ord1, auto_caption=NA)
 
 
 #####Heatmap
-OTU = read.table("OTU_table.txt", sep="\t", header=TRUE,row.names=1)
-taxa = read.table("Tax_table.txt", sep="\t", header=TRUE,row.names=1)
-metadata = read.table("heatmap_order_metadata.txt", sep="\t", header=TRUE,row.names=1)
+OTU = read.table("data/microbiome/OTU_table.txt", sep="\t", header=TRUE,row.names=1)
+taxa = read.table("data/microbiome/Tax_table.txt", sep="\t", header=TRUE,row.names=1)
+metadata = read.table("data/microbiome/heatmap_order_metadata.txt", sep="\t", header=TRUE,row.names=1)
 
 
 OTU_mat = as.matrix(OTU)
