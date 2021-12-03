@@ -1,0 +1,151 @@
+Sample	sample_order	coreID	depth	Site	length	location	drying	rep	saturation
+DOC_180	1	C29	0-5cm	CPCRW	timezero	NA	NA	NA	timezero
+DOC_015	2	C69	0-5cm	CPCRW	30d	low	CW	r1	saturated
+DOC_019	3	C20	0-5cm	CPCRW	30d	up	CW	r3	saturated
+DOC_021	4	C9	0-5cm	CPCRW	30d	up	CW	r2	saturated
+DOC_025	5	C61	0-5cm	CPCRW	90d	low	CW	r2	saturated
+DOC_026	6	C86	0-5cm	CPCRW	90d	low	CW	r1	saturated
+DOC_027	7	C53	0-5cm	CPCRW	90d	low	CW	r4	saturated
+DOC_031	8	C34	0-5cm	CPCRW	90d	up	CW	r3	saturated
+DOC_032	9	C15	0-5cm	CPCRW	90d	up	CW	r2	saturated
+DOC_033	10	C11	0-5cm	CPCRW	90d	up	CW	r1	saturated
+DOC_001	11	C55	0-5cm	CPCRW	150d	low	CW	r4	saturated
+DOC_002	12	C60	0-5cm	CPCRW	150d	low	CW	r1	saturated
+DOC_003	13	C72	0-5cm	CPCRW	150d	low	CW	r3	saturated
+DOC_008	14	C4	0-5cm	CPCRW	150d	up	CW	r4	saturated
+DOC_009	15	C26	0-5cm	CPCRW	150d	up	CW	r3	saturated
+DOC_181	16	C67	5cm-end	CPCRW	timezero	NA	NA	NA	timezero
+DOC_183	17	C81	5cm-end	CPCRW	timezero	NA	NA	NA	timezero
+DOC_184	18	C29	5cm-end	CPCRW	timezero	NA	NA	NA	timezero
+DOC_055	19	C20	5cm-end	CPCRW	30d	up	CW	r3	saturated
+DOC_056	20	C3	5cm-end	CPCRW	30d	up	CW	r4	saturated
+DOC_057	21	C9	5cm-end	CPCRW	30d	up	CW	r2	saturated
+DOC_061	22	C61	5cm-end	CPCRW	90d	low	CW	r2	saturated
+DOC_062	23	C86	5cm-end	CPCRW	90d	low	CW	r1	saturated
+DOC_067	24	C34	5cm-end	CPCRW	90d	up	CW	r3	saturated
+DOC_068	25	C15	5cm-end	CPCRW	90d	up	CW	r2	saturated
+DOC_069	26	C11	5cm-end	CPCRW	90d	up	CW	r1	saturated
+DOC_037	27	C55	5cm-end	CPCRW	150d	low	CW	r4	saturated
+DOC_038	28	C60	5cm-end	CPCRW	150d	low	CW	r1	saturated
+DOC_039	29	C72	5cm-end	CPCRW	150d	low	CW	r3	saturated
+DOC_043	30	C28	5cm-end	CPCRW	150d	up	CW	r1	saturated
+DOC_044	31	C4	5cm-end	CPCRW	150d	up	CW	r4	saturated
+DOC_045	32	C26	5cm-end	CPCRW	150d	up	CW	r3	saturated
+DOC_022	33	C6	0-5cm	CPCRW	30d	up	FAD	r1	saturated
+DOC_023	34	C39	0-5cm	CPCRW	30d	up	FAD	r4	saturated
+DOC_024	35	C27	0-5cm	CPCRW	30d	up	FAD	r3	saturated
+DOC_029	36	C77	0-5cm	CPCRW	90d	low	FAD	r1	saturated
+DOC_034	37	C1	0-5cm	CPCRW	90d	up	FAD	r1	saturated
+DOC_035	38	C37	0-5cm	CPCRW	90d	up	FAD	r4	saturated
+DOC_036	39	C18	0-5cm	CPCRW	90d	up	FAD	r3	saturated
+DOC_004	40	C49	0-5cm	CPCRW	150d	low	FAD	r3	saturated
+DOC_006	41	C79	0-5cm	CPCRW	150d	low	FAD	r2	saturated
+DOC_010	42	C35	0-5cm	CPCRW	150d	up	FAD	r2	saturated
+DOC_011	43	C33	0-5cm	CPCRW	150d	up	FAD	r1	saturated
+DOC_012	44	C8	0-5cm	CPCRW	150d	up	FAD	r3	saturated
+DOC_058	45	C6	5cm-end	CPCRW	30d	up	FAD	r1	saturated
+DOC_059	46	C39	5cm-end	CPCRW	30d	up	FAD	r4	saturated
+DOC_060	47	C27	5cm-end	CPCRW	30d	up	FAD	r3	saturated
+DOC_064	48	C71	5cm-end	CPCRW	90d	low	FAD	r4	saturated
+DOC_065	49	C77	5cm-end	CPCRW	90d	low	FAD	r1	saturated
+DOC_070	50	C1	5cm-end	CPCRW	90d	up	FAD	r1	saturated
+DOC_071	51	C37	5cm-end	CPCRW	90d	up	FAD	r4	saturated
+DOC_072	52	C18	5cm-end	CPCRW	90d	up	FAD	r3	saturated
+DOC_046	53	C35	5cm-end	CPCRW	150d	up	FAD	r2	saturated
+DOC_047	54	C33	5cm-end	CPCRW	150d	up	FAD	r1	saturated
+DOC_048	55	C8	5cm-end	CPCRW	150d	up	FAD	r3	saturated
+DOC_141	56	C78	0-5cm	CPCRW	90d	NA	CW	r1	instant chemistry
+DOC_142	57	C76	0-5cm	CPCRW	90d	NA	CW	r2	instant chemistry
+DOC_143	58	C84	0-5cm	CPCRW	90d	NA	CW	r3	instant chemistry
+DOC_148	59	C76	5cm-end	CPCRW	90d	NA	CW	r2	instant chemistry
+DOC_144	60	C70	0-5cm	CPCRW	90d	NA	FAD	r1	instant chemistry
+DOC_145	61	C80	0-5cm	CPCRW	90d	NA	FAD	r2	instant chemistry
+DOC_152	62	C83	5cm-end	CPCRW	90d	NA	FAD	r3	instant chemistry
+DOC_185	63	S58	0-5cm	SR	timezero	NA	NA	NA	timezero
+DOC_186	64	S25	0-5cm	SR	timezero	NA	NA	NA	timezero
+DOC_187	65	S92	0-5cm	SR	timezero	NA	NA	NA	timezero
+DOC_084	66	S3	0-5cm	SR	30d	low	CW	r4	saturated
+DOC_085	67	S9	0-5cm	SR	30d	low	CW	r2	saturated
+DOC_086	68	S20	0-5cm	SR	30d	low	CW	r3	saturated
+DOC_090	69	S83	0-5cm	SR	30d	up	CW	r1	saturated
+DOC_091	70	S54	0-5cm	SR	30d	up	CW	r4	saturated
+DOC_092	71	S66	0-5cm	SR	30d	up	CW	r3	saturated
+DOC_095	72	S15	0-5cm	SR	90d	low	CW	r2	saturated
+DOC_096	73	S11	0-5cm	SR	90d	low	CW	r1	saturated
+DOC_097	74	S25	0-5cm	SR	90d	low	CW	r4	saturated
+DOC_101	75	S53	0-5cm	SR	90d	up	CW	r4	saturated
+DOC_073	76	S13	0-5cm	SR	150d	low	CW	r2	saturated
+DOC_074	77	S26	0-5cm	SR	150d	low	CW	r3	saturated
+DOC_075	78	S4	0-5cm	SR	150d	low	CW	r4	saturated
+DOC_079	79	S56	0-5cm	SR	150d	up	CW	r4	saturated
+DOC_080	80	S61	0-5cm	SR	150d	up	CW	r1	saturated
+DOC_081	81	S63	0-5cm	SR	150d	up	CW	r2	saturated
+DOC_188	82	S58	5cm-end	SR	timezero	NA	NA	NA	timezero
+DOC_189	83	S25	5cm-end	SR	timezero	NA	NA	NA	timezero
+DOC_190	84	S92	5cm-end	SR	timezero	NA	NA	NA	timezero
+DOC_118	85	S3	5cm-end	SR	30d	low	CW	r4	saturated
+DOC_119	86	S9	5cm-end	SR	30d	low	CW	r2	saturated
+DOC_120	87	S20	5cm-end	SR	30d	low	CW	r3	saturated
+DOC_124	88	S83	5cm-end	SR	30d	up	CW	r1	saturated
+DOC_125	89	S54	5cm-end	SR	30d	up	CW	r4	saturated
+DOC_126	90	S66	5cm-end	SR	30d	up	CW	r3	saturated
+DOC_129	91	S15	5cm-end	SR	90d	low	CW	r2	saturated
+DOC_130	92	S11	5cm-end	SR	90d	low	CW	r1	saturated
+DOC_136	93	S87	5cm-end	SR	90d	up	CW	r1	saturated
+DOC_137	94	S65	5cm-end	SR	90d	up	CW	r3	saturated
+DOC_135	95	S53	5cm-end	SR	90d	up	CW	r4	saturated
+DOC_107	96	S13	5cm-end	SR	150d	low	CW	r2	saturated
+DOC_108	97	S26	5cm-end	SR	150d	low	CW	r3	saturated
+DOC_109	98	S4	5cm-end	SR	150d	low	CW	r4	saturated
+DOC_113	99	S56	5cm-end	SR	150d	up	CW	r4	saturated
+DOC_114	100	S61	5cm-end	SR	150d	up	CW	r1	saturated
+DOC_115	101	S63	5cm-end	SR	150d	up	CW	r2	saturated
+DOC_087	102	S27	0-5cm	SR	30d	low	FAD	r3	saturated
+DOC_088	103	S16	0-5cm	SR	30d	low	FAD	r2	saturated
+DOC_089	104	S39	0-5cm	SR	30d	low	FAD	r4	saturated
+DOC_093	105	S57	0-5cm	SR	30d	up	FAD	r4	saturated
+DOC_094	106	S76	0-5cm	SR	30d	up	FAD	r2	saturated
+DOC_098	107	S1	0-5cm	SR	90d	low	FAD	r1	saturated
+DOC_100	108	S37	0-5cm	SR	90d	low	FAD	r4	saturated
+DOC_104	109	S52	0-5cm	SR	90d	up	FAD	r3	saturated
+DOC_105	110	S72	0-5cm	SR	90d	up	FAD	r4	saturated
+DOC_106	111	S78	0-5cm	SR	90d	up	FAD	r1	saturated
+DOC_076	112	S8	0-5cm	SR	150d	low	FAD	r3	saturated
+DOC_077	113	S49	0-5cm	SR	150d	low	FAD	r3	saturated
+DOC_078	114	S14	0-5cm	SR	150d	low	FAD	r4	saturated
+DOC_082	115	S80	0-5cm	SR	150d	up	FAD	r2	saturated
+DOC_083	116	S86	0-5cm	SR	150d	up	FAD	r1	saturated
+DOC_121	117	S27	5cm-end	SR	30d	low	FAD	r3	saturated
+DOC_123	118	S39	5cm-end	SR	30d	low	FAD	r4	saturated
+DOC_127	119	S57	5cm-end	SR	30d	up	FAD	r4	saturated
+DOC_128	120	S76	5cm-end	SR	30d	up	FAD	r2	saturated
+DOC_132	121	S1	5cm-end	SR	90d	low	FAD	r1	saturated
+DOC_133	122	S18	5cm-end	SR	90d	low	FAD	r3	saturated
+DOC_134	123	S37	5cm-end	SR	90d	low	FAD	r4	saturated
+DOC_138	124	S52	5cm-end	SR	90d	up	FAD	r3	saturated
+DOC_139	125	S72	5cm-end	SR	90d	up	FAD	r4	saturated
+DOC_140	126	S78	5cm-end	SR	90d	up	FAD	r1	saturated
+DOC_110	127	S8	5cm-end	SR	150d	low	FAD	r3	saturated
+DOC_111	128	S49	5cm-end	SR	150d	low	FAD	r3	saturated
+DOC_116	129	S80	5cm-end	SR	150d	up	FAD	r2	saturated
+DOC_117	130	S86	5cm-end	SR	150d	up	FAD	r1	saturated
+DOC_153	131	S91	0-5cm	SR	30d	NA	CW	r1	instant chemistry
+DOC_154	132	S24	0-5cm	SR	30d	NA	CW	r2	instant chemistry
+DOC_155	133	S81	0-5cm	SR	30d	NA	CW	r3	instant chemistry
+DOC_159	134	S95	0-5cm	SR	90d	NA	CW	r1	instant chemistry
+DOC_160	135	S84	0-5cm	SR	90d	NA	CW	r2	instant chemistry
+DOC_165	136	S91	5cm-end	SR	30d	NA	CW	r1	instant chemistry
+DOC_166	137	S24	5cm-end	SR	30d	NA	CW	r2	instant chemistry
+DOC_167	138	S81	5cm-end	SR	30d	NA	CW	r3	instant chemistry
+DOC_172	139	S84	5cm-end	SR	90d	NA	CW	r2	instant chemistry
+DOC_173	140	S32	5cm-end	SR	90d	NA	CW	r3	instant chemistry
+DOC_156	141	S45	0-5cm	SR	30d	NA	FAD	r1	instant chemistry
+DOC_157	142	S43	0-5cm	SR	30d	NA	FAD	r2	instant chemistry
+DOC_158	143	S79	0-5cm	SR	30d	NA	FAD	r3	instant chemistry
+DOC_163	144	S47	0-5cm	SR	90d	NA	FAD	r2	instant chemistry
+DOC_164	145	S89	0-5cm	SR	90d	NA	FAD	r3	instant chemistry
+DOC_168	146	S45	5cm-end	SR	30d	NA	FAD	r1	instant chemistry
+DOC_169	147	S43	5cm-end	SR	30d	NA	FAD	r2	instant chemistry
+DOC_170	148	S79	5cm-end	SR	30d	NA	FAD	r3	instant chemistry
+DOC_175	149	S47	5cm-end	SR	90d	NA	FAD	r2	instant chemistry
+DOC_176	150	S89	5cm-end	SR	90d	NA	FAD	r3	instant chemistry
