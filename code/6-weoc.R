@@ -2,47 +2,59 @@
 source("code/0-drydown_functions.R")
 library(googlesheets4)
 
-doc_key = read.csv("data/doc_analysis_key.csv") 
-core_weights = read.csv("data/processed/core_weights_depth.csv") 
-weoc_subsampling = read.csv("data/weoc_subsampling_weights.csv") %>% 
-  mutate(coreID = case_when(Site == "CPCRW" ~ paste0("C", Core),
-                            Site == "SR" ~ paste0("S", Core)))
 
-weoc_subsampling = read_sheet("1Ld-oTByerCn_C506_E1h8Kcnb5wpTVMxfPZh8bCoBwY") %>% 
-  mutate(coreID = case_when(Site == "CPCRW" ~ paste0("C", Core),
-                            Site == "SR" ~ paste0("S", Core)),
-         depth = str_remove_all(depth, " "))
+dockey = read.csv("data/doc_analysis_key.csv") 
 
-filePaths_npoc <- list.files(path = "data/npoc",pattern = "*.csv", full.names = TRUE)
+process_weoc_data = function(dockey){
+  
+  core_weights = read.csv("data/processed/core_weights_depth.csv") 
+ # weoc_subsampling = read.csv("data/weoc_subsampling_weights.csv") %>% 
+ #   mutate(coreID = case_when(Site == "CPCRW" ~ paste0("C", Core),
+ #                             Site == "SR" ~ paste0("S", Core)))
+  
+  weoc_subsampling = read_sheet("1Ld-oTByerCn_C506_E1h8Kcnb5wpTVMxfPZh8bCoBwY") %>% 
+    mutate(coreID = case_when(Site == "CPCRW" ~ paste0("C", Core),
+                              Site == "SR" ~ paste0("S", Core)),
+           depth = str_remove_all(depth, " "))
+  
+  filePaths_npoc <- list.files(path = "data/npoc",pattern = "*.csv", full.names = TRUE)
+  
+  npoc_data <-
+    lapply(filePaths_npoc, read.csv, stringsAsFactors = FALSE, na.string = "") %>% 
+    bind_rows() %>% 
+    filter(is.na(notes))
+  
+  npoc_data_processed = 
+    npoc_data %>% 
+    # clean the sample IDs, currently in weird format
+    # extract the numbers, then add leading zeroes to make three digits
+    # then add "DOC-" and merge with DOC key
+    mutate(id = parse_number(sample),
+           id = as.integer(str_remove_all(id, "-")),
+           id = sprintf("%03d", id),
+           DOC_ID = paste0("DOC-", id)) %>% 
+    dplyr::select(DOC_ID, npoc_mg_l) %>% 
+    left_join(dockey %>% dplyr::select(DOC_ID, coreID, depth)) %>% 
+    left_join(weoc_subsampling %>% dplyr::select(coreID, depth, moisture_perc, fticr_wt_g), by = c("coreID", "depth")) %>% 
+    mutate(ode_g = fticr_wt_g/((moisture_perc/100) + 1),
+           soilwater_mL = fticr_wt_g - ode_g,
+           npoc_mg_g = npoc_mg_l * (40 + soilwater_mL) * (1/1000) * (1/ode_g)) %>% 
+    left_join(dockey)
+  
+  
+}
 
-npoc_data <-
-  lapply(filePaths_npoc, read.csv, stringsAsFactors = FALSE, na.string = "") %>% 
-  bind_rows() %>% 
-  filter(is.na(notes))
-
-npoc_data_processed = 
-  npoc_data %>% 
-  # clean the sample IDs, currently in weird format
-  # extract the numbers, then add leading zeroes to make three digits
-  # then add "DOC-" and merge with DOC key
-  mutate(id = parse_number(sample),
-         id = as.integer(str_remove_all(id, "-")),
-         id = sprintf("%03d", id),
-         DOC_ID = paste0("DOC-", id)) %>% 
-  dplyr::select(DOC_ID, npoc_mg_l) %>% 
-  left_join(doc_key %>% dplyr::select(DOC_ID, coreID, depth)) %>% 
-  left_join(weoc_subsampling %>% dplyr::select(coreID, depth, moisture_perc, fticr_wt_g), by = c("coreID", "depth")) %>% 
-  mutate(ode_g = fticr_wt_g/((moisture_perc/100) + 1),
-         soilwater_mL = fticr_wt_g - ode_g,
-         npoc_mg_g = npoc_mg_l * (40 + soilwater_mL) * (1/1000) * (1/ode_g)) %>% 
-  left_join(doc_key)
 
 
-npoc_data_processed %>% 
-  filter(!is.na(npoc_mg_g)) %>% 
-  ggplot(aes(x = length, y = npoc_mg_g, color = saturation))+
-  geom_point(position = position_dodge(width = 0.7))+
-  facet_grid(depth ~ Site)
+plot_weoc = function(weoc_processed){
+  weoc_processed %>% 
+    filter(!is.na(npoc_mg_g)) %>% 
+    ggplot(aes(x = Site, y = npoc_mg_g, color = saturation))+
+    geom_point(position = position_dodge(width = 0.7))+
+    facet_grid(depth ~ .)
+  }
+
+
 
 npoc_summary = 
   npoc_data_processed %>% 
