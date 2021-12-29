@@ -110,6 +110,73 @@ compute_permanova_phyla = function(){
 }
 
 #
+# PCoA: drying-vs-wetting overall -----------------------------------------
+
+compute_pcoa_drying_vs_rewet = function(){
+  species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+  
+  species = species[species$drying %in% c("CW",NA),]
+  species = species[species$length %in% c("90d",NA),]
+  
+  NAMES = rownames(species)
+  g_matrix = species[,9:1374]   
+  rownames(g_matrix) = NAMES
+  g_matrix = as.matrix(g_matrix)
+  
+  
+  NAMES = rownames(species)
+  g_sample = species[,1:8]
+  rownames(g_sample) = NAMES
+  
+  g_rel = make_relative(g_matrix)
+  #g_rel = na.omit(g_rel)
+  
+  bray_distance = vegdist(g_rel, method="bray")
+  principal_coordinates = pcoa(bray_distance)
+  pcoa_plot = data.frame(principal_coordinates$vectors[,])
+  pcoa_plot_merged = merge(pcoa_plot,g_sample, by="row.names")
+  
+  PC1 <- 100*(principal_coordinates$values$Eigenvalues[1]/sum(principal_coordinates$values$Eigenvalues))
+  PC2 <- 100*(principal_coordinates$values$Eigenvalues[2]/sum(principal_coordinates$values$Eigenvalues))
+  PC3 <- 100*(principal_coordinates$values$Eigenvalues[3]/sum(principal_coordinates$values$Eigenvalues))
+  
+  
+  # pcoa_plot_merged$length = factor(pcoa_plot_merged$length, levels = c("timezero","30d","90d","150d"))
+  
+  pcoa = 
+    ggplot(data=pcoa_plot_merged,aes(x=Axis.1,y=Axis.2)) + 
+    geom_point(aes(fill = saturation, shape = interaction(Site, depth)), 
+               colour="black", size=6, alpha=0.6) + 
+    theme_bw()  +
+    theme_bw(base_size=14) + 
+    # stat_ellipse(aes(color=saturation),type="norm")+
+    theme(axis.text=element_text(size=14,color="black"),
+          axis.title=element_text(size=14),
+          legend.background = element_rect(colour = "black"),
+          legend.text = element_text(size=18), 
+          legend.title=element_text(size=20)) + 
+    labs(fill = "Group")+
+    theme(legend.title=element_blank())+
+    labs(x = paste("PC1 - Variation Explained", round(PC1,2),"%"), 
+         y = paste("PC2 - Variation Explained", round(PC2,2),"%"))+
+    scale_shape_manual(values=c(21,22,24, 23)) + 
+    guides(fill=guide_legend(override.aes=list(shape=21)))
+  
+  # all the instant chemistry samples clustered together
+  # saturated soils separated primarily by depth
+  
+  
+  beta = betadisper(bray_distance, g_sample$length,type=c("centroid"))
+  
+  permanova = adonis(g_matrix~g_sample$saturation,method="bray",permutations=999)
+  
+  list(pcoa = pcoa,
+       permanova = permanova)
+  
+  
+}
+
+#
 ################
 ################
 
