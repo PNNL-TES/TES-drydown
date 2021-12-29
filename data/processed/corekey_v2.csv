@@ -1,0 +1,153 @@
+"coreID","Site","location","drying","length","saturation","DOC_analysis"
+"C0","CPCRW",NA,NA,NA,"saturated",FALSE
+"C2","CPCRW","upland","CW","1000d","saturated",FALSE
+"C5","CPCRW","upland","CW","1000d","saturated",FALSE
+"C10","CPCRW","upland","FAD","1000d","saturated",FALSE
+"C13","CPCRW","upland","CW","150d","saturated",FALSE
+"C14","CPCRW","upland","FAD","150d","saturated",FALSE
+"C16","CPCRW","upland","FAD","30d","saturated",FALSE
+"C17","CPCRW","upland","FAD","1000d","saturated",FALSE
+"C31","CPCRW","upland","CW","1000d","saturated",FALSE
+"C34","CPCRW","upland","CW","90d","saturated",FALSE
+"C36","CPCRW","upland","FAD","1000d","saturated",FALSE
+"C38","CPCRW","upland","CW","1000d","saturated",FALSE
+"C40","CPCRW","upland","FAD","1000d","saturated",FALSE
+"C42","CPCRW","lowland","FAD","1000d","saturated",FALSE
+"C48","CPCRW","lowland","CW","1000d","saturated",FALSE
+"C51","CPCRW","lowland","CW","1000d","saturated",FALSE
+"C54","CPCRW","lowland","CW","30d","saturated",FALSE
+"C54A","CPCRW","lowland","CW","1000d","saturated",FALSE
+"C58","CPCRW","lowland","CW","1000d","saturated",FALSE
+"C59","CPCRW","lowland","FAD","1000d","saturated",FALSE
+"C62","CPCRW","lowland","CW","150d","saturated",FALSE
+"C63","CPCRW","lowland","FAD","1000d","saturated",FALSE
+"C64","CPCRW","lowland","CW","90d","saturated",FALSE
+"C74","CPCRW","lowland","FAD","1000d","saturated",FALSE
+"C75","CPCRW","lowland","FAD","30d","saturated",FALSE
+"C82","CPCRW","upland","CW","30d","saturated",FALSE
+"C85","CPCRW","lowland","FAD","150d","saturated",FALSE
+"S2","SR","lowland","CW","1000d","saturated",FALSE
+"S5","SR","lowland","CW","1000d","saturated",FALSE
+"S10","SR","lowland","FAD","1000d","saturated",FALSE
+"S17","SR","lowland","FAD","1000d","saturated",FALSE
+"S27","SR","lowland","FAD","30d","saturated",FALSE
+"S28","SR","lowland","CW","150d","saturated",FALSE
+"S29","SR",NA,NA,"timezero","saturated",FALSE
+"S31","SR","lowland","CW","1000d","saturated",FALSE
+"S33","SR","lowland","FAD","150d","saturated",FALSE
+"S34","SR","lowland","CW","90d","saturated",FALSE
+"S35","SR","lowland","FAD","150d","saturated",FALSE
+"S36","SR","lowland","FAD","1000d","saturated",FALSE
+"S38","SR","lowland","CW","1000d","saturated",FALSE
+"S40","SR","lowland","FAD","1000d","saturated",FALSE
+"S42","SR","lowland","FAD","1000d","saturated",FALSE
+"S44","SR","lowland","FAD","30d","saturated",FALSE
+"S46","SR","lowland","FAD","150d","saturated",FALSE
+"S48","SR","lowland","CW","1000d","saturated",FALSE
+"S50","SR","lowland","FAD","30d","saturated",FALSE
+"S51","SR","lowland","CW","1000d","saturated",FALSE
+"S55","SR","upland","CW","1000d","saturated",FALSE
+"S59","SR","upland","CW","1000d","saturated",FALSE
+"S60","SR","upland","FAD","1000d","saturated",FALSE
+"S62","SR","upland","CW","90d","saturated",FALSE
+"S64","SR","upland","FAD","1000d","saturated",FALSE
+"S67","SR","upland","CW","30d","saturated",FALSE
+"S68","SR",NA,NA,"timezero","saturated",FALSE
+"S70","SR","upland","CW","30d","saturated",FALSE
+"S73","SR","upland","CW","150d","saturated",FALSE
+"S74","SR",NA,NA,"timezero","saturated",FALSE
+"S75","SR","upland","FAD","1000d","saturated",FALSE
+"S82","SR",NA,NA,"timezero","saturated",FALSE
+"C55","CPCRW","lowland","CW","150d","saturated",TRUE
+"C60","CPCRW","lowland","CW","150d","saturated",TRUE
+"C72","CPCRW","lowland","CW","150d","saturated",TRUE
+"C49","CPCRW","lowland","FAD","150d","saturated",TRUE
+"C46","CPCRW","lowland","FAD","150d","saturated",TRUE
+"C79","CPCRW","lowland","FAD","150d","saturated",TRUE
+"C28","CPCRW","upland","CW","150d","saturated",TRUE
+"C4","CPCRW","upland","CW","150d","saturated",TRUE
+"C26","CPCRW","upland","CW","150d","saturated",TRUE
+"C35","CPCRW","upland","FAD","150d","saturated",TRUE
+"C33","CPCRW","upland","FAD","150d","saturated",TRUE
+"C8","CPCRW","upland","FAD","150d","saturated",TRUE
+"C65","CPCRW","lowland","CW","30d","saturated",TRUE
+"C66","CPCRW","lowland","CW","30d","saturated",TRUE
+"C69","CPCRW","lowland","CW","30d","saturated",TRUE
+"C50","CPCRW","lowland","FAD","30d","saturated",TRUE
+"C44","CPCRW","lowland","FAD","30d","saturated",TRUE
+"C56","CPCRW","lowland","FAD","30d","saturated",TRUE
+"C20","CPCRW","upland","CW","30d","saturated",TRUE
+"C3","CPCRW","upland","CW","30d","saturated",TRUE
+"C9","CPCRW","upland","CW","30d","saturated",TRUE
+"C6","CPCRW","upland","FAD","30d","saturated",TRUE
+"C39","CPCRW","upland","FAD","30d","saturated",TRUE
+"C27","CPCRW","upland","FAD","30d","saturated",TRUE
+"C61","CPCRW","lowland","CW","90d","saturated",TRUE
+"C86","CPCRW","lowland","CW","90d","saturated",TRUE
+"C53","CPCRW","lowland","CW","90d","saturated",TRUE
+"C71","CPCRW","lowland","FAD","90d","saturated",TRUE
+"C77","CPCRW","lowland","FAD","90d","saturated",TRUE
+"C52","CPCRW","lowland","FAD","90d","saturated",TRUE
+"C25","CPCRW","upland","CW","90d","saturated",TRUE
+"C15","CPCRW","upland","CW","90d","saturated",TRUE
+"C11","CPCRW","upland","CW","90d","saturated",TRUE
+"C1","CPCRW","upland","FAD","90d","saturated",TRUE
+"C37","CPCRW","upland","FAD","90d","saturated",TRUE
+"C18","CPCRW","upland","FAD","90d","saturated",TRUE
+"S13","SR","lowland","CW","150d","saturated",TRUE
+"S26","SR","lowland","CW","150d","saturated",TRUE
+"S4","SR","lowland","CW","150d","saturated",TRUE
+"S8","SR","lowland","FAD","150d","saturated",TRUE
+"S49","SR","lowland","FAD","150d","saturated",TRUE
+"S14","SR","lowland","FAD","150d","saturated",TRUE
+"S56","SR","upland","CW","150d","saturated",TRUE
+"S61","SR","upland","CW","150d","saturated",TRUE
+"S63","SR","upland","CW","150d","saturated",TRUE
+"S80","SR","upland","FAD","150d","saturated",TRUE
+"S86","SR","upland","FAD","150d","saturated",TRUE
+"S3","SR","lowland","CW","30d","saturated",TRUE
+"S9","SR","lowland","CW","30d","saturated",TRUE
+"S20","SR","lowland","CW","30d","saturated",TRUE
+"S6","SR","lowland","FAD","30d","saturated",TRUE
+"S16","SR","lowland","FAD","30d","saturated",TRUE
+"S39","SR","lowland","FAD","30d","saturated",TRUE
+"S83","SR","upland","CW","30d","saturated",TRUE
+"S54","SR","upland","CW","30d","saturated",TRUE
+"S66","SR","upland","CW","30d","saturated",TRUE
+"S57","SR","upland","FAD","30d","saturated",TRUE
+"S76","SR","upland","FAD","30d","saturated",TRUE
+"S15","SR","lowland","CW","90d","saturated",TRUE
+"S11","SR","lowland","CW","90d","saturated",TRUE
+"S1","SR","lowland","FAD","90d","saturated",TRUE
+"S18","SR","lowland","FAD","90d","saturated",TRUE
+"S37","SR","lowland","FAD","90d","saturated",TRUE
+"S53","SR","upland","CW","90d","saturated",TRUE
+"S87","SR","upland","CW","90d","saturated",TRUE
+"S65","SR","upland","CW","90d","saturated",TRUE
+"S52","SR","upland","FAD","90d","saturated",TRUE
+"S72","SR","upland","FAD","90d","saturated",TRUE
+"S78","SR","upland","FAD","90d","saturated",TRUE
+"C78","CPCRW",NA,"CW","90d","instant chemistry",TRUE
+"C76","CPCRW",NA,"CW","90d","instant chemistry",TRUE
+"C84","CPCRW",NA,"CW","90d","instant chemistry",TRUE
+"C70","CPCRW",NA,"FAD","90d","instant chemistry",TRUE
+"C80","CPCRW",NA,"FAD","90d","instant chemistry",TRUE
+"C83","CPCRW",NA,"FAD","90d","instant chemistry",TRUE
+"S91","SR",NA,"CW","30d","instant chemistry",TRUE
+"S24","SR",NA,"CW","30d","instant chemistry",TRUE
+"S81","SR",NA,"CW","30d","instant chemistry",TRUE
+"S45","SR",NA,"FAD","30d","instant chemistry",TRUE
+"S43","SR",NA,"FAD","30d","instant chemistry",TRUE
+"S79","SR",NA,"FAD","30d","instant chemistry",TRUE
+"S95","SR",NA,"CW","90d","instant chemistry",TRUE
+"S84","SR",NA,"CW","90d","instant chemistry",TRUE
+"S32","SR",NA,"CW","90d","instant chemistry",TRUE
+"S21","SR",NA,"FAD","90d","instant chemistry",TRUE
+"S47","SR",NA,"FAD","90d","instant chemistry",TRUE
+"S89","SR",NA,"FAD","90d","instant chemistry",TRUE
+"C67","CPCRW",NA,NA,"timezero","timezero",TRUE
+"C73","CPCRW",NA,NA,"timezero","timezero",TRUE
+"C81","CPCRW",NA,NA,"timezero","timezero",TRUE
+"C29","CPCRW",NA,NA,"timezero","timezero",TRUE
+"S58","SR",NA,NA,"timezero","timezero",TRUE
+"S92","SR",NA,NA,"timezero","timezero",TRUE
