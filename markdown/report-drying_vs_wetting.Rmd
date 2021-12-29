@@ -1,0 +1,102 @@
+---
+title: "Part I: drying vs. rewetting"
+output: html_document
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      collapse = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      comment = "#>"
+                      #fig.path = ("images-markdown-fticr/subset/")
+                      )
+
+library(drake)
+```
+
+---
+
+<details>
+  <summary>RESEARCH QUESTIONS -- click to open</summary>
+
+
+
+</details>
+
+---
+
+# FTICR
+
+```{r, fig.width=5}
+readd(gg_vankrevelen_domains)
+```
+
+```{r, fig.height=7, fig.width=7}
+readd(gg_relabund_bar)
+```
+
+```{r}
+readd(gg_pca_fticr)
+```
+
+
+---
+
+# NMR
+
+```{r}
+readd(gg_nmr_spectra)
+```
+
+
+```{r}
+readd(gg_nmr_relabund_barplot)
+```
+
+```{r}
+readd(gg_pca_nmr)
+```
+
+```{r}
+readd(nmr_permanova)
+```
+
+
+---
+
+# WEOC
+
+```{r}
+readd(gg_weoc)
+```
+
+---
+
+# POM-nonPOM
+
+```{r}
+readd(gg_pom)
+```
+
+
+
+
+---
+
+---
+
+# Session Info
+
+<details>
+  <summary>SESSION INFO -- click to open</summary>
+
+date run: `r Sys.Date()`
+
+```{r}
+sessionInfo()
+```
+
+</details>
