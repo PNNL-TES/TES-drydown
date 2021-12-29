@@ -275,6 +275,34 @@ compute_fticr_pca_tzero = function(relabund_cores){
 
 
 compute_fticr_pca_drying_vs_dw = function(relabund_cores){
+  ## PCA function ----
+  fit_pca_function = function(dat){
+    relabund_pca=
+      dat %>% 
+      filter(!is.na(CoreID)) %>% 
+      ungroup %>% 
+      dplyr::select(-c(abund, total)) %>% 
+      spread(Class, relabund) %>% 
+      replace(.,is.na(.),0)  %>% 
+      dplyr::select(-1)
+    
+    num = 
+      relabund_pca %>% 
+      dplyr::select(c(aliphatic, aromatic, `condensed aromatic`, `unsaturated/lignin`))
+    
+    grp = 
+      relabund_pca %>% 
+      dplyr::select(-c(aliphatic, aromatic, `condensed aromatic`, `unsaturated/lignin`)) %>% 
+      dplyr::mutate(row = row_number())
+    
+    pca_int = prcomp(num, scale. = T)
+    
+    list(num = num,
+         grp = grp,
+         pca_int = pca_int)
+  }
+  
+  #
   ## PCA input files ----
   pca_drying_vs_dw = fit_pca_function(relabund_cores)
   pca_drying_vs_dw_cpcrw = fit_pca_function(relabund_cores %>% filter(Site == "CPCRW"))
@@ -293,8 +321,9 @@ compute_fticr_pca_drying_vs_dw = function(relabund_cores){
     xlim(-4,4)+
     ylim(-3.5,3.5)+
     labs(shape="",
-         title = "time zero")+
+         title = "FTICR PCA")+
     theme_kp()+
+    theme(legend.position = "right")+
     NULL
   
   gg_pca_drying_vs_dw_c = 
@@ -332,9 +361,10 @@ compute_fticr_pca_drying_vs_dw = function(relabund_cores){
     theme_kp()+
     NULL
   
-  list(gg_pca_drying_vs_dw = gg_pca_drying_vs_dw,
-       gg_pca_drying_vs_dw_c = gg_pca_drying_vs_dw_c,
-       gg_pca_drying_vs_dw_s = gg_pca_drying_vs_dw_s
+  # list ----
+  list(gg_pca_drying_vs_dw = gg_pca_drying_vs_dw
+       #gg_pca_drying_vs_dw_c = gg_pca_drying_vs_dw_c,
+       #gg_pca_drying_vs_dw_s = gg_pca_drying_vs_dw_s
        )
 }  
 

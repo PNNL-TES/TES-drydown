@@ -285,6 +285,30 @@ plot_relabund_bargraphs = function(rel_abund_cores){
        relabund_bar_simple = relabund_bar_simple)
 }
 
+plot_relabund_bargraphs_drying_vs_dw = function(rel_abund_cores){
+  relabund_summary = compute_relabund_summary(rel_abund_cores)$relabund_summary
+  
+  relabund_bar_cores = 
+    rel_abund_cores %>% 
+    ggplot(aes(x = DOC_ID, y = relabund, fill = group))+
+    geom_bar(stat = "identity")+
+    facet_grid(depth + saturation + length ~ Site + drying, scales = "free_x", space = "free_x")+
+    labs(title = "NMR relative abundance")+
+    theme_bw()+
+    theme(axis.text.x = element_text(angle = 90))
+  
+  relabund_bar_top = 
+    relabund_summary %>% 
+    filter(depth == "0-5cm") %>% 
+    ggplot(aes(x = saturation, y = relabund_mean, fill = group))+
+    geom_bar(stat = "identity")+
+    facet_grid(depth ~ Site)+
+      theme_kp()
+  
+  list(relabund_bar_cores = relabund_bar_cores,
+       relabund_bar_top = relabund_bar_top)
+}
+
 #
 #
 # III. PERMANOVA ----------------------------------------------------------
@@ -312,6 +336,31 @@ compute_nmr_permanova = function(rel_abund_wide){
  
   list(permanova_tzero = permanova_tzero,
        permanova_drought = permanova_drought,
+       permanova_drought_toponly = permanova_drought_toponly) 
+}
+
+compute_nmr_permanova_drying_dw = function(rel_abund_wide){
+  relabund_permanova = rel_abund_wide  %>% filter(length != "timezero") 
+  
+  permanova_tzero = 
+    adonis(rel_abund_wide %>% filter(length == "timezero") %>% dplyr::select(aliphatic1, aliphatic2, aromatic, alphah, amide)  ~ 
+             (Site)^2,
+           data = rel_abund_wide %>% filter(length == "timezero") )
+  
+  permanova_drying_vs_dw = 
+    adonis(relabund_permanova %>% dplyr::select(aliphatic1, aliphatic2, aromatic, alphah, amide)  ~ 
+             (Site  + saturation)^2,
+           data = relabund_permanova)
+  
+  permanova_drought_toponly = 
+    adonis(relabund_permanova %>% 
+             filter(depth == "0-5cm") %>% 
+             dplyr::select(aliphatic1, aliphatic2, aromatic, alphah, amide)  ~ 
+             (Site + saturation)^2,
+           data = relabund_permanova %>% filter(depth == "0-5cm"))
+  
+  list(permanova_tzero = permanova_tzero,
+       #permanova_drying_vs_dw = permanova_drying_vs_dw,
        permanova_drought_toponly = permanova_drought_toponly) 
 }
 
@@ -343,7 +392,7 @@ fit_pca_function = function(dat){
        pca_int = pca_int)
 }
 
-compute_fticr_pca = function(rel_abund_wide){
+compute_nmr_pca = function(rel_abund_wide){
   ## PCA input files ----
   #pca_timezero = fit_pca_function(rel_abund_wide %>% filter(length == "timezero"))
   pca_drought = fit_pca_function(rel_abund_wide %>% filter(length != "timezero"))
@@ -622,4 +671,81 @@ compute_fticr_pca = function(rel_abund_wide){
     NULL
   list(gg_pca_overall1 = gg_pca_overall1,
        gg_pca_drought = gg_pca_drought)
+}
+
+compute_nmr_pca_drying_dw = function(rel_abund_wide){
+  
+  fit_pca_function = function(dat){
+    relabund_pca=
+      dat %>% 
+      ungroup %>% 
+      #  dplyr::select(-c(abund, total)) %>% 
+      #  spread(Class, relabund) %>% 
+      #  replace(.,is.na(.),0)  %>% 
+      dplyr::select(-1)
+    
+    num = 
+      relabund_pca %>% 
+      dplyr::select(c(aliphatic1, aliphatic2, aromatic, alphah))
+    
+    grp = 
+      relabund_pca %>% 
+      dplyr::select(-c(aliphatic1, aliphatic2, aromatic, alphah, amide)) %>% 
+      dplyr::mutate(row = row_number())
+    
+    pca_int = prcomp(num, scale. = T)
+    
+    list(num = num,
+         grp = grp,
+         pca_int = pca_int)
+  }
+  
+  ## PCA input files ----
+  rel_abund_wide = rel_abund_wide %>% filter(depth == "0-5cm")
+  
+  #pca_timezero = fit_pca_function(rel_abund_wide %>% filter(length == "timezero"))
+  pca_drought = fit_pca_function(rel_abund_wide %>% filter(length != "timezero"))
+  pca_cpcrw_top = fit_pca_function(rel_abund_wide %>% filter(Site == "CPCRW" & depth == "0-5cm"))
+  #pca_cpcrw_bottom = fit_pca_function(rel_abund_wide %>% filter(Site == "CPCRW" & depth == "5cm-end"))
+  pca_sr_top = fit_pca_function(rel_abund_wide %>% filter(Site == "SR" & depth == "0-5cm" & length != "timezero"))
+  #pca_sr_bottom = fit_pca_function(relabund_SR %>% filter(depth == "5cm-end"))
+  pca_overall = fit_pca_function(rel_abund_wide)
+  
+  ## PCA plots overall ----
+  gg_pca_overall1 = 
+    ggbiplot(pca_overall$pca_int, obs.scale = 1, var.scale = 1,
+             groups = as.character(pca_overall$grp$saturation), 
+             ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+    geom_point(size=2,stroke=1, alpha = 0.5,
+               aes(shape = groups,
+                   color = groups))+
+    scale_shape_manual(values = c(21, 21, 19), name = "", guide = "none")+
+    xlim(-4,4)+
+    ylim(-3.5,3.5)+
+    labs(shape="",
+         title = "all samples",
+         subtitle = "separation by saturation type")+
+    theme_kp()+
+    NULL
+  
+  (gg_pca_overall2 = 
+    ggbiplot(pca_overall$pca_int, obs.scale = 1, var.scale = 1,
+             groups = as.character(pca_overall$grp$saturation), 
+             ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+    geom_point(size=2,stroke=1, alpha = 1,
+               aes(shape = pca_overall$grp$Site,
+                   color = groups))+
+    scale_shape_manual(values = c(1, 19), name = "", #guide = "none"
+                       )+
+    xlim(-4,4)+
+    ylim(-3.5,3.5)+
+    labs(shape="",
+         title = "all samples",
+         subtitle = "separation by saturation type")+
+    theme_kp()+
+    NULL)
+  
+  
+  #
+
 }
