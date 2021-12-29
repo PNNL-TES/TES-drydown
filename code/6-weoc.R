@@ -55,28 +55,29 @@ plot_weoc = function(weoc_processed){
   }
 
 
-
-npoc_summary = 
-  npoc_data_processed %>% 
-  filter(saturation != "timezero") %>% 
-  group_by(Site, depth, length, drying, saturation) %>% 
-  dplyr::summarise(npoc_mean = mean(npoc_mg_g),
-                   se = sd(npoc_mg_g)/sqrt(n()),
-                   npoc_mean = round(npoc_mean, 2),
-                   se = round(se, 2),
-                   relabund = paste(npoc_mean, "\u00b1", se)) %>% 
-  dplyr::select(-npoc_mean, -se)
-
-npoc_summary %>% 
-  pivot_wider(names_from = "length", values_from = "relabund") %>% 
-  knitr::kable()
-
-
-## LME for WEOC
-npoc_data_processed %>% 
-  filter(saturation != "timezero") %$% 
-  nlme::lme(npoc_mg_g ~ saturation + length + drying + depth, random = ~1|Site,
-            na.action = na.omit) %>% 
-  anova()
+misc_weoc_script = function(){
+  npoc_summary = 
+    npoc_data_processed %>% 
+    filter(saturation != "timezero") %>% 
+    group_by(Site, depth, length, drying, saturation) %>% 
+    dplyr::summarise(npoc_mean = mean(npoc_mg_g),
+                     se = sd(npoc_mg_g)/sqrt(n()),
+                     npoc_mean = round(npoc_mean, 2),
+                     se = round(se, 2),
+                     relabund = paste(npoc_mean, "\u00b1", se)) %>% 
+    dplyr::select(-npoc_mean, -se)
   
-
+  npoc_summary %>% 
+    pivot_wider(names_from = "length", values_from = "relabund") %>% 
+    knitr::kable()
+  
+  
+  ## LME for WEOC
+  npoc_data_processed %>% 
+    filter(saturation != "timezero") %$% 
+    nlme::lme(npoc_mg_g ~ saturation + length + drying + depth, random = ~1|Site,
+              na.action = na.omit) %>% 
+    anova()
+  
+  
+}
