@@ -1,4 +1,4 @@
-rm(list=ls())
+# rm(list=ls())
 
 
 library(ggplot2)
@@ -17,80 +17,104 @@ library(microbiome)
 library(ape)
 library(tidyverse)
 
-###################
-######Stacked Barplot
-###################
-###################
 
-phyla = read.table("data/microbiome/taxtable2_transposed.txt", sep="\t", header=TRUE,row.names=1)
+# Stacked barplot -- phylum level -----------------------------------------
 
-NAMES = rownames(phyla)
-g_matrix = phyla[,9:67]
-rownames(g_matrix) = NAMES
-g_matrix = as.matrix(g_matrix)
+compute_relabund = function(){
+  # this function needs to be run only once, to compute relative abundances of taxa
+  # the output is saved as .txt, so it does not need to be run again
+  
+  phyla = read.table("data/microbiome/taxtable2_transposed.txt", sep="\t", header=TRUE,row.names=1)
+  
+  NAMES = rownames(phyla)
+  g_matrix = phyla[,9:67]
+  rownames(g_matrix) = NAMES
+  g_matrix = as.matrix(g_matrix)
+  
+  
+  NAMES = rownames(phyla)
+  g_sample = phyla[,1:8]
+  rownames(g_sample) = NAMES
+  
+  # relative abundance normalization
+  
+  g_rel = make_relative(g_matrix)
+  phyla_merged = merge(g_sample, g_rel, by="row.names")
+  
+  #write.table(phyla_merged, "phyla_relative_abundance.txt",sep="\t")
+}
 
+plot_barplot_phylum = function(){
+  ### Create a stacked barplot at the Phylum level
+  # use the output from the previous function here
+  
+  phyla = read.table("data/microbiome/phyla_relative_abundance.txt", sep="\t", header=TRUE)
+  phyla_long = gather(phyla, phyla, counts, k__Archaea.p__Crenarchaeota:Other, factor_key=TRUE)
+  
+  
+  ggplot(phyla_long, aes(fill=phyla, y=counts,x=Sample))+
+    geom_bar(position="fill",stat="identity")+
+    theme_bw()+
+    theme(axis.text.x = element_text(angle=45,hjust=1,vjust=1))+
+    ylab("Proportion")
+  
+}
 
-NAMES = rownames(phyla)
-g_sample = phyla[,1:8]
-rownames(g_sample) = NAMES
+#
 
-############################
-###########################
-#####relative abundance normalization
-
-g_rel = make_relative(g_matrix)
-phyla_merged = merge(g_sample, g_rel, by="row.names")
-
-#write.table(phyla_merged, "phyla_relative_abundance.txt",sep="\t")
-
-### Create a stacked barplot at the Phylum level
-phyla = read.table("data/microbiome/phyla_relative_abundance.txt", sep="\t", header=TRUE)
-phyla_long = gather(phyla, phyla, counts, k__Archaea.p__Crenarchaeota:Other, factor_key=TRUE)
-
-
-ggplot(phyla_long, aes(fill=phyla, y=counts,x=Sample))+
-  geom_bar(position="fill",stat="identity")+
-  theme_bw()+
-  theme(axis.text.x = element_text(angle=45,hjust=1,vjust=1))+
-  ylab("Proportion")
-
-
-
+# PERMANOVA overall --------------------------------------------------------
 ##### Permanova analysis with time removed (since it has no drying factor)
 
-species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+compute_permanova_phyla = function(){
+  species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+  
+  species = species[species$length %in% c("30d","90d","150d"),]
+  
+  NAMES = rownames(species)
+  g_matrix = species[,9:1374]   
+  rownames(g_matrix) = NAMES
+  g_matrix = as.matrix(g_matrix)
+  
+  
+  NAMES = rownames(species)
+  g_sample = species[,1:8]
+  rownames(g_sample) = NAMES
+  
+  
+  g_rel = make_relative(g_matrix)
+  #g_rel = na.omit(g_rel)
+  
+  bray_distance = vegdist(g_rel, method="bray")
+  principal_coordinates = pcoa(bray_distance)
+  pcoa_plot = data.frame(principal_coordinates$vectors[,])
+  pcoa_plot_merged = merge(pcoa_plot,g_sample, by="row.names")
+  
+  PC1 <- 100*(principal_coordinates$values$Eigenvalues[1]/sum(principal_coordinates$values$Eigenvalues))
+  PC2 <- 100*(principal_coordinates$values$Eigenvalues[2]/sum(principal_coordinates$values$Eigenvalues))
+  PC3 <- 100*(principal_coordinates$values$Eigenvalues[3]/sum(principal_coordinates$values$Eigenvalues))
+  
+  pcoa_plot_merged$length = factor(pcoa_plot_merged$length, levels = c("timezero","30d","90d","150d"))
+  
+  # adonis(g_matrix~Site+depth+saturation+length+drying,
+  #        data = g_sample,
+  #        method="bray",permutations=999)
+  
+  # adonis(g_matrix~Site*depth*saturation*length*drying,
+  #        data = g_sample,
+  #        method="bray",permutations=999)
+  
+  
+  adonis(g_matrix ~ (Site + depth + saturation + length + drying)^2,
+         data = g_sample,
+         method="bray", permutations=999)
+}
 
-species = species[species$length %in% c("30d","90d","150d"),]
-
-NAMES = rownames(species)
-g_matrix = species[,9:1374]   
-rownames(g_matrix) = NAMES
-g_matrix = as.matrix(g_matrix)
+#
+################
+################
 
 
-NAMES = rownames(species)
-g_sample = species[,1:8]
-rownames(g_sample) = NAMES
-
-
-g_rel = make_relative(g_matrix)
-#g_rel = na.omit(g_rel)
-
-bray_distance = vegdist(g_rel, method="bray")
-principal_coordinates = pcoa(bray_distance)
-pcoa_plot = data.frame(principal_coordinates$vectors[,])
-pcoa_plot_merged = merge(pcoa_plot,g_sample, by="row.names")
-
-PC1 <- 100*(principal_coordinates$values$Eigenvalues[1]/sum(principal_coordinates$values$Eigenvalues))
-PC2 <- 100*(principal_coordinates$values$Eigenvalues[2]/sum(principal_coordinates$values$Eigenvalues))
-PC3 <- 100*(principal_coordinates$values$Eigenvalues[3]/sum(principal_coordinates$values$Eigenvalues))
-
-pcoa_plot_merged$length = factor(pcoa_plot_merged$length, levels = c("timezero","30d","90d","150d"))
-
-adonis(g_matrix~g_sample$Site+g_sample$depth+g_sample$saturation+g_sample$length+g_sample$drying,method="bray",permutations=999)
-
-adonis(g_matrix~g_sample$Site*g_sample$depth*g_sample$saturation*g_sample$length*g_sample$drying,method="bray",permutations=999)
-
+# PCoA: CPCRW FAD 0-5 cm --------------------------------------------------
 ####PCoA 0-5cm, FAD, CPCRW
 
 species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
@@ -137,7 +161,9 @@ betadisper(bray_distance, g_sample$length,type=c("centroid"))
 
 adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
+#
 
+# PCoA: SR FAD 0-5 cm -----------------------------------------------------
 ####PCoA of 0-5cm, FAD, SR
 
 species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
@@ -184,7 +210,9 @@ betadisper(bray_distance, g_sample$length,type=c("centroid"))
 
 adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
+#
 
+# PCoA: CPCRW CW 0-5 cm ---------------------------------------------------
 ### PCoA 0-5cm, CW, CPCRW
 
 species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
@@ -231,7 +259,9 @@ betadisper(bray_distance, g_sample$length,type=c("centroid"))
 
 adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
+#
 
+# PCoA: SR CW 0-5 cm ------------------------------------------------------
 ###PCoA of 0-5cm, CW, SR
 
 species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
@@ -278,7 +308,12 @@ betadisper(bray_distance, g_sample$length,type=c("centroid"))
 
 adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
+#
+
+# SATURATED ONLY ----------------------------------------------------------
 ########Saturated only
+
+# PCoA: CPCRW Saturated FAD 0-5 cm ----------------------------------------
 ###PCoA of 0-5cm, FAD, CPCRW, Saturated
 
 species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
@@ -326,6 +361,9 @@ betadisper(bray_distance, g_sample$length,type=c("centroid"))
 
 adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
+#
+
+# PCoA: SR Saturated FAD 0-5 cm -------------------------------------------
 ####PCoA of 0-5cm, FAD, SR, saturated
 
 species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
@@ -373,7 +411,9 @@ betadisper(bray_distance, g_sample$length,type=c("centroid"))
 
 adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
+#
 
+# PCoA: CPCRW Saturated CW 0-5 cm -----------------------------------------
 ###PCoA of 0-5cm, CW, CPCRW, saturated
 
 species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
@@ -421,7 +461,9 @@ betadisper(bray_distance, g_sample$length,type=c("centroid"))
 
 adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
+#
 
+# PCoA: SR Saturated CW 0-5 cm --------------------------------------------
 ####PCoA of 0-5cm, CW, SR, saturated
 
 species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
@@ -469,9 +511,12 @@ betadisper(bray_distance, g_sample$length,type=c("centroid"))
 
 adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
-
-
+#
+# INSTANT CHEMISTRY ONLY --------------------------------------------------
 ######Instant Chemistry only
+
+
+# PCoA: CPCRW Instant FAD 0-5 cm ------------------------------------------
 ### PCoA 0-5cm, FAD, CPCRW, Instant Chem
 
 species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
@@ -519,7 +564,9 @@ betadisper(bray_distance, g_sample$length,type=c("centroid"))
 
 adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
+#
 
+# PCoA: SR Instant FAD 0-5 cm ---------------------------------------------
 ###PCoA 0-5cm, FAD, SR, instant chem
 
 species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
@@ -567,6 +614,9 @@ betadisper(bray_distance, g_sample$length,type=c("centroid"))
 
 adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
+#
+
+# PCoA: CPCRW Instant CW 0-5 cm -------------------------------------------
 ####PCoA of 0-5cm, CW, CPCRW, instant chem
 
 species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
@@ -614,7 +664,9 @@ betadisper(bray_distance, g_sample$length,type=c("centroid"))
 
 adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
+#
 
+# PCoA: SR Instant CW 0-5 cm ----------------------------------------------
 ###PCoA of 0-5cm, CW, SR, instant chem
 
 species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
@@ -663,7 +715,9 @@ betadisper(bray_distance, g_sample$length,type=c("centroid"))
 adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
 
+#
 
+# ALPHA DIVERSITY ---------------------------------------------------------
 ##################Alpha diversity
 
 species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
@@ -795,8 +849,12 @@ TukeyHSD(species_anova)
 ###########################
 ###########################
 ##########################
+
+
+# PHYLOSEQ ANALYSIS -------------------------------------------------------
+
 ###Phyloseq analysis
-rm(list=ls())
+# rm(list=ls())
 
 
 OTU = read.table("data/microbiome/OTU_table.txt", sep="\t", header=TRUE,row.names=1)
@@ -837,6 +895,9 @@ ord1 = combined_fixed_rel %>%
 
 ord_explore(data=ord1, auto_caption=NA)
 
+#
+# Heatmap -----------------------------------------------------------------
+
 
 #####Heatmap
 OTU = read.table("data/microbiome/OTU_table.txt", sep="\t", header=TRUE,row.names=1)
@@ -874,6 +935,8 @@ plot_heatmap(top_10, sample.label="sample_order",sample.order=order_of_samples,t
 
 (p = plot_heatmap(combined, "NMDS","bray","Site","Family"))
 
+
+# SR Heatmap --------------------------------------------------------------
 ####SR heatmap
 
 OTU = read.table("data/microbiome/OTU_table.txt", sep="\t", header=TRUE,row.names=1)
