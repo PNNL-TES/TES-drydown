@@ -22,7 +22,7 @@ library(tidyverse)
 ###################
 ###################
 
-phyla = read.table("taxtable2_transposed.txt", sep="\t", header=TRUE,row.names=1)
+phyla = read.table("data/microbiome/taxtable2_transposed.txt", sep="\t", header=TRUE,row.names=1)
 
 NAMES = rownames(phyla)
 g_matrix = phyla[,9:67]
@@ -44,7 +44,7 @@ phyla_merged = merge(g_sample, g_rel, by="row.names")
 #write.table(phyla_merged, "phyla_relative_abundance.txt",sep="\t")
 
 ### Create a stacked barplot at the Phylum level
-phyla = read.table("phyla_relative_abundance.txt", sep="\t", header=TRUE)
+phyla = read.table("data/microbiome/phyla_relative_abundance.txt", sep="\t", header=TRUE)
 phyla_long = gather(phyla, phyla, counts, k__Archaea.p__Crenarchaeota:Other, factor_key=TRUE)
 
 
@@ -58,7 +58,7 @@ ggplot(phyla_long, aes(fill=phyla, y=counts,x=Sample))+
 
 ##### Permanova analysis with time removed (since it has no drying factor)
 
-species = read.table("merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
 
 species = species[species$length %in% c("30d","90d","150d"),]
 
@@ -93,7 +93,7 @@ adonis(g_matrix~g_sample$Site*g_sample$depth*g_sample$saturation*g_sample$length
 
 ####PCoA 0-5cm, FAD, CPCRW
 
-species = read.table("merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
 
 species = species[species$Site %in% "CPCRW", ]
 species = species[species$drying %in% c("FAD",NA),]
@@ -140,7 +140,7 @@ adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
 ####PCoA of 0-5cm, FAD, SR
 
-species = read.table("merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
 
 species = species[species$Site %in% "SR", ]
 species = species[species$drying %in% c("FAD",NA),]
@@ -187,7 +187,7 @@ adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
 ### PCoA 0-5cm, CW, CPCRW
 
-species = read.table("merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
 
 species = species[species$Site %in% "CPCRW", ]
 species = species[species$drying %in% c("CW",NA),]
@@ -234,7 +234,7 @@ adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
 ###PCoA of 0-5cm, CW, SR
 
-species = read.table("merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
 
 species = species[species$Site %in% "SR", ]
 species = species[species$drying %in% c("CW",NA),]
@@ -281,7 +281,7 @@ adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 ########Saturated only
 ###PCoA of 0-5cm, FAD, CPCRW, Saturated
 
-species = read.table("merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
 
 species = species[species$Site %in% "CPCRW", ]
 species = species[species$drying %in% c("FAD",NA),]
@@ -328,7 +328,7 @@ adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
 ####PCoA of 0-5cm, FAD, SR, saturated
 
-species = read.table("merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
 
 species = species[species$Site %in% "SR", ]
 species = species[species$drying %in% c("FAD",NA),]
@@ -376,7 +376,7 @@ adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
 ###PCoA of 0-5cm, CW, CPCRW, saturated
 
-species = read.table("merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
 
 species = species[species$Site %in% "CPCRW", ]
 species = species[species$drying %in% c("CW",NA),]
@@ -424,7 +424,7 @@ adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
 ####PCoA of 0-5cm, CW, SR, saturated
 
-species = read.table("merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
 
 species = species[species$Site %in% "SR", ]
 species = species[species$drying %in% c("CW",NA),]
@@ -474,7 +474,7 @@ adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 ######Instant Chemistry only
 ### PCoA 0-5cm, FAD, CPCRW, Instant Chem
 
-species = read.table("merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
 
 species = species[species$Site %in% "CPCRW", ]
 species = species[species$drying %in% c("FAD",NA),]
@@ -522,7 +522,7 @@ adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
 ###PCoA 0-5cm, FAD, SR, instant chem
 
-species = read.table("merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
 
 species = species[species$Site %in% "SR", ]
 species = species[species$drying %in% c("FAD",NA),]
@@ -569,7 +569,7 @@ adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
 ####PCoA of 0-5cm, CW, CPCRW, instant chem
 
-species = read.table("merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
 
 species = species[species$Site %in% "CPCRW", ]
 species = species[species$drying %in% c("CW",NA),]
@@ -617,7 +617,7 @@ adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
 ###PCoA of 0-5cm, CW, SR, instant chem
 
-species = read.table("merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
 
 species = species[species$Site %in% "SR", ]
 species = species[species$drying %in% c("CW",NA),]
@@ -666,7 +666,7 @@ adonis(g_matrix~g_sample$length,method="bray",permutations=999)
 
 ##################Alpha diversity
 
-species = read.table("merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
 
 
 NAMES = rownames(species)
@@ -799,9 +799,9 @@ TukeyHSD(species_anova)
 rm(list=ls())
 
 
-OTU = read.table("OTU_table.txt", sep="\t", header=TRUE,row.names=1)
-taxa = read.table("Tax_table.txt", sep="\t", header=TRUE,row.names=1)
-metadata = read.table("heatmap_order_metadata.txt", sep="\t", header=TRUE,row.names=1)
+OTU = read.table("data/microbiome/OTU_table.txt", sep="\t", header=TRUE,row.names=1)
+taxa = read.table("data/microbiome/Tax_table.txt", sep="\t", header=TRUE,row.names=1)
+metadata = read.table("data/microbiome/heatmap_order_metadata.txt", sep="\t", header=TRUE,row.names=1)
 
 
 OTU_mat = as.matrix(OTU)
@@ -839,9 +839,9 @@ ord_explore(data=ord1, auto_caption=NA)
 
 
 #####Heatmap
-OTU = read.table("OTU_table.txt", sep="\t", header=TRUE,row.names=1)
-taxa = read.table("Tax_table.txt", sep="\t", header=TRUE,row.names=1)
-metadata = read.table("heatmap_order_metadata.txt", sep="\t", header=TRUE,row.names=1)
+OTU = read.table("data/microbiome/OTU_table.txt", sep="\t", header=TRUE,row.names=1)
+taxa = read.table("data/microbiome/Tax_table.txt", sep="\t", header=TRUE,row.names=1)
+metadata = read.table("data/microbiome/heatmap_order_metadata.txt", sep="\t", header=TRUE,row.names=1)
 
 
 OTU_mat = as.matrix(OTU)
@@ -876,9 +876,9 @@ plot_heatmap(top_10, sample.label="sample_order",sample.order=order_of_samples,t
 
 ####SR heatmap
 
-OTU = read.table("OTU_table.txt", sep="\t", header=TRUE,row.names=1)
-taxa = read.table("Tax_table.txt", sep="\t", header=TRUE,row.names=1)
-metadata = read.table("heatmap_order_metadata.txt", sep="\t", header=TRUE,row.names=1)
+OTU = read.table("data/microbiome/OTU_table.txt", sep="\t", header=TRUE,row.names=1)
+taxa = read.table("data/microbiome/Tax_table.txt", sep="\t", header=TRUE,row.names=1)
+metadata = read.table("data/microbiome/heatmap_order_metadata.txt", sep="\t", header=TRUE,row.names=1)
 
 
 OTU_mat = as.matrix(OTU)
