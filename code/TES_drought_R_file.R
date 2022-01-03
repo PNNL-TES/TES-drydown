@@ -20,7 +20,7 @@ library(tidyverse)
 
 # Stacked barplot -- phylum level -----------------------------------------
 
-compute_relabund = function(){
+compute_relabund_phylum_by_core = function(){
   # this function needs to be run only once, to compute relative abundances of taxa
   # the output is saved as .txt, so it does not need to be run again
   
@@ -44,18 +44,40 @@ compute_relabund = function(){
   #write.table(phyla_merged, "phyla_relative_abundance.txt",sep="\t")
 }
 
+compute_relabund_phylum_by_trt = function(){
+  phyla = read.table("data/microbiome/phyla_relative_abundance.txt", sep="\t", header=TRUE, na = "") %>% 
+    filter(!is.na(Sample))
+  phyla_long = gather(phyla, phyla, counts, k__Archaea.p__Crenarchaeota:Other, factor_key=TRUE)
+  
+  phyla_long_clean = 
+    phyla_long %>% 
+    mutate(phyla = str_remove_all(phyla, "k__Bacteria.p__"),
+           phyla = dplyr::recode(phyla, "k__Archaea.p__Crenarchaeota" = "Archaea_Crenarchaeota"))
+  
+  
+  relabund_phyla_treatment = 
+    phyla_long_clean %>% 
+    group_by(Site, depth, length, drying, saturation, phyla) %>% 
+    dplyr::summarise(relabund = mean(counts),
+                     se = sd(counts)/sqrt(n()))
+  
+  
+  
+  
+}
+
 plot_barplot_phylum = function(){
   ### Create a stacked barplot at the Phylum level
   # use the output from the previous function here
   
-  phyla = read.table("data/microbiome/phyla_relative_abundance.txt", sep="\t", header=TRUE)
-  phyla_long = gather(phyla, phyla, counts, k__Archaea.p__Crenarchaeota:Other, factor_key=TRUE)
+
   
   
-  ggplot(phyla_long, aes(fill=phyla, y=counts,x=Sample))+
-    geom_bar(position="fill",stat="identity")+
+  ggplot(relabund_phyla_treatment, aes(fill = phyla, y = relabund, x = length))+
+    geom_bar(position = "fill", stat = "identity")+
+    facet_grid(saturation + drying ~ Site + depth)+
     theme_bw()+
-    theme(axis.text.x = element_text(angle=45,hjust=1,vjust=1))+
+    theme(axis.text.x = element_text(angle=45, hjust=1, vjust=1))+
     ylab("Proportion")
   
 }
@@ -107,16 +129,41 @@ compute_permanova_phyla = function(){
   adonis(g_matrix ~ (Site + depth + saturation + length + drying)^2,
          data = g_sample,
          method="bray", permutations=999)
+  
+####                      Df SumsOfSqs MeanSqs F.Model      R2 Pr(>F)    
+####   Site                1     3.316  3.3156 14.8258 0.07678  0.001 ***
+####   depth               1     1.061  1.0607  4.7427 0.02456  0.001 ***
+####   saturation          1     4.699  4.6985 21.0094 0.10880  0.001 ***
+####   length              2     1.081  0.5406  2.4174 0.02504  0.001 ***
+####   drying              1     0.642  0.6423  2.8722 0.01487  0.008 ** 
+####   Site:depth          1     0.512  0.5122  2.2904 0.01186  0.014 *  
+####   Site:saturation     1     0.779  0.7793  3.4844 0.01804  0.001 ***
+####   Site:length         2     0.656  0.3280  1.4667 0.01519  0.085 .  
+####   Site:drying         1     0.553  0.5533  2.4739 0.01281  0.009 ** 
+####   depth:saturation    1     0.423  0.4228  1.8905 0.00979  0.057 .  
+####   depth:length        2     0.766  0.3832  1.7133 0.01775  0.029 *  
+####   depth:drying        1     0.303  0.3035  1.3570 0.00703  0.160    
+####   saturation:length   1     0.289  0.2895  1.2945 0.00670  0.199    
+####   saturation:drying   1     0.249  0.2486  1.1117 0.00576  0.343    
+####   length:drying       2     1.017  0.5087  2.2748 0.02356  0.003 ** 
+####   Residuals         120    26.837  0.2236         0.62145           
+####   Total             139    43.184                 1.00000           
+  
+  
+  
 }
 
 #
 # PCoA: drying-vs-wetting overall -----------------------------------------
 
 compute_pcoa_drying_vs_rewet = function(){
-  species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
+  species_dat = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
   
-  species = species[species$drying %in% c("CW",NA),]
-  species = species[species$length %in% c("90d",NA),]
+  species =
+    species_dat %>% 
+    filter(length %in% c("timezero", "90d") & !drying %in% "FAD")
+  
+ 
   
   NAMES = rownames(species)
   g_matrix = species[,9:1374]   
@@ -149,7 +196,7 @@ compute_pcoa_drying_vs_rewet = function(){
                colour="black", size=6, alpha=0.6) + 
     theme_bw()  +
     theme_bw(base_size=14) + 
-    # stat_ellipse(aes(color=saturation),type="norm")+
+     stat_ellipse(aes(color=saturation),type="norm")+
     theme(axis.text=element_text(size=14,color="black"),
           axis.title=element_text(size=14),
           legend.background = element_rect(colour = "black"),
@@ -175,6 +222,163 @@ compute_pcoa_drying_vs_rewet = function(){
   
   
 }
+
+fit_pca_function = function(dat){
+  relabund_pca =
+    dat %>% 
+    filter(!is.na(coreID)) %>% 
+    dplyr::select(-starts_with("X")) %>% 
+    ungroup %>% 
+    spread(phyla, counts) %>% 
+    replace(.,is.na(.),0)  %>% 
+    dplyr::select(-1) 
+  
+  
+  num = 
+    relabund_pca %>% 
+    dplyr::select(where(is.numeric))
+  
+  grp = 
+    relabund_pca %>% 
+    dplyr::select(where(is.character)) %>% 
+    dplyr::mutate(row = row_number())
+  
+  pca_int = prcomp(num, scale. = T)
+  
+  list(num = num,
+       grp = grp,
+       pca_int = pca_int)
+}
+
+compute_pca_drying_vs_rewet = function(){
+  
+    ## PCA input files ----
+
+    pca_phyla_tz = fit_pca_function(phyla_long_clean %>% filter(length == "timezero"))
+    pca_phyla_drying_wet = fit_pca_function(phyla_long_clean %>% filter(length %in% c("timezero", "90d") & !drying %in% "FAD"))
+    pca_phyla_overall = fit_pca_function(phyla_long_clean)
+    
+    
+    ## PCA plots ----
+    gg_pca_tz = 
+      ggbiplot(pca_phyla$pca_int, obs.scale = 1, var.scale = 1,
+               groups = as.character(pca_phyla$grp$Site), 
+               ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+      geom_point(size=2,stroke=1, alpha = 1,
+                 aes(shape = pca_phyla$grp$depth,
+                     color = groups))+
+      #scale_shape_manual(values = c(21, 21, 19), name = "", guide = "none")+
+      #scale_color_manual(values = c("red", "blue"), name = "")+
+      #scale_fill_manual(values = c("red", "blue"), name = "")+
+      #xlim(-4,4)+
+      #ylim(-3.5,3.5)+
+      labs(shape="",
+           title = "time zero",
+           subtitle = "separation by site")+
+      theme_kp()+
+      NULL
+  
+    
+    (gg_pca_dry_wet = 
+      ggbiplot(pca_phyla_drying_wet$pca_int, obs.scale = 1, var.scale = 1,
+               groups = as.character(pca_phyla_drying_wet$grp$saturation), 
+               ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+      geom_point(size=2,stroke=1, alpha = 1,
+                 aes(shape = pca_phyla_drying_wet$grp$Site,
+                     color = groups))+
+      #scale_shape_manual(values = c(21, 21, 19), name = "", guide = "none")+
+      #scale_color_manual(values = c("red", "blue"), name = "")+
+      #scale_fill_manual(values = c("red", "blue"), name = "")+
+      xlim(-4,4)+
+      ylim(-3.5,3.5)+
+      labs(shape="",
+           title = "90d, CW",
+           subtitle = "separation by saturation type")+
+      theme_kp()+
+      NULL)
+  
+    
+    
+    # overall plots ----
+    (gg_pca_overall_site = 
+        ggbiplot(pca_phyla_overall$pca_int, obs.scale = 1, var.scale = 1,
+                 groups = as.character(pca_phyla_overall$grp$Site), 
+                 ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+        geom_point(size=2,stroke=1, alpha = 1, show.legend = FALSE, 
+                   aes(shape = groups,
+                       color = groups))+
+        #scale_shape_manual(values = c(21, 21, 19), name = "", guide = "none")+
+        #scale_color_manual(values = c("red", "blue"), name = "")+
+        #scale_fill_manual(values = c("red", "blue"), name = "")+
+        xlim(-4,4)+
+        ylim(-3.5,3.5)+
+        labs(shape="",
+             title = "all samples",
+             subtitle = "separation by site")+
+        theme_kp()+
+        NULL)
+    
+    (gg_pca_overall_depth = 
+        ggbiplot(pca_phyla_overall$pca_int, obs.scale = 1, var.scale = 1,
+                 groups = as.character(pca_phyla_overall$grp$depth), 
+                 ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+        geom_point(size=2,stroke=1, alpha = 1, show.legend = FALSE, 
+                   aes(shape = groups,
+                       color = groups))+
+        #scale_shape_manual(values = c(21, 21, 19), name = "", guide = "none")+
+        #scale_color_manual(values = c("red", "blue"), name = "")+
+        #scale_fill_manual(values = c("red", "blue"), name = "")+
+        xlim(-4,4)+
+        ylim(-3.5,3.5)+
+        labs(shape="",
+             title = "all samples",
+             subtitle = "separation by depth")+
+        theme_kp()+
+        NULL)
+    
+    (gg_pca_overall_length = 
+        ggbiplot(pca_phyla_overall$pca_int, obs.scale = 1, var.scale = 1,
+                 groups = as.character(pca_phyla_overall$grp$length), 
+                 ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+        geom_point(size=2,stroke=1, alpha = 1, show.legend = FALSE, 
+                   aes(shape = groups,
+                       color = groups))+
+        #scale_shape_manual(values = c(21, 21, 19), name = "", guide = "none")+
+        #scale_color_manual(values = c("red", "blue"), name = "")+
+        #scale_fill_manual(values = c("red", "blue"), name = "")+
+        xlim(-4,4)+
+        ylim(-3.5,3.5)+
+        labs(shape="",
+             title = "all samples",
+             subtitle = "separation by length")+
+        theme_kp()+
+        NULL)
+  
+    (gg_pca_overall_saturation = 
+        ggbiplot(pca_phyla_overall$pca_int, obs.scale = 1, var.scale = 1,
+                 groups = as.character(pca_phyla_overall$grp$saturation), 
+                 ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+        geom_point(size=2,stroke=1, alpha = 1, show.legend = FALSE, 
+                   aes(shape = groups,
+                       color = groups))+
+        #scale_shape_manual(values = c(21, 21, 19), name = "", guide = "none")+
+        #scale_color_manual(values = c("red", "blue"), name = "")+
+        #scale_fill_manual(values = c("red", "blue"), name = "")+
+        xlim(-4,4)+
+        ylim(-3.5,3.5)+
+        labs(shape="",
+             title = "all samples",
+             subtitle = "separation by saturation type")+
+        theme_kp()+
+        NULL)
+    
+    gg_pca_overall_combined = 
+      cowplot::plot_grid(gg_pca_overall_site,
+                         gg_pca_overall_depth,
+                         gg_pca_overall_length,
+                         gg_pca_overall_saturation)
+}
+
 
 #
 ################
