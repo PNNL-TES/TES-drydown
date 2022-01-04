@@ -40,9 +40,10 @@ compute_relabund_phylum_by_core = function(){
   #write.table(phyla_merged, "phyla_relative_abundance.txt",sep="\t")
 }
 
-compute_relabund_phylum_by_trt = function(){
-  phyla = read.table("data/microbiome/phyla_relative_abundance.txt", sep="\t", header=TRUE, na = "") %>% 
-    filter(!is.na(Sample))
+compute_relabund_phylum_by_trt = function(phyla_dat){
+  # phyla = read.table("data/microbiome/phyla_relative_abundance.txt", sep="\t", header=TRUE, na = "") 
+  
+  phyla = phyla_dat %>% filter(!is.na(Sample))
   phyla_long = gather(phyla, phyla, counts, k__Archaea.p__Crenarchaeota:Other, factor_key=TRUE)
   
   phyla_long_clean = 
@@ -51,32 +52,31 @@ compute_relabund_phylum_by_trt = function(){
            phyla = dplyr::recode(phyla, "k__Archaea.p__Crenarchaeota" = "Archaea_Crenarchaeota"))
   
   
-  relabund_phyla_treatment = 
+  #relabund_phyla_treatment = 
     phyla_long_clean %>% 
     group_by(Site, depth, length, drying, saturation, phyla) %>% 
     dplyr::summarise(relabund = mean(counts),
                      se = sd(counts)/sqrt(n()))
   
-  
-  
-  
 }
 
-plot_barplot_phylum = function(){
+plot_barplot_phylum = function(phyla_relabund_by_trt){
   ### Create a stacked barplot at the Phylum level
   # use the output from the previous function here
   
-
-  
-  
-  ggplot(relabund_phyla_treatment, aes(fill = phyla, y = relabund, x = length))+
+  ggplot(phyla_relabund_by_trt, aes(fill = phyla, y = relabund, x = saturation))+
     geom_bar(position = "fill", stat = "identity")+
-    facet_grid(saturation + drying ~ Site + depth)+
-    theme_bw()+
-    theme(axis.text.x = element_text(angle=45, hjust=1, vjust=1))+
-    ylab("Proportion")
+    facet_grid(. ~ Site + depth)+
+    # scale_fill_viridis_d()+
+    scale_fill_manual(values = PNWColors::pnw_palette("Bay", 17))+
+    # scale_fill_manual(values = soilpalettes::soil_palette("redox2", 17))+
+    labs(y = "Proportion",
+         x = "")+
+    theme_kp()
   
 }
+
+
 
 #
 
