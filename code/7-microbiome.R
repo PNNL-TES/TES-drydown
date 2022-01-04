@@ -52,11 +52,14 @@ compute_relabund_phylum_by_trt = function(phyla_dat){
            phyla = dplyr::recode(phyla, "k__Archaea.p__Crenarchaeota" = "Archaea_Crenarchaeota"))
   
   
-  #relabund_phyla_treatment = 
+  relabund_phyla_treatment = 
     phyla_long_clean %>% 
     group_by(Site, depth, length, drying, saturation, phyla) %>% 
     dplyr::summarise(relabund = mean(counts),
                      se = sd(counts)/sqrt(n()))
+  
+  list(phyla_long_clean = phyla_long_clean,
+       relabund_phyla_treatment = relabund_phyla_treatment)
   
 }
 
@@ -219,34 +222,36 @@ compute_pcoa_drying_vs_rewet = function(){
   
 }
 
-fit_pca_function = function(dat){
-  relabund_pca =
-    dat %>% 
-    filter(!is.na(coreID)) %>% 
-    dplyr::select(-starts_with("X")) %>% 
-    ungroup %>% 
-    spread(phyla, counts) %>% 
-    replace(.,is.na(.),0)  %>% 
-    dplyr::select(-1) 
-  
-  
-  num = 
-    relabund_pca %>% 
-    dplyr::select(where(is.numeric))
-  
-  grp = 
-    relabund_pca %>% 
-    dplyr::select(where(is.character)) %>% 
-    dplyr::mutate(row = row_number())
-  
-  pca_int = prcomp(num, scale. = T)
-  
-  list(num = num,
-       grp = grp,
-       pca_int = pca_int)
-}
 
-compute_pca_drying_vs_rewet = function(){
+compute_pca_drying_vs_rewet = function(phyla_long_clean){
+  
+  fit_pca_function = function(dat){
+    relabund_pca =
+      dat %>% 
+      filter(!is.na(coreID)) %>% 
+      dplyr::select(-starts_with("X")) %>% 
+      ungroup %>% 
+      spread(phyla, counts) %>% 
+      replace(.,is.na(.),0)  %>% 
+      dplyr::select(-1) 
+    
+    
+    num = 
+      relabund_pca %>% 
+      dplyr::select(where(is.numeric))
+    
+    grp = 
+      relabund_pca %>% 
+      dplyr::select(where(is.character)) %>% 
+      dplyr::mutate(row = row_number())
+    
+    pca_int = prcomp(num, scale. = T)
+    
+    list(num = num,
+         grp = grp,
+         pca_int = pca_int)
+  }
+  
   
     ## PCA input files ----
 
@@ -257,11 +262,11 @@ compute_pca_drying_vs_rewet = function(){
     
     ## PCA plots ----
     gg_pca_tz = 
-      ggbiplot(pca_phyla$pca_int, obs.scale = 1, var.scale = 1,
-               groups = as.character(pca_phyla$grp$Site), 
+      ggbiplot(pca_phyla_tz$pca_int, obs.scale = 1, var.scale = 1,
+               groups = as.character(pca_phyla_tz$grp$Site), 
                ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
       geom_point(size=2,stroke=1, alpha = 1,
-                 aes(shape = pca_phyla$grp$depth,
+                 aes(shape = pca_phyla_tz$grp$depth,
                      color = groups))+
       #scale_shape_manual(values = c(21, 21, 19), name = "", guide = "none")+
       #scale_color_manual(values = c("red", "blue"), name = "")+
@@ -279,10 +284,10 @@ compute_pca_drying_vs_rewet = function(){
       ggbiplot(pca_phyla_drying_wet$pca_int, obs.scale = 1, var.scale = 1,
                groups = as.character(pca_phyla_drying_wet$grp$saturation), 
                ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
-      geom_point(size=2,stroke=1, alpha = 1,
-                 aes(shape = pca_phyla_drying_wet$grp$Site,
+      geom_point(size=5,stroke=1, alpha = 1,
+                 aes(shape = interaction(pca_phyla_drying_wet$grp$Site, pca_phyla_drying_wet$grp$depth),
                      color = groups))+
-      #scale_shape_manual(values = c(21, 21, 19), name = "", guide = "none")+
+      scale_shape_manual(values = c(2, 17, 1, 19), name = "")+
       #scale_color_manual(values = c("red", "blue"), name = "")+
       #scale_fill_manual(values = c("red", "blue"), name = "")+
       xlim(-4,4)+
@@ -373,6 +378,12 @@ compute_pca_drying_vs_rewet = function(){
                          gg_pca_overall_depth,
                          gg_pca_overall_length,
                          gg_pca_overall_saturation)
+    
+    
+    
+    list(gg_pca_tz = gg_pca_tz,
+         gg_pca_dry_wet = gg_pca_dry_wet,
+         gg_pca_overall_combined = gg_pca_overall_combined)
 }
 
 
