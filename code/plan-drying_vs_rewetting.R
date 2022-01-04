@@ -25,9 +25,12 @@ source("code/fticrrr/d-functions_statistics.R")
 source("code/nmrrr/0-nmr_setup.R")
 source("code/nmrrr/nmrrr_functions.R")
 
+source("code/0-drydown_functions.R")
 source("code/5-tctn_processing.R")
 source("code/6-weoc.R")
+source("code/7-microbiome.R")
 
+library(tidyverse)
 
 # 3. load drake plans -----------------------------------------------------
 plan_drying_vs_wetting = drake_plan(
@@ -103,7 +106,24 @@ plan_drying_vs_wetting = drake_plan(
   pom_data_processed = process_pom_data(pom_data, pom_weights, corekey_full = corekey),
   gg_pom = make_pom_graphs(pom_data_processed),
   
+  #
+  # Microbiome --------------------------------------------------------------
+  # relative abundance
+  phyla_dat = read.table("data/microbiome/phyla_relative_abundance.txt", sep="\t", header=TRUE, na = "") %>% 
+    filter((length == "90d" & drying == "CW" )| length == "timezero"),
+  phyla_relabund_by_trt = compute_relabund_phylum_by_trt(phyla_dat)$relabund_phyla_treatment,
+  phyla_long_clean = compute_relabund_phylum_by_trt(phyla_dat)$phyla_long_clean,
   
+  gg_barplot_phyla = plot_barplot_phylum(phyla_relabund_by_trt),
+  
+  # PERMANOVA
+  
+  
+  # PCA
+  gg_pca_phyla = compute_pca_drying_vs_rewet(phyla_long_clean)$gg_pca_dry_wet,
+  
+  
+  #
   # REPORT ----
   outputreport = rmarkdown::render(
     knitr_in("markdown/report-drying_vs_wetting.Rmd"),

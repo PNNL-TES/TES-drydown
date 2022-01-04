@@ -81,7 +81,19 @@ readd(gg_weoc)
 readd(gg_pom)
 ```
 
+---
 
+
+# Microbiome
+
+
+```{r, fig.height=6, fig.width=10}
+readd(gg_barplot_phyla)
+```
+
+```{r, fig.height=6, fig.width=10}
+readd(gg_pca_phyla)
+```
 
 
 ---
