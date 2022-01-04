@@ -384,7 +384,7 @@ compute_pca_drying_vs_rewet = function(){
 ################
 ################
 
-
+tayte_script = function(){
 # PCoA: CPCRW FAD 0-5 cm --------------------------------------------------
 ####PCoA 0-5cm, FAD, CPCRW
 
@@ -1248,3 +1248,6 @@ plot_heatmap(top_10, sample.label="sample_order",sample.order=order_of_samples,t
 
 
 
+
+
+}
