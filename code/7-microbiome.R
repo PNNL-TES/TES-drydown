@@ -1,8 +1,6 @@
 # rm(list=ls())
 
 
-library(ggplot2)
-library(tidyr)
 library(funrar)
 library(data.table)
 library(RColorBrewer)
@@ -11,11 +9,9 @@ library(vegan)
 library(devtools)
 library(microViz)
 library(phyloseq)
-library(dplyr)
 library(pairwiseAdonis)
 library(microbiome)
 library(ape)
-library(tidyverse)
 
 
 # Stacked barplot -- phylum level -----------------------------------------
