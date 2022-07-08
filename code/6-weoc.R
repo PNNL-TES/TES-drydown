@@ -3,7 +3,7 @@ source("code/0-drydown_functions.R")
 library(googlesheets4)
 
 
-dockey = read.csv("data/doc_analysis_key.csv") 
+# dockey = read.csv("data/doc_analysis_key.csv") 
 
 process_weoc_data = function(dockey){
   
@@ -39,7 +39,9 @@ process_weoc_data = function(dockey){
     mutate(ode_g = fticr_wt_g/((moisture_perc/100) + 1),
            soilwater_mL = fticr_wt_g - ode_g,
            npoc_mg_g = npoc_mg_l * (40 + soilwater_mL) * (1/1000) * (1/ode_g)) %>% 
-    left_join(dockey)
+    left_join(dockey) %>% 
+    mutate(saturation = factor(saturation, levels = c("timezero", "instant chemistry", "saturated"))) %>% 
+    filter(!is.na(npoc_mg_g))
   
   
 }
@@ -47,10 +49,29 @@ process_weoc_data = function(dockey){
 
 
 plot_weoc = function(weoc_processed){
+  
+  # get Tukey HSD letters
+  fit_hsd <- function(dat) {
+    a <-aov(npoc_mg_g ~ saturation, data = dat)
+    h <-agricolae::HSD.test(a,"saturation")
+    h$groups %>% mutate(type = row.names(.)) %>% 
+      rename(label = groups,
+             saturation = type) %>%  
+      dplyr::select(saturation, label)
+  }
+  
+  weoc_hsd = 
+    weoc_processed %>% 
+    group_by(Site, depth) %>% 
+    do(fit_hsd(.)) %>% 
+    mutate(saturation = factor(saturation, levels = c("timezero", "instant chemistry", "saturated")))
+    
   weoc_processed %>% 
     filter(!is.na(npoc_mg_g)) %>% 
     ggplot(aes(x = Site, y = npoc_mg_g, color = saturation))+
-    geom_point(position = position_dodge(width = 0.7))+
+    geom_point(size = 2, position = position_dodge(width = 0.7))+
+    geom_text(data = weoc_hsd, aes(y = 2, label = label, group = saturation), position = position_dodge(width = 0.7), show.legend = F)+
+    labs(x = "", y = "WEOC, mg/g", color = "")+
     facet_grid(depth ~ .)
   }
 
