@@ -72,3 +72,8 @@ gg_vankrev <- function(data,mapping){
 ## CREATE OUTPUT FILES
 COREKEY = "data/processed/corekey.csv"
 WSOC = "data/processed/wsoc.csv"
+
+refactor_saturation_levels = function(dat){
+  dat %>% 
+    mutate(saturation = factor(saturation, levels = c("timezero", "instant chemistry", "saturated")))
+}
