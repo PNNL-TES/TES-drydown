@@ -124,7 +124,7 @@ plan_drying_vs_wetting = drake_plan(
   gg_barplot_phyla = plot_barplot_phylum(phyla_relabund_by_trt),
   
   # PERMANOVA
-  
+  phyla_permanova = compute_permanova_phyla(phyla_long_clean), 
   
   # PCA
   gg_pca_phyla = compute_pca_drying_vs_rewet(phyla_long_clean)$gg_pca_dry_wet,

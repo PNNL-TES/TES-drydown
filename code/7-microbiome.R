@@ -86,7 +86,10 @@ plot_barplot_phylum = function(phyla_relabund_by_trt){
 # PERMANOVA overall --------------------------------------------------------
 ##### Permanova analysis with time removed (since it has no drying factor)
 
-compute_permanova_phyla = function(){
+compute_permanova_phyla_OLD = function(){
+  ## DO NOT USE
+  
+  
   species = read.table("data/microbiome/merged_taxtable7_transposed_lowSamplesRemoved.txt", sep="\t", header=TRUE,row.names=1)
   
   species = species[species$length %in% c("30d","90d","150d"),]
@@ -150,6 +153,21 @@ compute_permanova_phyla = function(){
   
   
   
+}
+
+compute_permanova_phyla = function(phyla_long_clean){
+
+  phyla_relabund_wide = 
+    phyla_long_clean %>% 
+    dplyr::select(Sample, coreID, depth, Site, saturation, phyla, counts) %>% 
+    pivot_wider(names_from = "phyla", values_from = "counts")
+    
+
+  phyla_permanova = 
+    adonis(phyla_relabund_wide %>% dplyr::select(Archaea_Crenarchaeota:Other) ~ (depth + Site + saturation)^2, 
+         data = phyla_relabund_wide)
+    
+  broom::tidy(phyla_permanova$aov.tab)
 }
 
 #
