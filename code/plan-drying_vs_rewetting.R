@@ -76,7 +76,8 @@ plan_drying_vs_wetting = drake_plan(
   
   # d. STATISTICS
   ## PERMANOVA
-
+  permanova_fticr = compute_permanova(fticr_relabund_cores),
+  
   ## PCA
   gg_pca_fticr = compute_fticr_pca_drying_vs_dw(fticr_relabund_cores), 
   
