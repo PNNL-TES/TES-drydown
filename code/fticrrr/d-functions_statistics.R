@@ -250,7 +250,7 @@ compute_fticr_pca2 = function(relabund_cores){
 
 compute_fticr_pca_tzero = function(relabund_cores){
   ## PCA input files ----
-  pca_timezero = fit_pca_function(relabund_cores %>% filter(length == "timezero"))
+  pca_timezero = fit_pca_function(relabund_cores %>% filter(saturation == "timezero"))
   
   ## PCA plots timezero ----
   gg_pca_tzero = 
@@ -312,10 +312,14 @@ compute_fticr_pca_drying_vs_dw = function(relabund_cores){
     ggbiplot(pca_drying_vs_dw$pca_int, obs.scale = 1, var.scale = 1,
              groups = as.character(pca_drying_vs_dw$grp$saturation), 
              ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
-    geom_point(size=4,stroke=1, 
+    geom_point(size=4,stroke=1.5, 
                aes(shape = interaction(pca_drying_vs_dw$grp$depth, pca_drying_vs_dw$grp$Site),
                    fill = groups, color = groups))+
     scale_shape_manual(values = c(1,2,16,17,15, 5), name = "")+
+    scale_color_manual(breaks = c("timezero", "instant chemistry", "saturated"),
+                       values = pal_saturation)+
+    scale_fill_manual(breaks = c("timezero", "instant chemistry", "saturated"),
+                       values = pal_saturation)+
     #scale_color_manual(values = c("red", "blue"), name = "")+
     #scale_fill_manual(values = c("red", "blue"), name = "")+
     xlim(-4,4)+
@@ -376,18 +380,20 @@ compute_fticr_pca_drying_vs_dw = function(relabund_cores){
 compute_permanova = function(relabund_cores){
   relabund_wide = 
     relabund_cores %>% 
-    filter(length != "timezero") %>% 
+    #filter(length != "timezero") %>% 
     ungroup() %>% 
     mutate(Class = factor(Class, 
                           levels = c("aliphatic", "unsaturated/lignin", 
                                      "aromatic", "condensed aromatic"))) %>% 
+    filter(!is.na(Class)) %>% 
+    filter(!is.na(CoreID)) %>% 
     dplyr::select(-c(abund, total)) %>% 
     spread(Class, relabund) %>% 
     replace(is.na(.), 0)
   
   permanova_fticr_all = 
     adonis(relabund_wide %>% dplyr::select(aliphatic:`condensed aromatic`) ~ 
-             (depth+Site+length+drying+saturation)^2, 
+             (depth+Site+saturation)^2, 
            data = relabund_wide)
   broom::tidy(permanova_fticr_all$aov.tab)
 }
@@ -395,12 +401,14 @@ compute_permanova = function(relabund_cores){
 compute_permanova_tzero = function(relabund_cores){
   relabund_wide = 
     relabund_cores %>% 
-    filter(length == "timezero") %>% 
+    filter(saturation == "timezero") %>% 
     ungroup() %>% 
-    dplyr::select(-drying, -saturation) %>% 
+    dplyr::select(-saturation) %>% 
     mutate(Class = factor(Class, 
                           levels = c("aliphatic", "unsaturated/lignin", 
                                      "aromatic", "condensed aromatic"))) %>% 
+    filter(!is.na(Class)) %>% 
+    filter(!is.na(CoreID)) %>% 
     dplyr::select(-c(abund, total)) %>% 
     spread(Class, relabund) %>% 
     replace(is.na(.), 0)
