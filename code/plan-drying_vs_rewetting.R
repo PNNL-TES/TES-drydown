@@ -32,6 +32,12 @@ source("code/7-microbiome.R")
 
 library(tidyverse)
 
+
+
+# set color palettes ------------------------------------------------------
+
+pal_saturation = rev(PNWColors::pnw_palette("Sunset2", 3))
+
 # 3. load drake plans -----------------------------------------------------
 plan_drying_vs_wetting = drake_plan(
   
@@ -57,7 +63,7 @@ plan_drying_vs_wetting = drake_plan(
   # b. RELATIVE ABUNDANCE
   fticr_relabund_cores = fticr_data_longform %>% 
     compute_relabund_cores(fticr_meta, 
-                           depth, Site, saturation),
+                           depth, Site, saturation) %>% refactor_saturation_levels(.),
   
   gg_relabund_bar = fticr_relabund_cores %>% plot_relabund_drying_vs_dw(TREATMENTS),
   
@@ -70,7 +76,7 @@ plan_drying_vs_wetting = drake_plan(
   
   # d. STATISTICS
   ## PERMANOVA
-  
+
   ## PCA
   gg_pca_fticr = compute_fticr_pca_drying_vs_dw(fticr_relabund_cores), 
   
