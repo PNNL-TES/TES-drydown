@@ -62,8 +62,7 @@ plan_drying_vs_wetting = drake_plan(
   
   # b. RELATIVE ABUNDANCE
   fticr_relabund_cores = fticr_data_longform %>% 
-    compute_relabund_cores(fticr_meta, 
-                           depth, Site, saturation) %>% refactor_saturation_levels(.),
+    compute_relabund_cores(fticr_meta, TREATMENTS) %>% refactor_saturation_levels(.),
   
   gg_relabund_bar = fticr_relabund_cores %>% plot_relabund_drying_vs_dw(TREATMENTS),
   

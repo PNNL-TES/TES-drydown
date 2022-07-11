@@ -178,12 +178,12 @@ make_fticr_data = function(report, dockey, ...){
 }
 
 # 2. RELATIVE ABUNDANCE COMPUTE FUNCTIONS -------------------------------------------------
-compute_relabund_cores = function(fticr_data_longform, fticr_meta, ...){
+compute_relabund_cores = function(fticr_data_longform, fticr_meta, TREATMENTS){
   fticr_data_longform %>% 
     # add the Class column to the data
     left_join(dplyr::select(fticr_meta, formula, Class), by = "formula") %>% 
     # calculate abundance of each Class as the sum of all counts
-    group_by(CoreID, Class, ...) %>%
+    group_by(CoreID, Class, !!!TREATMENTS) %>%
     dplyr::summarise(abund = sum(presence)) %>%
     ungroup %>% 
     # create a new column for total counts per core assignment
