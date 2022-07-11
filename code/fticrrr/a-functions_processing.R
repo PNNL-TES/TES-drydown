@@ -188,16 +188,10 @@ compute_relabund_cores = function(fticr_data_longform, fticr_meta, TREATMENTS){
     ungroup %>% 
     # create a new column for total counts per core assignment
     # and then calculate relative abundance  
-    group_by(CoreID, ...) %>% 
+    group_by(CoreID, !!!TREATMENTS) %>% 
     dplyr::mutate(total = sum(abund),
                   relabund  = round((abund/total)*100,2))
 }
 
 
 
-# 3. MISC FUNCTIONS -------------------------------------------------------
-
-reorder_length = function(dat){
-  dat %>% 
-    mutate(length = factor(length, levels = c("30d", "90d", "150d")))
-}

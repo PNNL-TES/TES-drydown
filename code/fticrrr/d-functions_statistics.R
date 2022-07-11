@@ -29,31 +29,6 @@ fit_pca_function = function(dat){
        pca_int = pca_int)
 }
 
-compute_fticr_pca_tzero = function(relabund_cores){
-  ## PCA input files ----
-  pca_timezero = fit_pca_function(relabund_cores %>% filter(saturation == "timezero"))
-  
-  ## PCA plots timezero ----
-  gg_pca_tzero = 
-    ggbiplot(pca_timezero$pca_int, obs.scale = 1, var.scale = 1,
-             groups = as.character(pca_timezero$grp$Site), 
-             ellipse = TRUE, circle = FALSE, var.axes = TRUE) +
-    geom_point(size=4,stroke=1, 
-               aes(shape = pca_timezero$grp$depth,
-                   fill = groups, color = groups))+
-    scale_shape_manual(values = c(1,2,0,16,17,15, 5), name = "")+
-    #scale_color_manual(values = c("red", "blue"), name = "")+
-    #scale_fill_manual(values = c("red", "blue"), name = "")+
-    xlim(-4,4)+
-    ylim(-3.5,3.5)+
-    labs(shape="",
-         title = "time zero")+
-    theme_kp()+
-    NULL
-  
-  
-}  
-
 compute_fticr_pca_drying_vs_dw = function(relabund_cores){
   ## PCA function ----
   fit_pca_function = function(dat){
@@ -178,34 +153,6 @@ compute_permanova = function(relabund_cores){
   broom::tidy(permanova_fticr_all$aov.tab)
 }
 
-compute_permanova_tzero = function(relabund_cores){
-  relabund_wide = 
-    relabund_cores %>% 
-    filter(saturation == "timezero") %>% 
-    ungroup() %>% 
-    dplyr::select(-saturation) %>% 
-    mutate(Class = factor(Class, 
-                          levels = c("aliphatic", "unsaturated/lignin", 
-                                     "aromatic", "condensed aromatic"))) %>% 
-    filter(!is.na(Class)) %>% 
-    filter(!is.na(CoreID)) %>% 
-    dplyr::select(-c(abund, total)) %>% 
-    spread(Class, relabund) %>% 
-    replace(is.na(.), 0)
-  
-  permanova_fticr_all = 
-    adonis(relabund_wide %>% dplyr::select(aliphatic:`condensed aromatic`) ~ 
-             (depth+Site)^2, 
-           data = relabund_wide)
-  broom::tidy(permanova_fticr_all$aov.tab)
-}
-
-
-##  variables = c("sat_level", "treatment")
-##  indepvar = paste(variables, collapse = " + ")
-##  compute_permanova(indepvar)
-
-
 
 # relabund anova ----------------------------------------------------------
 compute_relabund_anova = function(relabund_cores){
@@ -227,4 +174,3 @@ compute_relabund_anova = function(relabund_cores){
   
   
 }
-
