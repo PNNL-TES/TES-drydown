@@ -229,7 +229,7 @@ plot_relabund_bargraphs_drying_vs_dw = function(nmr_relabund_cores){
     theme_bw()+
     theme(axis.text.x = element_text(angle = 90))
   
-#  relabund_bar_top = 
+  relabund_bar_top = 
     relabund_summary %>% 
     filter(depth == "0-5cm") %>% 
     ggplot(aes(x = saturation, y = relabund_mean, fill = group))+
