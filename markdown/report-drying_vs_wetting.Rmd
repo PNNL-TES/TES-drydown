@@ -75,14 +75,6 @@ readd(gg_weoc)
 
 ---
 
-# POM-nonPOM
-
-```{r}
-readd(gg_pom)
-```
-
----
-
 
 # Microbiome
 

@@ -107,12 +107,6 @@ plan_drying_vs_wetting = drake_plan(
   weoc_processed = process_weoc_data(dockey),
   gg_weoc = plot_weoc(weoc_processed),
   
-  #
-  # POM-nonPOM --------------------------------------------------------------
-  pom_data_processed = process_pom_data(pom_data, pom_weights, corekey_full = corekey),
-  gg_pom = make_pom_graphs(pom_data_processed),
-  
-  #
   # Microbiome --------------------------------------------------------------
   # relative abundance
   phyla_dat = read.table("data/microbiome/phyla_relative_abundance.txt", sep="\t", header=TRUE, na = "") %>% 
