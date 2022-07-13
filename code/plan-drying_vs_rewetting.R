@@ -8,10 +8,10 @@ library(PNWColors)
 library(soilpalettes)
 
 # 1. SET input file paths -------------------------------
-COREKEY = "data/processed/corekey_v2.csv"
+COREKEY = "data/corekey_90d.csv"
 REPORT1 = "data/fticr/TES_drought_soil_Report1_2020-11-05.csv"
 REPORT2 = "data/fticr/TES_drought_soil_Report2_timezero_2021-01-20.csv"
-DOCKEY = "data/doc_analysis_key.csv"
+DOCKEY = "data/doc_analysis_key_90d.csv"
 
 ## SET the treatment variables
 TREATMENTS = quos(depth, Site, saturation)
@@ -37,6 +37,7 @@ library(tidyverse)
 # set color palettes ------------------------------------------------------
 
 pal_saturation = rev(PNWColors::pnw_palette("Sunset2", 3))
+theme_set(theme_kp())
 
 # 3. load drake plans -----------------------------------------------------
 plan_drying_vs_wetting = drake_plan(
