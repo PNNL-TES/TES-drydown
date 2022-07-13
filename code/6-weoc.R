@@ -43,10 +43,22 @@ process_weoc_data = function(dockey){
     mutate(saturation = factor(saturation, levels = c("timezero", "instant chemistry", "saturated"))) %>% 
     filter(!is.na(npoc_mg_g))
   
+  npoc_data_processed2 = 
+    npoc_data_processed %>% 
+    dplyr::select(DOC_ID, coreID, depth, Site, drying, saturation, npoc_mg_g) %>% 
+    recode_saturation() %>% 
+    recode_sites() %>% 
+    recode_depth()
   
 }
 
 
+weoc_stats = function(weoc_processed){
+  
+  l = lm(npoc_mg_g ~ (Site + depth + saturation)^2, data = weoc_processed) 
+  car::Anova(l)  
+  
+}
 
 plot_weoc = function(weoc_processed){
   
@@ -64,14 +76,17 @@ plot_weoc = function(weoc_processed){
     weoc_processed %>% 
     group_by(Site, depth) %>% 
     do(fit_hsd(.)) %>% 
-    mutate(saturation = factor(saturation, levels = c("timezero", "instant chemistry", "saturated")))
-    
+    refactor_saturation_levels()    
+  
   weoc_processed %>% 
     filter(!is.na(npoc_mg_g)) %>% 
     ggplot(aes(x = Site, y = npoc_mg_g, color = saturation))+
-    geom_point(size = 2, position = position_dodge(width = 0.7))+
-    geom_text(data = weoc_hsd, aes(y = 2, label = label, group = saturation), position = position_dodge(width = 0.7), show.legend = F)+
+    geom_point(size = 2.5, position = position_dodge(width = 0.7))+
+    geom_text(data = weoc_hsd, aes(y = 2.2, label = label, group = saturation), 
+              position = position_dodge(width = 0.7), color = "black", size = 5, 
+              show.legend = F)+
     labs(x = "", y = "WEOC, mg/g", color = "")+
+    scale_color_manual(values = pal_saturation)+
     facet_grid(depth ~ .)
   }
 
@@ -102,3 +117,6 @@ misc_weoc_script = function(){
   
   
 }
+
+
+
