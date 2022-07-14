@@ -52,11 +52,13 @@ plot_vankrevelen_domains = function(fticr_meta){
 }
 
 plot_vk_drying_vs_dw = function(fticr_data_trt, fticr_meta){
+  # make hcoc dataframe
   fticr_hcoc = 
     fticr_data_trt %>% 
     drop_na() %>% 
     left_join(dplyr::select(fticr_meta, formula, HC, OC), by = "formula")
   
+  # time zero plot
   vk_timezero = 
     fticr_hcoc %>% 
     filter(saturation == "timezero") %>% 
@@ -68,6 +70,7 @@ plot_vk_drying_vs_dw = function(fticr_data_trt, fticr_meta){
     theme_kp()+
     NULL
   
+  # plot of saturation treatments
   vk_drying_vs_rewet = 
     fticr_hcoc %>% 
     gg_vankrev(aes(x = OC, y = HC, color = saturation))+
@@ -78,27 +81,69 @@ plot_vk_drying_vs_dw = function(fticr_data_trt, fticr_meta){
     theme_kp()+
     NULL
   
+  # compute unique peaks
+  fticr_unique = 
+    fticr_hcoc %>% 
+    group_by(Site, depth, formula) %>% 
+    dplyr::mutate(n = n()) %>% refactor_saturation_levels()
+  
+  # plot unique peaks
+  vk_unique = 
+    fticr_unique %>% 
+    filter(n == 1) %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = saturation)) +
+    stat_ellipse(level = 0.9, show.legend = F)+
+    scale_color_manual(values = pal_saturation)+
+    labs(title = "Unique peaks")+
+    facet_grid(depth ~ Site)
+  
+  # compute loss/gain for drought
   fticr_hcoc_lossgain_drought = 
     fticr_hcoc %>% 
-    filter(saturation == c("timezero", "instant chemistry")) %>% 
+    filter(saturation == c("timezero", "drought")) %>% 
     group_by(formula, HC, OC, Site, depth) %>% 
     dplyr::mutate(n = n()) %>% 
     filter(n == 1) %>% 
     mutate(lossgain = 
              case_when(saturation == "timezero" ~ "drought: lost",
-                       saturation == "instant chemistry" ~ "drought: gained"))
+                       saturation == "drought" ~ "drought: gained"))
 
+  # compute loss/gain for rewet
   fticr_hcoc_lossgain_rewetting = 
     fticr_hcoc %>% 
-    filter(saturation == c("instant chemistry", "saturated")) %>% 
+    filter(saturation == c("drought", "d+rewet")) %>% 
     group_by(formula, HC, OC, Site, depth) %>% 
     dplyr::mutate(n = n()) %>% 
     filter(n == 1) %>% 
     mutate(lossgain = 
-             case_when(saturation == "saturated" ~ "rewet: gained",
-                       saturation == "instant chemistry" ~ "rewet: lost"))
+             case_when(saturation == "d+rewet" ~ "rewet: gained",
+                       saturation == "drought" ~ "rewet: lost"))
   
+  # plot loss/gain drought
+  vk_lossgain_drought = 
+    fticr_hcoc_lossgain_drought %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
+    stat_ellipse(level = 0.90, show.legend = F)+
+    facet_grid(depth ~ Site)+
+    scale_color_manual(values = rev(soil_palette("redox", 2)))+
+    labs(title = "peaks lost/gained following drought",
+         subtitle = "timezero vs. drought")+
+    theme_kp()+
+    NULL   
   
+  # plot loss/gain rewet
+  vk_lossgain_rewet = 
+    fticr_hcoc_lossgain_rewetting %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
+    stat_ellipse(level = 0.90, show.legend = F)+
+    facet_grid(depth ~ Site)+
+    scale_color_manual(values = rev(soil_palette("redox", 2)))+
+    labs(title = "peaks lost/gained following rewet",
+         subtitle = "drought vs. d+rewet")+
+    theme_kp()+
+    NULL   
+  
+  # combined lossgain for drought and rewet
   fticr_hcoc_lossgain = 
     fticr_hcoc_lossgain_drought %>% 
     bind_rows(fticr_hcoc_lossgain_rewetting) %>% 
@@ -118,7 +163,8 @@ plot_vk_drying_vs_dw = function(fticr_data_trt, fticr_meta){
 
   list(vk_timezero = vk_timezero,
        vk_drying_vs_rewet = vk_drying_vs_rewet,
-       vk_lossgain = vk_lossgain)
+       vk_lossgain_drought = vk_lossgain_drought,
+       vk_lossgain_rewet = vk_lossgain_rewet)
 
 }
 
@@ -144,13 +190,26 @@ make_nosc_figures = function(fticr_data_trt, fticr_meta){
     theme_kp()+
     NULL
   
-  nosc_by_saturation = 
+#  nosc_by_saturation = 
     fticr_data_nosc %>% 
     ggplot(aes(x = NOSC, fill = saturation, color = saturation))+
-    geom_histogram(binwidth = 0.25, position = "identity", alpha = 0.5)+
-    facet_grid(Site + depth ~ length + drying)+
+    geom_histogram(binwidth = 0.25, position = "identity", alpha = 0.2)+
+    facet_grid(depth ~ Site )+
     theme_kp()+
     NULL
+    
+    fticr_data_nosc %>% 
+      ggplot(aes(x = NOSC, fill = saturation, color = saturation))+
+      geom_density(size = 1, position = "identity", alpha = 0.2)+
+      facet_grid(depth ~ Site )+
+      
+      geom_boxplot(aes(y = 1), fill = NA, width = 0.2, show.legend = F)+
+      scale_color_manual(values = pal_saturation)+
+      scale_fill_manual(values = pal_saturation)+
+      theme_kp()+
+      NULL
+    
+    
   
   list(nosc_by_drying = nosc_by_drying,
        nosc_by_saturation = nosc_by_saturation)
