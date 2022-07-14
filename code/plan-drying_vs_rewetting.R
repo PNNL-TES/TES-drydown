@@ -18,8 +18,7 @@ TREATMENTS = quos(depth, Site, saturation)
 
 # 2. source the functions --------------------------------------------------------
 source("code/fticrrr/a-functions_processing.R")
-source("code/fticrrr/b-functions_relabund.R")
-source("code/fticrrr/c-functions_vankrevelen.R")
+source("code/fticrrr/c-functions_graphs.R")
 source("code/fticrrr/d-functions_statistics.R")
 
 source("code/nmrrr/0-nmr_setup.R")
@@ -57,9 +56,10 @@ plan_drying_vs_wetting = drake_plan(
   datareport = combine_fticr_reports(report1, report2),
   fticr_meta = make_fticr_meta(datareport)$meta2,
   fticr_data_longform = make_fticr_data(datareport, dockey, 
-                                        depth, Site, saturation)$data_long_key_repfiltered,
+                                        depth, Site, saturation)$data_long_key_repfiltered %>% 
+    filter(!is.na(CoreID)),
   fticr_data_trt = make_fticr_data(datareport, dockey, 
-                                   depth, Site, saturation)$data_long_trt,
+                                   depth, Site, saturation)$data_long_trt %>% filter(!is.na(Site)),
   
   # b. RELATIVE ABUNDANCE
   fticr_relabund_cores = fticr_data_longform %>% 
