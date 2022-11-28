@@ -8,8 +8,11 @@ library(GUniFrac)
 library(vegan)
 library(devtools)
 library(microViz)
+# install.packages("microViz", repos = c(davidbarnett = "https://david-barnett.r-universe.dev", getOption("repos")))
+# BiocManager::install(c("phyloseq", "microbiome", "ComplexHeatmap"), update = FALSE)
 library(phyloseq)
 library(pairwiseAdonis)
+# install_github("pmartinezarbizu/pairwiseAdonis/pairwiseAdonis")
 library(microbiome)
 library(ape)
 
@@ -178,7 +181,7 @@ compute_pca_drying_vs_rewet = function(phyla_long_clean){
            title = "90d, CW",
            subtitle = "separation by saturation type")+
         scale_color_manual(values = pal_saturation,
-                           breaks = c("timezero", "instant chemistry", "saturated"))+
+                           breaks = c("timezero", "drought", "d+rewet"))+
       theme_kp()+
         theme(legend.position = "right")+
       NULL)

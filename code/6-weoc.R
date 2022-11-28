@@ -34,13 +34,13 @@ process_weoc_data = function(dockey){
            id = sprintf("%03d", id),
            DOC_ID = paste0("DOC-", id)) %>% 
     dplyr::select(DOC_ID, npoc_mg_l) %>% 
-    left_join(dockey %>% dplyr::select(DOC_ID, coreID, depth)) %>% 
+    left_join(dockey %>% dplyr::select(DOC_ID, coreID, depth, saturation, drying, length, Site)) %>% 
     left_join(weoc_subsampling %>% dplyr::select(coreID, depth, moisture_perc, fticr_wt_g), by = c("coreID", "depth")) %>% 
     mutate(ode_g = fticr_wt_g/((moisture_perc/100) + 1),
            soilwater_mL = fticr_wt_g - ode_g,
            npoc_mg_g = npoc_mg_l * (40 + soilwater_mL) * (1/1000) * (1/ode_g)) %>% 
-    left_join(dockey) %>% 
-    mutate(saturation = factor(saturation, levels = c("timezero", "instant chemistry", "saturated"))) %>% 
+#    left_join(dockey) %>% 
+#    mutate(saturation = factor(saturation, levels = c("timezero", "instant chemistry", "saturated"))) %>% 
     filter(!is.na(npoc_mg_g))
   
   npoc_data_processed2 = 
@@ -55,7 +55,7 @@ process_weoc_data = function(dockey){
 
 weoc_stats = function(weoc_processed){
   
-  l = lm(npoc_mg_g ~ (Site + depth + saturation)^2, data = weoc_processed) 
+  l = lm(npoc_mg_g ~ (Site + depth + saturation + drying)^2, data = weoc_processed) 
   car::Anova(l)  
   
 }
@@ -78,7 +78,8 @@ plot_weoc = function(weoc_processed){
     do(fit_hsd(.)) %>% 
     refactor_saturation_levels()    
   
-  weoc_processed %>% 
+  plot = 
+    weoc_processed %>% 
     filter(!is.na(npoc_mg_g)) %>% 
     ggplot(aes(x = Site, y = npoc_mg_g, color = saturation))+
     geom_point(size = 2.5, position = position_dodge(width = 0.7))+
@@ -87,7 +88,21 @@ plot_weoc = function(weoc_processed){
               show.legend = F)+
     labs(x = "", y = "WEOC, mg/g", color = "")+
     scale_color_manual(values = pal_saturation)+
-    facet_grid(depth ~ .)
+    facet_grid(depth ~ . )+
+    NULL
+  
+  table = 
+    weoc_processed %>% 
+    group_by(Site, depth, saturation) %>% 
+    dplyr::summarise(mean = mean(npoc_mg_g),
+                     se = sd(npoc_mg_g)/sqrt(n())) %>% 
+    left_join(weoc_hsd) %>% 
+    mutate(mean_se_mg_g = paste(round(mean, 2), "\u00b1", round(se, 2), label)) %>% 
+    dplyr::select(Site, depth, saturation, mean_se_mg_g) %>% 
+    pivot_wider(names_from = "saturation", values_from = "mean_se_mg_g") %>% knitr::kable()
+    
+  list(plot = plot,
+       table = table)
   }
 
 
