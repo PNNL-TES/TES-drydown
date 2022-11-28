@@ -24,6 +24,10 @@ import_nmr_spectra_data = function(SPECTRA_FILES, doc_key){
     df}))
   
   process_spectra_data = function(spectra_dat, doc_key){
+    doc_key2 = 
+      doc_key %>% 
+      recode_depth() %>% recode_saturation() %>% recode_sites()
+    
     spectra_dat %>% 
       # retain only values 0-10ppm
       filter(ppm >= 0 & ppm <= 10) %>% 
@@ -31,7 +35,8 @@ import_nmr_spectra_data = function(SPECTRA_FILES, doc_key){
       mutate(source = str_remove(source, ".csv")) %>% 
       mutate(source = paste0("DOC-",source)) %>% 
       dplyr::rename(DOC_ID = source) %>% 
-      left_join(doc_key, by = "DOC_ID")
+      left_join(doc_key2, by = "DOC_ID") %>% 
+      filter(!is.na(coreID))
   }
   process_spectra_data(spectra_dat, doc_key)
 }
@@ -99,6 +104,80 @@ plot_nmr_spectra = function(nmr_spectra_processed){
   list(spectra_tzero = spectra_tzero,
        spectra_cpcrw = spectra_cpcrw,
        spectra_sr = spectra_sr) 
+}
+
+plot_nmr_spectra_clean = function(nmr_spectra_processed){
+  
+  nmr_spectra_subset = 
+    nmr_spectra_processed %>% 
+    filter(coreID %in% c("C81", "C84", "C61", "S58", "S84", "S53"))
+  
+  gg_alaska = 
+    gg_nmr2 +
+    geom_path(data = nmr_spectra_subset %>% filter(Site == "Alaska" & saturation == "timezero"),
+              aes(x = ppm, y = intensity), color = "#f9ad2a")+
+    geom_path(data = nmr_spectra_subset %>% filter(Site == "Alaska" & saturation == "drought"),
+              aes(x = ppm, y = intensity+0.5), color = "#cc5c76")+
+    geom_path(data = nmr_spectra_subset %>% filter(Site == "Alaska" & saturation == "d+rewet"),
+              aes(x = ppm, y = intensity+1), color = "#1d457f")+
+    annotate("text", label = "timezero", x = 9, y = 0.1, color = "#f9ad2a")+
+    annotate("text", label = "drought", x = 9, y = 0.6, color = "#cc5c76")+
+    annotate("text", label = "d+rewet", x = 9, y = 1.1, color = "#1d457f")+
+    ylim(-0.1, 2.5)+
+    
+    annotate("rect", xmin = DMSO_start, xmax = WATER_stop, ymin = -0.1, ymax = 2.5,
+             fill = "grey90", alpha = 0.5)+
+    labs(title = "Alaska")+
+    theme(plot.title = element_text(hjust = 0.5, size = 18, vjust = 1))+
+    NULL
+  
+  
+  gg_washington = 
+    gg_nmr2 +
+    geom_path(data = nmr_spectra_subset %>% filter(Site == "Washington" & saturation == "timezero"),
+              aes(x = ppm, y = intensity), color = "#f9ad2a")+
+    geom_path(data = nmr_spectra_subset %>% filter(Site == "Washington" & saturation == "drought"),
+              aes(x = ppm, y = intensity+0.5), color = "#cc5c76")+
+    geom_path(data = nmr_spectra_subset %>% filter(Site == "Washington" & saturation == "d+rewet"),
+              aes(x = ppm, y = intensity+1), color = "#1d457f")+
+    annotate("text", label = "timezero", x = 9, y = 0.1, color = "#f9ad2a")+
+    annotate("text", label = "drought", x = 9, y = 0.6, color = "#cc5c76")+
+    annotate("text", label = "d+rewet", x = 9, y = 1.1, color = "#1d457f")+
+    ylim(-0.1,2.5)+
+    
+    annotate("rect", xmin = DMSO_start, xmax = WATER_stop, ymin = -0.1, ymax = 2.5,
+             fill = "grey90", alpha = 0.5)+
+    labs(title = "Washington")+
+    theme(plot.title = element_text(hjust = 0.5, size = 18, vjust = 1))+
+    NULL
+  
+  cowplot::plot_grid(gg_alaska, gg_washington)
+  
+  #  geom_rect(data = nmr_spectra_subset %>% filter(Site == "Washington" & saturation == "timezero"), 
+  #            aes(xmin = DMSO_start, xmax = WATER_stop, ymin = 0.0, ymax = 2.5),
+  #            fill = "grey90", alpha = 0.015)
+  
+  
+    gg_nmr2 +
+    geom_path(data = nmr_spectra_subset %>% 
+                filter(Site == "Washington"),
+              aes(x = ppm, y = intensity, color = DOC_ID))+
+    ylim(0,2.5)+
+    facet_grid(. ~ saturation)+
+    theme(legend.position = "none",
+          plot.caption = element_text(hjust = 0))+
+    annotate("rect", xmin = DMSO_start, xmax = WATER_stop, ymin = 0, ymax = 2.5,
+             fill = "grey90", alpha = 0.5)+
+    labs(title = "NMR spectra: SR",
+         caption = "grey = solvent region,
+       1, 2 = aliphatic,
+       3 = o-alkyl (carb),
+       4 = alpha-H (protein),
+       5 = aromatic,
+       6 = amide")+
+    NULL
+  
+  
 }
 
 #
