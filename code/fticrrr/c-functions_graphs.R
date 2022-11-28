@@ -44,8 +44,6 @@ plot_relabund_drying_vs_dw = function(relabund_cores, TREATMENTS){
 ################################################## #####
 
 
-
-
 gg_vankrev <- function(data,mapping){
   ggplot(data,mapping) +
     # plot points
