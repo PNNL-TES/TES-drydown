@@ -91,11 +91,11 @@ plot_weoc = function(weoc_processed){
   }
 
 
-misc_weoc_script = function(){
+misc_weoc_script = function(weoc_processed){
   npoc_summary = 
-    npoc_data_processed %>% 
-    filter(saturation != "timezero") %>% 
-    group_by(Site, depth, length, drying, saturation) %>% 
+    weoc_processed %>% 
+    #filter(saturation != "timezero") %>% 
+    group_by(Site, depth, drying, saturation) %>% 
     dplyr::summarise(npoc_mean = mean(npoc_mg_g),
                      se = sd(npoc_mg_g)/sqrt(n()),
                      npoc_mean = round(npoc_mean, 2),
