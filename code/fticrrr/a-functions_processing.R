@@ -167,7 +167,11 @@ make_fticr_data = function(report, dockey, ...){
   data_long_key = data_presence %>% left_join(dockey, by = "DOC_ID") %>% 
     rename(CoreID = coreID)
   
-  data_long_key_repfiltered = apply_replication_filter(data_long_key, ...)
+  data_long_key_repfiltered = apply_replication_filter(data_long_key, ...) %>% 
+    recode_depth() %>% 
+    recode_saturation() %>% 
+    recode_sites()
+  
   
   data_long_trt = data_long_key_repfiltered %>% 
     distinct(formula, ...)
@@ -185,6 +189,7 @@ compute_relabund_cores = function(fticr_data_longform, fticr_meta, TREATMENTS){
     # calculate abundance of each Class as the sum of all counts
     group_by(CoreID, Class, !!!TREATMENTS) %>%
     dplyr::summarise(abund = sum(presence)) %>%
+    filter(!Class %in% "other") %>% 
     ungroup %>% 
     # create a new column for total counts per core assignment
     # and then calculate relative abundance  

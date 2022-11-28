@@ -29,7 +29,7 @@ fit_pca_function = function(dat){
        pca_int = pca_int)
 }
 
-compute_fticr_pca_drying_vs_dw = function(relabund_cores){
+compute_fticr_pca_drying_vs_dw = function(fticr_relabund_cores){
   ## PCA function ----
   fit_pca_function = function(dat){
     relabund_pca=
@@ -43,11 +43,11 @@ compute_fticr_pca_drying_vs_dw = function(relabund_cores){
     
     num = 
       relabund_pca %>% 
-      dplyr::select(c(aliphatic, aromatic, `condensed aromatic`, `unsaturated/lignin`))
+      dplyr::select(where(is.numeric))
     
     grp = 
       relabund_pca %>% 
-      dplyr::select(-c(aliphatic, aromatic, `condensed aromatic`, `unsaturated/lignin`)) %>% 
+      dplyr::select(-where(is.numeric)) %>% 
       dplyr::mutate(row = row_number())
     
     pca_int = prcomp(num, scale. = T)
@@ -59,21 +59,22 @@ compute_fticr_pca_drying_vs_dw = function(relabund_cores){
   
   #
   ## PCA input files ----
-  pca_drying_vs_dw = fit_pca_function(relabund_cores)
-  pca_drying_vs_dw_cpcrw = fit_pca_function(relabund_cores %>% filter(Site == "CPCRW"))
-  pca_drying_vs_dw_sr = fit_pca_function(relabund_cores %>% filter(Site == "SR"))
+  pca_drying_vs_dw = fit_pca_function(fticr_relabund_cores)
+  pca_drying_vs_dw_cpcrw = fit_pca_function(fticr_relabund_cores %>% filter(Site == "Alaska"))
+  pca_drying_vs_dw_sr = fit_pca_function(fticr_relabund_cores %>% filter(Site == "Alaska"))
   
   gg_pca_drying_vs_dw = 
     ggbiplot(pca_drying_vs_dw$pca_int, obs.scale = 1, var.scale = 1,
              groups = as.character(pca_drying_vs_dw$grp$saturation), 
              ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
     geom_point(size=4,stroke=1.5, 
-               aes(shape = interaction(pca_drying_vs_dw$grp$depth, pca_drying_vs_dw$grp$Site),
+               aes(shape = interaction(pca_drying_vs_dw$grp$Site, pca_drying_vs_dw$grp$depth),
                    fill = groups, color = groups))+
-    scale_shape_manual(values = c(1,2,16,17,15, 5), name = "")+
-    scale_color_manual(breaks = c("timezero", "instant chemistry", "saturated"),
+    scale_shape_manual(values = c(1,2,16,17,15, 5), name = "",
+                       labels = c("Alaska top", "Alaska bottom", "Washington top", "Washington bottom"))+
+    scale_color_manual(breaks = c("timezero", "drought", "d+rewet"),
                        values = pal_saturation)+
-    scale_fill_manual(breaks = c("timezero", "instant chemistry", "saturated"),
+    scale_fill_manual(breaks = c("timezero", "drought", "d+rewet"),
                        values = pal_saturation)+
     #scale_color_manual(values = c("red", "blue"), name = "")+
     #scale_fill_manual(values = c("red", "blue"), name = "")+
