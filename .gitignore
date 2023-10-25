@@ -40,3 +40,5 @@ rsconnect/
 # OS files 
 .DS_Store
 outputs/qc_ch4.pdf
+
+run.sh
