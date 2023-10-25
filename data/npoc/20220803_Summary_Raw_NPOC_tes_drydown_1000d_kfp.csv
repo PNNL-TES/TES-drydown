@@ -1,0 +1,79 @@
+﻿Type,Anal.,Sample Name,,Result(NPOC),,,
+Standard,NPOC,cal,,100,,,
+Unknown,NPOC,chkstd_10ppm,,9.827,,,
+Unknown,NPOC,DIW,,0.4801,,,1
+Unknown,NPOC,C2 0-5 cm,,77.67,DOC-191,C2 0-5 cm,0
+Unknown,NPOC,C2 5cm-end,,11.86,DOC-192,C2 5cm-end,0
+Unknown,NPOC,C5 0-5 cm,,488,DOC-211,C5 0-5 cm,0
+Unknown,NPOC,C5 5cm-end,,83.3,DOC-212,C5 5cm-end,0
+Unknown,NPOC,C10 0-5 cm,,423.9,DOC-207,C10 0-5 cm,0
+Unknown,NPOC,C10 5cm-end,,134.5,DOC-208,C10 5cm-end,0
+Unknown,NPOC,C17 5cm-end,,613.7,DOC-210,C17 5cm-end,0
+Unknown,NPOC,C31 0-5 cm,,53.71,DOC-193,C31 0-5 cm,0
+Unknown,NPOC,C31 5cm-end,,9.898,DOC-194,C31 5cm-end,0
+Unknown,NPOC,C36 0-5 cm,,76.15,DOC-195,C36 0-5 cm,0
+Unknown,NPOC,C36 5cm-end,,14.84,DOC-196,C36 5cm-end,0
+Unknown,NPOC,C38 0-5 cm,,231.8,DOC-197,C38 0-5 cm,0
+Unknown,NPOC,C38 5cm-end,,67.61,DOC-198,C38 5cm-end,0
+Unknown,NPOC,C40 0-5 cm,,120.9,DOC-199,C40 0-5 cm,0
+Unknown,NPOC,C40 5cm-end,,58,DOC-200,C40 5cm-end,0
+Unknown,NPOC,C42 0-5 cm,,100.1,DOC-201,C42 0-5 cm,0
+Unknown,NPOC,C42 5cm-end,,35.01,DOC-202,C42 5cm-end,0
+Unknown,NPOC,C51 0-5 cm,,774.4,DOC-213,C51 0-5 cm,0
+Unknown,NPOC,C51 5cm-end,,280.5,DOC-214,C51 5cm-end,0
+Unknown,NPOC,C54A 0-5 cm,,583.5,DOC-215,C54A 0-5 cm,0
+Unknown,NPOC,blank filter,,1.007,,,1
+Unknown,NPOC,blank solution,,0.5817,,,1
+Unknown,NPOC,chkstd_10ppm,,10.13,,,1
+Unknown,NPOC,DIW,,0.3991,,,1
+Unknown,NPOC,C54A 5cm-end,,150,DOC-216,C54A 5cm-end,0
+Unknown,NPOC,C58 0-5 cm,,128,DOC-203,C58 0-5 cm,0
+Unknown,NPOC,C58 5cm-end,,38.23,DOC-204,C58 5cm-end,0
+Unknown,NPOC,C59 0-5 cm,,439.4,DOC-217,C59 0-5 cm,0
+Unknown,NPOC,C59 5cm-end,,122.2,DOC-218,C59 5cm-end,0
+Unknown,NPOC,C63 0-5 cm,,207.9,DOC-219,C63 0-5 cm,0
+Unknown,NPOC,C63 5cm-end,,43.84,DOC-220,C63 5cm-end,0
+Unknown,NPOC,C74 0-5 cm,,147.7,DOC-205,C74 0-5 cm,0
+Unknown,NPOC,C74 5cm-end,,9.073,DOC-206,C74 5cm-end,0
+Unknown,NPOC,S1 0-5cm,,144.3,DOC-239,S1 0-5cm,0
+Unknown,NPOC,S1 5cm-end,,105.7,DOC-240,S1 5cm-end,0
+Unknown,NPOC,S2 0-5cm,,36.94,DOC-223,S2 0-5cm,#REF!
+Unknown,NPOC,S2 5cm-end,,12.15,DOC-224,S2 5cm-end,#REF!
+Unknown,NPOC,S5 0-5cm,,118.8,DOC-249,S5 0-5cm,#REF!
+Unknown,NPOC,S5 5cm-end,,92.71,DOC-250,S5 5cm-end,#REF!
+Unknown,NPOC,S10 0-5cm,,141,DOC-241,S10 0-5cm,0
+Unknown,NPOC,S10 5cm-end,,129.1,DOC-242,S10 5cm-end,0
+Unknown,NPOC,S17 0-5cm,,38.19,DOC-221,S17 0-5cm,0
+Unknown,NPOC,S17 5cm-end,,14.38,DOC-222,S17 5cm-end,0
+Unknown,NPOC,S31 0-5cm,,60.52,DOC-225,S31 0-5cm,0
+Unknown,NPOC,blank filter,,0.581,,,1
+Unknown,NPOC,blank solution,,0.3497,,,1
+Unknown,NPOC,chkstd_10ppm,,10.2,,,1
+Unknown,NPOC,DIW,,0.3837,,,1
+Unknown,NPOC,S31 5cm-end,,15.06,DOC-226,S31 5cm-end,0
+Unknown,NPOC,S36 0-5cm,,116.7,DOC-227,S36 0-5cm,0
+Unknown,NPOC,S36 5cm-end,,15.53,DOC-228,S36 5cm-end,0
+Unknown,NPOC,S38 0-5cm,,188.5,DOC-243,S38 0-5cm,0
+Unknown,NPOC,S38 5cm-end,,107.1,DOC-244,S38 5cm-end,0
+Unknown,NPOC,S40 0-5cm,,160.7,DOC-245,S40 0-5cm,0
+Unknown,NPOC,S40 5cm-end,,81.62,DOC-246,S40 5cm-end,0
+Unknown,NPOC,S42 0-5cm,,174.1,DOC-247,S42 0-5cm,0
+Unknown,NPOC,S42 5cm-end,,94.97,DOC-248,S42 5cm-end,0
+Unknown,NPOC,S48 0-5cm,,48.33,DOC-229,S48 0-5cm,0
+Unknown,NPOC,S48 5cm-end,,14.55,DOC-230,S48 5cm-end,0
+Unknown,NPOC,S51 0-5cm,,32.36,DOC-231,S51 0-5cm,0
+Unknown,NPOC,S51 5cm-end,,9.47,DOC-232,S51 5cm-end,0
+Unknown,NPOC,S55 0-5cm,,241.4,DOC-251,S55 0-5cm,0
+Unknown,NPOC,S55 5cm-end,,133.1,DOC-252,S55 5cm-end,0
+Unknown,NPOC,S59 0-5cm,,29.54,DOC-233,S59 0-5cm,0
+Unknown,NPOC,S59 5cm-end,,12.57,DOC-234,S59 5cm-end,0
+Unknown,NPOC,S60 0-5cm,,49.22,DOC-235,S60 0-5cm,0
+Unknown,NPOC,S60 5cm-end,,12.01,DOC-236,S60 5cm-end,0
+Unknown,NPOC,S75 0-5cm,,43.94,DOC-237,S75 0-5cm,0
+Unknown,NPOC,S75 5cm-end,,11.33,DOC-238,S75 5cm-end,0
+Unknown,NPOC,S64 0-5cm,,205.2,DOC-253,S64 0-5cm,0
+Unknown,NPOC,S64 5cm-end,,91.51,DOC-254,S64 5cm-end,0
+Unknown,NPOC,blank filter,,0.6337,,,
+Unknown,NPOC,blank solution,,0.3683,,,
+Unknown,NPOC,chkstd_10ppm,,0,,,
+,,,,,DOC_ID,sample,
