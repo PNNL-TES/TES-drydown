@@ -16,15 +16,15 @@
 SPECTRA_FILES = "data/nmr-data/nmr_spectra/"
 PEAKS_FILES = "data/nmr-data/nmr_peaks/"
 BINS = "data/0-NMR_BINS.csv"
-
-COREKEY = "data/processed/corekey.csv"
-DOCKEY = "data/doc_analysis_key.csv"
-
-PROCESSED_PEAKS = "processed/peaks.csv"
-
-RELABUND_CORES = "processed/relabund_cores.csv"
-RELABUND_TRT = "processed/relabund_trt.csv"
-RELABUND_SUMMARY = "processed/relabund_summary.csv"
+## 
+## COREKEY = "data/processed/corekey.csv"
+## DOCKEY = "data/doc_analysis_key.csv"
+## 
+## PROCESSED_PEAKS = "processed/peaks.csv"
+## 
+## RELABUND_CORES = "processed/relabund_cores.csv"
+## RELABUND_TRT = "processed/relabund_trt.csv"
+## RELABUND_SUMMARY = "processed/relabund_summary.csv"
 
 #
 # BINS SETUP --------------------------------------------------------------

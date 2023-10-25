@@ -105,6 +105,50 @@ plot_weoc = function(weoc_processed){
        table = table)
   }
 
+plot_weoc = function(weoc_processed){
+  
+  # get Tukey HSD letters
+  fit_hsd <- function(dat) {
+    a <-aov(npoc_mg_g ~ saturation, data = dat)
+    h <-agricolae::HSD.test(a,"saturation")
+    h$groups %>% mutate(type = row.names(.)) %>% 
+      rename(label = groups,
+             saturation = type) %>%  
+      dplyr::select(saturation, label)
+  }
+  
+  weoc_hsd = 
+    weoc_processed %>% 
+    group_by(Site, depth) %>% 
+    do(fit_hsd(.)) %>% 
+    refactor_saturation_levels()    
+  
+  plot = 
+    weoc_processed %>% 
+    filter(!is.na(npoc_mg_g)) %>% 
+    ggplot(aes(x = Site, y = npoc_mg_g, color = drying))+
+    geom_point(size = 2.5, position = position_dodge(width = 0.7))+
+    geom_text(data = weoc_hsd, aes(y = 2.2, label = label, group = saturation), 
+              position = position_dodge(width = 0.7), color = "black", size = 5, 
+              show.legend = F)+
+    labs(x = "", y = "WEOC, mg/g", color = "")+
+    scale_color_manual(values = pal_saturation)+
+    facet_grid(depth ~ saturation )+
+    NULL
+  
+  table = 
+    weoc_processed %>% 
+    group_by(Site, depth, saturation) %>% 
+    dplyr::summarise(mean = mean(npoc_mg_g),
+                     se = sd(npoc_mg_g)/sqrt(n())) %>% 
+    left_join(weoc_hsd) %>% 
+    mutate(mean_se_mg_g = paste(round(mean, 2), "\u00b1", round(se, 2), label)) %>% 
+    dplyr::select(Site, depth, saturation, mean_se_mg_g) %>% 
+    pivot_wider(names_from = "saturation", values_from = "mean_se_mg_g") %>% knitr::kable()
+  
+  list(plot = plot,
+       table = table)
+}
 
 misc_weoc_script = function(weoc_processed){
   npoc_summary = 

@@ -128,14 +128,63 @@ compute_fticr_pca_drying_vs_dw = function(fticr_relabund_cores){
        )
 }  
 
+compute_fticr_pca_cw_vs_fad = function(relabund_cores){
+  ## PCA function ----
+  fit_pca_function = function(dat){
+    relabund_pca=
+      dat %>% 
+      filter(!is.na(CoreID)) %>% 
+      ungroup %>% 
+      dplyr::select(-c(abund, total)) %>% 
+      spread(Class, relabund) %>% 
+      replace(.,is.na(.),0)  %>% 
+      dplyr::select(-1)
+    
+    num = 
+      relabund_pca %>% 
+      dplyr::select(c(aliphatic, aromatic, `condensed aromatic`, `unsaturated/lignin`))
+    
+    grp = 
+      relabund_pca %>% 
+      dplyr::select(-c(aliphatic, aromatic, `condensed aromatic`, `unsaturated/lignin`)) %>% 
+      dplyr::mutate(row = row_number())
+    
+    pca_int = prcomp(num, scale. = T)
+    
+    list(num = num,
+         grp = grp,
+         pca_int = pca_int)
+  }
+  
+  #
+  ## PCA input files ----
+  pca = fit_pca_function(relabund_cores)
+  
+  gg_pca = 
+    ggbiplot(pca$pca_int, obs.scale = 1, var.scale = 1,
+             groups = as.character(pca$grp$drying), 
+             ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+    geom_point(size=4,stroke=1.5, 
+               aes(shape = interaction(pca$grp$depth, pca$grp$Site),
+                   fill = groups, color = groups))+
+    scale_shape_manual(values = c(1,2,16,17,15, 5), name = "")+
+    labs(shape="",
+         title = "FTICR PCA: CW vs. FAD")+
+    theme_kp()+
+    theme(legend.position = "right")+
+    NULL
+  
+  gg_pca
+  
+}  
 
 
 
 # permanova -----------------------------------------------------------
 
-compute_permanova = function(relabund_cores){
+compute_permanova = function(fticr_relabund_cores){
   relabund_wide = 
-    relabund_cores %>% 
+    fticr_relabund_cores %>% 
     #filter(length != "timezero") %>% 
     ungroup() %>% 
     mutate(Class = factor(Class, 
@@ -149,7 +198,7 @@ compute_permanova = function(relabund_cores){
   
   permanova_fticr_all = 
     adonis(relabund_wide %>% dplyr::select(aliphatic:`condensed aromatic`) ~ 
-             (depth+Site+saturation)^2, 
+             (Site+saturation+drying)^2, 
            data = relabund_wide)
   broom::tidy(permanova_fticr_all$aov.tab)
 }

@@ -64,7 +64,7 @@ plot_nmr_spectra = function(nmr_spectra_processed){
   spectra_cpcrw =   
     gg_nmr2 +
     geom_path(data = nmr_spectra_processed %>% 
-                filter(length != "timezero" & Site == "CPCRW"),
+                filter(length != "timezero" & Site == "Alaska"),
               aes(x = ppm, y = intensity, color = DOC_ID))+
     ylim(0,2.5)+
     facet_grid(depth ~ saturation + drying)+
@@ -84,7 +84,7 @@ plot_nmr_spectra = function(nmr_spectra_processed){
   spectra_sr =
       gg_nmr2 +
       geom_path(data = nmr_spectra_processed %>% 
-                  filter(length != "timezero" & Site == "SR"),
+                  filter(length != "timezero" & Site == "Washington"),
                 aes(x = ppm, y = intensity, color = DOC_ID))+
       ylim(0,2.5)+
       facet_grid(depth ~ saturation + drying)+
@@ -102,6 +102,53 @@ plot_nmr_spectra = function(nmr_spectra_processed){
       NULL
  
   list(spectra_tzero = spectra_tzero,
+       spectra_cpcrw = spectra_cpcrw,
+       spectra_sr = spectra_sr) 
+}
+
+fad_plot_nmr_spectra = function(nmr_spectra_processed){
+  
+  spectra_cpcrw =   
+    gg_nmr2 +
+    geom_path(data = nmr_spectra_processed %>% 
+                filter(length != "timezero" & Site == "Alaska"),
+              aes(x = ppm, y = intensity, color = DOC_ID))+
+    ylim(0,2.5)+
+    facet_grid(depth ~ saturation + drying)+
+    theme(legend.position = "none",
+          plot.caption = element_text(hjust = 0))+
+    annotate("rect", xmin = DMSO_start, xmax = WATER_stop, ymin = 0, ymax = 2.5,
+             fill = "grey90", alpha = 0.5)+
+    labs(title = "NMR spectra: CPCRW",
+         caption = "grey = solvent region,
+       1, 2 = aliphatic,
+       3 = o-alkyl (carb),
+       4 = alpha-H (protein),
+       5 = aromatic,
+       6 = amide")+
+    NULL
+  
+  spectra_sr =
+    gg_nmr2 +
+    geom_path(data = nmr_spectra_processed %>% 
+                filter(length != "timezero" & Site == "Washington"),
+              aes(x = ppm, y = intensity, color = DOC_ID))+
+    ylim(0,2.5)+
+    facet_grid(depth ~ saturation + drying)+
+    theme(legend.position = "none",
+          plot.caption = element_text(hjust = 0))+
+    annotate("rect", xmin = DMSO_start, xmax = WATER_stop, ymin = 0, ymax = 2.5,
+             fill = "grey90", alpha = 0.5)+
+    labs(title = "NMR spectra: SR",
+         caption = "grey = solvent region,
+       1, 2 = aliphatic,
+       3 = o-alkyl (carb),
+       4 = alpha-H (protein),
+       5 = aromatic,
+       6 = amide")+
+    NULL
+  
+  list(
        spectra_cpcrw = spectra_cpcrw,
        spectra_sr = spectra_sr) 
 }
@@ -126,7 +173,7 @@ plot_nmr_spectra_clean = function(nmr_spectra_processed){
     ylim(-0.1, 2.5)+
     
     annotate("rect", xmin = DMSO_start, xmax = WATER_stop, ymin = -0.1, ymax = 2.5,
-             fill = "grey90", alpha = 0.5)+
+             fill = "white", alpha = 0.85)+
     labs(title = "Alaska")+
     theme(plot.title = element_text(hjust = 0.5, size = 18, vjust = 1))+
     NULL
@@ -146,7 +193,7 @@ plot_nmr_spectra_clean = function(nmr_spectra_processed){
     ylim(-0.1,2.5)+
     
     annotate("rect", xmin = DMSO_start, xmax = WATER_stop, ymin = -0.1, ymax = 2.5,
-             fill = "grey90", alpha = 0.5)+
+             fill = "white", alpha = 0.85)+
     labs(title = "Washington")+
     theme(plot.title = element_text(hjust = 0.5, size = 18, vjust = 1))+
     NULL
@@ -158,24 +205,96 @@ plot_nmr_spectra_clean = function(nmr_spectra_processed){
   #            fill = "grey90", alpha = 0.015)
   
   
+ ##   gg_nmr2 +
+ ##   geom_path(data = nmr_spectra_subset %>% 
+ ##               filter(Site == "Washington"),
+ ##             aes(x = ppm, y = intensity, color = DOC_ID))+
+ ##   ylim(0,2.5)+
+ ##   facet_grid(. ~ saturation)+
+ ##   theme(legend.position = "none",
+ ##         plot.caption = element_text(hjust = 0))+
+ ##   annotate("rect", xmin = DMSO_start, xmax = WATER_stop, ymin = 0, ymax = 2.5,
+ ##            fill = "grey90", alpha = 0.5)+
+ ##   labs(title = "NMR spectra: SR",
+ ##        caption = "grey = solvent region,
+ ##      1, 2 = aliphatic,
+ ##      3 = o-alkyl (carb),
+ ##      4 = alpha-H (protein),
+ ##      5 = aromatic,
+ ##      6 = amide")+
+ ##   NULL
+  
+  
+}
+
+
+fad_plot_nmr_spectra_clean = function(nmr_spectra_processed){
+  
+  nmr_spectra_subset = 
+    nmr_spectra_processed %>% 
+    filter(coreID %in% c("C84", "C61", "C83", "C37", "C70", "C71", "S84", "S53", "S21", "S72")) %>% 
+    filter(saturation == "drought")
+  
+  gg_alaska = 
     gg_nmr2 +
-    geom_path(data = nmr_spectra_subset %>% 
-                filter(Site == "Washington"),
-              aes(x = ppm, y = intensity, color = DOC_ID))+
-    ylim(0,2.5)+
-    facet_grid(. ~ saturation)+
-    theme(legend.position = "none",
-          plot.caption = element_text(hjust = 0))+
-    annotate("rect", xmin = DMSO_start, xmax = WATER_stop, ymin = 0, ymax = 2.5,
-             fill = "grey90", alpha = 0.5)+
-    labs(title = "NMR spectra: SR",
-         caption = "grey = solvent region,
-       1, 2 = aliphatic,
-       3 = o-alkyl (carb),
-       4 = alpha-H (protein),
-       5 = aromatic,
-       6 = amide")+
+    geom_path(data = nmr_spectra_subset %>% filter(Site == "Alaska" & drying == "CW"),
+              aes(x = ppm, y = intensity+0.5), color = "#cc5c76")+
+    geom_path(data = nmr_spectra_subset %>% filter(Site == "Alaska" & drying == "FAD"),
+              aes(x = ppm, y = intensity), color = "#1d457f")+
+    annotate("text", label = "FAD", x = 9, y = 0.1, color = "#1d457f")+
+    annotate("text", label = "CW", x = 9, y = 0.6, color = "#cc5c76")+
+   # annotate("text", label = "d+rewet", x = 9, y = 1.1, color = "#1d457f")+
+    ylim(-0.1, 2.5)+
+    
+    annotate("rect", xmin = DMSO_start, xmax = WATER_stop, ymin = -0.1, ymax = 2.5,
+             fill = "white", alpha = 0.85)+
+    labs(title = "Alaska")+
+    theme(plot.title = element_text(hjust = 0.5, size = 18, vjust = 1))+
     NULL
+  
+  
+  gg_washington = 
+    gg_nmr2 +
+    geom_path(data = nmr_spectra_subset %>% filter(Site == "Washington" & drying == "CW"),
+              aes(x = ppm, y = intensity+0.5), color = "#cc5c76")+
+    geom_path(data = nmr_spectra_subset %>% filter(Site == "Washington" & drying == "FAD"),
+              aes(x = ppm, y = intensity), color = "#1d457f")+
+    annotate("text", label = "FAD", x = 9, y = 0.1, color = "#1d457f")+
+    annotate("text", label = "CW", x = 9, y = 0.6, color = "#cc5c76")+
+    # annotate("text", label = "d+rewet", x = 9, y = 1.1, color = "#1d457f")+
+    ylim(-0.1, 2.5)+
+    
+    annotate("rect", xmin = DMSO_start, xmax = WATER_stop, ymin = -0.1, ymax = 2.5,
+             fill = "white", alpha = 0.85)+
+    labs(title = "Washington")+
+    theme(plot.title = element_text(hjust = 0.5, size = 18, vjust = 1))+
+    NULL
+  
+  cowplot::plot_grid(gg_alaska, gg_washington)
+  
+  #  geom_rect(data = nmr_spectra_subset %>% filter(Site == "Washington" & saturation == "timezero"), 
+  #            aes(xmin = DMSO_start, xmax = WATER_stop, ymin = 0.0, ymax = 2.5),
+  #            fill = "grey90", alpha = 0.015)
+  
+  
+ # gg_nmr2 +
+ #   geom_path(data = nmr_spectra_subset %>% 
+ #               filter(Site == "Washington"),
+ #             aes(x = ppm, y = intensity, color = DOC_ID))+
+ #   ylim(0,2.5)+
+ #   facet_grid(. ~ saturation)+
+ #   theme(legend.position = "none",
+ #         plot.caption = element_text(hjust = 0))+
+ #   annotate("rect", xmin = DMSO_start, xmax = WATER_stop, ymin = 0, ymax = 2.5,
+ #            fill = "grey90", alpha = 0.5)+
+ #   labs(title = "NMR spectra: SR",
+ #        caption = "grey = solvent region,
+ #      1, 2 = aliphatic,
+ #      3 = o-alkyl (carb),
+ #      4 = alpha-H (protein),
+ #      5 = aromatic,
+ #      6 = amide")+
+ #   NULL
   
   
 }
@@ -324,6 +443,36 @@ plot_relabund_bargraphs_drying_vs_dw = function(nmr_relabund_cores){
        relabund_bar_top = relabund_bar_top)
 }
 
+plot_relabund_bargraphs_cw_vs_fad = function(nmr_relabund_cores){
+  relabund_summary = compute_relabund_summary(nmr_relabund_cores)$relabund_summary %>% 
+    refactor_saturation_levels(.)
+  
+  relabund_bar_cores = 
+    nmr_relabund_cores %>% 
+    ggplot(aes(x = DOC_ID, y = relabund, fill = group))+
+    geom_bar(stat = "identity")+
+    facet_grid(depth + saturation + length ~ Site + drying, scales = "free_x", space = "free_x")+
+    labs(title = "NMR relative abundance")+
+    theme_bw()+
+    theme(axis.text.x = element_text(angle = 90))
+  
+  relabund_bar_top = 
+    relabund_summary %>% 
+    filter(depth == "0-5cm") %>% 
+    ggplot(aes(x = saturation, y = relabund_mean, fill = group))+
+    geom_bar(stat = "identity")+
+    facet_grid(drying ~ Site)+
+    labs(title = "NMR: 0-5 cm only",
+         x = "",
+         y = "Relative abundance, %")+
+    scale_fill_manual(values = PNWColors::pnw_palette("Sailboat", 5))+
+    theme_kp()
+  
+  list(relabund_bar_cores = relabund_bar_cores,
+       relabund_bar_top = relabund_bar_top)
+}
+
+
 #
 #
 # III. PERMANOVA ----------------------------------------------------------
@@ -349,10 +498,31 @@ compute_nmr_permanova_drying_dw = function(rel_abund_wide){
              (Site + saturation)^2,
            data = relabund_permanova %>% filter(depth == "0-5cm"))
   
-  list(permanova_tzero = permanova_tzero,
-       #permanova_drying_vs_dw = permanova_drying_vs_dw,
-       permanova_drought_toponly = permanova_drought_toponly) 
+  broom::tidy(permanova_drought_toponly$aov.tab)
+  
+ # list(permanova_tzero = permanova_tzero,
+ #      #permanova_drying_vs_dw = permanova_drying_vs_dw,
+ #      permanova_drought_toponly = permanova_drought_toponly) 
 }
+
+
+compute_nmr_permanova_cw_fad = function(rel_abund_wide){
+  relabund_permanova = rel_abund_wide  %>% filter(length != "timezero") 
+  
+  permanova = 
+    adonis(relabund_permanova %>% dplyr::select(aliphatic1, aliphatic2, aromatic, alphah, amide)  ~ 
+             (Site  + drying + saturation)^2,
+           data = relabund_permanova)
+  
+  broom::tidy(permanova$aov.tab)
+  
+  # list(permanova_tzero = permanova_tzero,
+  #      #permanova_drying_vs_dw = permanova_drying_vs_dw,
+  #      permanova_drought_toponly = permanova_drought_toponly) 
+}
+
+
+
 
 #
 # IV. PCA -----------------------------------------------------------------
@@ -444,10 +614,9 @@ compute_nmr_pca_drying_dw = function(rel_abund_wide){
     geom_point(size=2,stroke=1, alpha = 1,
                aes(shape = pca_overall$grp$Site,
                    color = groups))+
-    scale_shape_manual(values = c(1, 19), name = "", #guide = "none"
-                       )+
+ 
       scale_color_manual(values = pal_saturation,
-                         breaks = c("timezero", "instant chemistry", "saturated"),
+                         breaks = c("timezero", "drought", "d+rewet"),
                          #labels = c("timezero", "drought", "rewet")
                          )+
     xlim(-4,4)+
@@ -462,4 +631,63 @@ compute_nmr_pca_drying_dw = function(rel_abund_wide){
   
   #
 
+}
+
+compute_nmr_pca_cw_fad = function(rel_abund_wide){
+  
+  fit_pca_function = function(dat){
+    relabund_pca=
+      dat %>% 
+      ungroup %>% 
+      #  dplyr::select(-c(abund, total)) %>% 
+      #  spread(Class, relabund) %>% 
+      #  replace(.,is.na(.),0)  %>% 
+      dplyr::select(-1)
+    
+    num = 
+      relabund_pca %>% 
+      dplyr::select(c(aliphatic1, aliphatic2, aromatic, alphah))
+    
+    grp = 
+      relabund_pca %>% 
+      dplyr::select(-c(aliphatic1, aliphatic2, aromatic, alphah, amide)) %>% 
+      dplyr::mutate(row = row_number())
+    
+    pca_int = prcomp(num, scale. = T)
+    
+    list(num = num,
+         grp = grp,
+         pca_int = pca_int)
+  }
+  
+  ## PCA input files ----
+  rel_abund_wide = rel_abund_wide %>% filter(depth == "0-5cm")
+  
+  pca_overall = fit_pca_function(rel_abund_wide)
+  
+  ## PCA plots overall ----
+  (gg_pca_overall2 = 
+      ggbiplot(pca_overall$pca_int, obs.scale = 1, var.scale = 1,
+               groups = as.character(pca_overall$grp$drying), 
+               ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+      geom_point(size=2,stroke=1, alpha = 1,
+                 aes(shape = pca_overall$grp$Site,
+                     color = groups))+
+      
+      scale_color_manual(values = pal_saturation,
+                         #breaks = c("timezero", "drought", "d+rewet"),
+                         #labels = c("timezero", "drought", "rewet")
+      )+
+      xlim(-4,4)+
+      ylim(-3.5,3.5)+
+      labs(shape="",
+           #title = "all samples",
+           #subtitle = "separation by saturation type"
+           title = "NMR: 0-5 cm only")+
+      theme_kp()+
+      NULL)
+  
+  
+  #
+  
 }

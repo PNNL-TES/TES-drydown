@@ -84,7 +84,21 @@ plot_barplot_phylum = function(phyla_relabund_by_trt){
   
 }
 
-
+fad_plot_barplot_phylum = function(phyla_relabund_by_trt){
+  ### Create a stacked barplot at the Phylum level
+  # use the output from the previous function here
+  
+  ggplot(phyla_relabund_by_trt, aes(fill = phyla, y = relabund, x = drying))+
+    geom_bar(position = "fill", stat = "identity")+
+    facet_grid(saturation ~ Site + depth)+
+    # scale_fill_viridis_d()+
+    scale_fill_manual(values = PNWColors::pnw_palette("Bay", 17))+
+    # scale_fill_manual(values = soilpalettes::soil_palette("redox2", 17))+
+    labs(y = "Proportion",
+         x = "")+
+    theme_kp()
+  
+}
 
 #
 
@@ -103,6 +117,21 @@ compute_permanova_phyla = function(phyla_long_clean){
     adonis(phyla_relabund_wide %>% dplyr::select(Archaea_Crenarchaeota:Other) ~ (depth + Site + saturation)^2, 
          data = phyla_relabund_wide)
     
+  broom::tidy(phyla_permanova$aov.tab)
+}
+
+fad_compute_permanova_phyla = function(phyla_long_clean){
+  
+  phyla_relabund_wide = 
+    phyla_long_clean %>% 
+    dplyr::select(Sample, coreID, depth, Site, saturation, drying, phyla, counts) %>% 
+    pivot_wider(names_from = "phyla", values_from = "counts")
+  
+  
+  phyla_permanova = 
+    adonis(phyla_relabund_wide %>% dplyr::select(Archaea_Crenarchaeota:Other) ~ (depth + Site + saturation + drying)^2, 
+           data = phyla_relabund_wide)
+  
   broom::tidy(phyla_permanova$aov.tab)
 }
 
@@ -272,6 +301,68 @@ compute_pca_drying_vs_rewet = function(phyla_long_clean){
     list(gg_pca_tz = gg_pca_tz,
          gg_pca_dry_wet = gg_pca_dry_wet,
          gg_pca_overall_combined = gg_pca_overall_combined)
+}
+
+
+compute_pca_cw_vs_fad = function(phyla_long_clean){
+  
+  fit_pca_function = function(dat){
+    relabund_pca =
+      dat %>% 
+      filter(!is.na(coreID)) %>% 
+      dplyr::select(-starts_with("X")) %>% 
+      ungroup %>% 
+      spread(phyla, counts) %>% 
+      replace(.,is.na(.),0)  %>% 
+      dplyr::select(-1) 
+    
+    
+    num = 
+      relabund_pca %>% 
+      dplyr::select(where(is.numeric))
+    
+    grp = 
+      relabund_pca %>% 
+      dplyr::select(-where(is.numeric)) %>% 
+      dplyr::mutate(row = row_number())
+    
+    pca_int = prcomp(num, scale. = T)
+    
+    list(num = num,
+         grp = grp,
+         pca_int = pca_int)
+  }
+  
+  
+  ## PCA input files ----
+  
+  pca = fit_pca_function(phyla_long_clean)
+  
+  
+  ## PCA plots ----
+  
+  (gg_pca_dry_wet = 
+      ggbiplot(pca$pca_int, obs.scale = 1, var.scale = 1,
+               groups = as.character(pca$grp$drying), 
+               ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+      geom_point(size=5,stroke=1, alpha = 1,
+                 aes(shape = interaction(pca$grp$depth, pca$grp$Site),
+                     color = groups))+
+      scale_shape_manual(values = c(2, 1, 17, 19), name = "")+
+      #scale_color_manual(values = c("red", "blue"), name = "")+
+      #scale_fill_manual(values = c("red", "blue"), name = "")+
+      xlim(-4,4)+
+      ylim(-3.5,3.5)+
+      labs(shape="",
+           title = "90d, CW",
+           subtitle = "separation by drying type")+
+    #  scale_color_manual(values = pal_saturation,
+    #                     breaks = c("timezero", "drought", "d+rewet"))+
+      theme_kp()+
+      theme(legend.position = "right")+
+      NULL)
+  
+  
 }
 
 #

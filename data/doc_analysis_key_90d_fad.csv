@@ -1,0 +1,87 @@
+coreID,depth,Site,length,location,drying,rep,DOC_ID,saturation
+C61,5cm-end,CPCRW,90d,low,CW,r2,DOC-025,saturated
+C86,0-5cm,CPCRW,90d,low,CW,r1,DOC-026,saturated
+C53,0-5cm,CPCRW,90d,low,CW,r4,DOC-027,saturated
+C71,0-5cm,CPCRW,90d,low,FAD,r4,DOC-028,saturated
+C77,0-5cm,CPCRW,90d,low,FAD,r1,DOC-029,saturated
+C52,0-5cm,CPCRW,90d,low,FAD,r3,DOC-030,saturated
+C25,0-5cm,CPCRW,90d,up,CW,r3,DOC-031,saturated
+C15,0-5cm,CPCRW,90d,up,CW,r2,DOC-032,saturated
+C11,0-5cm,CPCRW,90d,up,CW,r1,DOC-033,saturated
+C1,0-5cm,CPCRW,90d,up,FAD,r1,DOC-034,saturated
+C37,0-5cm,CPCRW,90d,up,FAD,r4,DOC-035,saturated
+C18,0-5cm,CPCRW,90d,up,FAD,r3,DOC-036,saturated
+C61,0-5cm,CPCRW,90d,low,CW,r2,DOC-061,saturated
+C86,5cm-end,CPCRW,90d,low,CW,r1,DOC-062,saturated
+C53,5cm-end,CPCRW,90d,low,CW,r4,DOC-063,saturated
+C71,5cm-end,CPCRW,90d,low,FAD,r4,DOC-064,saturated
+C77,5cm-end,CPCRW,90d,low,FAD,r1,DOC-065,saturated
+C52,5cm-end,CPCRW,90d,low,FAD,r3,DOC-066,saturated
+C25,5cm-end,CPCRW,90d,up,CW,r3,DOC-067,saturated
+C15,5cm-end,CPCRW,90d,up,CW,r2,DOC-068,saturated
+C11,5cm-end,CPCRW,90d,up,CW,r1,DOC-069,saturated
+C1,5cm-end,CPCRW,90d,up,FAD,r1,DOC-070,saturated
+C37,5cm-end,CPCRW,90d,up,FAD,r4,DOC-071,saturated
+C18,5cm-end,CPCRW,90d,up,FAD,r3,DOC-072,saturated
+S15,0-5cm,SR,90d,low,CW,r2,DOC-095,saturated
+S11,0-5cm,SR,90d,low,CW,r1,DOC-096,saturated
+S25,0-5cm,SR,90d,low,CW,r4,DOC-097,saturated
+S1,0-5cm,SR,90d,low,FAD,r1,DOC-098,saturated
+S18,0-5cm,SR,90d,low,FAD,r3,DOC-099,saturated
+S37,0-5cm,SR,90d,low,FAD,r4,DOC-100,saturated
+S53,0-5cm,SR,90d,up,CW,r4,DOC-101,saturated
+S87,0-5cm,SR,90d,up,CW,r1,DOC-102,saturated
+S65,0-5cm,SR,90d,up,CW,r3,DOC-103,saturated
+S52,0-5cm,SR,90d,up,FAD,r3,DOC-104,saturated
+S72,0-5cm,SR,90d,up,FAD,r4,DOC-105,saturated
+S78,0-5cm,SR,90d,up,FAD,r1,DOC-106,saturated
+S15,5cm-end,SR,90d,low,CW,r2,DOC-129,saturated
+S11,5cm-end,SR,90d,low,CW,r1,DOC-130,saturated
+S25,5cm-end,SR,90d,low,CW,r4,DOC-131,saturated
+S1,5cm-end,SR,90d,low,FAD,r1,DOC-132,saturated
+S18,5cm-end,SR,90d,low,FAD,r3,DOC-133,saturated
+S37,5cm-end,SR,90d,low,FAD,r4,DOC-134,saturated
+S53,5cm-end,SR,90d,up,CW,r4,DOC-135,saturated
+S87,5cm-end,SR,90d,up,CW,r1,DOC-136,saturated
+S65,5cm-end,SR,90d,up,CW,r3,DOC-137,saturated
+S52,5cm-end,SR,90d,up,FAD,r3,DOC-138,saturated
+S72,5cm-end,SR,90d,up,FAD,r4,DOC-139,saturated
+S78,5cm-end,SR,90d,up,FAD,r1,DOC-140,saturated
+C78,0-5cm,CPCRW,90d,,CW,r1,DOC-141,instant chemistry
+C76,0-5cm,CPCRW,90d,,CW,r2,DOC-142,instant chemistry
+C84,0-5cm,CPCRW,90d,,CW,r3,DOC-143,instant chemistry
+C70,0-5cm,CPCRW,90d,,FAD,r1,DOC-144,instant chemistry
+C80,0-5cm,CPCRW,90d,,FAD,r2,DOC-145,instant chemistry
+C83,0-5cm,CPCRW,90d,,FAD,r3,DOC-146,instant chemistry
+C78,5cm-end,CPCRW,90d,,CW,r1,DOC-147,instant chemistry
+C76,5cm-end,CPCRW,90d,,CW,r2,DOC-148,instant chemistry
+C84,5cm-end,CPCRW,90d,,CW,r3,DOC-149,instant chemistry
+C70,5cm-end,CPCRW,90d,,FAD,r1,DOC-150,instant chemistry
+C80,5cm-end,CPCRW,90d,,FAD,r2,DOC-151,instant chemistry
+C83,5cm-end,CPCRW,90d,,FAD,r3,DOC-152,instant chemistry
+S95,0-5cm,SR,90d,,CW,r1,DOC-159,instant chemistry
+S84,0-5cm,SR,90d,,CW,r2,DOC-160,instant chemistry
+S32,0-5cm,SR,90d,,CW,r3,DOC-161,instant chemistry
+S21,0-5cm,SR,90d,,FAD,r1,DOC-162,instant chemistry
+S47,0-5cm,SR,90d,,FAD,r2,DOC-163,instant chemistry
+S89,0-5cm,SR,90d,,FAD,r3,DOC-164,instant chemistry
+S95,5cm-end,SR,90d,,CW,r1,DOC-171,instant chemistry
+S84,5cm-end,SR,90d,,CW,r2,DOC-172,instant chemistry
+S32,5cm-end,SR,90d,,CW,r3,DOC-173,instant chemistry
+S21,5cm-end,SR,90d,,FAD,r1,DOC-174,instant chemistry
+S47,5cm-end,SR,90d,,FAD,r2,DOC-175,instant chemistry
+S89,5cm-end,SR,90d,,FAD,r3,DOC-176,instant chemistry
+C67,0-5cm,CPCRW,timezero,,,,DOC-177,timezero
+C73,0-5cm,CPCRW,timezero,,,,DOC-178,timezero
+C81,0-5cm,CPCRW,timezero,,,,DOC-179,timezero
+C29,0-5cm,CPCRW,timezero,,,,DOC-180,timezero
+C67,5cm-end,CPCRW,timezero,,,,DOC-181,timezero
+C73,5cm-end,CPCRW,timezero,,,,DOC-182,timezero
+C81,5cm-end,CPCRW,timezero,,,,DOC-183,timezero
+C29,5cm-end,CPCRW,timezero,,,,DOC-184,timezero
+S58,0-5cm,SR,timezero,,,,DOC-185,timezero
+S25,0-5cm,SR,timezero,,,,DOC-186,timezero
+S92,0-5cm,SR,timezero,,,,DOC-187,timezero
+S58,5cm-end,SR,timezero,,,,DOC-188,timezero
+S25,5cm-end,SR,timezero,,,,DOC-189,timezero
+S92,5cm-end,SR,timezero,,,,DOC-190,timezero

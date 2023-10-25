@@ -40,6 +40,34 @@ plot_relabund_drying_vs_dw = function(relabund_cores, TREATMENTS){
   
 }
 
+plot_relabund_cw_vs_fad = function(relabund_cores, TREATMENTS){
+  relabund_trt = 
+    relabund_cores %>% 
+    drop_na() %>% 
+    group_by(!!!TREATMENTS, Class) %>% 
+    dplyr::summarize(rel_abund = round(mean(relabund),2),
+                     se  = round((sd(relabund/sqrt(n()))),2),
+                     relative_abundance = paste(rel_abund, "\u00b1",se)) %>% 
+    ungroup() %>% 
+    mutate(Class = factor(Class, levels = c("aliphatic", "unsaturated/lignin", "aromatic", "condensed aromatic"))) %>% 
+    filter(!is.na(Class))
+  
+  #relabund_bar_trt = 
+  relabund_trt %>% 
+    #filter(saturation != "timezero") %>% 
+    ggplot(aes(x = drying, y = rel_abund, fill = Class))+
+    geom_bar(stat = "identity")+
+    scale_fill_manual(values = PNWColors::pnw_palette("Sailboat"))+
+    labs(title = "relative abundance",
+         x = "",
+         y = "% relative abundance")+
+    facet_grid(saturation~Site+depth)+
+    theme_kp()
+  
+}
+
+
+
 ################################################## #####
 ################################################## #####
 
@@ -197,8 +225,47 @@ plot_vk_drying_vs_dw = function(fticr_data_trt, fticr_meta){
   list(vk_timezero = vk_timezero,
        vk_drying_vs_rewet = vk_drying_vs_rewet,
        vk_lossgain_drought = vk_lossgain_drought,
-       vk_lossgain_rewet = vk_lossgain_rewet)
+       vk_lossgain_rewet = vk_lossgain_rewet,
+       vk_unique = vk_unique)
 
+}
+
+plot_vk_cw_vs_fad = function(fticr_data_trt, fticr_meta){
+  # make hcoc dataframe
+  fticr_hcoc = 
+    fticr_data_trt %>% 
+    drop_na() %>% 
+    left_join(dplyr::select(fticr_meta, formula, HC, OC), by = "formula")
+  
+  # plot of drying treatments
+  vk_cw_vs_fad = 
+    fticr_hcoc %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = drying))+
+    stat_ellipse(level = 0.90, show.legend = F)+
+    facet_grid(depth ~ Site+saturation)+
+    scale_color_manual(values = rev(soil_palette("redox2", 3)))+
+    labs(subtitle = "instant chemistry vs. saturated")+
+    theme_kp()+
+    NULL
+  
+  # compute unique peaks
+  fticr_unique = 
+    fticr_hcoc %>% 
+    group_by(Site, depth, formula, saturation) %>% 
+    dplyr::mutate(n = n()) %>% refactor_saturation_levels()
+  
+  # plot unique peaks
+  vk_unique = 
+    fticr_unique %>% 
+    filter(n == 1) %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = drying)) +
+    stat_ellipse(level = 0.9, show.legend = F)+
+    scale_color_manual(values = pal_saturation)+
+    labs(title = "Unique peaks")+
+    facet_grid(depth ~ Site+saturation)
+  
+  vk_unique
+  
 }
 
 
