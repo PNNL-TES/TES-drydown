@@ -3,8 +3,7 @@
 # Kaizad F. Patel
 
 ## packages ####
-library(readxl)
-library(lubridate)     # 1.6.0
+library(tidyverse)
 library(ggalt)
 library(ggExtra)
 library(stringi)
@@ -14,9 +13,6 @@ library(agricolae)
 library(ggbiplot)
 #library(DescTools)
 
-library(drake)
-pkgconfig::set_config("drake::strings_in_dots" = "literals")
-library(tidyverse)
 
 # My 'picarro.data' package isn't on CRAN (yet) so need to install it via:
 # devtools::install_github("PNNL-TES/picarro.data")
