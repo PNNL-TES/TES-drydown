@@ -5,7 +5,7 @@
 
 # Load packages required to define the pipeline:
 library(targets)
-# library(tarchetypes) # Load other packages as needed. # nolint
+library(tarchetypes) # Load other packages as needed. # nolint
 
 # Set target options:
 tar_option_set(
@@ -14,25 +14,24 @@ tar_option_set(
   # Set other options as needed.
 )
 
-# tar_make_clustermq() configuration (okay to leave alone):
-options(clustermq.scheduler = "multicore")
-
-# tar_make_future() configuration (okay to leave alone):
-# Install packages {{future}}, {{future.callr}}, and {{future.batchtools}} to allow use_targets() to configure tar_make_future() options.
 
 # Run the R scripts in the R/ folder with your custom functions:
-tar_source()
-# source("other_functions.R") # Source other scripts as needed. # nolint
+source("code/0-packages.R")
+source("code/1-functions_processing.R")
+
 
 # Replace the target list below with your own:
 list(
-  tar_target(
-    name = data,
-    command = tibble(x = rnorm(100), y = rnorm(100))
-#   format = "feather" # efficient storage of large data frames # nolint
-  ),
-  tar_target(
-    name = model,
-    command = coefficients(lm(y ~ x, data = data))
-  )
+  tar_target(sample_key_data, "data/sample_key.csv", format = "file"),
+  tar_target(sample_key, read.csv(sample_key_data, na = "")),
+  tar_target(doc_key_data, "data/doc_analysis_key.csv", format = "file"),
+  tar_target(doc_key, read.csv(doc_key_data, na = "")),
+  tar_target(subsampling_data, "data/subsampling.csv", format = "file"),
+  tar_target(subsampling, read.csv(subsampling_data, na = "")),
+  tar_target(dry_weights, compute_dry_weights(subsampling)),
+  
+  # weoc
+  tar_target(weoc_data, import_weoc_data(FILEPATH = "data/npoc")),
+  tar_target(weoc_processed, process_weoc(weoc_data, doc_key, dry_weights))
+  
 )
