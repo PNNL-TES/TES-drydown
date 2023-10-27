@@ -4,13 +4,14 @@
 
 ## packages ####
 library(tidyverse)
-library(ggalt)
-library(ggExtra)
+#library(ggalt)
+#library(ggExtra)
 library(stringi)
 library(nlme)
 library(car)
 library(agricolae)
 library(ggbiplot)
+library(googlesheets4)
 #library(DescTools)
 
 
@@ -43,35 +44,3 @@ theme_kp <- function() {  # this for all the elements common across plots
     )
 }
 
-## to make the Van Krevelen plot:
-# replace the initial `ggplot` function with `gg_vankrev` and use as normal
-
-## CREATE OUTPUT FILES
-COREKEY = "data/processed/corekey.csv"
-WSOC = "data/processed/wsoc.csv"
-
-
-##
-
-recode_saturation = function(dat){
-  dat %>% 
-    mutate(saturation = dplyr::recode(saturation,
-                                      "instant chemistry" = "drought", "saturated" = "d+rewet"),
-           saturation = factor(saturation, levels = c("timezero", "drought", "d+rewet")))
-}
-
-refactor_saturation_levels = function(dat){
-  dat %>% 
-    mutate(saturation = factor(saturation, levels = c("timezero", "drought", "d+rewet")))
-}
-
-recode_sites = function(dat){
-  dat %>% 
-    mutate(Site = dplyr::recode(Site, "CPCRW" = "Alaska", "SR" = "Washington"))
-}
-
-recode_depth = function(dat){
-  dat %>% 
-    mutate(depth = dplyr::recode(depth, "0-5cm" = "top", "5cm-end" = "bottom"),
-           depth = factor(depth, levels = c("top", "bottom")))
-}
