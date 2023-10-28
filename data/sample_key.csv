@@ -1,4 +1,4 @@
-"coreID","Site","location","drying","length","saturation","DOC_analysis","skip"
+"coreID","site","location","drying","length","saturation","DOC_analysis","skip"
 "C0","CPCRW",,,,"d+rewet",FALSE,
 "C1","CPCRW","upland","force-dried","90d","d+rewet",TRUE,
 "C10","CPCRW","upland","force-dried","1000d","drought",FALSE,
