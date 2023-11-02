@@ -1,3 +1,5 @@
+# PROCESSING ----
+## META ----
 
 #' applies filter to report
 #' @import dplyr
@@ -145,4 +147,26 @@ fticr_apply_replication_filter = function(data_long_key, ...){
     filter(keep) %>% 
     dplyr::select(-keep, -reps)
   
+}
+
+## RELABUND
+
+
+# GRAPHS ----
+## van krevelen
+gg_vankrev <- function(data,mapping){
+  ggplot(data,mapping) +
+    # plot points
+    geom_point(size=0.5, alpha = 0.5) + # set size and transparency
+    # axis labels
+    ylab("H/C") +
+    xlab("O/C") +
+    # axis limits
+    xlim(0,1.25) +
+    ylim(0,2.5) +
+    # add boundary lines for Van Krevelen regions
+    geom_segment(x = 0.0, y = 1.5, xend = 1.2, yend = 1.5,color="black",linetype="longdash") +
+    geom_segment(x = 0.0, y = 0.7, xend = 1.2, yend = 0.4,color="black",linetype="longdash") +
+    geom_segment(x = 0.0, y = 1.06, xend = 1.2, yend = 0.51,color="black",linetype="longdash") +
+    guides(colour = guide_legend(override.aes = list(alpha=1, size = 1)))
 }

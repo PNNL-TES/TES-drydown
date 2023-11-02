@@ -12,6 +12,8 @@ library(car)
 library(agricolae)
 library(ggbiplot)
 library(googlesheets4)
+library(PNWColors)
+library(soilpalettes)
 #library(DescTools)
 
 

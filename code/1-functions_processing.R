@@ -62,7 +62,6 @@ import_fticr = function(FILEPATH){
   
 }
 #fticr_report = import_fticr(FILEPATH = "data/fticr")
-
 process_fticr = function(fticr_report, doc_key, sample_key){
   
   fticr_meta = fticr_make_metadata(report = fticr_report)$meta2
@@ -81,25 +80,41 @@ process_fticr = function(fticr_report, doc_key, sample_key){
   #data_columns %>% write.csv("fticr_data.csv", row.names = F, na = "")
   
   data_presence = 
-    compute_presence(data_columns) %>% 
+    fticr_compute_presence(data_columns) %>% 
     left_join(mass_to_formula, by = "Mass") %>% 
     filter(!is.na(formula))
   
   data_long = 
     data_presence %>% 
-    mutate(name = str_replace(name, "DOC_", "DOC-")) %>% 
+  #  mutate(name = str_replace(name, "DOC_", "DOC-")) %>% 
     rename(DOC_ID = name) %>% 
     left_join(doc_key) %>% 
     left_join(sample_key) %>%
-    filter(!is.na(Site)) %>% 
-    apply_replication_filter(depth, site, saturation, drying)
+    filter(!is.na(site)) %>% 
+    fticr_apply_replication_filter(site, depth, length, saturation, drying)
   
   data_long_trt = 
     data_long %>% 
-    distinct(formula, depth, site, saturation, drying)
+    distinct(formula, site, depth, length, saturation, drying)
 
   
   list(fticr_meta = fticr_meta,
        data_long = data_long,
        data_long_trt = data_long_trt)  
+}
+fticr_compute_relabund_cores = function(fticr_long, fticr_meta, TREATMENTS){
+  
+  fticr_long %>% 
+    # add the Class column to the data
+    left_join(dplyr::select(fticr_meta, formula, Class), by = "formula") %>% 
+    # calculate abundance of each Class as the sum of all counts
+    group_by(coreID, Class, !!!TREATMENTS) %>%
+    dplyr::summarise(abund = sum(presence)) %>%
+    filter(!Class %in% "other") %>% 
+    ungroup %>% 
+    # create a new column for total counts per core assignment
+    # and then calculate relative abundance  
+    group_by(coreID, !!!TREATMENTS) %>% 
+    dplyr::mutate(total = sum(abund),
+                  relabund  = round((abund/total)*100,2))
 }
