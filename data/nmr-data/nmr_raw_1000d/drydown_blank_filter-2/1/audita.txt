@@ -1,0 +1,23 @@
+##TITLE= Audit trail, TopSpin 3.6.0
+##JCAMPDX= 5.01
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmr
+$$ C:/Bruker/TopSpin3.6.0/data/kpatel/nmr/drydown_blank_filter-2/1/audita.txt
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2023-11-04 18:14:55.619 -0700>,<nmr>,<bsf2231>,<go4>,<TopSpin 3.6.0>,
+      <created by zg
+	started at 2023-11-04 15:58:07.665 -0700,
+	POWCHK enabled, PULCHK disabled,
+       configuration hash MD5:
+       15 7C 2A E7 DC 27 C4 1E E7 AA E0 86 D8 47 CE 53
+       data hash MD5: 64K
+       B1 46 A1 0A 2C 1A EB 13 1B C6 7A 72 88 AE 5C DA>)
+(   2,<2023-11-04 18:14:55.666 -0700>,<nmr>,<bsf2231>,<audit>,<TopSpin 3.6.0>,
+      <user comment:
+       ICON-NMR User ID: kpatel
+       data hash MD5: 64K
+       B1 46 A1 0A 2C 1A EB 13 1B C6 7A 72 88 AE 5C DA>)
+##END=
+
+$$ hash MD5
+$$ C6 46 A1 90 23 3B 73 B3 9B 0D 42 81 57 0C 98 FE
