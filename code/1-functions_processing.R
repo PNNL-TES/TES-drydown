@@ -118,3 +118,46 @@ fticr_compute_relabund_cores = function(fticr_long, fticr_meta, TREATMENTS){
     dplyr::mutate(total = sum(abund),
                   relabund  = round((abund/total)*100,2))
 }
+
+
+#
+# NMR ----
+import_nmr_data_spectra = function(FILEPATH1, FILEPATH2){
+  
+  spectra_old = nmrrr::nmr_import_spectra(path = FILEPATH1, method = "mnova")
+  spectra_1000d = nmrrr::nmr_import_spectra(path = FILEPATH2, method = "mnova")
+  
+  spectra = bind_rows(spectra_old, spectra_1000d)
+  spectra
+}
+process_nmr_spectra = function(nmr_spectra, doc_key, sample_key){
+  
+  nmr_spectra %>% 
+    filter(ppm > 0 & ppm < 10) %>% 
+    nmrrr::nmr_assign_bins(binset = bins_Clemente2012) %>% 
+    mutate(DOC_ID = paste0("DOC-", sampleID)) %>% 
+    left_join(doc_key) %>% 
+    left_join(sample_key) 
+  
+  
+}
+
+import_nmr_data_peaks = function(FILEPATH1, FILEPATH2){
+  
+  peaks_old = nmrrr::nmr_import_peaks(path = FILEPATH1, method = "multiple columns")
+  peaks_1000d = nmrrr::nmr_import_peaks(path = FILEPATH2, method = "single column")
+  
+  peaks = bind_rows(peaks_old, peaks_1000d)
+  peaks
+  
+}
+process_nmr_peaks = function(nmr_peaks, doc_key, sample_key){
+  
+  nmr_peaks %>% 
+    nmr_assign_bins(binset = bins_Clemente2012) %>% 
+    filter(group != "oalkyl") %>% 
+    mutate(DOC_ID = paste0("DOC-", sampleID)) %>% 
+    left_join(doc_key) %>% 
+    left_join(sample_key) 
+  
+}

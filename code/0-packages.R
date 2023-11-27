@@ -14,6 +14,7 @@ library(ggbiplot)
 library(googlesheets4)
 library(PNWColors)
 library(soilpalettes)
+library(nmrrr)
 #library(DescTools)
 
 

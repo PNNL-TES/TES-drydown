@@ -43,6 +43,14 @@ list(
   tar_target(fticr_relabund, fticr_compute_relabund_cores(fticr_long, fticr_meta, 
                                                           TREATMENTS = quos(site, depth, length, saturation, drying))),
   
+  # nmr
+  tar_target(nmr_spectra, import_nmr_data_spectra(FILEPATH1 = "data/nmr-data/nmr_spectra",
+                                                  FILEPATH2 = "data/nmr-data/nmr_spectra_1000d")),
+  tar_target(nmr_spectra_processed, process_nmr_spectra(nmr_spectra, doc_key, sample_key)),
+  tar_target(nmr_peaks, import_nmr_data_peaks(FILEPATH1 = "data/nmr-data/nmr_peaks",
+                                              FILEPATH2 = "data/nmr-data/nmr_peaks_1000d")),
+  tar_target(nmr_peaks_processed, process_nmr_peaks(nmr_peaks, doc_key, sample_key)),
+  
   
   
   # export
