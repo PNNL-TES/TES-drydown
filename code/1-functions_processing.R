@@ -134,10 +134,13 @@ process_nmr_spectra = function(nmr_spectra, doc_key, sample_key){
   
   nmr_spectra %>% 
     filter(ppm > 0 & ppm < 10) %>% 
-    nmrrr::nmr_assign_bins(binset = bins_Clemente2012) %>% 
+  #  nmrrr::nmr_assign_bins(binset = bins_Clemente2012) %>% 
     mutate(DOC_ID = paste0("DOC-", sampleID)) %>% 
     left_join(doc_key) %>% 
-    left_join(sample_key) 
+    left_join(sample_key)  %>% 
+    filter(depth == "0-5cm") %>% 
+    filter(!is.na(site)) %>% 
+    dplyr::select(-c(DOC_analysis, skip, location))
   
   
 }
@@ -158,6 +161,9 @@ process_nmr_peaks = function(nmr_peaks, doc_key, sample_key){
     filter(group != "oalkyl") %>% 
     mutate(DOC_ID = paste0("DOC-", sampleID)) %>% 
     left_join(doc_key) %>% 
-    left_join(sample_key) 
+    left_join(sample_key) %>% 
+    filter(depth == "0-5cm") %>% 
+    filter(!is.na(site)) %>% 
+    dplyr::select(-c(DOC_analysis, skip, location, Obs))
   
 }
