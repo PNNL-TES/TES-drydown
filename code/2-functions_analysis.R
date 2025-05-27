@@ -1,3 +1,5 @@
+theme_set(theme_kp())
+
 
 ## WEOC ----
 x = 
@@ -225,7 +227,7 @@ compute_permanova = function(relabund_wide){
 
   
   permanova_fticr_all = 
-    adonis2(relabund_wide %>% dplyr::select(where(is.numeric)) ~ 
+    vegan::adonis2(relabund_wide %>% dplyr::select(where(is.numeric)) ~ 
               (site+depth+length+saturation+drying)^2, 
             data = relabund_wide)
   broom::tidy(permanova_fticr_all)
@@ -394,6 +396,36 @@ ggbiplot(pca_overall$pca_int, obs.scale = 1, var.scale = 1,
        )+
   theme_kp()+
   NULL
+
+ggbiplot(pca_overall$pca_int, obs.scale = 1, var.scale = 1,
+         groups = as.character(pca_overall$grp$depth), 
+         ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+  geom_point(size=3,stroke=1, alpha = 1,
+             aes(shape = pca_overall$grp$site,
+                 color = groups))+ 
+  scale_shape_manual(values = c(1, 19))+
+  labs(shape=""
+  )+
+  theme_kp()+
+  NULL
+
+
+#x = 
+  ggbiplot(pca_overall$pca_int, obs.scale = 1, var.scale = 1,
+         groups = as.character(pca_overall$grp$length), 
+         ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+  geom_point(size=3,stroke=1, alpha = 1,
+             aes(shape = pca_overall$grp$saturation,
+                 color = groups,
+                 text = pca_overall$grp$coreID))+ 
+  scale_shape_manual(values = c(1, 19))+
+  labs(shape=""
+  )+
+  theme_kp()+
+  NULL
+
+# x %>% plotly::ggplotly()
+
 
 relabund_summary = 
   fticr_relabund %>% 
@@ -576,5 +608,144 @@ compute_relabund_anova = function(relabund_cores){
     pivot_wider(names_from = "Class", values_from = "p.value")
   
   
+  
+}
+
+
+#
+# NMR analysis ----
+## spectra
+## 
+plot_nmr_spectra = function(nmr_spectra_processed){
+  spectra_function = function(dat){
+    
+    dat %>% 
+      nmr_plot_spectra(binset = bins_Clemente2012, 
+                       aes(x = ppm, y = intensity, group = sampleID, color = saturation, size = drying),
+                       label = 7,
+                       stagger = 0.5)+
+      ylim(0, 8)+
+      scale_size_manual(values = c(0.5, 1))+
+      geom_rect(aes(xmin = 2, xmax = 4.1, ymin = 0, ymax = 8), 
+                fill = "white", color = NA, alpha = 0.8)
+  }  
+  
+  timezero = 
+    nmr_spectra_processed %>% 
+    filter(length == "timezero") %>% 
+    nmr_plot_spectra(binset = bins_Clemente2012, 
+                     aes(x = ppm, y = intensity, group = sampleID, color = site),
+                     label = 2.7,
+                     stagger = 0.2)+
+    ylim(0, 3)+
+    scale_size_manual(values = c(0.5, 1))+
+    geom_rect(aes(xmin = 2, xmax = 4.1, ymin = 0, ymax = 3), 
+              fill = "white", color = NA, alpha = 0.8)
+  
+  
+  
+  ak_30d = spectra_function(
+    nmr_spectra_processed %>% filter(site == "Alaska" & depth == "0-5cm" & length == "30d"))+
+    ggtitle("Alaska 30d")
+  
+  ak_90d = spectra_function(
+    nmr_spectra_processed %>% filter(site == "Alaska" & depth == "0-5cm" & length == "90d"))+
+    ggtitle("Alaska 90d")
+  
+  ak_150d = spectra_function(
+    nmr_spectra_processed %>% filter(site == "Alaska" & depth == "0-5cm" & length == "150d"))+
+    ggtitle("Alaska 150d")
+  
+  ak_1000d = spectra_function(
+    nmr_spectra_processed %>% filter(site == "Alaska" & depth == "0-5cm" & length == "1000d"))+
+    ggtitle("Alaska 1000d")
+  
+  
+  wa_30d = spectra_function(
+    nmr_spectra_processed %>% filter(site == "Washington" & depth == "0-5cm" & length == "30d"))+
+    ggtitle("Washington 30d")
+  
+  wa_90d = spectra_function(
+    nmr_spectra_processed %>% filter(site == "Washington" & depth == "0-5cm" & length == "90d"))+
+    ggtitle("Washington 90d")
+  
+  wa_150d = spectra_function(
+    nmr_spectra_processed %>% filter(site == "Washington" & depth == "0-5cm" & length == "150d"))+
+    ggtitle("Washington 150d")
+  
+  wa_1000d = spectra_function(
+    nmr_spectra_processed %>% filter(site == "Washington" & depth == "0-5cm" & length == "1000d"))+
+    ggtitle("Washington 1000d")
+  
+  alaska = 
+    ggpubr::ggarrange(
+      ak_30d, ak_90d, ak_150d, ak_1000d, 
+      common.legend = T)
+  
+  washington = 
+    ggpubr::ggarrange(
+      wa_30d, wa_90d, wa_150d, wa_1000d,
+      common.legend = T)
+  
+  list(timezero = timezero,
+       alaska = alaska,
+       washington = washington)
+  
+}
+compute_nmr_relabund = function(nmr_peaks_processed){
+  
+  relabund_samples = 
+    nmr_peaks_processed %>% 
+    nmr_relabund(method = "peaks") %>% 
+    mutate(sampleID = parse_number(sampleID),
+           sampleID = str_pad(sampleID, side = "left", pad = "0", 3)) %>% 
+    mutate(DOC_ID = paste0("DOC-", sampleID)) %>% 
+    left_join(doc_key) %>% 
+    left_join(sample_key) 
+  
+  
+  relabund_samples %>% 
+    ggplot(aes(x = DOC_ID, y = relabund, fill = group)) + 
+    geom_bar(stat = "identity")+
+    facet_wrap(~site + saturation + drying, scales = "free_x", ncol = 4)
+  
+  
+
+
+  }
+compute_nmr_permanova = function(){
+  
+  relabund_wide = 
+    relabund_samples %>% 
+    pivot_wider(names_from = "group", values_from = "relabund") 
+  
+  relabund_wide_noT0 = relabund_wide %>% filter(length != "timezero")
+  
+  
+  
+  
+  vegan::adonis2(relabund_wide_noT0 %>% dplyr::select(where(is.numeric)) ~ 
+                   (site+length+saturation+drying)^2, 
+                 data = relabund_wide_noT0)
+  
+  
+}
+compute_nmr_pca = function(){
+  
+  
+  
+  nmr_pca = fit_pca_function(relabund_wide)
+  
+  ggbiplot(nmr_pca$pca_int, obs.scale = 1, var.scale = 1,
+           groups = as.character(nmr_pca$grp$saturation), 
+           ellipse = TRUE, circle = FALSE, var.axes = TRUE, alpha = 0) +
+    geom_point(size=4,stroke=1.5, 
+               aes(shape = (nmr_pca$grp$length),
+                   fill = groups, color = groups))+
+    labs(shape="",
+    )+
+    theme_kp()+
+    theme(legend.position = "right")+
+    NULL
   
 }

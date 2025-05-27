@@ -84,7 +84,8 @@ assign_class_seidel = function(meta_clean, meta_indices){
 ## for data file
 compute_presence = function(dat){
   dat %>% 
-    pivot_longer(-("Mass"), values_to = "presence", names_to = "CoreID") %>% 
+    replace(is.na(.), 0) %>% 
+    pivot_longer(-("Mass"), values_to = "presence") %>% 
     # convert intensities to presence==1/absence==0  
     dplyr::mutate(presence = if_else(presence>0,1,0)) %>% 
     # keep only peaks present
@@ -95,7 +96,7 @@ apply_replication_filter = function(data_long_key, ...){
     data_long_key %>% 
     ungroup() %>% 
     group_by(...) %>% 
-    distinct(CoreID) %>% 
+    distinct(coreID) %>% 
     dplyr::summarise(reps = n())
   
   
@@ -114,9 +115,10 @@ apply_replication_filter = function(data_long_key, ...){
 
 ## LEVEL II FUNCTIONS ------------------------------------------------------
 
-combine_fticr_reports = function(report1, report2){
+combine_fticr_reports = function(report1, report2, report3){
     report1 %>% 
-    full_join(report2, by = c("Mass", "C", "H", "O", "N", "C13", "S", "P", "Na", "El_comp", "Class", "NeutralMass")) 
+    full_join(report2, by = c("Mass", "C", "H", "O", "N", "C13", "S", "P", "Na", "El_comp", "Class", "NeutralMass")) %>% 
+    full_join(report3, by = c("Mass", "C", "H", "O", "N", "C13", "S", "P", "Na", "El_comp", "Class", "NeutralMass"))
   #%>% dplyr::select(Mass, C, H, O, N, C13, S, P, Na, El_comp, starts_with("Fansler"))
 }
 
