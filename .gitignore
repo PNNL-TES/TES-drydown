@@ -42,3 +42,4 @@ rsconnect/
 outputs/qc_ch4.pdf
 
 run.sh
+_targets/
