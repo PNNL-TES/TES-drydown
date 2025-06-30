@@ -9,9 +9,7 @@ x =
 x %>% 
   ggplot(aes(x = length, y = npoc_mgg, color = depth))+
   geom_point()+
-  facet_grid(Site ~ drying + saturation)
-
-x %>% filter()
+  facet_grid(site ~ drying + saturation)
 
 #
 ## FTICR ----
@@ -71,7 +69,7 @@ plot_vk_drying_vs_dw = function(fticr_data_trt, fticr_meta){
   # compute unique peaks
   fticr_unique = 
     fticr_hcoc %>% 
-    group_by(Site, depth, formula) %>% 
+    group_by(site, depth, formula) %>% 
     dplyr::mutate(n = n()) %>% refactor_saturation_levels()
   
   # plot unique peaks
@@ -82,13 +80,13 @@ plot_vk_drying_vs_dw = function(fticr_data_trt, fticr_meta){
     stat_ellipse(level = 0.9, show.legend = F)+
     scale_color_manual(values = pal_saturation)+
     labs(title = "Unique peaks")+
-    facet_grid(depth ~ Site)
+    facet_grid(depth ~ site)
   
   # compute loss/gain for drought
   fticr_hcoc_lossgain_drought = 
     fticr_hcoc %>% 
     filter(saturation == c("timezero", "drought")) %>% 
-    group_by(formula, HC, OC, Site, depth) %>% 
+    group_by(formula, HC, OC, site, depth) %>% 
     dplyr::mutate(n = n()) %>% 
     filter(n == 1) %>% 
     mutate(lossgain = 
@@ -99,7 +97,7 @@ plot_vk_drying_vs_dw = function(fticr_data_trt, fticr_meta){
   fticr_hcoc_lossgain_rewetting = 
     fticr_hcoc %>% 
     filter(saturation == c("drought", "d+rewet")) %>% 
-    group_by(formula, HC, OC, Site, depth) %>% 
+    group_by(formula, HC, OC, site, depth) %>% 
     dplyr::mutate(n = n()) %>% 
     filter(n == 1) %>% 
     mutate(lossgain = 
@@ -111,7 +109,7 @@ plot_vk_drying_vs_dw = function(fticr_data_trt, fticr_meta){
     fticr_hcoc_lossgain_drought %>% 
     gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
     stat_ellipse(level = 0.90, show.legend = F)+
-    facet_grid(depth ~ Site)+
+    facet_grid(depth ~ site)+
     scale_color_manual(values = rev(soil_palette("redox", 2)))+
     labs(title = "peaks lost/gained following drought",
          subtitle = "timezero vs. drought")+
@@ -123,7 +121,7 @@ plot_vk_drying_vs_dw = function(fticr_data_trt, fticr_meta){
     fticr_hcoc_lossgain_rewetting %>% 
     gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
     stat_ellipse(level = 0.90, show.legend = F)+
-    facet_grid(depth ~ Site)+
+    facet_grid(depth ~ site)+
     scale_color_manual(values = rev(soil_palette("redox", 2)))+
     labs(title = "peaks lost/gained following rewet",
          subtitle = "drought vs. d+rewet")+
@@ -141,7 +139,7 @@ plot_vk_drying_vs_dw = function(fticr_data_trt, fticr_meta){
     fticr_hcoc_lossgain %>% 
     gg_vankrev(aes(x = OC, y = HC, color = lossgain))+
     stat_ellipse(level = 0.90, show.legend = F)+
-    facet_grid(Site + depth ~ treatment)+
+    facet_grid(site + depth ~ treatment)+
     scale_color_manual(values = rev(soil_palette("redox", 2)))+
     # labs(subtitle = "instant chemistry vs. saturated, unique peaks")+
     theme_kp()+
@@ -226,7 +224,8 @@ compute_permanova = function(relabund_wide){
   
   permanova_fticr_all = 
     adonis2(relabund_wide %>% dplyr::select(where(is.numeric)) ~ 
-              (site+depth+length+saturation+drying)^2, 
+              (site+depth+length+saturation+drying), 
+              by = "margin",
             data = relabund_wide)
   broom::tidy(permanova_fticr_all)
 }
@@ -237,30 +236,30 @@ compute_permanova = function(relabund_wide){
 library(cluster)
 library(factoextra)
 
-data(iris)
-scale(iris)
-
-df <- USArrests 
-
-df <- na.omit(df)
-df <- scale(df)
-
-
-
-
-df = iris %>%  dplyr::select(where(is.numeric))
-
-d <- dist(df, method = "euclidean")
-hc1 <- hclust(d, method = "complete" )
-plot(hc1, cex = 0.6, hang = -1)
-hc5 <- hclust(d, method = "ward.D2" )
-sub_grp <- cutree(hc5, k = 5)
-table(sub_grp)
-plot(hc5, cex = 0.6)
-rect.hclust(hc5, k = 5, border = 2:5)
-
-fviz_cluster(list(data = df, cluster = sub_grp))
-
+    ##  data(iris)
+    ##  scale(iris)
+    ##  
+    ##  df <- USArrests 
+    ##  
+    ##  df <- na.omit(df)
+    ##  df <- scale(df)
+    ##  
+    ##  
+    ##  
+    ##  
+    ##  df = iris %>%  dplyr::select(where(is.numeric))
+    ##  
+    ##  d <- dist(df, method = "euclidean")
+    ##  hc1 <- hclust(d, method = "complete" )
+    ##  plot(hc1, cex = 0.6, hang = -1)
+    ##  hc5 <- hclust(d, method = "ward.D2" )
+    ##  sub_grp <- cutree(hc5, k = 5)
+    ##  table(sub_grp)
+    ##  plot(hc5, cex = 0.6)
+    ##  rect.hclust(hc5, k = 5, border = 2:5)
+    ##  
+    ##  fviz_cluster(list(data = df, cluster = sub_grp))
+    ##  
 
 df = relabund_wide %>%  dplyr::select(where(is.numeric))
 grp = relabund_wide %>%  dplyr::select(!where(is.numeric))
@@ -284,7 +283,7 @@ count(df_cl,cluster)
 
 
 df_cl %>% 
-  filter(site == "CPCRW") %>% 
+  filter(site == "Alaska") %>% 
   ggplot(aes(y = cluster, x = length, fill = length))+
   geom_dotplot(binaxis = "y", stackdir = "centerwhole",
                dotsize = 0.4)+
@@ -294,7 +293,7 @@ df_cl %>%
 library(ggpubr)
 
 df_cl %>% 
-  filter(site == "CPCRW") %>% 
+  filter(site == "Alaska") %>% 
   mutate(drying_saturation = paste0(drying, "-", saturation)) %>% 
   ggdotplot(y = "saturation", x = "cluster", fill = "length", 
             position = position_jitter(0.05), dotsize = 2)+
@@ -313,7 +312,7 @@ df_cl %>%
 
 
 df_cl = df_cl %>% mutate(cluster = as.character(cluster))
-df_cl_pca = fit_pca_function(df_cl %>% filter(site == "SR"))
+df_cl_pca = fit_pca_function(df_cl %>% filter(site == "Washington"))
 
 
 ggbiplot(df_cl_pca$pca_int, obs.scale = 1, var.scale = 1,

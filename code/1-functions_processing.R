@@ -167,3 +167,6 @@ process_nmr_peaks = function(nmr_peaks, doc_key, sample_key){
     dplyr::select(-c(DOC_analysis, skip, location, Obs))
   
 }
+x = nmr_relabund(nmr_peaks_processed)
+
+
