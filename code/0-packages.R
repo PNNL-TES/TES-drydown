@@ -15,6 +15,7 @@ library(googlesheets4)
 library(PNWColors)
 library(soilpalettes)
 library(nmrrr)
+library(vegan)
 #library(DescTools)
 
 
