@@ -23,15 +23,34 @@ targets::tar_load_everything()
 
 ------
 
+
+## EXPERIMENTAL DESIGN
+
+```{r}
+sample_key %>% 
+  dplyr::select(-coreID, -location, -DOC_analysis, -skip) %>% 
+  mutate(value = "x") %>% 
+  distinct() %>% 
+  drop_na() %>% 
+  pivot_wider(names_from = "length", values_from = "value") %>% 
+  dplyr::select(site, drying, saturation, timezero, `30d`, `90d`, `150d`, `1000d`) %>% 
+  replace(is.na(.), "") %>% 
+   mutate(saturation = factor(saturation, levels = c("timezero", "drought", "d+rewet")),
+          drying = factor(drying, levels = c("air-dried", "force-dried"))) %>% 
+  arrange(site, drying, saturation) %>% 
+  knitr::kable()
+```
+
+------
+
+
+
 ## FTICR
 
-### Stats -- PERMANOVA
-
-```{r icr_permanova}
+```{r icr_relabund_wide}
 
 relabund_wide = 
   fticr_relabund %>% 
-  filter(length != "timezero") %>% 
   ungroup() %>% 
   mutate(Class = factor(Class, 
                         levels = c("aliphatic", "unsaturated/lignin", 
@@ -42,21 +61,33 @@ relabund_wide =
   #    replace(is.na(.), 0) %>% 
   force()
 
+relabund_wide_surface = relabund_wide %>% filter(depth == "0-5cm")
+
+```
+
+### Stats -- PERMANOVA
+
+```{r icr_permanova}
+
+relabund_wide_no_t0 = 
+  relabund_wide %>% 
+  filter(length != "timezero") 
+
 print("FTICR -- including top and bottom depths")
 # permanova_fticr_all = 
-  adonis2(relabund_wide %>% dplyr::select(where(is.numeric)) ~ 
+  adonis2(relabund_wide_no_t0 %>% dplyr::select(where(is.numeric)) ~ 
             (site+depth+length+saturation+drying), 
           by = "margin",
-          data = relabund_wide) %>% broom::tidy()
+          data = relabund_wide_no_t0) %>% broom::tidy() %>% knitr::kable()
 
 
 print("FTICR -- including top depth only")
-relabund_wide_surface = relabund_wide %>% filter(depth == "0-5cm")
+relabund_wide_surface_no_t0 = relabund_wide_no_t0 %>% filter(depth == "0-5cm")
 # permanova_fticr_all = 
-  adonis2(relabund_wide_surface %>% dplyr::select(where(is.numeric)) ~ 
+  adonis2(relabund_wide_surface_no_t0 %>% dplyr::select(where(is.numeric)) ~ 
             (site+length+saturation+drying), 
           by = "margin",
-          data = relabund_wide_surface) %>%  broom::tidy() %>% knitr::kable()
+          data = relabund_wide_surface_no_t0) %>%  broom::tidy() %>% knitr::kable()
 
 ```
 
@@ -65,7 +96,11 @@ relabund_wide_surface = relabund_wide %>% filter(depth == "0-5cm")
 
 (surface soils only)
 
-```{r icr_cluster, include=FALSE}
+
+<details>
+  <summary> Click for details </summary>
+  
+```{r icr_cluster}
 library(cluster)
 library(factoextra)
 
@@ -73,23 +108,28 @@ library(factoextra)
 df = relabund_wide_surface %>%  dplyr::select(where(is.numeric))
 grp = relabund_wide_surface %>%  dplyr::select(!where(is.numeric))
 
-#fviz_nbclust(df, FUN = hcut, method = "wss")
-#fviz_nbclust(df, FUN = hcut, method = "silhouette")
-# three clusters
+fviz_nbclust(df, FUN = hcut, method = "wss")
+fviz_nbclust(df, FUN = hcut, method = "silhouette")
+# two clusters
 
 d <- dist(df, method = "euclidean")
 hc1 <- hclust(d, method = "complete" )
 plot(hc1, cex = 0.6, hang = -1)
 hc5 <- hclust(d, method = "ward.D2" )
-sub_grp <- cutree(hc5, k = 3)
-table(sub_grp)
+sub_grp <- cutree(hc5, k = 2)
+# table(sub_grp)
 plot(hc5, cex = 0.6)
-rect.hclust(hc5, k = 5, border = 2:5)
+# rect.hclust(hc5, k = 5, border = 2:5)
 
 df_cl <- mutate(df, cluster = sub_grp) %>% cbind(grp)
+
+
+print("hierarchical clustering: two clusters")
 count(df_cl,cluster)
 
-  
+```
+
+```{r icr_cluster2, include=FALSE}
 library(ggpubr)
 
 df_cl %>% 
@@ -107,8 +147,9 @@ df_cl %>%
 #  facet_wrap(~depth + saturation + drying, nrow = 1)+
 #  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-
 ```
+
+</details>
 
 
 ```{r pca_fn}
@@ -116,7 +157,7 @@ fit_pca_function = function(dat){
   
   dat %>% 
     drop_na()
-  
+
   num = 
     dat %>%       
     dplyr::select(where(is.numeric)) %>%
@@ -127,7 +168,7 @@ fit_pca_function = function(dat){
   
   grp = 
     dat %>% 
-    dplyr::select(where(is.character)) %>% 
+    dplyr::select(!where(is.numeric)) %>% 
     dplyr::mutate(row = row_number()) %>% 
     right_join(num_row_numbers)
   
@@ -139,38 +180,127 @@ fit_pca_function = function(dat){
        grp = grp,
        pca_int = pca_int)
 }
-
 ```
 
-```{r icr_pca}
 
-#
-df_cl = df_cl %>% mutate(cluster = as.character(cluster))
+#### SAME OVERALL PCA, GROUPED DIFFERENT WAYS
+
+```{r icr_pca_overall, fig.height=14, fig.width=12}
+
+df_cl = df_cl %>% mutate(cluster = as.character(cluster)) %>% refactor_levels()
 
 
 library(ggConvexHull)
 
 pca_cluster = fit_pca_function(df_cl) 
 
-ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
-                 #  groups = as.character(pca_cluster$grp$cluster), 
-                   ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
-  geom_convexhull(aes(group = pca_cluster$grp$cluster, fill = NA), color = "black",
-                      #fill = pca_cluster$grp$cluster
-                    
-                  alpha = 0)+
-  geom_point(size=5,stroke=1, alpha = 1,
-             aes(shape = pca_cluster$grp$saturation,
-                 fill = pca_cluster$grp$length))+ 
-  scale_shape_manual(values = c(23, 21, 22))+
-  scale_color_manual(values = pnw_palette("Sailboat", 7))+
-  scale_fill_manual(values = pnw_palette("Bay", 7))+
-  labs(title = "Overall PCA, both regions",
+pca_site = 
+  ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
+         varname.size = 6,
+         ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
+  geom_convexhull(aes(group = pca_cluster$grp$cluster), 
+                  color = "black",
+                  linewidth = 1.2,
+                  alpha = 0.1)+
+  geom_point(size=5,stroke=1.5, alpha = 1, shape = 21,
+             aes(fill = pca_cluster$grp$site))+ 
+  scale_fill_manual(values = pnw_palette("Bay", 2))+
+  labs(title = "FTICR PCA, color by site",
        subtitle = "Surface horizons only")+
   theme_kp()+
+  ylim(-3, 3)+
+  xlim(-4, 4)+
   guides(fill = guide_legend(override.aes = list(shape = 21)))+
   NULL
-  
+
+pca_length = 
+  ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
+         varname.size = 6,
+         ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
+  geom_convexhull(aes(group = pca_cluster$grp$cluster), 
+                  color = "black",
+                  linewidth = 1.2,
+                  alpha = 0.1)+
+  geom_point(size=5,stroke=1.5, alpha = 1, shape = 21,
+             aes(fill = pca_cluster$grp$length))+ 
+  #scale_shape_manual(values = c(23, 21, 22))+
+  #scale_color_manual(values = pnw_palette("Sailboat", 7))+
+  scale_fill_manual(values = pnw_palette("Bay", 5))+
+  labs(title = "FTICR PCA, color by length",
+       subtitle = "Surface horizons only")+
+  theme_kp()+
+  ylim(-3, 3)+
+  xlim(-4, 4)+
+  guides(fill = guide_legend(override.aes = list(shape = 21)))+
+  NULL
+
+pca_saturation = 
+  ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
+         varname.size = 6,
+         ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
+  geom_convexhull(aes(group = pca_cluster$grp$cluster), 
+                  color = "black",
+                  linewidth = 1.2,
+                  alpha = 0.1)+
+  geom_point(size=5,stroke=1.5, alpha = 1, shape = 21,
+             aes(fill = pca_cluster$grp$saturation))+ 
+  scale_fill_manual(values = pnw_palette("Bay", 3))+
+  labs(title = "FTICR PCA, color by saturation",
+       subtitle = "Surface horizons only")+
+  theme_kp()+
+  ylim(-3, 3)+
+  xlim(-4, 4)+
+  guides(fill = guide_legend(override.aes = list(shape = 21)))+
+  NULL
+
+cowplot::plot_grid(pca_site, pca_length, pca_saturation)
+
+```
+
+
+```{r, eval=FALSE}
+
+pca_cluster = fit_pca_function(df_cl) 
+
+pca_site = 
+  ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
+         varname.size = 6,
+         ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
+  geom_convexhull(aes(group = pca_cluster$grp$cluster), 
+                  color = "black",
+                  linewidth = 1.2,
+                  alpha = 0.1)+
+  geom_point(size=5,stroke=1.5, alpha = 1, shape = 21,
+             aes(fill = pca_cluster$grp$site))+ 
+  scale_fill_manual(values = pnw_palette("Bay", 2))+
+  labs(title = "FTICR PCA, color by site",
+       subtitle = "Surface horizons only")+
+  theme_kp()+
+  ylim(-3, 3)+
+  xlim(-4, 4)+
+  guides(fill = guide_legend(override.aes = list(shape = 21)))+
+  NULL
+
+pca_length = 
+  ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
+         varname.size = 6,
+         ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
+  geom_convexhull(aes(group = pca_cluster$grp$cluster), 
+                  color = "black",
+                  linewidth = 1.2,
+                  alpha = 0.1)+
+  geom_point(size=5,stroke=1.5, alpha = 1, shape = 21,
+             aes(fill = pca_cluster$grp$length))+ 
+  #scale_shape_manual(values = c(23, 21, 22))+
+  #scale_color_manual(values = pnw_palette("Sailboat", 7))+
+  scale_fill_manual(values = pnw_palette("Bay", 5))+
+  labs(title = "FTICR PCA, color by length",
+       subtitle = "Surface horizons only")+
+  theme_kp()+
+  ylim(-3, 3)+
+  xlim(-4, 4)+
+  guides(fill = guide_legend(override.aes = list(shape = 21)))+
+  NULL
 
 ```
 
@@ -181,31 +311,12 @@ ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
 ```
 
 
-
 ### Relative abundance
 
-```{r}
+```{r icr_relabund_trt, fig.height=12, fig.width=12}
 
-fticr_relabund %>% 
-  filter(depth == "0-5cm") %>% 
-  filter(site == "Alaska") %>% 
-  ggplot(aes(x = coreID, y = relabund, fill = Class))+
-  geom_bar(stat = "identity")+
-  facet_wrap( ~ length + drying + saturation, scale = "free_x")
+print("Alaska soils, 0-5cm")
 
-
-fticr_relabund %>% 
-  filter(depth == "0-5cm") %>% 
-  filter(site == "Washington") %>% 
-  ggplot(aes(x = coreID, y = relabund, fill = Class))+
-  geom_bar(stat = "identity")+
-  facet_wrap( ~ length + drying + saturation, scale = "free_x")
-
-
-
-```
-
-```{r}
 fticr_relabund_trt %>% 
   filter(depth == "0-5cm") %>% 
   filter(site == "Alaska") %>% 
@@ -213,6 +324,8 @@ fticr_relabund_trt %>%
   geom_bar(stat = "identity")+
   facet_grid(drying ~ length, scale = "free_x")
 
+
+print("Washington soils, 0-5cm")
 
 fticr_relabund_trt %>% 
   filter(depth == "0-5cm") %>% 
@@ -222,6 +335,30 @@ fticr_relabund_trt %>%
   facet_grid(drying ~ length, scale = "free_x")
 ```
 
+
+<details>
+  <summary> Click for relabund per core </summary>
+  
+```{r icr_relabund_cores, fig.height=12, fig.width=18}
+
+fticr_relabund %>% 
+  filter(depth == "0-5cm") %>% 
+  filter(site == "Alaska") %>% 
+  ggplot(aes(x = coreID, y = relabund, fill = Class))+
+  geom_bar(stat = "identity")+
+  facet_grid(drying ~ length + saturation, scale = "free_x")
+
+
+fticr_relabund %>% 
+  filter(depth == "0-5cm") %>% 
+  filter(site == "Washington") %>% 
+  ggplot(aes(x = coreID, y = relabund, fill = Class))+
+  geom_bar(stat = "identity")+
+  facet_grid(drying ~ length + saturation, scale = "free_x")
+
+```
+
+</details>
 
 
 ------
@@ -427,3 +564,18 @@ nmr_spectra_processed %>%
 
 ```
 
+
+---
+
+## Session Info 
+
+<details>
+  <summary> Session Info </summary>
+
+Date run: `r Sys.Date()`
+
+```{r}
+sessionInfo()
+```
+
+</details>
