@@ -363,92 +363,166 @@ fticr_relabund %>%
 
 ------
 
+------
+
 ## NMR
 
 ### Stats -- PERMANOVA
 
 ```{r nmr_permanova}
 
-  nmr_relabund_wide = 
-    nmr_relabundance %>% 
-    #filter(length != "timezero") %>% 
-    ungroup() %>% 
-    pivot_wider(names_from = "group", values_from = "relabund") %>% 
-    force()
-  
-  permanova_nmr = 
-    adonis2(nmr_relabund_wide %>% dplyr::select(where(is.numeric)) ~ 
-              (site+length+saturation+drying), 
-            by = "margin",
-            data = nmr_relabund_wide)
-  broom::tidy(permanova_nmr)
+nmr_relabund_wide = 
+  nmr_relabundance %>% 
+  #filter(length != "timezero") %>% 
+  ungroup() %>% 
+  pivot_wider(names_from = "group", values_from = "relabund") %>% 
+  force()
+
+adonis2(nmr_relabund_wide %>% dplyr::select(where(is.numeric)) ~ 
+            (site+length+saturation+drying), 
+          by = "margin",
+          data = nmr_relabund_wide) %>% 
+  broom::tidy() %>% 
+  knitr::kable()
 
 ```
 
 ### Stats -- PCA and clustering
 
-```{r nmr_cluster, include=FALSE}
+```{r nmr_cluster}
 
+df = nmr_relabund_wide %>%  dplyr::select(where(is.numeric))
+grp = nmr_relabund_wide %>%  dplyr::select(!where(is.numeric))
 
-  df = nmr_relabund_wide %>%  dplyr::select(where(is.numeric))
-  grp = nmr_relabund_wide %>%  dplyr::select(!where(is.numeric))
-  
-  # fviz_nbclust(df, FUN = hcut, method = "wss")
-  # fviz_nbclust(df, FUN = hcut, method = "silhouette")
-  # three clusters
-  
-  d <- dist(df, method = "euclidean")
-  hc1 <- hclust(d, method = "complete" )
-  plot(hc1, cex = 0.6, hang = -1)
-  hc5 <- hclust(d, method = "ward.D2" )
-  sub_grp <- cutree(hc5, k = 3)
-  table(sub_grp)
-  plot(hc5, cex = 0.6)
-  rect.hclust(hc5, k = 5, border = 2:5)
-  
-  df_cl <- mutate(df, cluster = sub_grp) %>% cbind(grp)
-  count(df_cl,cluster)
-  
-  
-  
-  library(ggpubr)
-  
-  df_cl %>% 
-    filter(site == "Alaska") %>% 
-    mutate(drying_saturation = paste0(drying, "-", saturation)) %>% 
-    ggdotplot(y = "saturation", x = "cluster", fill = "length", 
-              position = position_jitter(0.05), dotsize = 2)+
-    #  scale_fill_manual(values = c("pink", "red", "lightblue", "blue"))+
-    coord_flip()+
-    facet_wrap(~depth + saturation, nrow = 1)
-  
-  #  ggplot(aes(y = cluster, x = length, fill = length))+
-  #  geom_dotplot(binaxis = "y", stackdir = "centerwhole",
-  #               dotsize = 0.4)+
-  #  facet_wrap(~depth + saturation + drying, nrow = 1)+
-  #  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-  
-  
-  
+fviz_nbclust(df, FUN = hcut, method = "wss")
+fviz_nbclust(df, FUN = hcut, method = "silhouette")
+# two clusters
+
+d <- dist(df, method = "euclidean")
+hc1 <- hclust(d, method = "complete" )
+plot(hc1, cex = 0.6, hang = -1)
+hc5 <- hclust(d, method = "ward.D2" )
+sub_grp <- cutree(hc5, k = 2)
+# table(sub_grp)
+plot(hc5, cex = 0.6)
+# rect.hclust(hc5, k = 5, border = 2:5)
+
+df_cl <- mutate(df, cluster = sub_grp) %>% cbind(grp)
+
+print("NMR hierarchical clustering: two clusters")
+count(df_cl,cluster)
+
 ```
 
-```{r nmr_pca}
+```{r nmr_cluster2, eval=F}
 
-  library(ggConvexHull)
+library(ggpubr)
 
- 
-  df_cl = df_cl %>% mutate(cluster = as.character(cluster))
-  df_cl_pca = fit_pca_function(df_cl)
+df_cl %>% 
+  filter(site == "Alaska") %>% 
+  mutate(drying_saturation = paste0(drying, "-", saturation)) %>% 
+  ggdotplot(y = "saturation", x = "cluster", fill = "length", 
+            position = position_jitter(0.05), dotsize = 2)+
+  #  scale_fill_manual(values = c("pink", "red", "lightblue", "blue"))+
+  coord_flip()+
+  facet_wrap(~depth + saturation, nrow = 1)
+
+#  ggplot(aes(y = cluster, x = length, fill = length))+
+#  geom_dotplot(binaxis = "y", stackdir = "centerwhole",
+#               dotsize = 0.4)+
+#  facet_wrap(~depth + saturation + drying, nrow = 1)+
+#  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+```{r nmr_pca_overall, fig.height=14, fig.width=12}
+
+df_cl = df_cl %>% mutate(cluster = as.character(cluster)) %>% refactor_levels()
+
+library(ggConvexHull)
+
+pca_cluster = fit_pca_function(df_cl) 
+
+pca_site = 
+  ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
+         varname.size = 6,
+         ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
+  geom_convexhull(aes(group = pca_cluster$grp$cluster), 
+                  color = "black",
+                  linewidth = 1.2,
+                  alpha = 0.1)+
+  geom_point(size=5,stroke=1.5, alpha = 1, shape = 21,
+             aes(fill = pca_cluster$grp$site))+ 
+  scale_fill_manual(values = pnw_palette("Bay", 2))+
+  labs(title = "NMR PCA, color by site",
+       subtitle = "Surface horizons only")+
+  theme_kp()+
+  ylim(-3, 3)+
+  xlim(-4, 4)+
+  guides(fill = guide_legend(override.aes = list(shape = 21)))+
+  NULL
+
+pca_length = 
+  ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
+         varname.size = 6,
+         ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
+  geom_convexhull(aes(group = pca_cluster$grp$cluster), 
+                  color = "black",
+                  linewidth = 1.2,
+                  alpha = 0.1)+
+  geom_point(size=5,stroke=1.5, alpha = 1, shape = 21,
+             aes(fill = pca_cluster$grp$length))+ 
+  #scale_shape_manual(values = c(23, 21, 22))+
+  #scale_color_manual(values = pnw_palette("Sailboat", 7))+
+  scale_fill_manual(values = pnw_palette("Bay", 5))+
+  labs(title = "NMR PCA, color by length",
+       subtitle = "Surface horizons only")+
+  theme_kp()+
+  ylim(-3, 3)+
+  xlim(-4, 4)+
+  guides(fill = guide_legend(override.aes = list(shape = 21)))+
+  NULL
+
+pca_saturation = 
+  ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
+         varname.size = 6,
+         ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
+  geom_convexhull(aes(group = pca_cluster$grp$cluster), 
+                  color = "black",
+                  linewidth = 1.2,
+                  alpha = 0.1)+
+  geom_point(size=5,stroke=1.5, alpha = 1, shape = 21,
+             aes(fill = pca_cluster$grp$saturation))+ 
+  scale_fill_manual(values = pnw_palette("Bay", 3))+
+  labs(title = "NMR PCA, color by saturation",
+       subtitle = "Surface horizons only")+
+  theme_kp()+
+  ylim(-3, 3)+
+  xlim(-4, 4)+
+  guides(fill = guide_legend(override.aes = list(shape = 21)))+
+  NULL
+
+cowplot::plot_grid(pca_site, pca_length, pca_saturation)
+
+```
+
+
+```{r nmr_pca2, eval=F}
+library(ggConvexHull)
+
+
+df_cl = df_cl %>% mutate(cluster = as.character(cluster))
+df_cl_pca = fit_pca_function(df_cl)
 
 
 pca_cluster = fit_pca_function(df_cl) 
 
 ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
-                 #  groups = as.character(pca_cluster$grp$cluster), 
-                   ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
+         #  groups = as.character(pca_cluster$grp$cluster), 
+         ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
   geom_convexhull(aes(group = pca_cluster$grp$cluster, fill = NA), color = "black",
-                      #fill = pca_cluster$grp$cluster
-                    
+                  #fill = pca_cluster$grp$cluster
+                  
                   alpha = 0)+
   geom_point(size=5,stroke=1, alpha = 1,
              aes(shape = pca_cluster$grp$saturation,
@@ -461,8 +535,6 @@ ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
   theme_kp()+
   guides(fill = guide_legend(override.aes = list(shape = 21)))+
   NULL
-  
-  
 ```
 
 ```{r nmr_pca_sites}
@@ -470,19 +542,20 @@ ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
 pca_cluster = fit_pca_function(df_cl %>% filter(site == "Alaska")) 
 
 ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
-                 #  groups = as.character(pca_cluster$grp$cluster), 
-                   ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
-  geom_convexhull(aes(group = pca_cluster$grp$cluster, fill = NA), color = "black",
-                      #fill = pca_cluster$grp$cluster
-                    
-                  alpha = 0)+
-  geom_point(size=5,stroke=1, alpha = 1,
+         varname.size = 6,
+         ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
+  geom_convexhull(aes(group = pca_cluster$grp$cluster), 
+                  color = "black",
+                  linewidth = 1.2,
+                  alpha = 0.1)+
+  
+  geom_point(size=5,stroke=1.5, alpha = 1,
              aes(shape = pca_cluster$grp$saturation,
                  fill = pca_cluster$grp$length))+ 
   scale_shape_manual(values = c(23, 21, 22))+
-  scale_color_manual(values = pnw_palette("Sailboat", 7))+
-  scale_fill_manual(values = pnw_palette("Bay", 7))+
-  labs(title = "Overall PCA, Alaska",
+  scale_color_manual(values = pnw_palette("Sailboat", 5))+
+  scale_fill_manual(values = pnw_palette("Bay", 5))+
+  labs(title = "NMR PCA, Alaska",
        subtitle = "Surface horizons only")+
   theme_kp()+
   guides(fill = guide_legend(override.aes = list(shape = 21)))+
@@ -493,19 +566,20 @@ ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
 pca_cluster = fit_pca_function(df_cl %>% filter(site == "Washington")) 
 
 ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
-                 #  groups = as.character(pca_cluster$grp$cluster), 
-                   ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
-  geom_convexhull(aes(group = pca_cluster$grp$cluster, fill = NA), color = "black",
-                      #fill = pca_cluster$grp$cluster
-                    
-                  alpha = 0)+
-  geom_point(size=5,stroke=1, alpha = 1,
+         varname.size = 6,
+         ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
+  geom_convexhull(aes(group = pca_cluster$grp$cluster), 
+                  color = "black",
+                  linewidth = 1.2,
+                  alpha = 0.1)+
+  
+  geom_point(size=5,stroke=1.5, alpha = 1,
              aes(shape = pca_cluster$grp$saturation,
                  fill = pca_cluster$grp$length))+ 
   scale_shape_manual(values = c(23, 21, 22))+
-  scale_color_manual(values = pnw_palette("Sailboat", 7))+
-  scale_fill_manual(values = pnw_palette("Bay", 7))+
-  labs(title = "Overall PCA, Washington",
+  scale_color_manual(values = pnw_palette("Sailboat", 5))+
+  scale_fill_manual(values = pnw_palette("Bay", 5))+
+  labs(title = "NMR PCA, Washington",
        subtitle = "Surface horizons only")+
   theme_kp()+
   guides(fill = guide_legend(override.aes = list(shape = 21)))+
@@ -515,7 +589,6 @@ ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
 
 
 ## NMR relabund
-
 
 ```{r nmr_relabund}
 
@@ -548,8 +621,6 @@ nmr_spectra_processed %>%
   )+
   ylim(0, 2.2)+
   scale_color_manual(values = pal_saturation)
-
-
 
 nmr_spectra_processed %>% 
   filter(coreID %in% c("S92", "S32", "S53")) %>% 
