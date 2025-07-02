@@ -43,6 +43,8 @@ list(
   tar_target(fticr_trt, process_fticr(fticr_report, doc_key, sample_key)$data_long_trt),
   tar_target(fticr_relabund, fticr_compute_relabund_cores(fticr_long, fticr_meta, 
                                                           TREATMENTS = quos(site, depth, length, saturation, drying))),
+  tar_target(fticr_relabund_trt, fticr_compute_relabund_trt(fticr_trt, fticr_meta, 
+                                                          TREATMENTS = quos(site, depth, length, saturation, drying))),
   ##        
   ##        # NMR
   ##        ## spectra

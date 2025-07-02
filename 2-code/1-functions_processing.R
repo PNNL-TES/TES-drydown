@@ -118,6 +118,23 @@ fticr_compute_relabund_cores = function(fticr_long, fticr_meta, TREATMENTS){
     dplyr::mutate(total = sum(abund),
                   relabund  = round((abund/total)*100,2))
 }
+fticr_compute_relabund_trt = function(fticr_trt, fticr_meta, TREATMENTS){
+  
+  fticr_trt %>% 
+    mutate(presence = 1) %>% 
+    # add the Class column to the data
+    left_join(dplyr::select(fticr_meta, formula, Class), by = "formula") %>% 
+    # calculate abundance of each Class as the sum of all counts
+    group_by(Class, !!!TREATMENTS) %>%
+    dplyr::summarise(abund = sum(presence)) %>%
+    filter(!Class %in% "other") %>% 
+    ungroup %>% 
+    # create a new column for total counts per core assignment
+    # and then calculate relative abundance  
+    group_by(!!!TREATMENTS) %>% 
+    dplyr::mutate(total = sum(abund),
+                  relabund  = round((abund/total)*100,2))
+}
 
 
 #

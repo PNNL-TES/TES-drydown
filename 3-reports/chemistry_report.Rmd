@@ -31,7 +31,7 @@ targets::tar_load_everything()
 
 relabund_wide = 
   fticr_relabund %>% 
-  #filter(length != "timezero") %>% 
+  filter(length != "timezero") %>% 
   ungroup() %>% 
   mutate(Class = factor(Class, 
                         levels = c("aliphatic", "unsaturated/lignin", 
@@ -56,7 +56,7 @@ relabund_wide_surface = relabund_wide %>% filter(depth == "0-5cm")
   adonis2(relabund_wide_surface %>% dplyr::select(where(is.numeric)) ~ 
             (site+length+saturation+drying), 
           by = "margin",
-          data = relabund_wide_surface) %>%  broom::tidy()
+          data = relabund_wide_surface) %>%  broom::tidy() %>% knitr::kable()
 
 ```
 
@@ -186,7 +186,43 @@ ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
 
 ```{r}
 
+fticr_relabund %>% 
+  filter(depth == "0-5cm") %>% 
+  filter(site == "Alaska") %>% 
+  ggplot(aes(x = coreID, y = relabund, fill = Class))+
+  geom_bar(stat = "identity")+
+  facet_wrap( ~ length + drying + saturation, scale = "free_x")
+
+
+fticr_relabund %>% 
+  filter(depth == "0-5cm") %>% 
+  filter(site == "Washington") %>% 
+  ggplot(aes(x = coreID, y = relabund, fill = Class))+
+  geom_bar(stat = "identity")+
+  facet_wrap( ~ length + drying + saturation, scale = "free_x")
+
+
+
 ```
+
+```{r}
+fticr_relabund_trt %>% 
+  filter(depth == "0-5cm") %>% 
+  filter(site == "Alaska") %>% 
+  ggplot(aes(x = saturation, y = relabund, fill = Class))+
+  geom_bar(stat = "identity")+
+  facet_grid(drying ~ length, scale = "free_x")
+
+
+fticr_relabund_trt %>% 
+  filter(depth == "0-5cm") %>% 
+  filter(site == "Washington") %>% 
+  ggplot(aes(x = saturation, y = relabund, fill = Class))+
+  geom_bar(stat = "identity")+
+  facet_grid(drying ~ length, scale = "free_x")
+```
+
+
 
 ------
 
