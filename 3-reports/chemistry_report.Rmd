@@ -116,7 +116,7 @@ d <- dist(df, method = "euclidean")
 hc1 <- hclust(d, method = "complete" )
 plot(hc1, cex = 0.6, hang = -1)
 hc5 <- hclust(d, method = "ward.D2" )
-sub_grp <- cutree(hc5, k = 2)
+sub_grp <- cutree(hc5, k = 3)
 # table(sub_grp)
 plot(hc5, cex = 0.6)
 # rect.hclust(hc5, k = 5, border = 2:5)
@@ -124,7 +124,7 @@ plot(hc5, cex = 0.6)
 df_cl <- mutate(df, cluster = sub_grp) %>% cbind(grp)
 
 
-print("hierarchical clustering: two clusters")
+print("hierarchical clustering: three clusters")
 count(df_cl,cluster)
 
 ```

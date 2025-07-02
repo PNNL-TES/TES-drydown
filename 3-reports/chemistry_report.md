@@ -58,11 +58,12 @@ Click for details
 
 ![](chemistry_report_files/figure-gfm/icr_cluster-1.png)<!-- -->![](chemistry_report_files/figure-gfm/icr_cluster-2.png)<!-- -->![](chemistry_report_files/figure-gfm/icr_cluster-3.png)<!-- -->![](chemistry_report_files/figure-gfm/icr_cluster-4.png)<!-- -->
 
-    ## [1] "hierarchical clustering: two clusters"
+    ## [1] "hierarchical clustering: three clusters"
 
     ##   cluster  n
     ## 1       1 53
-    ## 2       2 59
+    ## 2       2 44
+    ## 3       3 15
 
 </details>
 
