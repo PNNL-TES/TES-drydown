@@ -56,7 +56,7 @@ list(
   ##        ## peaks
   tar_target(nmr_peaks, nmr_import_peaks("1-data/nmr-data/nmr_peaks", method = "multiple columns")),
   tar_target(nmr_peaks_processed, process_nmr_peaks(nmr_peaks, doc_key, sample_key)),
-  tar_target(nmr_relabundance, compute_nmr_relabund(nmr_peaks_processed, doc_key, sample_key)),
+  tar_target(nmr_relabundance, compute_nmr_relabund(nmr_peaks_processed, doc_key, sample_key))
   
   
   ##      #  tar_target(gg_nmr_relabund, plot_nmr_relabund(nmr_relabundance, sample_key)),
@@ -76,7 +76,7 @@ list(
   ##        }, format = "file")
   
   
-  tar_render(report, path = "3-reports/chemistry_report.Rmd")
+#  tar_render(report, path = "3-reports/chemistry_report.Rmd")
   
   
 )

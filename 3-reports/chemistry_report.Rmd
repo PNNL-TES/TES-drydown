@@ -389,6 +389,9 @@ adonis2(nmr_relabund_wide %>% dplyr::select(where(is.numeric)) ~
 
 ### Stats -- PCA and clustering
 
+<details>
+  <summary> Click for details </summary>
+  
 ```{r nmr_cluster}
 
 df = nmr_relabund_wide %>%  dplyr::select(where(is.numeric))
@@ -434,6 +437,8 @@ df_cl %>%
 #  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
+
+</details>
 
 ```{r nmr_pca_overall, fig.height=14, fig.width=12}
 
@@ -542,7 +547,7 @@ ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
 pca_cluster = fit_pca_function(df_cl %>% filter(site == "Alaska")) 
 
 ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
-         varname.size = 6,
+         varname.size = 4,
          ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
   geom_convexhull(aes(group = pca_cluster$grp$cluster), 
                   color = "black",
@@ -566,7 +571,7 @@ ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
 pca_cluster = fit_pca_function(df_cl %>% filter(site == "Washington")) 
 
 ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
-         varname.size = 6,
+         varname.size = 4,
          ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
   geom_convexhull(aes(group = pca_cluster$grp$cluster), 
                   color = "black",
@@ -590,22 +595,34 @@ ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
 
 ## NMR relabund
 
-```{r nmr_relabund}
+<details>
+  <summary> Click for Relative abundance by core </summary>
+  
+```{r nmr_relabund_cores, fig.height=12, fig.width=18}
+
+print("relative abundance: Alaska")
 
 nmr_relabundance %>% 
   filter(site == "Alaska") %>% 
   ggplot(aes(x = coreID, y = relabund, fill = group))+
   geom_bar(stat = "identity")+
-  facet_wrap( ~ length + drying + saturation, scale = "free_x")
+#  facet_wrap( ~ length + drying + saturation, scale = "free_x")
+  facet_grid(drying ~ length + saturation, scale = "free_x")
 
+
+print("relative abundance: Washington")
 
 nmr_relabundance %>% 
   filter(site == "Washington") %>% 
   ggplot(aes(x = coreID, y = relabund, fill = group))+
   geom_bar(stat = "identity")+
-  facet_wrap( ~ length + drying + saturation, scale = "free_x")
+#  facet_wrap( ~ length + drying + saturation, scale = "free_x")
+  facet_grid(drying ~ length + saturation, scale = "free_x")
 
 ```
+
+</details>
+
 
 ## NMR specctra
 

@@ -139,6 +139,74 @@ fticr_compute_relabund_trt = function(fticr_trt, fticr_meta, TREATMENTS){
     refactor_levels()
 }
 
+fticr_unique_drought = function(fticr_trt, fticr_meta){
+  
+  unique_drought_rewet = 
+    fticr_trt %>% 
+    filter(!length %in% "timezero") %>% 
+    distinct(formula, site, depth, length, saturation) %>% 
+    group_by(formula, site, depth, length) %>% 
+    dplyr::mutate(n = n()) %>% 
+    left_join(fticr_meta)
+  
+  
+  gg_vankrev(data = unique_drought_rewet %>% filter(n == 1),
+             aes(x = OC, y = HC, color = saturation))+
+    facet_wrap(site ~ depth ~ length)
+
+  
+  gg_vankrev(data = fticr_trt %>% left_join(fticr_meta),
+             aes(x = OC, y = HC, color = saturation))+
+    facet_wrap(site ~ depth ~ length)
+
+  
+}
+
+
+x = function(){
+  
+  fticr_timezero = 
+    fticr_trt %>% 
+    filter(saturation %in% "timezero") %>% 
+    mutate(timezero = "timezero") %>% 
+    dplyr::select(-c(length, saturation, drying))
+  
+  fticr_drought = 
+    fticr_trt %>% 
+    filter(saturation %in% "drought") %>% 
+    mutate(drought = "drought") %>% 
+    filter(length == "30d") %>% 
+    dplyr::select(-drying, -length, -saturation) %>% 
+    distinct()
+  
+  fticr_drought_tzero = 
+    fticr_drought %>% 
+    full_join(fticr_timezero)
+  
+  unique_tzero_drought = 
+    fticr_drought_tzero %>% 
+    mutate(unique = case_when(is.na(drought) & !is.na(timezero) ~ "timezero",
+                              !is.na(drought) & is.na(timezero) ~ "drought",
+                              !is.na(drought) & !is.na(timezero) ~ "both"
+                                ))
+  
+
+  
+  gg_vankrev(data = unique_tzero_drought %>% 
+               filter(unique != "both") %>% 
+               left_join(fticr_meta),
+             aes(x = OC, y = HC, color = unique))+
+    facet_wrap(site ~ depth)
+  
+  
+  
+  
+}
+
+
+
+
+
 #
 # NMR ----
 process_nmr_spectra = function(nmr_spectra, doc_key, sample_key){
@@ -176,6 +244,7 @@ compute_nmr_relabund = function(nmr_peaks_processed, doc_key, sample_key){
     left_join(sample_key) %>% 
     filter(depth == "0-5cm") %>% 
     filter(!is.na(site)) %>% 
-    dplyr::select(-skip)
+    dplyr::select(-skip) %>% 
+    refactor_levels(.)
 }
 
