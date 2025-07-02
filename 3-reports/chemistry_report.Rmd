@@ -9,16 +9,20 @@ output:
 ```{r setup, include=FALSE, echo=FALSE}
 knitr::opts_chunk$set(echo = FALSE,
                       message = FALSE,
-                      warning = FALSE)
+                      warning = FALSE,
+                      include = TRUE)
 ```
 
 ```{r}
+
+source("2-code/0-packages.R")
 
 pal_saturation = rev(PNWColors::pnw_palette("Sunset2", 3))
 theme_set(theme_kp())
 
 
 targets::tar_load_everything()
+
 ```
 
 ------
@@ -370,6 +374,7 @@ fticr_relabund %>%
 ### Stats -- PERMANOVA
 
 ```{r nmr_permanova}
+library(vegan)
 
 nmr_relabund_wide = 
   nmr_relabundance %>% 

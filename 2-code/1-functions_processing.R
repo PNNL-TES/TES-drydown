@@ -244,7 +244,6 @@ compute_nmr_relabund = function(nmr_peaks_processed, doc_key, sample_key){
     left_join(sample_key) %>% 
     filter(depth == "0-5cm") %>% 
     filter(!is.na(site)) %>% 
-    dplyr::select(-skip) %>% 
-    refactor_levels(.)
+    dplyr::select(-skip)
 }
 
