@@ -116,7 +116,9 @@ fticr_compute_relabund_cores = function(fticr_long, fticr_meta, TREATMENTS){
     # and then calculate relative abundance  
     group_by(coreID, !!!TREATMENTS) %>% 
     dplyr::mutate(total = sum(abund),
-                  relabund  = round((abund/total)*100,2))
+                  relabund  = round((abund/total)*100,2)) %>% 
+    refactor_levels()
+  
 }
 fticr_compute_relabund_trt = function(fticr_trt, fticr_meta, TREATMENTS){
   
@@ -133,9 +135,9 @@ fticr_compute_relabund_trt = function(fticr_trt, fticr_meta, TREATMENTS){
     # and then calculate relative abundance  
     group_by(!!!TREATMENTS) %>% 
     dplyr::mutate(total = sum(abund),
-                  relabund  = round((abund/total)*100,2))
+                  relabund  = round((abund/total)*100,2)) %>% 
+    refactor_levels()
 }
-
 
 #
 # NMR ----
