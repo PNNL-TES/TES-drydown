@@ -96,7 +96,7 @@ relabund_wide_surface_no_t0 = relabund_wide_no_t0 %>% filter(depth == "0-5cm")
 ```
 
 
-### Stats -- Clustering and PCA
+### Stats -- Clustering and PCA --- relative abundance
 
 (surface soils only)
 
@@ -307,6 +307,78 @@ pca_length =
   NULL
 
 ```
+
+
+
+### Stats -- Clustering and PCA --- formula
+
+```{r}
+
+fticr_wide = 
+  fticr_long %>% 
+  dplyr::select(coreID, DOC_ID, formula, presence, depth, site, drying, length, saturation) %>% 
+  pivot_wider(names_from = "formula", values_from = "presence") %>% 
+  janitor::remove_empty("cols") %>% 
+  replace(is.na(.), 0)
+
+
+pca = fit_pca_function(fticr_wide)
+dat = fticr_wide %>% 
+  pivot_longer(cols = -c(coreID, DOC_ID, depth, site, drying, length, saturation)) %>% 
+  dplyr::group_by(DOC_ID) %>% 
+  dplyr::summarise(max = max(value))
+
+jacc = vegdist(num, method = "jaccard")
+mds = metaMDS(jacc, k=2)
+print(mds)
+stressplot(mds)
+plot(mds)
+
+scores(mds)
+
+
+num = 
+  fticr_wide %>% 
+  column_to_rownames("DOC_ID") %>% 
+  dplyr::select(where(is.numeric)) %>%
+  dplyr::mutate(row = row_number()) %>% 
+  drop_na()
+
+num_row_numbers = num %>% dplyr::select(row)
+
+grp = 
+  fticr_wide %>% 
+  dplyr::select(!where(is.numeric)) %>% 
+  dplyr::mutate(row = row_number())
+#  %>% 
+#    right_join(num_row_numbers)
+
+
+num = num %>% dplyr::select(-row)
+pca_int = prcomp(num, scale. = T)
+  
+  list(num = num,
+       grp = grp,
+       pca_int = pca_int)
+
+
+
+
+scores = 
+  as.data.frame(scores(mds)) %>% 
+  rownames_to_column("DOC_ID") %>% 
+  left_join(grp) %>% 
+  refactor_levels()
+
+ggplot(scores, aes(x = NMDS1, y = NMDS2,
+                   color = length))+
+  geom_point()+
+  scale_color_manual(values = pnw_palette("Bay", 5))
+
+
+```
+
+
 
 
 ### Van Krevelens
