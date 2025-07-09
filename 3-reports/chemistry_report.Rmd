@@ -16,6 +16,7 @@ knitr::opts_chunk$set(echo = FALSE,
 ```{r}
 
 source("2-code/0-packages.R")
+source("2-code/1-functions_processing.R")
 
 pal_saturation = rev(PNWColors::pnw_palette("Sunset2", 3))
 theme_set(theme_kp())
@@ -313,7 +314,6 @@ pca_length =
 ### Stats -- Clustering and PCA --- formula
 
 ```{r}
-
 fticr_wide = 
   fticr_long %>% 
   dplyr::select(coreID, DOC_ID, formula, presence, depth, site, drying, length, saturation) %>% 
@@ -321,20 +321,59 @@ fticr_wide =
   janitor::remove_empty("cols") %>% 
   replace(is.na(.), 0)
 
+```
+
+
+
+
+```{r icr_cluster_formula}
+library(cluster)
+library(factoextra)
+
+fticr_wide_surface = fticr_wide %>% filter(depth == "0-5cm")
+
+df = fticr_wide %>%  dplyr::select(where(is.numeric))
+grp = fticr_wide %>%  dplyr::select(!where(is.numeric))
+
+fviz_nbclust(df, FUN = hcut, method = "wss")
+fviz_nbclust(df, FUN = hcut, method = "silhouette")
+# two clusters
+
+d <- dist(df, method = "binary")
+hc1 <- hclust(d, method = "complete" )
+plot(hc1, cex = 0.6, hang = -1)
+hc5 <- hclust(d, method = "ward.D2" )
+sub_grp <- cutree(hc5, k = 3)
+# table(sub_grp)
+plot(hc5, cex = 0.6)
+# rect.hclust(hc5, k = 5, border = 2:5)
+
+df_cl <- mutate(df, cluster = sub_grp) %>% cbind(grp)
+
+cluster = df_cl %>% dplyr::select(DOC_ID, cluster)
+
+print("hierarchical clustering: three clusters")
+count(df_cl,cluster)
+
+```
+
+
+
+
+
+```{r}
+
+
 
 pca = fit_pca_function(fticr_wide)
+
 dat = fticr_wide %>% 
   pivot_longer(cols = -c(coreID, DOC_ID, depth, site, drying, length, saturation)) %>% 
   dplyr::group_by(DOC_ID) %>% 
   dplyr::summarise(max = max(value))
 
-jacc = vegdist(num, method = "jaccard")
-mds = metaMDS(jacc, k=2)
-print(mds)
-stressplot(mds)
-plot(mds)
 
-scores(mds)
+
 
 
 num = 
@@ -354,25 +393,25 @@ grp =
 #    right_join(num_row_numbers)
 
 
-num = num %>% dplyr::select(-row)
-pca_int = prcomp(num, scale. = T)
-  
-  list(num = num,
-       grp = grp,
-       pca_int = pca_int)
+jacc = vegdist(num, method = "jaccard")
+mds = metaMDS(jacc, k=2)
+print(mds)
+stressplot(mds)
+plot(mds)
 
-
+scores(mds)
 
 
 scores = 
   as.data.frame(scores(mds)) %>% 
   rownames_to_column("DOC_ID") %>% 
   left_join(grp) %>% 
+  left_join(cluster) %>% 
   refactor_levels()
 
-ggplot(scores, aes(x = NMDS1, y = NMDS2,
-                   color = length))+
-  geom_point()+
+ggplot(scores %>% filter(depth == "0-5cm"), aes(x = NMDS1, y = NMDS2,
+                   color = as.character(length)))+
+  geom_point(size = 3)+
   scale_color_manual(values = pnw_palette("Bay", 5))
 
 
@@ -416,21 +455,46 @@ fticr_relabund_trt %>%
   <summary> Click for relabund per core </summary>
   
 ```{r icr_relabund_cores, fig.height=12, fig.width=18}
+library(ggh4x)
+
 
 fticr_relabund %>% 
+  refactor_levels(.) %>% 
   filter(depth == "0-5cm") %>% 
   filter(site == "Alaska") %>% 
   ggplot(aes(x = coreID, y = relabund, fill = Class))+
   geom_bar(stat = "identity")+
-  facet_grid(drying ~ length + saturation, scale = "free_x")
+  facet_nested(. ~ site + depth + saturation + length, scale = "free_x", nest_line = element_line(colour = "grey20"))+
+  theme(axis.text.x = element_text(angle = 90))
+
+fticr_relabund %>% 
+  refactor_levels(.) %>% 
+  filter(depth == "5cm-end") %>% 
+  filter(site == "Alaska") %>% 
+  ggplot(aes(x = coreID, y = relabund, fill = Class))+
+  geom_bar(stat = "identity")+
+  facet_nested(. ~ site + depth + saturation + length, scale = "free_x", nest_line = element_line(colour = "grey20"))+
+  theme(axis.text.x = element_text(angle = 90))
+
 
 
 fticr_relabund %>% 
+  refactor_levels(.) %>% 
   filter(depth == "0-5cm") %>% 
   filter(site == "Washington") %>% 
   ggplot(aes(x = coreID, y = relabund, fill = Class))+
   geom_bar(stat = "identity")+
-  facet_grid(drying ~ length + saturation, scale = "free_x")
+  facet_nested(. ~ site + depth + saturation + length, scale = "free_x", nest_line = element_line(colour = "grey20"))+
+  theme(axis.text.x = element_text(angle = 90))
+
+fticr_relabund %>% 
+  refactor_levels(.) %>% 
+  filter(depth == "5cm-end") %>% 
+  filter(site == "Washington") %>% 
+  ggplot(aes(x = coreID, y = relabund, fill = Class))+
+  geom_bar(stat = "identity")+
+  facet_nested(. ~ site + depth + saturation + length, scale = "free_x", nest_line = element_line(colour = "grey20"))+
+  theme(axis.text.x = element_text(angle = 90))
 
 ```
 
@@ -680,21 +744,25 @@ ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
 print("relative abundance: Alaska")
 
 nmr_relabundance %>% 
+  refactor_levels() %>% 
   filter(site == "Alaska") %>% 
   ggplot(aes(x = coreID, y = relabund, fill = group))+
   geom_bar(stat = "identity")+
 #  facet_wrap( ~ length + drying + saturation, scale = "free_x")
-  facet_grid(drying ~ length + saturation, scale = "free_x")
+  facet_nested(. ~ site + depth + saturation + length, scale = "free_x", nest_line = element_line(colour = "grey20"))+
+  theme(axis.text.x = element_text(angle = 90))
 
 
 print("relative abundance: Washington")
 
 nmr_relabundance %>% 
+  refactor_levels() %>% 
   filter(site == "Washington") %>% 
   ggplot(aes(x = coreID, y = relabund, fill = group))+
   geom_bar(stat = "identity")+
 #  facet_wrap( ~ length + drying + saturation, scale = "free_x")
-  facet_grid(drying ~ length + saturation, scale = "free_x")
+  facet_nested(. ~ site + depth + saturation + length, scale = "free_x", nest_line = element_line(colour = "grey20"))+
+  theme(axis.text.x = element_text(angle = 90))
 
 ```
 
