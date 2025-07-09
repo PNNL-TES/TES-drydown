@@ -17,6 +17,8 @@ knitr::opts_chunk$set(echo = FALSE,
 
 source("2-code/0-packages.R")
 source("2-code/1-functions_processing.R")
+library(ggh4x)
+
 
 pal_saturation = rev(PNWColors::pnw_palette("Sunset2", 3))
 theme_set(theme_kp())
@@ -437,26 +439,31 @@ ggplot(scores %>% filter(depth == "0-5cm"),
 
 ### Relative abundance
 
-```{r icr_relabund_trt, fig.height=12, fig.width=12}
+```{r icr_relabund_trt, fig.height=12, fig.width=18}
 
 print("Alaska soils, 0-5cm")
 
 fticr_relabund_trt %>% 
-  filter(depth == "0-5cm") %>% 
+  group_by(site, depth, length, saturation, Class) %>% 
+  dplyr::summarise(relabund = mean(relabund, na.omit = T)) %>% 
+#  filter(depth == "0-5cm") %>% 
   filter(site == "Alaska") %>% 
-  ggplot(aes(x = saturation, y = relabund, fill = Class))+
+  ggplot(aes(x = length, y = relabund, fill = Class))+
   geom_bar(stat = "identity")+
-  facet_grid(drying ~ length, scale = "free_x")
+  facet_nested(. ~ site + depth + saturation, scale = "free_x", nest_line = element_line(colour = "grey20"))
 
 
 print("Washington soils, 0-5cm")
 
 fticr_relabund_trt %>% 
-  filter(depth == "0-5cm") %>% 
+  group_by(site, depth, length, saturation, Class) %>% 
+  dplyr::summarise(relabund = mean(relabund, na.omit = T)) %>% 
+#  filter(depth == "0-5cm") %>% 
   filter(site == "Washington") %>% 
-  ggplot(aes(x = saturation, y = relabund, fill = Class))+
+  ggplot(aes(x = length, y = relabund, fill = Class))+
   geom_bar(stat = "identity")+
-  facet_grid(drying ~ length, scale = "free_x")
+  facet_nested(. ~ site + depth + saturation, scale = "free_x", nest_line = element_line(colour = "grey20"))
+
 ```
 
 
