@@ -101,10 +101,16 @@ relabund_wide_surface_no_t0 = relabund_wide_no_t0 %>% filter(depth == "0-5cm")
 
 (surface soils only)
 
+Calculated relative abundance of the different compound classes, using that for clustering/PCA
+
 
 <details>
-  <summary> Click for details </summary>
+  <summary> Click for details on clustering</summary>
   
+  
+**Hierarchical Clustering**
+
+
 ```{r icr_cluster}
 library(cluster)
 library(factoextra)
@@ -311,8 +317,10 @@ pca_length =
 
 
 
-### Stats -- Clustering and PCA --- formula
+### Stats -- Clustering and NMDS --- formula
 
+ignoring compound classes, doing clustering/NMDS based on individual molecules (presence/absence)
+ 
 ```{r}
 fticr_wide = 
   fticr_long %>% 
@@ -323,9 +331,9 @@ fticr_wide =
 
 ```
 
-
-
-
+<details>
+  <summary> Click for details on clustering</summary>
+  
 ```{r icr_cluster_formula}
 library(cluster)
 library(factoextra)
@@ -357,24 +365,11 @@ count(df_cl,cluster)
 
 ```
 
+</details>
 
 
 
-
-```{r}
-
-
-
-pca = fit_pca_function(fticr_wide)
-
-dat = fticr_wide %>% 
-  pivot_longer(cols = -c(coreID, DOC_ID, depth, site, drying, length, saturation)) %>% 
-  dplyr::group_by(DOC_ID) %>% 
-  dplyr::summarise(max = max(value))
-
-
-
-
+```{r icr_mds_calc, include=FALSE}
 
 num = 
   fticr_wide %>% 
@@ -394,28 +389,42 @@ grp =
 
 
 jacc = vegdist(num, method = "jaccard")
-mds = metaMDS(jacc, k=2)
+mds = metaMDS(jacc, k=3)
+
+#scores(mds)
+
+```
+
+
+```{r icr_mds_output}
+
 print(mds)
 stressplot(mds)
 plot(mds)
 
-scores(mds)
+```
 
+
+```{r icr_NMDS_plot}
 
 scores = 
   as.data.frame(scores(mds)) %>% 
   rownames_to_column("DOC_ID") %>% 
   left_join(grp) %>% 
   left_join(cluster) %>% 
-  refactor_levels()
+  refactor_levels(.)
 
-ggplot(scores %>% filter(depth == "0-5cm"), aes(x = NMDS1, y = NMDS2,
-                   color = as.character(length)))+
-  geom_point(size = 3)+
-  scale_color_manual(values = pnw_palette("Bay", 5))
-
+ggplot(scores %>% filter(depth == "0-5cm"), 
+       aes(x = NMDS1, y = NMDS2,
+           fill = as.character(length),
+           shape = saturation))+
+  geom_point(size = 5, stroke = 1)+
+  scale_shape_manual(values = c(21, 22, 23))+
+  scale_fill_manual(values = pnw_palette("Bay", 5))+
+  guides(fill = guide_legend(override.aes = list(shape = 21)))
 
 ```
+
 
 
 
