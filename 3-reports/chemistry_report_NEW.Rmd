@@ -20,6 +20,15 @@ source("2-code/1-functions_processing.R")
 library(ggh4x)
 
 
+subset_and_refactor_data = function(dat){
+  dat %>% 
+    filter(site == "Washington") %>% 
+    filter(!length %in% "150d")  %>% 
+    mutate(length = case_match(length, "30d" ~ "Day 30", "90d" ~ "Day 90", "1000d" ~ "Day 1000", "timezero" ~ "Day 0"),
+           length = factor(length, levels = c("Day 0", "Day 30", "Day 90", "Day 1000")))
+}
+
+
 targets::tar_load_everything()
 
 ```
