@@ -37,10 +37,7 @@ subset_and_refactor_data = function(dat){
 }
 ```
 
-
-
 ------
-
 
 ## FTICR
 
@@ -53,9 +50,6 @@ fticr_relabund = fticr_relabund %>% subset_and_refactor_data(.)
 fticr_relabund_trt = fticr_relabund_trt %>% subset_and_refactor_data(.)
 
 ```
-
-
-
 
 ```{r icr_relabund_wide}
 
@@ -83,20 +77,20 @@ relabund_wide_no_t0 =
   filter(length != "timezero") 
 
 print("FTICR -- including top and bottom depths")
-# permanova_fticr_all = 
-  adonis2(relabund_wide_no_t0 %>% dplyr::select(where(is.numeric)) ~ 
-            (depth+length+saturation+drying), 
-          by = "margin",
-          data = relabund_wide_no_t0) %>% broom::tidy() %>% knitr::kable()
+
+adonis2(relabund_wide_no_t0 %>% dplyr::select(where(is.numeric)) ~ 
+          (depth+length+saturation+drying), 
+        by = "margin",
+        data = relabund_wide_no_t0) %>% broom::tidy() %>% knitr::kable()
 
 
 print("FTICR -- including top depth only")
+
 relabund_wide_surface_no_t0 = relabund_wide_no_t0 %>% filter(depth == "0-5cm")
-# permanova_fticr_all = 
-  adonis2(relabund_wide_surface_no_t0 %>% dplyr::select(where(is.numeric)) ~ 
-            (length+saturation+drying), 
-          by = "margin",
-          data = relabund_wide_surface_no_t0) %>%  broom::tidy() %>% knitr::kable()
+adonis2(relabund_wide_surface_no_t0 %>% dplyr::select(where(is.numeric)) ~ 
+          (length+saturation+drying), 
+        by = "margin",
+        data = relabund_wide_surface_no_t0) %>%  broom::tidy() %>% knitr::kable()
 
 ```
 
@@ -104,8 +98,10 @@ relabund_wide_surface_no_t0 = relabund_wide_no_t0 %>% filter(depth == "0-5cm")
 ### Stats -- Clustering and NMDS --- formula
 
 ignoring compound classes, doing clustering/NMDS based on individual molecules (presence/absence)
- 
+
+
 ```{r}
+
 fticr_wide = 
   fticr_long %>% 
   dplyr::select(coreID, DOC_ID, formula, presence, depth, site, drying, length, saturation) %>% 
@@ -131,9 +127,6 @@ grp =
   fticr_wide %>% 
   dplyr::select(!where(is.numeric)) %>% 
   dplyr::mutate(row = row_number())
-#  %>% 
-#    right_join(num_row_numbers)
-
 
 jacc = vegdist(num, method = "jaccard")
 mds = metaMDS(jacc, k=3)
@@ -151,6 +144,7 @@ plot(mds)
 
 ```
 
+FTICR NMDS plots:
 
 ```{r icr_NMDS_plot}
 
@@ -158,9 +152,9 @@ scores =
   as.data.frame(scores(mds)) %>% 
   rownames_to_column("DOC_ID") %>% 
   left_join(grp) %>% 
-#  refactor_levels(.) %>% 
   force()
 
+print("color by length")
 ggplot(scores %>% filter(depth == "0-5cm"), 
        aes(x = NMDS1, y = NMDS2,
            fill = as.character(length),
@@ -170,31 +164,32 @@ ggplot(scores %>% filter(depth == "0-5cm"),
   scale_fill_manual(values = pnw_palette("Bay", 5))+
   guides(fill = guide_legend(override.aes = list(shape = 21)))
 
-
+print("color by saturation - top")
 ggplot(scores %>% filter(depth == "0-5cm"), 
        aes(x = NMDS1, y = NMDS2,
-           fill = as.character(saturation),
+           color = as.character(saturation),
            size = length))+
-  geom_point(shape = 21)+
-  labs(title = "FTICR NMDS - 0-5 cm")+
-#  geom_point(size = 5, stroke = 1)+
-#  scale_shape_manual(values = c(21, 22, 23))+
-  scale_fill_manual(values = pal_saturation,
-                    breaks = breaks_saturation)+
-#  guides(fill = guide_legend(override.aes = list(shape = 21)))+
+  geom_point()+
+#  labs(title = "FTICR NMDS - 0-5 cm")+
+  scale_color_manual(values = pal_saturation,
+                     breaks = breaks_saturation)+
+  scale_shape_manual(values=c(15,16,17,18,19))+
+  scale_size_manual(values=c(2,3,4,5,6))+
+  #  guides(fill = guide_legend(override.aes = list(shape = 21)))+
   NULL
 
-
+print("color by saturation - bottom")
 ggplot(scores %>% filter(depth == "5cm-end"), 
        aes(x = NMDS1, y = NMDS2,
-           fill = as.character(saturation),
+           color = as.character(saturation),
            size = length))+
-  geom_point(shape = 21)+
-  labs(title = "FTICR NMDS - 5cm-end")+
-#  geom_point(size = 5, stroke = 1)+
-#  scale_shape_manual(values = c(21, 22, 23))+
-  scale_fill_manual(values = pal_saturation,
-                    breaks = breaks_saturation)+
+  geom_point()+
+#  labs(title = "FTICR NMDS - 5cm-end")+
+  scale_color_manual(values = pal_saturation,
+                     breaks = breaks_saturation)+
+  scale_shape_manual(values=c(15,16,17,18,19))+
+  scale_size_manual(values=c(2,3,4,5,6))+
+  
   #  guides(fill = guide_legend(override.aes = list(shape = 21)))+
   NULL
 ```
@@ -202,31 +197,28 @@ ggplot(scores %>% filter(depth == "5cm-end"),
 
 ### Relative abundance
 
-```{r icr_relabund_trt, fig.height=12, fig.width=18}
+```{r icr_relabund_trt, fig.height=6, fig.width=18}
 
 fticr_relabund_trt %>% 
   group_by(site, depth, length, saturation, Class) %>% 
   dplyr::summarise(relabund = mean(relabund, na.omit = T)) %>% 
-#  filter(depth == "0-5cm") %>% 
-  filter(site == "Washington") %>% 
   ggplot(aes(x = length, y = relabund, fill = Class))+
   geom_bar(stat = "identity")+
+  labs(x = "",
+       y = "Relative Contribution (%)")+
   scale_fill_manual(values = whistledown_palette("sharmaji", 4))+
-  facet_nested(. ~ site + depth + saturation, scale = "free_x", nest_line = element_line(colour = "grey20"))
+  facet_nested(. ~ depth + saturation, scale = "free_x", nest_line = element_line(colour = "grey20"))
 
 ```
 
 
 <details>
-  <summary> Click for relabund per core </summary>
-  
-```{r icr_relabund_cores, fig.height=12, fig.width=18}
-library(ggh4x)
+<summary> Click for relabund per core </summary>
 
+```{r icr_relabund_cores, fig.height=12, fig.width=18}
 
 fticr_relabund %>% 
   filter(depth == "0-5cm") %>% 
-  filter(site == "Washington") %>% 
   ggplot(aes(x = coreID, y = relabund, fill = Class))+
   geom_bar(stat = "identity")+
   scale_fill_manual(values = whistledown_palette("sharmaji", 4))+
@@ -234,9 +226,7 @@ fticr_relabund %>%
   theme(axis.text.x = element_text(angle = 90))
 
 fticr_relabund %>% 
-#  refactor_levels(.) %>% 
   filter(depth == "5cm-end") %>% 
-  filter(site == "Washington") %>% 
   ggplot(aes(x = coreID, y = relabund, fill = Class))+
   geom_bar(stat = "identity")+
   scale_fill_manual(values = whistledown_palette("sharmaji", 4))+
@@ -246,6 +236,5 @@ fticr_relabund %>%
 ```
 
 </details>
-
 
 ------
