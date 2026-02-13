@@ -14,7 +14,7 @@ chemistry_report_NEW
 | depth      |   1 | 0.0506674 | 0.1149601 |  88.057141 |   0.001 |
 | length     |   2 | 0.2056311 | 0.4665603 | 178.687892 |   0.001 |
 | saturation |   1 | 0.1540093 | 0.3494347 | 267.659890 |   0.001 |
-| drying     |   1 | 0.0018533 | 0.0042049 |   3.220881 |   0.063 |
+| drying     |   1 | 0.0018533 | 0.0042049 |   3.220881 |   0.066 |
 | Residual   |  89 | 0.0512099 | 0.1161911 |         NA |      NA |
 | Total      |  94 | 0.4407384 | 1.0000000 |         NA |      NA |
 
@@ -24,7 +24,7 @@ chemistry_report_NEW
 |:-----------|----:|----------:|----------:|------------:|--------:|
 | length     |   2 | 0.1219450 | 0.7254832 | 189.9259569 |   0.001 |
 | saturation |   1 | 0.0420732 | 0.2503049 | 131.0558189 |   0.001 |
-| drying     |   1 | 0.0000653 | 0.0003882 |   0.2032546 |   0.651 |
+| drying     |   1 | 0.0000653 | 0.0003882 |   0.2032546 |   0.645 |
 | Residual   |  43 | 0.0138044 | 0.0821262 |          NA |      NA |
 | Total      |  47 | 0.1680880 | 1.0000000 |          NA |      NA |
 
@@ -60,15 +60,13 @@ FTICR NMDS plots:
 
     ## [1] "color by saturation - top"
 
-![](chemistry_report_NEW_files/figure-gfm/icr_NMDS_plot-2.png)<!-- -->
-
     ## [1] "color by saturation - bottom"
 
-![](chemistry_report_NEW_files/figure-gfm/icr_NMDS_plot-3.png)<!-- -->
+![](chemistry_report_NEW_files/figure-gfm/icr_NMDS_plot-2.png)<!-- -->![](chemistry_report_NEW_files/figure-gfm/icr_NMDS_plot-3.png)<!-- -->
 
 ### Relative abundance
 
-![](chemistry_report_NEW_files/figure-gfm/icr_relabund_trt-1.png)<!-- -->
+![](chemistry_report_NEW_files/figure-gfm/icr_combined-1.png)<!-- -->
 
 <details>
 <summary>

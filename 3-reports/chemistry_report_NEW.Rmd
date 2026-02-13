@@ -166,7 +166,8 @@ ggplot(scores %>% filter(depth == "0-5cm"),
   guides(fill = guide_legend(override.aes = list(shape = 21)))
 
 print("color by saturation - top")
-ggplot(scores %>% filter(depth == "0-5cm"), 
+gg_icr_nmds_top = 
+  ggplot(scores %>% filter(depth == "0-5cm"), 
        aes(x = NMDS1, y = NMDS2,
            color = as.character(saturation),
            size = length))+
@@ -176,11 +177,13 @@ ggplot(scores %>% filter(depth == "0-5cm"),
                      breaks = breaks_saturation)+
   scale_shape_manual(values=c(15,16,17,18,19))+
   scale_size_manual(values=c(2,3,4,5,6))+
+  theme(legend.position = "right")+
   #  guides(fill = guide_legend(override.aes = list(shape = 21)))+
   NULL
 
 print("color by saturation - bottom")
-ggplot(scores %>% filter(depth == "5cm-end"), 
+gg_icr_nmds_btm = 
+  ggplot(scores %>% filter(depth == "5cm-end"), 
        aes(x = NMDS1, y = NMDS2,
            color = as.character(saturation),
            size = length))+
@@ -193,6 +196,10 @@ ggplot(scores %>% filter(depth == "5cm-end"),
   
   #  guides(fill = guide_legend(override.aes = list(shape = 21)))+
   NULL
+
+gg_icr_nmds_top
+gg_icr_nmds_btm
+
 ```
 
 
@@ -200,7 +207,8 @@ ggplot(scores %>% filter(depth == "5cm-end"),
 
 ```{r icr_relabund_trt, fig.height=6, fig.width=18}
 
-fticr_relabund_trt %>% 
+gg_icr_relabund = 
+  fticr_relabund_trt %>% 
   group_by(site, depth, length, saturation, Class) %>% 
   dplyr::summarise(relabund = mean(relabund, na.omit = T)) %>% 
   ggplot(aes(x = length, y = relabund, fill = Class))+
@@ -208,9 +216,20 @@ fticr_relabund_trt %>%
   labs(x = "",
        y = "Relative Contribution (%)")+
   scale_fill_manual(values = whistledown_palette("sharmaji", 4))+
-  facet_nested(. ~ depth + saturation, scale = "free_x", nest_line = element_line(colour = "grey20"))
+  facet_nested(depth ~ saturation, scale = "free_x", space = "free_x", nest_line = element_line(colour = "grey20"))+
+  theme(legend.position = "right")
 
 ```
+
+```{r icr_combined, fig.height=10, fig.width=10}
+cowplot::plot_grid(gg_icr_nmds_top, gg_icr_relabund, 
+                   ncol = 1, 
+                   align = "hv", axis = "lr", 
+                   rel_heights = c(1.2,2),
+                   labels = c("A", "B"))
+```
+
+
 
 
 <details>
