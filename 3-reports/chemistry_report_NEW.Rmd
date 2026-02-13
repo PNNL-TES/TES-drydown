@@ -20,6 +20,9 @@ source("2-code/1-functions_processing.R")
 library(ggh4x)
 theme_set(theme_kp())
 
+library(cluster)
+library(factoextra)
+
 pal_saturation = c("#CC79A7", "#E69F00", "#0072B2")
 breaks_saturation = c("timezero", "drought", "d+rewet")
 
@@ -33,7 +36,8 @@ subset_and_refactor_data = function(dat){
     filter(site == "Washington") %>% 
     filter(!length %in% "150d")  %>% 
     mutate(length = case_match(length, "30d" ~ "Day 30", "90d" ~ "Day 90", "1000d" ~ "Day 1000", "timezero" ~ "Day 0"),
-           length = factor(length, levels = c("Day 0", "Day 30", "Day 90", "Day 1000")))
+           length = factor(length, levels = c("Day 0", "Day 30", "Day 90", "Day 1000")),
+           saturation = factor(saturation, levels = c("timezero", "drought", "d+rewet")))
 }
 ```
 
@@ -258,3 +262,220 @@ fticr_relabund %>%
 </details>
 
 ------
+------
+
+
+## NMR
+
+```{r nmr_data}
+
+# subsetted FTICR data
+
+nmr_relabundance = nmr_relabundance %>% subset_and_refactor_data(.)
+
+```
+
+### Stats -- PERMANOVA
+
+```{r nmr_permanova}
+
+nmr_relabund_wide = 
+  nmr_relabundance %>% 
+  #filter(length != "timezero") %>% 
+  ungroup() %>% 
+  pivot_wider(names_from = "group", values_from = "relabund") %>% 
+  force()
+
+adonis2(nmr_relabund_wide %>% dplyr::select(where(is.numeric)) ~ 
+            (length+saturation+drying), 
+          by = "margin",
+          data = nmr_relabund_wide) %>% 
+  broom::tidy() %>% 
+  knitr::kable()
+
+```
+
+### Stats -- PCA and clustering
+
+<details>
+  <summary> Click for details </summary>
+  
+```{r nmr_cluster}
+
+df = nmr_relabund_wide %>%  dplyr::select(where(is.numeric))
+grp = nmr_relabund_wide %>%  dplyr::select(!where(is.numeric))
+
+fviz_nbclust(df, FUN = hcut, method = "wss")
+fviz_nbclust(df, FUN = hcut, method = "silhouette")
+# two clusters
+
+d <- dist(df, method = "euclidean")
+hc1 <- hclust(d, method = "complete" )
+plot(hc1, cex = 0.6, hang = -1)
+hc5 <- hclust(d, method = "ward.D2" )
+sub_grp <- cutree(hc5, k = 2)
+# table(sub_grp)
+plot(hc5, cex = 0.6)
+# rect.hclust(hc5, k = 5, border = 2:5)
+
+df_cl <- mutate(df, cluster = sub_grp) %>% cbind(grp)
+
+print("NMR hierarchical clustering: two clusters")
+count(df_cl,cluster)
+
+```
+
+</details>
+
+```{r pca_fn}
+fit_pca_function = function(dat){
+  
+  dat %>% 
+    drop_na()
+
+  num = 
+    dat %>%       
+    dplyr::select(where(is.numeric)) %>%
+    dplyr::mutate(row = row_number()) %>% 
+    drop_na()
+  
+  num_row_numbers = num %>% dplyr::select(row)
+  
+  grp = 
+    dat %>% 
+    dplyr::select(!where(is.numeric)) %>% 
+    dplyr::mutate(row = row_number()) %>% 
+    right_join(num_row_numbers)
+  
+  
+  num = num %>% dplyr::select(-row)
+  pca_int = prcomp(num, scale. = T)
+  
+  list(num = num,
+       grp = grp,
+       pca_int = pca_int)
+}
+```
+
+```{r nmr_pca_overall, fig.height=14, fig.width=12}
+
+df_cl = df_cl %>% mutate(cluster = as.character(cluster)) 
+
+library(ggConvexHull)
+
+pca_cluster = fit_pca_function(df_cl) 
+
+pca_length = 
+  ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
+         varname.size = 6,
+         ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
+  geom_convexhull(aes(group = pca_cluster$grp$cluster), 
+                  color = "black",
+                  linewidth = 1.2,
+                  alpha = 0.1)+
+  geom_point(size=5,stroke=1.5, alpha = 1, shape = 21,
+             aes(fill = pca_cluster$grp$length))+ 
+  #scale_shape_manual(values = c(23, 21, 22))+
+  #scale_color_manual(values = pnw_palette("Sailboat", 7))+
+  scale_fill_manual(values = pnw_palette("Bay", 5))+
+  labs(title = "NMR PCA, color by length",
+       subtitle = "Surface horizons only")+
+  theme_kp()+
+  ylim(-3, 3)+
+  xlim(-4, 4)+
+  guides(fill = guide_legend(override.aes = list(shape = 21)))+
+  NULL
+
+pca_saturation = 
+  ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
+         varname.size = 6,
+         ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
+  geom_convexhull(aes(group = pca_cluster$grp$cluster), 
+                  color = "black",
+                  linewidth = 1.2,
+                  alpha = 0.1)+
+  geom_point(size=5,stroke=1.5, alpha = 1, shape = 21,
+             aes(fill = pca_cluster$grp$saturation))+ 
+  scale_fill_manual(values = pal_saturation,
+                    breaks = breaks_saturation)+
+  labs(title = "NMR PCA, color by saturation",
+       subtitle = "Surface horizons only")+
+  theme_kp()+
+  ylim(-3, 3)+
+  xlim(-4, 4)+
+  guides(fill = guide_legend(override.aes = list(shape = 21)))+
+  NULL
+
+cowplot::plot_grid(pca_length, pca_saturation)
+
+```
+
+## NMR relabund
+
+```{r nmr_relabund, fig.height=6, fig.width=10}
+
+nmr_relabundance_summary = 
+  nmr_relabundance %>% 
+  group_by(site, depth, saturation, length, group) %>%
+  dplyr::summarise(relabund = mean(relabund))
+
+nmr_relabundance_summary %>% 
+  ggplot(aes(x = length, y = relabund, fill = group))+
+  geom_bar(stat = "identity")+
+  facet_nested(. ~ site + depth + saturation, scale = "free_x", space = "free_x", nest_line = element_line(colour = "grey20"))+
+  scale_fill_manual(values = whistledown_palette("queen", 5))+
+  theme(axis.text.x = element_text(angle = 90))
+
+```
+
+<details>
+  <summary> Click for Relative abundance by core </summary>
+  
+```{r nmr_relabund_cores, fig.height=12, fig.width=18}
+
+print("relative abundance: Washington")
+
+nmr_relabundance %>% 
+  ggplot(aes(x = coreID, y = relabund, fill = group))+
+  geom_bar(stat = "identity")+
+  facet_nested(. ~ site + depth + saturation + length, scale = "free_x", nest_line = element_line(colour = "grey20"))+
+  scale_fill_manual(values = whistledown_palette("queen", 5))+
+  theme(axis.text.x = element_text(angle = 90))
+
+```
+
+</details>
+
+
+## NMR spectra
+
+```{r nmr_spectra}
+
+nmr_spectra_processed %>% 
+  filter(coreID %in% c("S92", "S32", "S53")) %>% 
+  nmr_plot_spectra(
+    binset = bins_Clemente2012,
+    map = aes(group = coreID, x = ppm, y = intensity, color = saturation),
+    stagger = 0.4,
+    label_position = 2.3
+  )+
+  ylim(0, 2.5)+
+  scale_color_manual(values = pal_saturation)
+
+```
+
+
+---
+
+## Session Info 
+
+<details>
+  <summary> Session Info </summary>
+
+Date run: `r Sys.Date()`
+
+```{r}
+sessionInfo()
+```
+
+</details>
