@@ -411,6 +411,32 @@ cowplot::plot_grid(pca_length, pca_saturation)
 
 ```
 
+```{r nmr_pca_washington, fig.height=8, fig.width=8}
+
+ggbiplot(pca_cluster$pca_int, obs.scale = 1, var.scale = 1,
+         varname.size = 5,
+         ellipse = T, circle = FALSE, var.axes = TRUE, alpha = 0) +
+  geom_convexhull(aes(group = pca_cluster$grp$cluster), 
+                  color = "black",
+                  linewidth = 1.2,
+                  alpha = 0.1)+
+  geom_point(#size=5,stroke=1.5, alpha = 1, shape = 21,
+    aes(color = pca_cluster$grp$saturation,
+        size = pca_cluster$grp$length))+ 
+  scale_fill_manual(values = pal_saturation, breaks = breaks_saturation)+
+  scale_color_manual(values = pal_saturation, breaks = breaks_saturation)+
+  #  labs(title = "NMR PCA, color by saturation",
+  #       subtitle = "Surface horizons only")+
+  theme_kp()+
+  ylim(-3, 3)+
+  xlim(-3, 3)+
+  guides(fill = guide_legend(override.aes = list(shape = 21)))+
+  NULL
+
+```
+
+
+
 ## NMR relabund
 
 ```{r nmr_relabund, fig.height=6, fig.width=10}
@@ -439,8 +465,12 @@ print("relative abundance: Washington")
 nmr_relabundance %>% 
   ggplot(aes(x = coreID, y = relabund, fill = group))+
   geom_bar(stat = "identity")+
-  facet_nested(. ~ site + depth + saturation + length, scale = "free_x", nest_line = element_line(colour = "grey20"))+
+  facet_nested(. ~ site + depth + saturation + length, 
+               scale = "free_x", space = "free_x",
+               nest_line = element_line(colour = "grey20"))+
   scale_fill_manual(values = whistledown_palette("queen", 5))+
+  labs(x = "Sample",
+       y = "Relative Contribution (%)")+
   theme(axis.text.x = element_text(angle = 90))
 
 ```
@@ -461,7 +491,7 @@ nmr_spectra_processed %>%
     label_position = 2.3
   )+
   ylim(0, 2.5)+
-  scale_color_manual(values = pal_saturation)
+  scale_color_manual(values = pal_saturation, breaks = breaks_saturation)
 
 ```
 
