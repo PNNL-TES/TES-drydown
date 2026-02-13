@@ -17,6 +17,8 @@ library(soilpalettes)
 library(nmrrr)
 library(vegan)
 #library(DescTools)
+library(whistledown)
+# devtools::install_github("kaizadp/whistledown")
 
 
 # My 'picarro.data' package isn't on CRAN (yet) so need to install it via:
