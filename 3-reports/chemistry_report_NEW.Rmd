@@ -18,7 +18,10 @@ knitr::opts_chunk$set(echo = FALSE,
 source("2-code/0-packages.R")
 source("2-code/1-functions_processing.R")
 library(ggh4x)
+theme_set(theme_kp())
 
+pal_saturation = c("#CC79A7", "#E69F00", "#0072B2")
+breaks_saturation = c("timezero", "drought", "d+rewet")
 
 subset_and_refactor_data = function(dat){
   dat %>% 
@@ -164,8 +167,8 @@ ggplot(scores %>% filter(depth == "0-5cm"),
   labs(title = "FTICR NMDS - 0-5 cm")+
 #  geom_point(size = 5, stroke = 1)+
 #  scale_shape_manual(values = c(21, 22, 23))+
-  scale_fill_manual(values = c("#CC79A7", "#E69F00", "#0072B2"),
-                    breaks = c("timezero", "drought", "d+rewet"))+
+  scale_fill_manual(values = pal_saturation,
+                    breaks = breaks_saturation)+
 #  guides(fill = guide_legend(override.aes = list(shape = 21)))+
   NULL
 
@@ -178,15 +181,10 @@ ggplot(scores %>% filter(depth == "5cm-end"),
   labs(title = "FTICR NMDS - 5cm-end")+
 #  geom_point(size = 5, stroke = 1)+
 #  scale_shape_manual(values = c(21, 22, 23))+
-  scale_fill_manual(values = c("#CC79A7", "#E69F00", "#0072B2"),
-                    breaks = c("timezero", "drought", "d+rewet"))+
-#  guides(fill = guide_legend(override.aes = list(shape = 21)))+
+  scale_fill_manual(values = pal_saturation,
+                    breaks = breaks_saturation)+
+  #  guides(fill = guide_legend(override.aes = list(shape = 21)))+
   NULL
-
-
-
-"#CC79A7", "#E69F00", "#0072B2" for time zero , drought and drought rewet
-
 ```
 
 
