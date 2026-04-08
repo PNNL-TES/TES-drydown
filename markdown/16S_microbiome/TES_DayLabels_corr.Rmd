@@ -1,0 +1,4023 @@
+---
+title: "TES-drydown experiment microbiome data analysis"
+author: "Sreejata Bandopadhyay"
+date: "2025-12-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+### Clean and initialize the environment in R Markdown
+```{r clean and initialize environment, eval=FALSE}
+
+rm(list = ls()) # Clear environment
+gc()            # Run garbage collection
+
+# Load desired libraries (from the shared environment comparison)
+required_packages <- c("DESeq2", "phyloseq", "ggplot2", "base","phyloseq", "tidyverse", "ggh4x")  # Add your required packages here
+lapply(required_packages, library, character.only = TRUE)
+
+```
+
+### Inspecting library sizes and removing chloroplast, mitochondria
+```{r decontamination}
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+
+if (!require("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+
+BiocManager::install("phyloseq")
+library(phyloseq)
+library(ggplot2)
+library(tidyverse)
+library(grid)
+library(reshape2)
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+
+BiocManager::install("decontam")
+
+library(decontam)
+
+otu = read.csv("otu_table.csv", sep=",", row.names=1)##CHANGE OTU HEADER TO OTUID IN CSV FILE 
+tax = read.csv("taxonomy.csv", sep=",", row.names=1)
+tax = as.matrix(tax)
+metadata = read.csv("metadata-decontam.csv", sep=",", row.names=1)
+OTU = otu_table(otu, taxa_are_rows = TRUE)
+TAX = tax_table(tax)
+meta = sample_data(metadata)
+
+phyloseq_merged = phyloseq(OTU, TAX, meta)
+phyloseq_merged
+
+sample_names(phyloseq_merged)
+
+##check column names of taxonomy table
+colnames(tax_table(phyloseq_merged))
+
+##remove mito, chloroplast and archaea, eukarya
+phyloseq_merged_clean <- phyloseq_merged %>%
+  subset_taxa(
+    Domain == "d__Bacteria" &
+      Family   != "f__Chloroplast" &
+      Family  != "f__Mitochondria"
+  )
+phyloseq_merged_clean
+
+head(sample_data(phyloseq_merged_clean))
+
+##inspect library sizes
+df <- as.data.frame(sample_data(phyloseq_merged_clean)) # Put sample_data into a ggplot-friendly data.frame
+df$LibrarySize <- sample_sums(phyloseq_merged_clean)
+df <- df[order(df$LibrarySize),]
+df$Index <- seq(nrow(df))
+plot<- ggplot(data=df, aes(x=Index, y=LibrarySize, color=Sample_type)) + geom_point() ##Supplemental Figure S3
+
+ggsave(filename = "RMDplots/librarySize_rmd.pdf", plot = plot,
+       width = 16,
+       height = 13, units = c("cm"),
+       dpi = 300)
+
+```
+
+### Library size plot
+```{r library size plot}
+plot(plot)
+```
+
+### Decontaminant diagnostics and removal
+```{r decontamination part 2}
+##identify contaminants by prevalence. in this method, the distribution 
+#of the frequency of each sequence feature as a function of the 
+#prevalence is used to identify contaminants. In this method, 
+#the prevalence (presence/absence across samples) of each sequence feature 
+#in true positive samples is compared to the prevalence in negative controls 
+#to identify contaminants.
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+
+sample_data(phyloseq_merged_clean)$is.neg <- sample_data(phyloseq_merged_clean)$Sample_type == "Control Sample"
+contamdf.prev0.5 <- isContaminant(phyloseq_merged_clean, method="prevalence", neg="is.neg", threshold=0.5)
+table(contamdf.prev0.5$contaminant)
+
+
+# Make phyloseq object of presence-absence in negative controls and true samples
+ps.pa <- transform_sample_counts(phyloseq_merged_clean, function(abund) 1*(abund>0))
+ps.pa.neg <- prune_samples(sample_data(ps.pa)$Sample_type == "Control Sample", ps.pa)
+ps.pa.pos <- prune_samples(sample_data(ps.pa)$Sample_type == "True Sample", ps.pa)
+# Make data.frame of prevalence in positive and negative samples
+df.pa <- data.frame(pa.pos=taxa_sums(ps.pa.pos), pa.neg=taxa_sums(ps.pa.neg),
+                    contaminant=contamdf.prev0.5$contaminant)
+plot<- ggplot(data=df.pa, aes(x=pa.neg, y=pa.pos, color=contaminant)) + geom_point() +
+  xlab("Prevalence (Negative Controls)") + ylab("Prevalence (True Samples)") ##Supplemental Figure S3
+
+ggsave(filename = "RMDplots/prevalence_rmd.pdf", plot = plot,
+       width = 16,
+       height = 13, units = c("cm"),
+       dpi = 300)
+
+write.csv(df.pa, "RMDplots/contaminant-table_rmd.csv")
+
+write.csv(contamdf.prev0.5, "RMDplots/contaminant-prev-0.5_rmd.csv")
+
+```
+
+### Contaminant prevalence plot
+```{r prevalence plot}
+plot(plot)
+```
+
+```{r decontamination final}
+
+##removing contaminants from phyloseq object
+
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+df.pa <- read.csv("RMDplots/contaminant-prev-0.5_rmd.csv")
+subset.df <- subset(df.pa, contaminant== "FALSE")
+keep.taxa <- as.vector(subset.df$X)
+
+phyloseq_merged_clean_decontam <- prune_taxa(keep.taxa, phyloseq_merged_clean)
+phyloseq_merged_clean_decontam
+```
+
+### Exporting OTU tables out of phyloseq object
+```{r exporting otu table out of phyloseq object}
+##export otu table out of phyloseq object 
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+OTU1 = as(otu_table(phyloseq_merged_clean_decontam), "matrix")
+
+# Coerce to data.frame
+OTUdf = as.data.frame(OTU1)
+
+write.csv(OTUdf, "RMDplots/OTU_clean_rmd.csv")
+
+#remove neg controls from otu table-- might add more rows which are rowsums=0, read back in to rarefy reads 
+
+otu = read.csv("OTU_clean.csv", sep=",", row.names=1)#with no contaminants, mito, chloroplast, neg control 
+tax = read.csv("taxonomy.csv", sep=",", row.names=1)
+tax = as.matrix(tax)
+metadata = read.csv("metadata-decontam.csv", sep=",", row.names=1)
+
+OTU = otu_table(otu, taxa_are_rows = TRUE)
+TAX = tax_table(tax)
+meta = sample_data(metadata)
+
+phyloseq_merged = phyloseq(OTU, TAX, meta)
+phyloseq_merged
+
+```
+
+### Rarefaction curves
+```{r rarefaction curves}
+## rarefaction curves-- all samples
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+
+otu1 = read.csv("OTU_clean.csv", sep=",", row.names=1)##CHANGE OTU HEADER TO OTUID IN CSV FILE 
+tax1 = read.csv("taxonomy.csv", sep=",", row.names=1)
+tax1 = as.matrix(tax1)
+metadata1 = read.csv("metadata-decontam.csv", sep=",", row.names=1)
+OTU1 = otu_table(otu1, taxa_are_rows = TRUE)
+TAX1 = tax_table(tax1)
+meta1 = sample_data(metadata1)
+
+phyloseq_merged1 = phyloseq(OTU1, TAX1, meta1)
+phyloseq_merged1
+
+#col<- cyan4
+library(vegan)
+
+mat<- as(t(otu_table(phyloseq_merged1)), "matrix")
+rare<- system.time(rarecurve(mat, step=100, col="cyan4", label=FALSE)) 
+
+```
+
+### Merge metadata files
+```{r merge metadata files}
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+
+###merge metadata files
+doc_key<- read.csv("doc_analysis_key.csv")
+sample_key<- read.csv("sample_key.csv")
+metadata_merge<- left_join(doc_key, sample_key, by="coreID")
+
+write.csv(metadata_merge, "RMDplots/metadata_merge_rmd.csv") ##modified the columns to put DOC ID in first column
+
+sample_df <- data.frame(sample_data(phyloseq_merged))
+write.csv(sample_df, "RMDplots/samples_pre_rarefied_rmd.csv")
+
+```
+
+### Rarefy reads to even depth
+```{r rarefy reads}
+##for alpha diversity use rarefy (which already should include many subsamples and calculates alpha diversity richness and sd) or avgdist function in vegan package or use rrarefy/rarefy_even_depth and then calculate richness/diversity and repeat for 100 or 1000 times to get mean richness/diversity and std error. (https://journals.asm.org/doi/10.1128/msphere.00354-23)
+##for general rarefaction of data, consider using either rarefy_even_depth with replacement (compatible with phyloseq) or the rrarefy in vegan without replacement
+##rarefy will not work for diversity metrics like shannon and inverse simpson
+
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+
+library(vegan)
+
+phyloseq_rarefy<- rarefy_even_depth(phyloseq_merged, sample.size = 5000, rngseed = TRUE, trimOTUs=FALSE)
+
+sample_df <- data.frame(sample_data(phyloseq_rarefy))
+
+write.csv(sample_df, "RMDplots/samples_rarefied_5k_rmd.csv")
+
+##use anti-join to select non-present samples in rarefied object
+#This join is like eg: for df1-df2, it selects all rows from df1 that are not present in df2.
+df1<- read.csv("RMDplots/samples_pre_rarefied_rmd.csv")
+df2 <- read.csv("RMDplots/samples_rarefied_5k_rmd.csv")
+df= df1 %>% anti_join(df2,by="X")
+
+write.csv(df, "RMDplots/samples-lost-rarefaction-5k_rmd.csv")
+
+OTU2 = as(otu_table(phyloseq_rarefy), "matrix")
+
+# Coerce to data.frame
+OTUdf = as.data.frame(OTU2)
+
+write.csv(OTUdf, "RMDplots/OTU_clean_noneg_rarefied5k_rmd.csv")
+
+```
+
+### Barplots 
+```{r barplots, fig.width=22, fig.height=8}
+
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+otu_final<- read.csv("OTU_clean_noneg_rarefied5k.csv", sep=",",row.names=1)
+
+any(rowSums(otu_final[])<1)
+
+otu1 = otu_final[rowSums(otu_final[])<1, ,drop=FALSE] #10303 otus with no counts for 7k rarefied table, 12697 otus with no count for 5k rarefied table
+
+max(rowSums(otu1))
+otu_final = otu_final[rowSums(otu_final[])>0, ,drop=FALSE] ##drop taxa that are not present in any samples, 30309 taxa remains for 7k, 27915 taxa remains for 5k
+
+
+library(phyloseq)
+
+
+tax<- read.csv("taxonomy.csv", sep=",", row.names=1)
+metadata <- read.csv("metadata_merge_noNA.csv", sep=",", row.names=1)
+
+tax = as.matrix(tax) 
+
+otu<- otu_table(otu_final, taxa_are_rows = TRUE)
+tax<- tax_table(tax)
+metadata<- sample_data(metadata)
+
+colnames(tax)
+
+phyloseq_merged<- merge_phyloseq(otu, tax, metadata)
+phyloseq_merged
+
+##barplot class level
+phyloseq_class <- phyloseq_merged %>%
+  tax_glom(taxrank = "Class") %>%  # agglomerate at family/phylum level
+  #group_by(Class, saturation, depth, site) %>% 
+  transform_sample_counts(function(x) {x/sum(x)} ) %>% # Transform to rel. abundance
+  psmelt() %>%                                         # Melt to long format
+  #filter(Abundance > 0.01) %>%                         # Filter out low abundance taxa
+  arrange(Class) # Sort data frame alphabetically by phylum/family etc
+
+phyloseq_class$Class[phyloseq_class$Abundance < 0.01] <- "< 1% abund."
+
+palette_new56 = c("#560d0d", "#dba4a4", "#cc1c1c","#111b77","#636bb7",
+                  "#bfc5ff","#014443","#195637","#117744","#60ffaf","green4", "greenyellow", "#b7ffdb","#825121",
+                  "cyan",
+                  "#ea7f17","#fcb067","#ffe8d3","#d8d6d4","#3f3e3d","#000000",
+                  "#5b5b19","#ae09ea","#521899","#1e0047","mediumorchid1", "#fcfc00",
+                  "#599861", "#CBD588", "#508578","#FFD700", "coral",
+                  "lightslateblue","green", "#AD6F3B","#FFA500", "#CD9BCD","darkslategrey","#a0fffc", "#DA5724","#fff0d6","#8A7C64",
+                  "dimgrey","hotpink3", "indianred1", "indianred", "lightcyan4",
+                  "#fa7efc","lightgoldenrod4","#D14285", "darkorchid1", "deepskyblue4","magenta",
+                  "forestgreen","goldenrod",
+                  "lightpink3", "lightgreen",
+                  "lightgoldenrod1")
+
+
+library(ggh4x)
+
+my_strips <- strip_themed(
+  # Horizontal strips
+  background_x = elem_list_rect(fill = c("white", "grey")),
+  text_x = elem_list_text(colour = c("black", "black"),
+                          face = c("bold", "bold")),
+  by_layer_x = TRUE,
+  text_y = elem_list_text(angle = c(0, 90)),
+  by_layer_y = FALSE
+)
+
+strips <- strip_nested(
+  text_x = list(element_blank(), element_text()),
+  background_x = list(element_blank(), element_rect()), 
+  by_layer_x = TRUE
+)
+
+phyloseq_class_mean<- phyloseq_class%>% group_by(Class, saturation, depth, site) %>% summarize(relabund=mean(Abundance))
+
+
+##group by class, saturation and depth
+#phyloseq_class_mean_final1<- phyloseq_class_mean_final1 %>% group_by(Class, saturation, depth) %>% mutate(sumRA_class=sum(relabund)) 
+#phyloseq_class_mean_final1<- phyloseq_class_mean_final1%>% mutate(value2=relabund/sumRA_class)
+
+
+##trying again
+phyloseq_class_mean_final<- phyloseq_class_mean %>% group_by(saturation, depth, site) %>% mutate(sum_class=sum(relabund))
+phyloseq_class_mean_final<- phyloseq_class_mean_final %>% mutate(RA_final=(relabund/sum_class)*100)
+
+
+sum(phyloseq_class_mean_final$RA_final)
+
+##order by saturation
+phyloseq_class_mean_final$saturation<-factor(phyloseq_class_mean_final$saturation,levels = c("timezero", "drought", "d+rewet"), ordered=TRUE)
+
+##plot by region/transect/horizon/site
+plot_class<- ggplot(phyloseq_class_mean_final, aes(x= saturation, y = RA_final, fill =Class)) + 
+  facet_nested(~site+depth, scales="free", independent="x", labeller = labeller(length = function(x) {rep("", length(x))})) + theme(strip.text.x = element_text(size = 20, face="bold"))+ 
+  theme(strip.text.y = element_text(size = 18))+
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values=as.vector(palette_new56))+
+  # Remove x axis title
+  theme(axis.title.x = element_text(size=20, face="bold")) + theme(axis.text.x = element_text(size=20, face="bold", angle=45, hjust=1))+
+  #
+  guides(fill = guide_legend(reverse = FALSE, keywidth = 1, keyheight = 1, ncol=1)) +
+  ylab("Relative Abundance") + theme(axis.text.y=element_text(size=20, face="bold"),
+                                     axis.title.y=element_text(size=20, face="bold")) + 
+  theme(legend.title = element_text(size=20, face="bold"))+ theme(legend.text = element_text(size=17))+ guides(fill=guide_legend(ncol=2))
+plot_class
+
+ggsave(filename = "RMDplots/barplot_class_all_noNA_rmd.TIFF", plot = plot_class,
+       width = 40,
+       height = 20, units = c("cm"),
+       dpi = 300)
+
+##filtering to WA sample only
+phyloseq_class<- phyloseq_class %>% filter(site=="Washington" & length!="150d")
+
+phyloseq_class$length<- dplyr::recode(phyloseq_class$length, 
+                                      "NA"="timezero")
+phyloseq_class$saturation<- factor(phyloseq_class$saturation, levels=c("timezero", "drought", "d+rewet"), ordered=TRUE)
+
+phyloseq_class$length<- factor(phyloseq_class$length, levels=c("timezero","30d", "90d", "1000d"), ordered=TRUE)
+
+###mutating the day labels before plotting
+
+phyloseq_class_labels<- phyloseq_class %>% mutate(length_edit = recode(length, "timezero"="Day 0",
+                                                                                "30d"="Day 30",
+                                                                                "90d"="Day 90",
+                                                                                "1000d"="Day 1000"))
+phyloseq_class_labels$length_edit<- factor(phyloseq_class_labels$length_edit, levels=c("Day 0","Day 30", "Day 90", "Day 1000"), ordered=TRUE)
+
+plot_class<- ggplot(phyloseq_class_labels, aes(x= Sample, y = Abundance, fill =Class)) + 
+  facet_nested(~depth+saturation+length_edit, scales="free", independent="x") + theme(strip.text.x = element_text(size = 12, face="bold"))+ 
+  theme(strip.text.y = element_text(size = 12))+
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values=as.vector(palette_new56))+
+  # Remove x axis title
+  theme(axis.title.x = element_text(size=14, face="bold")) + theme(axis.text.x = element_text(size=12, face="bold", angle=90, hjust=1))+
+  #
+  guides(fill = guide_legend(reverse = FALSE, keywidth = 1, keyheight = 1, ncol=1)) +
+  ylab("Relative Abundance") + theme(axis.text.y=element_text(size=12, face="bold"),
+                                     axis.title.y=element_text(size=14, face="bold")) + 
+  theme(legend.title = element_text(size=14, face="bold"))+ theme(legend.text = element_text(size=12))+ guides(fill=guide_legend(ncol=2))
+plot_class
+
+ggsave(filename = "RMDplots/barplot_class_WA_noNA_rmd.TIFF", plot = plot_class,
+       width = 60,
+       height = 20, units = c("cm"),
+       dpi = 300)
+
+```
+
+### Ordination plots
+
+```{r ordination plots, out.width=c('500px','500px','500px','500px','500px','500px','500px','500px','500px'), out.height=c('400px','400px','400px','400px','400px','400px','400px','400px','400px')}
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+
+####ordination plots
+
+phyloseq_pcoa <- ordinate(
+  physeq = phyloseq_merged, ##considering using phyloseq_rarefy directly
+  method = "PCoA", 
+  distance = "bray"
+)
+
+
+pcoa_site<-plot_ordination(
+  physeq = phyloseq_merged,
+  ordination = phyloseq_pcoa,
+  color = "site",
+  shape = "saturation")+
+  #title = "PCoA WLE CB") + 
+  scale_color_manual(values=c("#009E73", "#D55E00"))+
+  # scale_color_manual(values = c("#CC79A7", "#E69F00", "#0072B2", "black"))+
+  scale_shape_manual(values=c(15,16,17,18))+
+  geom_point(aes(color = site), alpha = 0.7, size = 4) +
+  geom_point(colour = "white", size = 1.5) + theme(plot.title = element_text(hjust = 0.5))+labs(shape="site")+theme_classic()
+
+pcoa_site
+
+#Figure 
+ggsave(filename="RMDplots/pcoa-site-noNA_rmd.TIFF", plot=pcoa_site, width=8, height=6, units="in", dpi=300)
+
+##pcoa within site 
+metadata<- read.csv("metadata_merge_noNA.csv", sep="," ,row.names=1)
+metadata_ak<- metadata %>% filter(site=="Alaska")
+metadata_ak_phyloseq<- sample_data(metadata_ak)
+phyloseq_merged_ak<- merge_phyloseq(otu, tax, metadata_ak_phyloseq)
+phyloseq_merged_ak
+
+
+OTU2 = as(otu_table(phyloseq_merged_ak), "matrix")
+
+# Coerce to data.frame
+OTUdf = as.data.frame(OTU2)
+
+write.csv(OTUdf, "RMDplots/OTU_Alaska_rarefied5k_rmd.csv")
+
+##read back in new OTU csv for CB, remove rowsums and merge into phyloseq
+
+otu_final<- read.csv("RMDplots/OTU_Alaska_rarefied5k_rmd.csv", sep=",",row.names=1)
+
+any(rowSums(otu_final[])<1)
+
+otu1 = otu_final[rowSums(otu_final[])<1, ,drop=FALSE] #15,795 otus with no counts, this makes total otus less for alaska than before 
+
+max(rowSums(otu1))
+otu_final = otu_final[rowSums(otu_final[])>0, ,drop=FALSE] ##drop taxa that are not present in any samples, 40216 taxa remains
+
+library(phyloseq)
+
+
+tax<- read.csv("taxonomy.csv", sep=",", row.names=1)
+
+metadata_new<- read.csv("metadata_merge_noNA.csv", sep=",", row.names=1)
+
+metadata_new_ak<- metadata_new %>% filter(site=="Alaska")
+
+##changing length of time to numeric value to plot by size
+
+metadata_new_ak_edit<- metadata_new_ak %>% mutate(time=recode(length, "timezero"="Day 0",
+                                                                      "30d"="Day 30",
+                                                                       "90d"="Day 90",
+                                                                       "150d"="Day 150",
+                                                                        "1000d"="Day 1000"))
+metadata_new_ak_edit$time<-factor(metadata_new_ak_edit$time, levels=c("Day 0", "Day 30" , "Day 90", "Day 150", "Day 1000"), ordered =TRUE)
+metadata_new_ak_edit$saturation<- factor(metadata_new_ak_edit$saturation, levels=c("timezero", "drought", "d+rewet", ordered=TRUE))
+phyloseq_ak<- sample_data(metadata_new_ak_edit)
+tax = as.matrix(tax) 
+
+otu<- otu_table(otu_final, taxa_are_rows = TRUE)
+tax<- tax_table(tax)
+
+
+colnames(tax)
+phyloseq_merged_new<- merge_phyloseq(otu, tax, phyloseq_ak)
+phyloseq_merged_new
+
+
+phyloseq_pcoa <- ordinate(
+  physeq = phyloseq_merged_new, ##considering using phyloseq_rarefy directly
+  method = "PCoA", 
+  distance = "bray"
+)
+
+##option 1
+pcoa_ak<-plot_ordination(
+  physeq = phyloseq_merged_new,
+  ordination = phyloseq_pcoa,
+  color = "saturation",
+  shape = "depth")+
+  #title = "PCoA CB") + 
+  scale_color_manual(values = c("#CC79A7", "#E69F00", "#0072B2"))+
+  scale_shape_manual(values=c(15,16,17,18))+
+  geom_point(aes(color = saturation), alpha = 0.7, size = 4) +
+  geom_point(colour = "white", size = 1.5) + theme(plot.title = element_text(hjust = 0.5))+
+  #labs(color="transect")+
+  theme_classic()
+
+pcoa_ak
+
+##Figure
+ggsave(filename="RMDplots/pcoa-ak-sat-depth_rmd.TIFF", plot=pcoa_ak, width=8, height=6, units="in", dpi=300)
+
+##option 1 version 2
+pcoa_ak2<-plot_ordination(
+  physeq = phyloseq_merged_new,
+  ordination = phyloseq_pcoa,
+  color = "saturation",
+  shape = "depth")+
+  #title = "PCoA CB") + 
+  scale_color_manual(values = c("#CC79A7", "#E69F00", "#0072B2"))+
+  scale_shape_manual(values=c(15,16,17,18, 19))+
+  geom_point(aes(color = saturation), size = 4) +
+  theme(plot.title = element_text(hjust = 0.5))+
+  #labs(color="transect")+
+  theme_classic()
+
+pcoa_ak2
+
+##Figure
+ggsave(filename="RMDplots/pcoa-ak-sat-depth-v2_rmd.TIFF", plot=pcoa_ak2, width=8, height=6, units="in", dpi=300)
+
+
+##option 2
+pcoa_ak3<-plot_ordination(
+  physeq = phyloseq_merged_new,
+  ordination = phyloseq_pcoa,
+  color = "saturation",
+  shape = "depth")+
+  #title = "PCoA CB") + 
+  scale_color_manual(values = c("#CC79A7", "#E69F00", "#0072B2"))+
+  geom_point(aes(color = saturation, size=length)) +
+  scale_shape_manual(values=c(15,16,17,18,19))+
+  scale_size_manual(values=c(2,3,4,5,6))+
+ theme(plot.title = element_text(hjust = 0.5))+
+  #labs(color="transect")+
+  theme_classic()
+
+pcoa_ak3
+
+##Figure
+ggsave(filename="RMDplots/pcoa-ak-sat-length_rmd.TIFF", plot=pcoa_ak3, width=8, height=6, units="in", dpi=300)
+
+##PCA divide by depth AK
+pcoa_ak4<-plot_ordination(
+  physeq = phyloseq_merged_new,
+  ordination = phyloseq_pcoa,
+  color = "saturation")+
+  #shape = "depth")+
+  #title = "PCoA CB") + 
+  scale_color_manual(values = c("#CC79A7", "#E69F00", "#0072B2"))+
+    facet_grid(~depth)+
+  geom_point(aes(color = saturation, size=time)) +
+  scale_shape_manual(values=c(15,16,17,18,19))+
+  scale_size_manual(values=c(2,3,4,5,6))+
+  theme(plot.title = element_text(hjust = 0.5))+
+  #labs(color="transect")+
+  theme_classic()
+
+pcoa_ak4
+##Figure
+ggsave(filename="RMDplots/pcoa-ak-sat-length-grid-depth_rmd.TIFF", plot=pcoa_ak4, width=10, height=5, units="in", dpi=300)
+
+
+
+###doing the above for washington samples
+otu_final<- read.csv("OTU_clean_noneg_rarefied5k.csv", sep=",",row.names=1)
+
+any(rowSums(otu_final[])<1)
+
+otu1 = otu_final[rowSums(otu_final[])<1, ,drop=FALSE] #10303 otus with no counts for 7k rarefied table, 12697 otus with no count for 5k rarefied table
+
+max(rowSums(otu1))
+otu_final = otu_final[rowSums(otu_final[])>0, ,drop=FALSE] ##drop taxa that are not present in any samples, 30309 taxa remains for 7k, 27915 taxa remains for 5k
+
+library(phyloseq)
+
+tax<- read.csv("taxonomy.csv", sep=",", row.names=1)
+metadata <- read.csv("metadata_merge_noNA.csv", sep=",", row.names=1)
+
+tax = as.matrix(tax) 
+
+otu<- otu_table(otu_final, taxa_are_rows = TRUE)
+tax<- tax_table(tax)
+metadata<- sample_data(metadata)
+
+colnames(tax)
+
+phyloseq_merged<- merge_phyloseq(otu, tax, metadata)
+phyloseq_merged
+
+##pcoa within site 
+metadata<- read.csv("metadata_merge_noNA.csv", sep="," ,row.names=1)
+metadata_wa<- metadata %>% filter(site=="Washington")
+metadata_wa_phyloseq<- sample_data(metadata_wa)
+phyloseq_merged_wa<- merge_phyloseq(otu, tax, metadata_wa_phyloseq)
+phyloseq_merged_wa
+
+OTU2 = as(otu_table(phyloseq_merged_wa), "matrix")
+
+# Coerce to data.frame
+OTUdf = as.data.frame(OTU2)
+
+write.csv(OTUdf, "RMDplots/OTU_Washington_rarefied5k_rmd.csv")
+
+##read back in new OTU csv for CB, remove rowsums==0 and merge into phyloseq
+
+otu_final<- read.csv("RMDplots/OTU_Washington_rarefied5k_rmd.csv", sep=",",row.names=1)
+
+any(rowSums(otu_final[])<1)
+
+otu1 = otu_final[rowSums(otu_final[])<1, ,drop=FALSE] #10,456 otus with no counts, this makes total otus less for wa than before 
+
+max(rowSums(otu1))
+otu_final = otu_final[rowSums(otu_final[])>0, ,drop=FALSE] ##drop taxa that are not present in any samples, 40216 taxa remains
+
+library(phyloseq)
+
+tax<- read.csv("taxonomy.csv", sep=",", row.names=1)
+
+metadata_new<- read.csv("metadata_merge_noNA.csv", sep=",", row.names=1)
+
+metadata_new_wa<- metadata_new %>% filter(site=="Washington")
+
+##changing length of time to numeric value to plot by size
+
+metadata_new_wa_edit<- metadata_new_wa %>% mutate(time=recode(length, "timezero"="Day 0",
+                                                              "30d"="Day 30",
+                                                              "90d"="Day 90",
+                                                              "150d"="Day 150",
+                                                              "1000d"="Day 1000"))
+metadata_new_wa_edit$time<-factor(metadata_new_wa_edit$time, levels=c("Day 0", "Day 30" , "Day 90", "Day 150", "Day 1000"), ordered =TRUE)
+metadata_new_wa_edit$saturation<- factor(metadata_new_wa_edit$saturation, levels=c("timezero", "drought", "d+rewet", ordered=TRUE))
+#remove 150d
+
+metadata_new_wa_edit<- metadata_new_wa_edit %>% filter(time!="Day 150")
+phyloseq_wa<- sample_data(metadata_new_wa_edit)
+tax = as.matrix(tax) 
+
+otu<- otu_table(otu_final, taxa_are_rows = TRUE)
+tax<- tax_table(tax)
+
+
+colnames(tax)
+
+phyloseq_merged_new<- merge_phyloseq(otu, tax, phyloseq_wa)
+phyloseq_merged_new
+
+phyloseq_pcoa <- ordinate(
+  physeq = phyloseq_merged_new, ##considering using phyloseq_rarefy directly
+  method = "PCoA", 
+  distance = "bray"
+)
+
+##option 1
+pcoa_wa<-plot_ordination(
+  physeq = phyloseq_merged_new,
+  ordination = phyloseq_pcoa,
+  color = "saturation",
+  shape = "depth")+
+  #title = "PCoA CB") + 
+  scale_color_manual(values = c("#CC79A7", "#E69F00", "#0072B2"))+
+  scale_shape_manual(values=c(15,16,17,18))+
+  geom_point(aes(color = saturation), alpha = 0.7, size = 4) +
+  geom_point(colour = "white", size = 1.5) + theme(plot.title = element_text(hjust = 0.5))+
+  #labs(color="transect")+
+  theme_classic()
+
+pcoa_wa
+
+##Figure
+ggsave(filename="RMDplots/pcoa-wa-sat-depth_rmd.TIFF", plot=pcoa_wa, width=8, height=6, units="in", dpi=300)
+
+##option 1 version 2
+pcoa_wa2<-plot_ordination(
+  physeq = phyloseq_merged_new,
+  ordination = phyloseq_pcoa,
+  color = "saturation",
+  shape = "depth")+
+  #title = "PCoA CB") + 
+  scale_color_manual(values = c("#CC79A7", "#E69F00", "#0072B2"))+
+  scale_shape_manual(values=c(15,16,17,18, 19))+
+  geom_point(aes(color = saturation), size = 4) +
+  theme(plot.title = element_text(hjust = 0.5))+
+  #labs(color="transect")+
+  theme_classic()
+
+pcoa_wa2
+
+##Figure
+ggsave(filename="RMDplots/pcoa-wa-sat-depth-v2_rmd.TIFF", plot=pcoa_wa2, width=8, height=6, units="in", dpi=300)
+
+
+##option 2
+pcoa_wa3<-plot_ordination(
+  physeq = phyloseq_merged_new,
+  ordination = phyloseq_pcoa,
+  color = "saturation",
+  shape = "depth")+
+  #title = "PCoA CB") + 
+  scale_color_manual(values = c("#CC79A7", "#E69F00", "#0072B2"))+
+  geom_point(aes(color = saturation, size=time)) +
+  scale_shape_manual(values=c(15,16,17,18,19))+
+  scale_size_manual(values=c(2,3,4,5,6))+
+  theme(plot.title = element_text(hjust = 0.5))+
+  #labs(color="transect")+
+  theme_classic()
+
+pcoa_wa3
+
+class(phyloseq_wa$time)
+
+##Figure
+ggsave(filename="RMDplots/pcoa-wa-sat-length_rmd.TIFF", plot=pcoa_wa3, width=8, height=6, units="in", dpi=300)
+
+##PCA divide by depth WA
+pcoa_wa4<-plot_ordination(
+  physeq = phyloseq_merged_new,
+  ordination = phyloseq_pcoa,
+  color = "saturation")+
+  #shape = "depth")+
+  #title = "PCoA CB") + 
+  scale_color_manual(values = c("#CC79A7", "#E69F00", "#0072B2"))+
+  facet_grid(~depth)+
+  geom_point(aes(color = saturation, size=time)) +
+  scale_shape_manual(values=c(15,16,17,18,19))+
+  scale_size_manual(values=c(2,3,4,5,6))+
+  theme(plot.title = element_text(hjust = 0.5))+
+  #labs(color="transect")+
+  theme_classic()
+
+pcoa_wa4
+##Figure
+ggsave(filename="RMDPlots/pcoa-wa-sat-length-grid-depth_rmd.TIFF", plot=pcoa_wa4, width=10, height=5, units="in", dpi=300)
+
+##PERMANOVA
+
+set.seed(1)
+# Calculate bray curtis distance matrix
+phyloseq_bray <- phyloseq::distance(phyloseq_merged_new, method = "bray") ##using merged object is fine here, gives same results as rarefy object
+
+sample_df <- data.frame(sample_data(phyloseq_merged_new))
+
+set.seed(1)
+library(vegan)
+#adonis(phyloseq_bray ~ saturation*time*depth, by="margin", data = sample_df)
+adonis2(phyloseq_bray ~ saturation*time*depth, by="terms",data = sample_df) #gives same result as above code
+##adding drying to the terms
+adonis2(phyloseq_bray ~ saturation*time*depth*drying, by="terms",data = sample_df) 
+
+packageVersion("vegan")
+
+```
+
+###Statistics (differences between sarturation and time for individual classes)
+```{r statistics for individual classes Kruskal Wallis and Dunns test}
+
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+
+otu_final<- read.csv("OTU_Washington_rarefied5k.csv", sep=",",row.names=1)
+
+any(rowSums(otu_final[])<1)
+
+otu1 = otu_final[rowSums(otu_final[])<1, ,drop=FALSE] #10,456 otus with no counts, this makes total otus less for wa than before 
+
+max(rowSums(otu1))
+otu_final = otu_final[rowSums(otu_final[])>0, ,drop=FALSE] ##drop taxa that are not present in any samples, 40216 taxa remains
+
+library(phyloseq)
+
+
+tax<- read.csv("taxonomy.csv", sep=",", row.names=1)
+
+metadata_new<- read.csv("metadata_merge_noNA.csv", sep=",", row.names=1)
+
+metadata_new_wa<- metadata_new %>% filter(site=="Washington")
+
+##changing length of time to numeric value to plot by size
+metadata_new_wa_edit<- metadata_new_wa %>% mutate(time=recode(length, "timezero"="Day 0",
+                                                              "30d"="Day 30",
+                                                              "90d"="Day 90",
+                                                              "150d"="Day 150",
+                                                              "1000d"="Day 1000"))
+metadata_new_wa_edit$time<-factor(metadata_new_wa_edit$time, levels=c("Day 0", "Day 30" , "Day 90", "Day 150", "Day 1000"), ordered =TRUE)
+metadata_new_wa_edit$saturation<- factor(metadata_new_wa_edit$saturation, levels=c("timezero", "drought", "d+rewet", ordered=TRUE))
+
+phyloseq_wa<- sample_data(metadata_new_wa_edit)
+tax = as.matrix(tax) 
+
+otu<- otu_table(otu_final, taxa_are_rows = TRUE)
+tax<- tax_table(tax)
+
+
+colnames(tax)
+#tax
+phyloseq_merged<- merge_phyloseq(otu, tax, phyloseq_wa)
+phyloseq_merged
+
+phyloseq_class <- phyloseq_merged %>%
+  tax_glom(taxrank = "Class") %>%  # agglomerate at family/phylum level
+  #group_by(Class, saturation, depth, site) %>% 
+  transform_sample_counts(function(x) {x/sum(x)} ) %>% # Transform to rel. abundance
+  psmelt() %>%                                         # Melt to long format
+  #filter(Abundance > 0.01) %>%                         # Filter out low abundance taxa
+  arrange(Class) # Sort data frame alphabetically by phylum/family etc
+
+
+##drought
+
+phyloseq_class_drought<- phyloseq_class %>% filter(saturation=="drought")
+
+##by time 
+
+##Firmicutes (Bacilli)
+phyloseq_class_drought_bacilli<- phyloseq_class_drought %>% filter(Class=="c__Bacilli")
+kruskal.results<- kruskal.test(Abundance~length, data=phyloseq_class_drought_bacilli)
+print(kruskal.results)
+
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_drought_bacilli %>%
+  dunn_test(Abundance~ length, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+###Firmicutes (Clostridia)
+phyloseq_class_drought_clos<- phyloseq_class_drought %>% filter(Class=="c__Clostridia")
+kruskal.results<- kruskal.test(Abundance~length, data=phyloseq_class_drought_clos)
+print(kruskal.results)
+
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_drought_clos %>%
+  dunn_test(Abundance~ length, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+###Actinobacteria 
+phyloseq_class_drought_actino<- phyloseq_class_drought %>% filter(Class=="c__Actinobacteria")
+kruskal.results<- kruskal.test(Abundance~length, data=phyloseq_class_drought_actino)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_drought_actino %>%
+  dunn_test(Abundance~ length, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+###Alphaproteobacteria
+phyloseq_class_drought_alpha<- phyloseq_class_drought %>% filter(Class=="c__Alphaproteobacteria")
+kruskal.results<- kruskal.test(Abundance~length, data=phyloseq_class_drought_alpha)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_drought_alpha %>%
+  dunn_test(Abundance~ length, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+##Gammaproteobacteria
+phyloseq_class_drought_gamma<- phyloseq_class_drought %>% filter(Class=="c__Gammaproteobacteria")
+kruskal.results<- kruskal.test(Abundance~length, data=phyloseq_class_drought_gamma)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_drought_gamma %>%
+  dunn_test(Abundance~ length, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+##drought+rewet
+
+phyloseq_class_drewet<- phyloseq_class %>% filter(saturation=="d+rewet" & length!="150d")
+
+##by time 
+
+##Firmicutes (Bacilli) without 150d
+phyloseq_class_drought_rewet_bacilli<- phyloseq_class_drewet %>% filter(Class=="c__Bacilli")
+kruskal.results<- kruskal.test(Abundance~length, data=phyloseq_class_drought_rewet_bacilli)
+print(kruskal.results)
+
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_drought_rewet_bacilli %>%
+  dunn_test(Abundance~ length, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+
+
+##Firmicutes (Clostridia) without 150d
+phyloseq_class_drought_rewet_clos<- phyloseq_class_drewet %>% filter(Class=="c__Clostridia")
+kruskal.results<- kruskal.test(Abundance~length, data=phyloseq_class_drought_rewet_clos)
+print(kruskal.results)
+
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_drought_rewet_clos %>%
+  dunn_test(Abundance~ length, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+
+
+##Actinobacteria (without 150d)
+phyloseq_class_drought_rewet_actino<- phyloseq_class_drewet %>% filter(Class=="c__Actinobacteria")
+kruskal.results<- kruskal.test(Abundance~length, data=phyloseq_class_drought_rewet_actino)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_drought_rewet_actino %>%
+  dunn_test(Abundance~ length, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+##Alphaproteobacteria (without 150d)
+phyloseq_class_drought_rewet_alpha<- phyloseq_class_drewet %>% filter(Class=="c__Alphaproteobacteria")
+kruskal.results<- kruskal.test(Abundance~length, data=phyloseq_class_drought_rewet_alpha)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_drought_rewet_alpha %>%
+  dunn_test(Abundance~ length, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+  
+
+##Gammaproteobacteria (without 150d)
+phyloseq_class_drought_rewet_gamma<- phyloseq_class_drewet %>% filter(Class=="c__Gammaproteobacteria")
+kruskal.results<- kruskal.test(Abundance~length, data=phyloseq_class_drought_rewet_gamma)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_drought_rewet_gamma %>%
+  dunn_test(Abundance~ length, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+##subset to 1000 days, 90days and 30 days and compare between drought and d+rewet samples
+
+phyloseq_class_1000<- phyloseq_class %>% filter(length=="1000d")
+
+##by saturation 
+
+####Gammaproteobacteria 
+phyloseq_class_1000_gamma<- phyloseq_class_1000 %>% filter(Class=="c__Gammaproteobacteria")
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_1000_gamma)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_1000_gamma %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+###Thermoleophilia
+phyloseq_class_1000_thermo<- phyloseq_class_1000 %>% filter(Class=="c__Thermoleophilia")
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_1000_thermo)
+print(kruskal.results)
+
+
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_1000_thermo %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+##acidobacteria 1000 d
+##subset to acidobacteriae at 1000d and compare between drought and d+rewet
+phyloseq_class_1000<- phyloseq_class %>% filter(length=="1000d")
+phyloseq_class_1000_acido<- phyloseq_class_1000 %>% filter(Class=="c__Acidobacteriae")
+
+##by saturation 
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_1000_acido)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_1000_acido %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+##bacilli 1000d
+phyloseq_class_1000_bacilli<- phyloseq_class_1000 %>% filter(Class=="c__Bacilli")
+
+##by saturation 
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_1000_bacilli)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_1000_bacilli %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+##clostridia 1000d
+phyloseq_class_1000_clos<- phyloseq_class_1000 %>% filter(Class=="c__Clostridia")
+
+##by saturation 
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_1000_clos)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_1000_clos %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+##actino 1000d
+phyloseq_class_1000_actino<- phyloseq_class_1000 %>% filter(Class=="c__Actinobacteria")
+
+##by saturation 
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_1000_actino)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_1000_actino %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+##subset to acidobacteriae and compare between drought and d+rewet, all time points
+  
+phyloseq_class_acido<- phyloseq_class %>% filter(Class=="c__Acidobacteriae" & length!="150d")
+
+##by saturation 
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_acido)
+print(kruskal.results)
+
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_acido %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+## gammaproteobacteria aggregated 
+##subset and compare between drought and d+rewet, all time points
+
+phyloseq_class_gamma<- phyloseq_class %>% filter(Class=="c__Gammaproteobacteria" & length!="150d" )
+
+##by saturation 
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_gamma)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_gamma %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+## thermoleophilia aggregated 
+##subset and compare between drought and d+rewet, all time points
+
+phyloseq_class_thermo<- phyloseq_class %>% filter(Class=="c__Thermoleophilia" & length!="150d")
+
+##by saturation 
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_thermo)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_thermo %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+
+##subset to 30 days
+
+phyloseq_class_30<- phyloseq_class %>% filter(length=="30d")
+
+##by saturation 
+
+####Gammaproteobacteria 
+phyloseq_class_30_gamma<- phyloseq_class_30 %>% filter(Class=="c__Gammaproteobacteria")
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_30_gamma)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_30_gamma %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+##subset to 30 days
+##by saturation
+##Thermoleophilia
+
+phyloseq_class_30_thermo<- phyloseq_class_30 %>% filter(Class=="c__Thermoleophilia")
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_30_thermo)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_30_thermo %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+##subset to 30 days
+##by saturation
+##Acidobacteriae
+
+phyloseq_class_30_acido<- phyloseq_class_30 %>% filter(Class=="c__Acidobacteriae")
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_30_acido)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_30_acido %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+
+##bacilli
+phyloseq_class_30_bacilli<- phyloseq_class_30 %>% filter(Class=="c__Bacilli")
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_30_bacilli)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_30_bacilli %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+   
+
+##clostridia
+phyloseq_class_30_clos<- phyloseq_class_30 %>% filter(Class=="c__Clostridia")
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_30_clos)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_30_clos %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+##actino
+phyloseq_class_30_actino<- phyloseq_class_30 %>% filter(Class=="c__Actinobacteria")
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_30_actino)
+print(kruskal.results)
+
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_30_actino %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+
+
+##subset to 90 days
+
+phyloseq_class_90<- phyloseq_class %>% filter(length=="90d")
+
+##by saturation 
+
+####Gammaproteobacteria 
+phyloseq_class_90_gamma<- phyloseq_class_90 %>% filter(Class=="c__Gammaproteobacteria")
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_90_gamma)
+print(kruskal.results)
+
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_90_gamma %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+##subset to 90 days
+##by saturation
+##Thermoleophilia
+
+phyloseq_class_90_thermo<- phyloseq_class_90 %>% filter(Class=="c__Thermoleophilia")
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_90_thermo)
+print(kruskal.results)
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_90_thermo %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+##subset to 90 days
+##by saturation
+##Acidobacteriae
+
+phyloseq_class_90_acido<- phyloseq_class_90 %>% filter(Class=="c__Acidobacteriae")
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_90_acido)
+print(kruskal.results)
+
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_90_acido %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+##bacilli
+phyloseq_class_90_bacilli<- phyloseq_class_90 %>% filter(Class=="c__Bacilli")
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_90_bacilli)
+print(kruskal.results)
+
+
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_90_bacilli %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+ 
+
+##clostria
+phyloseq_class_90_clos<- phyloseq_class_90 %>% filter(Class=="c__Clostridia")
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_90_clos)
+print(kruskal.results)
+
+
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_90_clos %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+
+##actino
+phyloseq_class_90_actino<- phyloseq_class_90 %>% filter(Class=="c__Actinobacteria")
+kruskal.results<- kruskal.test(Abundance~saturation, data=phyloseq_class_90_actino)
+print(kruskal.results)
+
+
+library(rstatix)
+
+# Perform pairwise comparisons
+posthoc_result <- phyloseq_class_90_actino %>%
+  dunn_test(Abundance~ saturation, p.adjust.method = "bonferroni")
+
+# View results
+posthoc_result
+
+```
+
+### Statistics (Bray Curtis heatmaps: comparing saturation levels)
+```{r adonis comparing drought to drought+rewet}
+
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+
+##subsetting phyloseq object (WA) to include only 30d, 90d, 1000d drought, d+rewet samples in separate chunks 
+
+##30d 0-5 cm
+phyloseq_merged_new_30d_0_5cm<- subset_samples(phyloseq_merged_new, length=="30d" & depth=="0-5cm")
+phyloseq_merged_new_30d_0_5cm
+
+##30d 0-5 cm without 090, 091,092, 093, 094 (no upland samples)
+phyloseq_merged_new_30d_0_5cm_noupland<- subset_samples(phyloseq_merged_new, length=="30d" & depth=="0-5cm" & location!="upland")
+phyloseq_merged_new_30d_0_5cm_noupland
+
+sample_data_30d_0_5cm<- data.frame(sample_data(phyloseq_merged_new_30d_0_5cm))
+sample_data_30d_0_5cm_noupland<- data.frame(sample_data(phyloseq_merged_new_30d_0_5cm_noupland))
+
+
+phyloseq_bray <- phyloseq::distance(phyloseq_merged_new_30d_0_5cm, method = "bray") ##using merged object is fine here, gives same results as rarefy object
+phyloseq_bray_noupland <- phyloseq::distance(phyloseq_merged_new_30d_0_5cm_noupland, method = "bray")
+
+set.seed(1)
+library(vegan)
+
+adonis2(phyloseq_bray ~ saturation,data = sample_data_30d_0_5cm)
+adonis2(phyloseq_bray_noupland ~ saturation,data = sample_data_30d_0_5cm_noupland)
+
+
+##30d 5cm-end
+phyloseq_merged_new_30d_5cm_end<- subset_samples(phyloseq_merged_new, length=="30d" & depth=="5cm-end")
+phyloseq_merged_new_30d_5cm_end
+
+##30d 5cm-end no upland 
+phyloseq_merged_new_30d_5cm_end_noupland<- subset_samples(phyloseq_merged_new, length=="30d" & depth=="5cm-end" & location!="upland")
+phyloseq_merged_new_30d_5cm_end_noupland
+
+sample_data_30d_5cm_end<- data.frame(sample_data(phyloseq_merged_new_30d_5cm_end))
+sample_data_30d_5cm_end_noupland<- data.frame(sample_data(phyloseq_merged_new_30d_5cm_end_noupland))
+
+phyloseq_bray <- phyloseq::distance(phyloseq_merged_new_30d_5cm_end, method = "bray") ##using merged object is fine here, gives same results as rarefy object
+phyloseq_bray_noupland <- phyloseq::distance(phyloseq_merged_new_30d_5cm_end_noupland, method = "bray")
+
+
+set.seed(1)
+library(vegan)
+
+adonis2(phyloseq_bray ~ saturation,data = sample_data_30d_5cm_end)
+adonis2(phyloseq_bray_noupland ~ saturation,data = sample_data_30d_5cm_end_noupland)
+
+
+##90d 0-5 cm
+phyloseq_merged_new_90d_0_5cm<- subset_samples(phyloseq_merged_new, length=="90d" & depth=="0-5cm")
+phyloseq_merged_new_90d_0_5cm
+
+
+##90d 0-5 cm no upland
+phyloseq_merged_new_90d_0_5cm_noupland<- subset_samples(phyloseq_merged_new, length=="90d" & depth=="0-5cm" & location!="upland")
+phyloseq_merged_new_90d_0_5cm_noupland
+
+sample_data_90d_0_5cm<- data.frame(sample_data(phyloseq_merged_new_90d_0_5cm))
+sample_data_90d_0_5cm_noupland<- data.frame(sample_data(phyloseq_merged_new_90d_0_5cm_noupland))
+
+
+phyloseq_bray <- phyloseq::distance(phyloseq_merged_new_90d_0_5cm, method = "bray") ##using merged object is fine here, gives same results as rarefy object
+phyloseq_bray_noupland <- phyloseq::distance(phyloseq_merged_new_90d_0_5cm_noupland, method = "bray")
+
+set.seed(1)
+library(vegan)
+
+adonis2(phyloseq_bray ~ saturation,data = sample_data_90d_0_5cm)
+adonis2(phyloseq_bray_noupland ~ saturation,data = sample_data_90d_0_5cm_noupland)
+
+##90d 5cm-end
+phyloseq_merged_new_90d_5cm_end<- subset_samples(phyloseq_merged_new, length=="90d" & depth=="5cm-end")
+phyloseq_merged_new_90d_5cm_end
+
+##90d 5cm-end no upland
+phyloseq_merged_new_90d_5cm_end_noupland<- subset_samples(phyloseq_merged_new, length=="90d" & depth=="5cm-end" & location!="upland")
+phyloseq_merged_new_90d_5cm_end_noupland
+
+sample_data_90d_5cm_end<- data.frame(sample_data(phyloseq_merged_new_90d_5cm_end))
+sample_data_90d_5cm_end_noupland<- data.frame(sample_data(phyloseq_merged_new_90d_5cm_end_noupland))
+
+phyloseq_bray <- phyloseq::distance(phyloseq_merged_new_90d_5cm_end, method = "bray") ##using merged object is fine here, gives same results as rarefy object
+phyloseq_bray_noupland <- phyloseq::distance(phyloseq_merged_new_90d_5cm_end_noupland, method = "bray")
+
+set.seed(1)
+library(vegan)
+
+adonis2(phyloseq_bray ~ saturation,data = sample_data_90d_5cm_end)
+adonis2(phyloseq_bray_noupland ~ saturation,data = sample_data_90d_5cm_end_noupland)
+
+##1000d 0-5 cm
+phyloseq_merged_new_1000d_0_5cm<- subset_samples(phyloseq_merged_new, length=="1000d" & depth=="0-5cm")
+phyloseq_merged_new_1000d_0_5cm
+
+##1000d 0-5 cm no upland 
+phyloseq_merged_new_1000d_0_5cm_noupland<- subset_samples(phyloseq_merged_new, length=="1000d" & depth=="0-5cm" & location!="upland")
+phyloseq_merged_new_1000d_0_5cm_noupland
+
+sample_data_1000d_0_5cm<- data.frame(sample_data(phyloseq_merged_new_1000d_0_5cm))
+sample_data_1000d_0_5cm_noupland<- data.frame(sample_data(phyloseq_merged_new_1000d_0_5cm_noupland))
+
+phyloseq_bray <- phyloseq::distance(phyloseq_merged_new_1000d_0_5cm, method = "bray") ##using merged object is fine here, gives same results as rarefy object
+phyloseq_bray_noupland <- phyloseq::distance(phyloseq_merged_new_1000d_0_5cm_noupland, method = "bray")
+
+set.seed(1)
+library(vegan)
+
+adonis2(phyloseq_bray ~ saturation,data = sample_data_1000d_0_5cm)
+adonis2(phyloseq_bray_noupland ~ saturation,data = sample_data_1000d_0_5cm_noupland)
+
+##1000d 5cm-end
+phyloseq_merged_new_1000d_5cm_end<- subset_samples(phyloseq_merged_new, length=="1000d" & depth=="5cm-end")
+phyloseq_merged_new_1000d_5cm_end
+
+##1000d 5cm-end no upland
+phyloseq_merged_new_1000d_5cm_end_noupland<- subset_samples(phyloseq_merged_new, length=="1000d" & depth=="5cm-end" & location!="upland")
+phyloseq_merged_new_1000d_5cm_end_noupland
+
+sample_data_1000d_5cm_end<- data.frame(sample_data(phyloseq_merged_new_1000d_5cm_end))
+sample_data_1000d_5cm_end_noupland<- data.frame(sample_data(phyloseq_merged_new_1000d_5cm_end_noupland))
+
+phyloseq_bray <- phyloseq::distance(phyloseq_merged_new_1000d_5cm_end, method = "bray") ##using merged object is fine here, gives same results as rarefy object
+phyloseq_bray_noupland <- phyloseq::distance(phyloseq_merged_new_1000d_5cm_end_noupland, method = "bray")
+
+set.seed(1)
+library(vegan)
+
+adonis2(phyloseq_bray ~ saturation,data = sample_data_1000d_5cm_end)
+adonis2(phyloseq_bray_noupland ~ saturation,data = sample_data_1000d_5cm_end_noupland)
+```
+
+### Alpha diversity
+```{r alpha diversity, warning=FALSE, out.width=c('700px','700px','500px','500px','500px','500px'), out.height=c('600px','600px','400px','400px','400px','400px')}
+
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+otu_final<- read.csv("OTU_clean.csv", row.names=1) ##change name 1k--- depending on rarefaction curve
+any(rowSums(otu_final[])<1)
+
+##check
+otu1 = otu_final[rowSums(otu_final[])<1, ,drop=FALSE] #26 otus with no counts
+max(rowSums(otu1))
+
+##subset
+otu_final = otu_final[rowSums(otu_final[])>0, ,drop=FALSE] ##drop taxa that are not present in any samples
+
+library(phyloseq)
+tax<- read.csv("taxonomy.csv", sep=",", row.names=1)
+metadata <- read.csv("metadata_merge_noNA.csv", sep=",", row.names=1)
+
+
+##subset to alaska and washington as needed 
+
+tax = as.matrix(tax) 
+
+otu<- otu_table(otu_final, taxa_are_rows = TRUE)
+tax<- tax_table(tax)
+metadata<- sample_data(metadata)
+
+colnames(tax)
+
+phyloseq_merged<- merge_phyloseq(otu, tax, metadata)
+phyloseq_merged
+
+##richness (observed OTUs) estimates, inverse simpson
+
+library(ggplot2)
+library(dplyr)
+library(vegan)
+library(reshape2)
+library(scales)
+library(grid)
+library(readxl)
+
+
+# Initialize matrices to store richness and evenness estimates
+nsamp = nsamples(phyloseq_merged)
+trials = 100
+richness <- matrix(nrow = nsamp, ncol = trials)
+row.names(richness) <- sample_names(phyloseq_merged)
+evenness <- matrix(nrow = nsamp, ncol = trials)
+row.names(evenness) <- sample_names(phyloseq_merged)
+# It is always important to set a seed when you subsample so your result is replicable, note of caution that this will yield different results of alpha diversity depending on the version of R being used. This is because set.seed function can vary across R versions. Here I am reporting results from R v.3.4.0 
+set.seed(3)
+for (i in 1:100) {
+  # Subsample
+  r <- rarefy_even_depth(phyloseq_merged, sample.size = 5000, verbose = FALSE, replace = TRUE) 
+  
+  # Calculate richness
+  rich <- as.numeric(as.matrix(estimate_richness(phyloseq_merged, measures = "Observed"))) ##changed r to phyloseq_merged, no second rarefaction
+  richness[ ,i] <- rich
+  
+  # Calculate evenness
+  even <- as.numeric(as.matrix(estimate_richness(phyloseq_merged, measures = "InvSimpson"))) ##changed r to phyloseq_merged, no second rarefaction
+  evenness[ ,i] <- even
+}
+# Create a new dataframe to hold the means and standard deviations of richness estimates
+DOC_ID <- row.names(richness)
+mean <- apply(richness, 1, mean)
+sd <- apply(richness, 1, sd)
+measure <- rep("Richness", nsamp)
+rich_stats <- data.frame(DOC_ID, mean, sd, measure)
+# Create a new dataframe to hold the means and standard deviations of evenness estimates
+DOC_ID <- row.names(evenness)
+mean <- apply(evenness, 1, mean)
+sd <- apply(evenness, 1, sd) 
+measure <- rep("Inverse Simpson", nsamp)
+even_stats <- data.frame(DOC_ID, mean, sd, measure)
+alpha <- rbind(rich_stats, even_stats)
+
+s <- read.csv("metadata_merge_noNA.csv")
+alphadiv <- merge(alpha, s, by = "DOC_ID") 
+write.csv(alphadiv,file = "RMDplots/alphadiv_ak_wa_rmd.csv")
+
+
+##subset if needed
+alphadiv_ak<-alphadiv[alphadiv$site=="Alaska",]
+dim(alphadiv_ak)
+alphadiv_wa<-alphadiv[alphadiv$site=="Washington",]
+dim(alphadiv_wa)
+write.csv(alphadiv_ak, file="RMDplots/alphadiv_ak_rmd.csv")
+write.csv(alphadiv_wa, file="RMDplots/alphadiv_wa_rmd.csv")
+
+alphadiv_ak<- read.csv("RMDplots/alphadiv_ak_rmd.csv")
+alphadiv_wa<- read.csv("RMDplots/alphadiv_wa_rmd.csv")
+
+alphadiv_ak$saturation <- factor(alphadiv_ak$saturation,levels = c("timezero", "drought", "d+rewet"), ordered=TRUE)
+alphadiv_ak$length <- factor(alphadiv_ak$length,levels = c("timezero", "30d", "90d","150d","1000d"), ordered=TRUE)
+
+plot_ak<- ggplot(alphadiv_ak, aes(x= length,y=mean,color=saturation)) + theme_classic()+ scale_color_manual(values=c("#39568CFF", "#55C667FF", "orange")) +
+  # scale_shape_manual(values=c(15,17, 19))+ #scale_size(range = c(1,10))+ # point size range
+  #label = scales::dollar)+
+  #expand_limits(shape = seq(2, 6, by = 1))+
+  #scale_alpha_manual(values = c(2,3,4,5,6))+
+  geom_boxplot() + geom_jitter()+ 
+  facet_wrap(~measure+depth)+theme(
+    strip.text.x = element_text(
+      size = 16
+    ))+
+  theme(plot.title = element_text(size= 18, hjust = 0.5))+
+  labs(y = "measure")+ xlab("length")+theme(axis.text.x = element_text(colour = "black", size = 17,angle = 90, vjust = 0.5, hjust=1))+
+  theme( axis.text.y = element_text(size = 16, colour = "black"), 
+         axis.title.y= element_text(size=16, color="black"),
+         axis.title.x= element_text(size=16, color="black"),
+         panel.background = element_blank(), 
+         panel.border = element_rect(fill = NA, colour = "black"), 
+         legend.title = element_text(size =14, colour = "black"),
+         legend.text = element_text(size = 12, colour = "black")) +
+  guides(linetype = guide_legend(override.aes= list(color = "black")), color= guide_legend(order = 1)) 
+
+
+plot_ak
+
+alphadiv_wa$saturation <- factor(alphadiv_wa$saturation,levels = c("timezero", "drought", "d+rewet"), ordered=TRUE)
+alphadiv_wa$length <- factor(alphadiv_wa$length,levels = c("timezero", "30d", "90d","150d","1000d"), ordered=TRUE)
+
+
+plot_wa<- ggplot(alphadiv_wa, aes(x= length,y=mean,color=saturation)) + theme_classic()+ scale_color_manual(values=c("#39568CFF", "#55C667FF", "orange")) +
+  # scale_shape_manual(values=c(15,17, 19))+ #scale_size(range = c(1,10))+ # point size range
+  #label = scales::dollar)+
+  #expand_limits(shape = seq(2, 6, by = 1))+
+  #scale_alpha_manual(values = c(2,3,4,5,6))+
+  geom_boxplot() + geom_jitter()+ 
+  facet_wrap(~measure+depth)+theme(
+    strip.text.x = element_text(
+      size = 16
+    ))+
+  theme(plot.title = element_text(size= 18, hjust = 0.5))+
+  labs(y = "measure")+ xlab("length")+theme(axis.text.x = element_text(colour = "black", size = 17,angle = 90, vjust = 0.5, hjust=1))+
+  theme( axis.text.y = element_text(size = 16, colour = "black"), 
+         axis.title.y= element_text(size=16, color="black"),
+         axis.title.x= element_text(size=16, color="black"),
+         panel.background = element_blank(), 
+         panel.border = element_rect(fill = NA, colour = "black"), 
+         legend.title = element_text(size =14, colour = "black"),
+         legend.text = element_text(size = 12, colour = "black")) +
+  guides(linetype = guide_legend(override.aes= list(color = "black")), color= guide_legend(order = 1)) 
+
+
+plot_wa
+
+#Figure
+ggsave(filename="RMDplots/alphadiv_rich_even_wa_rmd.TIFF", plot=plot_wa, width=18, height=15, units="cm", dpi=300)
+
+##Figure
+ggsave(filename="RMDplots/alphadiv_rich_even_ak_rmd.TIFF", plot=plot_ak, width=18, height=15, units="cm", dpi=300)
+
+##alpha diversity ANOVA stats
+library(ggplot2)
+library(grid)
+library(lattice)
+library(multcompView)
+library(tidyverse)
+library(dplyr)
+alphadiv_wa <- read.csv("RMDplots/alphadiv_wa_rmd.csv") ## combined richness and evenness estimates of all samples
+
+pd<-position_dodge(0.7)
+
+
+##washington
+alphadiv_wa_IS =  alphadiv_wa %>% filter(measure=="Inverse Simpson") #&!is.na(sd))
+alphadiv_wa_rich =  alphadiv_wa %>% filter(measure=="Richness")
+
+##Run the following code for each of the datasets selected above
+
+##inverse simpson
+
+options(contrasts = c("contr.sum", "contr.poly")) ### must set this before running the model for type III tests
+model1 = lm(mean~ saturation+depth + saturation:depth,
+           data=alphadiv_wa_IS)
+
+shapiro.test(resid(model1)) #W statistic > 0.9 means normality okay #check normality to flag outliers 
+
+ee1= as.matrix(resid(model1))
+qqnorm (ee1) #look for outliers (far away from curve) and test for normality 
+
+library(car)
+
+
+#options(contrasts = c("contr.sum", "contr.poly"))
+Anova(model1, type=c("III"))
+
+##add letters on graph 
+library(ggplot2)
+library(tidyverse)
+library(ggpubr)
+library(multcompView)
+library(multcomp)
+
+
+#set up model ##letters will be evaluated depending on what factor is different based on the anova above
+model1_1 <- lm(mean~length, data = alphadiv_wa_IS)
+
+# get (adjusted) weight means per group
+library(emmeans)
+model_means1 <- emmeans(object = model1_1,
+                       specs = "length")
+
+cld1 <- cld(object = model_means1,
+           adjust = "Tukey",
+           Letters = letters,
+           alpha = 0.05)
+
+combined1<- full_join(alphadiv_wa_IS,cld1, by=c("length"))
+
+library(dplyr)
+combined1<- as.tibble(combined1)
+class(combined1)
+
+data1<- combined1 %>% mutate(group=.group)
+data1$group <-str_remove(data1$group, " ") ##run thrice
+data1$group <-str_remove(data1$group, " ")
+data1$group <-str_remove(data1$group, " ")
+
+df_new1<- as.tibble(data1)
+
+class(df_new1)
+
+as.tibble(df_new1)
+
+df_new1<- as.data.frame(df_new1)
+
+length(unique(df_new1$group))
+
+colnames(df_new1)
+summarized1 <- df_new1 %>% dplyr::select(c('length', 'mean', 'group')) %>% group_by(length)%>% summarise(max_mean=max(mean), group=first(group))%>% distinct(.keep_all=TRUE)
+
+summarized1$length <- factor(summarized1$length,levels = c("timezero", "30d", "90d","150d","1000d"), ordered=TRUE)
+df_new1$saturation<- factor(df_new1$saturation,levels = c("timezero", "drought", "d+rewet"), ordered=TRUE)
+
+#alphadiv_rich$site<-factor(alphadiv_rich$site,levels = c("CC", "PR", "OWC"), ordered=TRUE)      
+summarized_0_5cm_1 <- summarized1
+summarized_5cm_end_1 <- summarized1
+
+# Assign depth values explicitly
+summarized_0_5cm_1$depth <- '0-5cm'
+summarized_5cm_end_1$depth <- '5cm-end'
+
+# Combine both dataframes back into a single summarized dataframe
+summarized <- rbind(summarized_0_5cm_1, summarized_5cm_end_1)
+
+
+#plot inverse simpson
+df_new1<- df_new1 %>% filter(df_new1$length!="150d")
+summarized<- as.data.frame(summarized)
+summarized<- summarized %>% filter(summarized$length!="150d")
+
+##changing label names for length/day
+df_new1<- as.tibble(df_new1)
+df_new1_labels<- df_new1 %>% mutate(length_edit= dplyr::recode(length, "timezero"="Day 0",
+                                                                       "30d"="Day 30",
+                                                                       "90d"="Day 90",
+                                                                       "1000d"="Day 1000"))
+
+df_new1_labels$length_edit<- factor(df_new1_labels$length_edit, levels=c("Day 0","Day 30", "Day 90", "Day 1000"), ordered=TRUE)
+
+summarized_labels<- summarized %>% mutate(length_edit= dplyr::recode(length, "timezero"="Day 0",
+                                                                             "30d"="Day 30",
+                                                                             "90d"="Day 90",
+                                                                             "1000d"="Day 1000"))
+
+summarized_labels$length_edit<- factor(summarized_labels$length_edit, levels=c("Day 0","Day 30", "Day 90", "Day 1000"), ordered=TRUE)
+
+
+
+plot_IS<- ggplot(df_new1_labels, aes(length_edit, 
+                       mean, 
+                       colour = saturation
+                       )) +
+  geom_boxplot(aes(color=saturation),outlier.shape = NA,
+               fill = "white", 
+               outlier.colour = NA, 
+               position = position_dodge(width = 0.9),
+               show.legend = FALSE ) + 
+
+  geom_point(aes(color=saturation, shape=depth),size=4 ,position = position_jitterdodge()) +
+  theme_classic()+ 
+  scale_color_manual(values=c("#CC79A7",  "#E69F00", "#0072B2"))+
+  scale_shape_manual(values=c("0-5cm"=1, "5cm-end"=16))+
+  #scale_color_manual(values=c("#39568CFF", "#55C667FF", "orange"))+
+  
+  scale_x_discrete(breaks = c('Day 0', 'Day 30', 'Day 90', "Day 1000"), 
+                   labels = c('Day 0', 'Day 30', 'Day 90', "Day 1000"))+
+  geom_text(data=summarized_labels, aes(x=length_edit, y =500, 
+                                 group=length_edit, label = group, vjust=-0.3), 
+            check_overlap = T, 
+            position = position_dodge(width = 0.9), col = "black") +
+  facet_grid(~depth)+
+  ylab("Inverse Simpson index") +
+  theme(axis.text.x = element_text(colour = "black", size = 17,angle = 90, vjust = 0.5, hjust=1))+
+  theme( axis.text.y = element_text(size = 16, colour = "black"), 
+         axis.title.y= element_text(size=16, color="black"),
+         axis.title.x= element_text(size=16, color="black"),
+         panel.background = element_blank(), 
+         panel.border = element_rect(fill = NA, colour = "black"), 
+         legend.title = element_text(size =14, colour = "black"),
+         legend.text = element_text(size = 12, colour = "black")) +
+  guides(linetype = guide_legend(override.aes= list(color = "black")), color= guide_legend(order = 1)) +
+  xlab("Time") +labs(color="saturation")
+
+plot_IS
+
+###richness
+options(contrasts = c("contr.sum", "contr.poly")) ### must set this before running the model for type III tests
+model2 = lm(mean~ saturation+depth + saturation:depth,
+           data=alphadiv_wa_rich)
+
+shapiro.test(resid(model2)) #W statistic > 0.9 means normality okay #check normality to flag outliers 
+
+ee2= as.matrix(resid(model2))
+qqnorm (ee2) #look for outliers (far away from curve) and test for normality 
+
+library(car)
+
+
+#options(contrasts = c("contr.sum", "contr.poly"))
+Anova(model2, type=c("III"))
+
+##add letters on graph 
+#set up model ##letters will be evaluated depending on what factor is different based on the anova above
+model2_1 <- lm(mean~length, data = alphadiv_wa_rich)
+
+# get (adjusted) weight means per group
+library(emmeans)
+model_means2 <- emmeans(object = model2_1,
+                       specs = "length")
+
+cld2 <- cld(object = model_means2,
+           adjust = "Tukey",
+           Letters = letters,
+           alpha = 0.05)
+
+combined2<- full_join(alphadiv_wa_rich,cld2, by=c("length"))
+
+library(dplyr)
+combined2<- as.tibble(combined2)
+class(combined2)
+
+data2<- combined2 %>% mutate(group=.group)
+data2$group <-str_remove(data2$group, " ") ##run thrice
+data2$group <-str_remove(data2$group, " ")
+data2$group <-str_remove(data2$group, " ")
+
+df_new2<- as.tibble(data2)
+
+class(df_new2)
+
+as.tibble(df_new2)
+
+df_new2<- as.data.frame(df_new2)
+
+length(unique(df_new2$group))
+
+colnames(df_new2)
+summarized2 <- df_new2 %>% dplyr::select(c('length', 'mean', 'group')) %>% group_by(length)%>% summarise(max_mean=max(mean), group=first(group))%>% distinct(.keep_all=TRUE)
+
+summarized2$length <- factor(summarized2$length,levels = c("timezero", "30d", "90d","150d","1000d"), ordered=TRUE)
+df_new2$saturation<- factor(df_new2$saturation,levels = c("timezero", "drought", "d+rewet"), ordered=TRUE)
+
+#alphadiv_rich$site<-factor(alphadiv_rich$site,levels = c("CC", "PR", "OWC"), ordered=TRUE)      
+summarized_0_5cm_2 <- summarized2
+summarized_5cm_end_2 <- summarized2
+
+# Assign depth values explicitly
+summarized_0_5cm_2$depth <- '0-5cm'
+summarized_5cm_end_2$depth <- '5cm-end'
+
+# Combine both dataframes back into a single summarized dataframe
+summarized <- rbind(summarized_0_5cm_2, summarized_5cm_end_2)
+
+df_new2<- df_new2 %>% filter(df_new2$length!="150d")
+summarized<- as.data.frame(summarized)
+summarized<- summarized %>% filter(summarized$length!="150d")
+
+##new labels 
+df_new2_labels<- df_new2 %>% mutate(length_edit= dplyr::recode(length, "timezero"="Day 0",
+                                                                       "30d"="Day 30",
+                                                                       "90d"="Day 90",
+                                                                       "1000d"="Day 1000"))
+
+df_new2_labels$length_edit<- factor(df_new2_labels$length_edit, levels=c("Day 0","Day 30", "Day 90", "Day 1000"), ordered=TRUE)
+
+summarized_labels<- summarized %>% mutate(length_edit= dplyr::recode(length, "timezero"="Day 0",
+                                                                             "30d"="Day 30",
+                                                                             "90d"="Day 90",
+                                                                             "1000d"="Day 1000"))
+
+summarized_labels$length_edit<- factor(summarized_labels$length_edit, levels=c("Day 0","Day 30", "Day 90", "Day 1000"), ordered=TRUE)
+
+##plot
+plot_richness<- ggplot(df_new2_labels, aes(length_edit, 
+                       mean, 
+                       colour = saturation
+                       )) +
+  geom_boxplot(aes(color=saturation),outlier.shape = NA,
+               fill = "white", 
+               outlier.colour = NA, 
+               position = position_dodge(width = 0.9),
+               show.legend = FALSE ) + 
+
+  geom_point(aes(color=saturation, shape=depth),size=4 ,position = position_jitterdodge()) +
+  theme_classic()+ 
+  scale_color_manual(values=c("#CC79A7",  "#E69F00", "#0072B2"))+
+  scale_shape_manual(values=c("0-5cm"=1, "5cm-end"=16))+
+  #scale_color_manual(values=c("#39568CFF", "#55C667FF", "orange"))+
+  
+  scale_x_discrete(breaks = c("Day 0","Day 30", "Day 90", "Day 1000"), 
+                   labels = c("Day 0","Day 30", "Day 90", "Day 1000"))+
+  geom_text(data=summarized_labels, aes(x=length_edit, y =2500, 
+                                 group=length_edit, label = group, vjust=-0.3), 
+            check_overlap = T, 
+            position = position_dodge(width = 0.9), col = "black") +
+  facet_grid(~depth)+
+  ylab("Richness(Number of Observed ASVs)") +
+  theme(axis.text.x = element_text(colour = "black", size = 17,angle = 90, vjust = 0.5, hjust=1))+
+  theme( axis.text.y = element_text(size = 16, colour = "black"), 
+         axis.title.y= element_text(size=16, color="black"),
+         axis.title.x= element_text(size=16, color="black"),
+         panel.background = element_blank(), 
+         panel.border = element_rect(fill = NA, colour = "black"), 
+         legend.title = element_text(size =14, colour = "black"),
+         legend.text = element_text(size = 12, colour = "black")) +
+  guides(linetype = guide_legend(override.aes= list(color = "black")), color= guide_legend(order = 1)) +
+  xlab("Time") +labs(color="saturation")
+
+plot_richness
+
+##alpha diversity plots with cld
+
+ggsave(filename = "RMDplots/alphadiv_letters_wa_richness_grid_depth_rmd.tiff", plot = plot_richness,
+       width = 20,
+       height = 12, units = c("cm"),
+       dpi = 300)
+
+ggsave(filename = "RMDplots/alphadiv_letters_wa_inversesimpson_grid_depth_rmd.tiff", plot = plot_IS,
+       width = 20,
+       height = 12, units = c("cm"),
+       dpi = 300)
+```
+
+### Indicator species analysis
+```{r indicator species test}
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+library(indicspecies)
+
+library(phyloseq)
+library(tidyverse)
+otu_final = read.csv("OTU_clean_noneg_rarefied5k.csv", sep=",", row.names=1) ##USING UNRAREFIED DATA, CAN ALSO CHECK WITH RAREFIED 
+
+otu_final = otu_final[rowSums(otu_final[])>0, ,drop=FALSE] ##drop taxa that are not present in any samples, 40216 taxa remains
+
+tax = read.csv("taxonomy.csv", sep=",", row.names=1)
+tax = as.matrix(tax)
+
+metadata = read.csv("metadata_merge_noNA.csv", sep=",", row.names=1) # use for crop indicators 
+
+OTU = otu_table(otu_final, taxa_are_rows = TRUE)
+TAX = tax_table(tax)
+meta = sample_data(metadata)
+
+##merge
+phyloseq_merged = phyloseq(OTU, TAX, meta)
+phyloseq_merged
+
+##indicator species analysis
+
+library(indicspecies)
+
+GetIndicators <-function(dataframe, var){
+  require(phyloseq); require(indicspecies); require(dplyr)
+  #dataframe <- tax_glom(dataframe, taxrank = "Family") ##can be adjusted to indicate at family or class level, else default is OTU level
+  otu <- as.data.frame(otu_table(dataframe, taxa_are_rows = TRUE))
+  metadata = as(sample_data(dataframe), "data.frame")
+  taxa <- as.data.frame(as.matrix(tax_table(dataframe)))
+  multipatt <- multipatt(t(otu), metadata[,var], func = "r.g",
+                         control=how(nperm=999), duleg=FALSE)
+  multipatt -> multipatt_fdr
+  multipatt_fdr$sign$p.value <- p.adjust(multipatt_fdr$sign$p.value, "fdr")
+  #print(multipatt_fdr)
+  multipatt_fdr$sign[which(
+    multipatt_fdr$sign$p.value <= 0.05), ] -> indicator_taxa
+  taxa$OTU <- rownames(taxa)
+  data.frame(OTU = as.factor(row.names(indicator_taxa)), indicator_taxa) %>%
+    dplyr::left_join(taxa, by="OTU") -> indicator_taxa
+  rownames(indicator_taxa) <- indicator_taxa$OTU
+  indicator_taxa <- arrange(indicator_taxa, desc(stat))
+  return(indicator_taxa)
+}
+
+
+
+ind_region <-
+  GetIndicators(dataframe=phyloseq_merged, "site")
+
+
+##checking
+ind_region_subset<- ind_region %>% subset(s.Alaska==1 & s.Washington==1)
+
+library(tidyverse)
+
+write.csv(ind_region, "RMDplots/indicator_site_ak_wa_rmd.csv")
+
+###indicator by saturation conditions in wa
+
+##load indicator species analysis package
+library(indicspecies)
+
+##phyloseq object
+library(phyloseq)
+library(tidyverse)
+otu = read.csv("RMDplots/OTU_Washington_rarefied5k_rmd.csv", sep=",", row.names=1) ##USING RAREFIED DATA here unlike unrarefied data used for site specific indicators  
+
+otu_final = otu[rowSums(otu[])>0, ,drop=FALSE] ##drop taxa that are not present in any samples
+
+##for washington genus indicators
+##removing g_unculctured and blanks from taxonomy table to get unique rows in indicator table 
+
+tax = read.csv("taxonomy.csv", sep=",", row.names=1)
+tax<- tax %>% filter(Genus!="g__uncultured") #%>% filter(Genus!="") %>% filter(Genus!="g__Unknown_Family") %>% filter(Genus!="g__Incertae_Sedis")
+tax = as.matrix(tax)
+
+metadata = read.csv("metadata_merge_noNA.csv", sep=",", row.names=1) 
+
+##filtering to drought samples in WA
+metadata_drought_wa<- metadata %>% filter(site=="Washington" & saturation=="drought"|saturation=="timezero")
+
+OTU = otu_table(otu_final, taxa_are_rows = TRUE)
+TAX = tax_table(tax)
+meta = sample_data(metadata_drought_wa)
+
+##merge
+phyloseq_merged = phyloseq(OTU, TAX, meta)
+phyloseq_merged
+
+##indicator species analysis
+
+library(indicspecies)
+
+#ASV level
+GetIndicatorsASV <-function(dataframe, var){
+  require(phyloseq); require(indicspecies); require(dplyr)
+  #dataframe <- tax_glom(dataframe, taxrank = "Family") ##can be adjusted to indicate at family or class level, else default is OTU level
+  otu <- as.data.frame(otu_table(dataframe, taxa_are_rows = TRUE))
+  metadata = as(sample_data(dataframe), "data.frame")
+  taxa <- as.data.frame(as.matrix(tax_table(dataframe)))
+  multipatt <- multipatt(t(otu), metadata[,var], func = "r.g",
+                         control=how(nperm=999), duleg=FALSE)
+  multipatt -> multipatt_fdr
+  multipatt_fdr$sign$p.value <- p.adjust(multipatt_fdr$sign$p.value, "fdr")
+  #print(multipatt_fdr)
+  multipatt_fdr$sign[which(
+    multipatt_fdr$sign$p.value <= 0.05), ] -> indicator_taxa
+  taxa$OTU <- rownames(taxa)
+  data.frame(OTU = as.factor(row.names(indicator_taxa)), indicator_taxa) %>%
+    dplyr::left_join(taxa, by="OTU") -> indicator_taxa
+  rownames(indicator_taxa) <- indicator_taxa$OTU
+  indicator_taxa <- arrange(indicator_taxa, desc(stat))
+  return(indicator_taxa)
+}
+
+
+ind_saturation_wa_asv <-
+  GetIndicatorsASV(dataframe=phyloseq_merged, "saturation")
+
+##for genus level indicatorsm
+#Genus level 
+GetIndicatorsGenus <-function(dataframe, var){
+  require(phyloseq); require(indicspecies); require(dplyr)
+  dataframe <- tax_glom(dataframe, taxrank = "Genus") ##can be adjusted to indicate at family or class level, else default is OTU level
+  genus <- as.data.frame(otu_table(dataframe, taxa_are_rows = TRUE))
+  metadata = as(sample_data(dataframe), "data.frame")
+  taxa <- as.data.frame(as.matrix(tax_table(dataframe)))
+  multipatt <- multipatt(t(genus), metadata[,var], func = "r.g",
+                         control=how(nperm=999), duleg=FALSE)
+  multipatt -> multipatt_fdr
+  multipatt_fdr$sign$p.value <- p.adjust(multipatt_fdr$sign$p.value, "fdr")
+  #print(multipatt_fdr)
+  multipatt_fdr$sign[which(
+    multipatt_fdr$sign$p.value <= 0.05), ] -> indicator_taxa
+  taxa$OTU <- rownames(taxa)
+  data.frame(OTU = as.factor(row.names(indicator_taxa)), indicator_taxa) %>%
+    dplyr::left_join(taxa, by="OTU") -> indicator_taxa
+  rownames(indicator_taxa) <- indicator_taxa$Genus
+  indicator_taxa <- arrange(indicator_taxa, desc(stat))
+  return(indicator_taxa)
+}
+
+
+ind_saturation_wa_genus <-
+  GetIndicatorsGenus(dataframe=phyloseq_merged, "saturation") ##need to adjust for uncultured genera error below
+
+write.csv(ind_saturation_wa_genus, "RMDplots/indicator_saturation_wa_genus_rmd.csv")
+
+##drought time series specific indicators, ASV level
+#ASV level
+GetIndicatorsASVDroughtTime <-function(dataframe, var){
+  require(phyloseq); require(indicspecies); require(dplyr)
+  #dataframe <- tax_glom(dataframe, taxrank = "Family") ##can be adjusted to indicate at family or class level, else default is OTU level
+  otu <- as.data.frame(otu_table(dataframe, taxa_are_rows = TRUE))
+  metadata = as(sample_data(dataframe), "data.frame")
+  taxa <- as.data.frame(as.matrix(tax_table(dataframe)))
+  multipatt <- multipatt(t(otu), metadata[,var], func = "r.g",
+                         control=how(nperm=999), duleg=FALSE)
+  multipatt -> multipatt_fdr
+  multipatt_fdr$sign$p.value <- p.adjust(multipatt_fdr$sign$p.value, "fdr")
+  #print(multipatt_fdr)
+  multipatt_fdr$sign[which(
+    multipatt_fdr$sign$p.value <= 0.05), ] -> indicator_taxa
+  taxa$OTU <- rownames(taxa)
+  data.frame(OTU = as.factor(row.names(indicator_taxa)), indicator_taxa) %>%
+    dplyr::left_join(taxa, by="OTU") -> indicator_taxa
+  rownames(indicator_taxa) <- indicator_taxa$OTU
+  indicator_taxa <- arrange(indicator_taxa, desc(stat))
+  return(indicator_taxa)
+}
+
+#Genus level 
+GetIndicatorsGenusDroughtTime <-function(dataframe, var){
+  require(phyloseq); require(indicspecies); require(dplyr)
+  dataframe <- tax_glom(dataframe, taxrank = "Genus") ##can be adjusted to indicate at family or class level, else default is OTU level
+  genus <- as.data.frame(otu_table(dataframe, taxa_are_rows = TRUE))
+  metadata = as(sample_data(dataframe), "data.frame")
+  taxa <- as.data.frame(as.matrix(tax_table(dataframe)))
+  multipatt <- multipatt(t(genus), metadata[,var], func = "r.g",
+                         control=how(nperm=999), duleg=FALSE)
+  multipatt -> multipatt_fdr
+  multipatt_fdr$sign$p.value <- p.adjust(multipatt_fdr$sign$p.value, "fdr")
+  #print(multipatt_fdr)
+  multipatt_fdr$sign[which(
+    multipatt_fdr$sign$p.value <= 0.05), ] -> indicator_taxa
+  taxa$OTU <- rownames(taxa)
+  data.frame(OTU = as.factor(row.names(indicator_taxa)), indicator_taxa) %>%
+    dplyr::left_join(taxa, by="OTU") -> indicator_taxa
+  rownames(indicator_taxa) <- indicator_taxa$Genus
+  indicator_taxa <- arrange(indicator_taxa, desc(stat))
+  return(indicator_taxa)
+}
+
+ind_length_wa_genus <-
+  GetIndicatorsGenusDroughtTime(dataframe=phyloseq_merged, "length")##no indicators at asv level, gives the error for g__uncultured as before so trying again by removing these
+
+##correcting the tax table gave indicators by time for WA drought
+write.csv(ind_length_wa_genus, "RMDplots/ind_length_wa_drought_timezero_genus_rmd.csv")
+
+```
+
+### Indicator species Venn diagram
+```{r indicator species Venn}
+
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+
+library(ggVennDiagram)
+
+library(VennDiagram)
+
+wa_ind_sat<- read.csv("RMDplots/indicator_saturation_wa_genus_rmd.csv", header = TRUE)
+class(wa_ind_sat)
+library(tibble)
+wa_ind_sat <- as_tibble(wa_ind_sat)
+library(tidyverse)
+
+##saturation specific venn
+#drought_wa= wa_ind_sat %>% filter(wa_ind_sat$s.drought==1)
+#timezero_wa= wa_ind_sat %>% filter(wa_ind_sat$s.timezero==1)
+
+
+##drought time series specific venn
+wa_ind_time<- read.csv("ind_length_wa_drought_timezero_genus.csv", header = TRUE)
+class(wa_ind_time)
+library(tibble)
+wa_ind_time <- as_tibble(wa_ind_time)
+library(tidyverse)
+
+##time specific venn
+wa_30= wa_ind_time %>% filter(wa_ind_time$s.30d==1)
+wa_90= wa_ind_time %>% filter(wa_ind_time$s.90d==1)
+wa_1000= wa_ind_time %>% filter(wa_ind_time$s.1000d==1)
+wa_timezero<- wa_ind_time %>% filter(wa_ind_time$s.timezero==1)
+
+#Define sets for diagram
+SET1 <- wa_timezero$OTU
+SET2 <- wa_30$OTU
+SET3 <- wa_90$OTU
+SET4 <- wa_1000$OTU
+
+
+#Draw the diagram 
+
+#final plot
+
+##WA drought by length 
+venn.diagram(list(Day0=SET1, drought_Day30=SET2, drought_Day90=SET3,drought_Day1000=SET4),main.cex=15, 
+             sub.cex=7,
+             fill=c("#CC79A7",'#CCBB44', '#66CCEE', "#EE6677"),
+             # fill = c("red", "green", "blue"),
+             alpha = c(0.5, 0.5, 0.5, 0.5),
+             cat.cex=c(5, 5, 5,5),
+             cex=5, rotation.degree=0,
+             cat.dist = c(0.2, 0.2, 0.1, 0.1), cat.pos=c(0,0,0, 0),
+             #ext.pos=3,
+             filename='RMDplots/venn_wa_ind_drought_length_rmd.tiff', height = 6000 , 
+             width = 6000 , resolution = 300, units="px", 
+             imagetype="tiff", compression = "lzw", output=TRUE)
+
+temp_file <- tempfile()
+
+venn.diagram(list(Day0=SET1, drought_Day30=SET2, drought_Day90=SET3,drought_Day1000=SET4),main.cex=15, 
+             sub.cex=7,
+             fill=c("#CC79A7",'#CCBB44', '#66CCEE', "#EE6677"),
+             # fill = c("red", "green", "blue"),
+             alpha = c(0.5, 0.5, 0.5, 0.5),
+             cat.cex=c(5, 5, 5,5),
+             cex=5, rotation.degree=0,
+             cat.dist = c(0.2, 0.2, 0.1, 0.1), cat.pos=c(0,0,0, 0),
+             #ext.pos=3,
+             filename=temp_file, height = 6000 , 
+             width = 6000 , resolution = 300, units="px", 
+             imagetype="png", compression = "lzw", output=TRUE)
+
+library(png)
+img <- readPNG(temp_file)
+grid::grid.raster(img)
+```
+
+### Indicator species abundance heatmap (top 50 most abundant indicators by drought time)
+```{r heatmap of abundance (top 50 most abundant indicator species by drought duration), fig.width=14, fig.height=8}
+
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+
+otu_wa<- read.csv("RMDplots/OTU_Washington_rarefied5k_rmd.csv", row.names=1)
+otu_wa_new <- cbind(OTU = rownames(otu_wa), otu_wa)
+ind_length_wa<-read.csv("ind_length_wa_drought_timezero_genus.csv", row.names=1)
+##subsetting to the 48 unique indicators for drought 1000d
+#ind_length_wa<- ind_length_wa %>% filter(s.1000d==1 & s.30d==0 & s.90d==0, s.timezero==0) #use when plotting only the 48 taxa
+
+##join otu table with indicator taxa
+ind_wa_abund<- left_join(ind_length_wa, otu_wa_new, by="OTU") ##using the drought +time zero ind by length at genus level
+
+rownames(ind_wa_abund) <- ind_wa_abund[,1]
+ind_wa_mat = ind_wa_abund[,17:ncol(ind_wa_abund)] ##change the column number as appropriate, changed from 16
+
+
+##changing the ind_wa_mat data frame to new_df_drought_wide
+##because we dont need to filter any samples as below
+new_df_drought_wide<- ind_wa_mat
+
+##drought samples WA with time zero, or drought plus time zero and d+rewet
+ind_wa_50 <- new_df_drought_wide[order(rowSums(new_df_drought_wide), decreasing = TRUE),]
+ind_wa_50 <- ind_wa_50[c(1:50),] ##select top 50 most abundant Classes, skip this step when working with 48 taxa
+
+
+mat_data<- ind_wa_50 
+
+#REMOVE OTUS that cant be plotted in heatmap, note which ones are removed, if there are only numbers nothing is removed. if there are NAs some may be removed.
+
+sum(is.na(as.matrix(dist(mat_data))))
+
+giveNAs = which(is.na(as.matrix(dist(mat_data))),arr.ind=TRUE)
+head(giveNAs)
+
+tab = sort(table(c(giveNAs)),decreasing=TRUE)
+checkNA = sapply(1:length(tab),function(i){
+  sum(is.na(as.matrix(dist(mat_data[-as.numeric(names(tab[1:i])),]))))
+})
+rmv = names(tab)[1:min(which(checkNA==0))] ##https://stackoverflow.com/questions/61469201/pheatmap-won-t-cluster-rows-na-nan-inf-in-foreign-function-call-arg-10 
+rmv ## the intention with this code is not to remove rows but to see for which ASVs are we not able to calculate a distance for the heatmap
+
+##use this line only if something needs to be removed
+#mat_data = mat_data[-as.numeric(rmv),] 
+#View(mat_data)
+
+
+####merge taxonomy with OTU hash id
+
+taxonomy<- read.csv("taxonomy.csv", row.names=1)
+taxonomy_family<- taxonomy %>% dplyr::select(c("Family", "Class"))
+
+mat_data_merge <- merge(mat_data, taxonomy_family, by="row.names")
+
+mat_data_merge$OTUclass <- paste(mat_data_merge$Class, mat_data_merge$Row.names)
+
+rnames <-mat_data_merge$OTUclass
+rownames(mat_data_merge) <- rnames  # assign row names
+
+mat_data_merge_otuclass<- mat_data_merge %>% dplyr::select(!Row.names)%>% dplyr::select (!Family) %>% dplyr::select(!Class) %>% dplyr::select(!OTUclass)
+
+
+library(pheatmap)
+library(vegan)
+
+mat_data_merge_otuclass<-read.csv("mat_data_merge_otuclass_wa_drought_timezero_drewet_rarefied5k.csv", row.names=1, check.names=FALSE)#for drought times heatmap with d+rewet (with time zero)
+#mat_data_merge_otuclass<-read.csv("mat_data_merge_otuclass_wa_drought_timezero_drewet_rarefied5k_48unique1000d.csv", row.names=1, check.names=FALSE) # drought times heatmap with d+rewet (with time zero, only the 48 unique taxa at 1000d)
+
+mat_data_merge_otuclass<- as.data.frame(mat_data_merge_otuclass)
+class(mat_data_merge_otuclass)
+
+##replace NAs with zero, not needed there should be no NAs here
+matrix<- as.matrix(mat_data_merge_otuclass)
+matrix[is.na(matrix)] <-0
+
+
+##compute max standardization
+
+matrix_max_standardize_wa <-decostand(matrix, method = "max", MARGIN = 1)
+
+library(viridis)
+
+#create the breaks
+
+bk2 = unique(c(0.00000000, seq(0.00000001, 1.00000000, length=20)))
+col1 = colorRampPalette(c("gray"))(1)
+col2 =viridis(20)
+
+colors2 <- c(col1, col2)
+
+library(pheatmap)
+
+##setting labels for drought samples with timezero and d+rewet
+metadata_new<- read.csv("wa_rarefied_metadata.csv")
+metadata_new<- metadata_new %>% filter(saturation=="drought"|saturation=="timezero"|saturation=="d+rewet")
+sat_labels<-  metadata_new %>% dplyr::select("Key", "length","saturation")
+sat_labels$length_new <- dplyr::recode(sat_labels$length, 
+                                "30d"="day_30",
+                                "90d"="day_90",
+                                "1000d"="day_1000",
+                                "timezero"="timezero")
+row.names(sat_labels)<- metadata_new$Key
+sat_labels<- sat_labels %>% dplyr::select(!c(length, Key))
+sat_labels$length_new<- factor(sat_labels$length_new,levels = c("timezero", "day_30", "day_90", "day_1000"), ordered=TRUE)
+sat_labels$saturation<- dplyr::recode(sat_labels$saturation,
+                                      "timezero"="timezero",
+                                    "drought"="drought",
+                                    "d+rewet"="d_rewet")
+
+sat_labels$saturation<- factor(sat_labels$saturation, levels= c("timezero", "drought", "d_rewet"), ordered=TRUE)
+sat_labels1<- sat_labels %>% mutate(final_labels=paste(saturation,length_new)) %>% filter(!is.na(length_new))
+sat_labels1$labels_true<- dplyr::recode(sat_labels1$final_labels, 
+                                    "timezero timezero"="timezero",
+                                    "d_rewet day_30"="d_rewet_day30",
+                                    "d_rewet day_90"="d_rewet_day90",
+                                    "d_rewet day_1000"="d_rewet_day1000",
+                                    "drought day_30"="drought_day30",
+                                    "drought day_90"="drought_day90",
+                                    "drought day_1000"="drought_day1000")
+
+
+#heatmap color coding by time zero, drought, drought+rewet
+anno_colori <- list(labels_true=c(timezero="#CC79A7", drought_day30='#CCBB44', drought_day90='#66CCEE', drought_day1000='#EE6677',
+                                 d_rewet_day30="#D55E00", d_rewet_day90="#56B4E9",d_rewet_day1000='#AA3377'))
+
+##since the DOC sample ids are in sequence, i can directly overlay the labels 
+plot_heatmap_wa <- pheatmap::pheatmap(matrix_max_standardize_wa, ##if plotting sample by sample and not the means then use matrix_max_standardize_sw
+                                      annotation_col = sat_labels,
+                                      annotation_colors = anno_colori,
+                                      cluster_cols = F, na_col = "white", 
+                                      main="Washington",
+                                      #labels_row=TRUE,
+                                      show_colnames = TRUE,
+                                      annotation_legend = TRUE,
+                                      color = colors2,
+                                      breaks = bk2,
+                                      clustering_distance_rows="euclidean",clustering_method = "complete"
+                                     
+                                      
+                                      
+)
+##heatmap drought, drought+rewet amd time zero
+
+##trying to order samples by length_new and saturation column
+# Assuming 'length_new' is a column in 'sat_labels' for ordering
+order_variables<- c("length_new", "saturation")
+#Determine order according to VariableName in sat_labels
+sample_order <- with(sat_labels, order(sat_labels[[order_variables[1]]], sat_labels[[order_variables[2]]]))
+# Reorder the matrix's columns based on this order
+ordered_matrix <- matrix_max_standardize_wa[, sample_order]
+ordered_matrix<- ordered_matrix[,1:94] #removing the last couple of samples in the matrix to remove the d+rewet samples from day 150 which have no matching drought samples for that timepoint
+# Reorder annotations accordingly
+ordered_annotations <- sat_labels[sample_order, ]
+
+anno_colori <- list(length_new=c(timezero="#CC79A7", day_30='#EEDD88', day_90='#BBCC33', day_1000='#AAAA00'), saturation=c(timezero="#CC79A7",drought="#E69F00", d_rewet="#0072B2"))   
+
+
+plot_heatmap_wa <- pheatmap::pheatmap(ordered_matrix, ##if plotting sample by sample and not the means then use matrix_max_standardize_sw
+                                      annotation_col = ordered_annotations,
+                                      annotation_colors = anno_colori,
+                                      cluster_cols = F, na_col = "white", 
+                                      main="Washington",
+                                      #labels_row=TRUE,
+                                      show_colnames = TRUE,
+                                      annotation_legend = TRUE,
+                                      color = colors2,
+                                      breaks = bk2,
+                                      cluster_rows=T
+                                      #clustering_distance_rows="euclidean",clustering_method = "complete"
+)
+
+ggsave(filename = "RMDplots/wa_indicator_drought_length_withrewet_inorder_groupedtaxa_rmd.tiff", plot = plot_heatmap_wa,
+       width = 35,
+       height = 20, units = c("cm"),
+       dpi = 300)
+#ggsave(filename = "wa_indicator_drought_length_withrewet_inorder_groupedtaxa_48unique_1000d.tiff", plot = plot_heatmap_wa,
+      # width = 35,
+      # height = 20, units = c("cm"),
+     #  dpi = 300)
+
+```
+
+
+### Indicator species abundance heatmap (unique indicators at 1000 d drought)
+```{r heatmap of abundance (48 unique indicator species at 1000 day drought), fig.width=14, fig.height=8}
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+
+otu_wa<- read.csv("RMDplots/OTU_Washington_rarefied5k_rmd.csv", row.names=1)
+otu_wa_new <- cbind(OTU = rownames(otu_wa), otu_wa)
+ind_length_wa<-read.csv("ind_length_wa_drought_timezero_genus.csv", row.names=1)
+##subsetting to the 48 unique indicators for drought 1000d
+ind_length_wa<- ind_length_wa %>% filter(s.1000d==1 & s.30d==0 & s.90d==0, s.timezero==0) #use when plotting only the 48 taxa
+
+##join otu table with indicator taxa
+ind_wa_abund<- left_join(ind_length_wa, otu_wa_new, by="OTU") ##using the drought +time zero ind by length at genus level
+
+rownames(ind_wa_abund) <- ind_wa_abund[,1]
+ind_wa_mat = ind_wa_abund[,17:ncol(ind_wa_abund)] ##change the column number as appropriate, changed from 16
+
+
+##changing the ind_wa_mat data frame to new_df_drought_wide
+##because we dont need to filter any samples as below
+new_df_drought_wide<- ind_wa_mat
+
+##drought samples WA with time zero, or drought plus time zero and d+rewet
+ind_wa_50 <- new_df_drought_wide[order(rowSums(new_df_drought_wide), decreasing = TRUE),]
+#ind_wa_50 <- ind_wa_50[c(1:50),] ##select top 50 most abundant Classes, skip this step when working with 48 taxa
+
+
+mat_data<- ind_wa_50 
+
+#REMOVE OTUS that cant be plotted in heatmap, note which ones are removed, if there are only numbers nothing is removed. if there are NAs some may be removed.
+
+sum(is.na(as.matrix(dist(mat_data))))
+
+giveNAs = which(is.na(as.matrix(dist(mat_data))),arr.ind=TRUE)
+head(giveNAs)
+
+tab = sort(table(c(giveNAs)),decreasing=TRUE)
+checkNA = sapply(1:length(tab),function(i){
+  sum(is.na(as.matrix(dist(mat_data[-as.numeric(names(tab[1:i])),]))))
+})
+rmv = names(tab)[1:min(which(checkNA==0))] ##https://stackoverflow.com/questions/61469201/pheatmap-won-t-cluster-rows-na-nan-inf-in-foreign-function-call-arg-10 
+rmv ## the intention with this code is not to remove rows but to see for which ASVs are we not able to calculate a distance for the heatmap
+
+##use this line only if something needs to be removed
+#mat_data = mat_data[-as.numeric(rmv),] 
+#View(mat_data)
+
+
+####merge taxonomy with OTU hash id
+
+taxonomy<- read.csv("taxonomy.csv", row.names=1)
+taxonomy_family<- taxonomy %>% dplyr::select(c("Family", "Class"))
+
+mat_data_merge <- merge(mat_data, taxonomy_family, by="row.names")
+
+mat_data_merge$OTUclass <- paste(mat_data_merge$Class, mat_data_merge$Row.names)
+
+rnames <-mat_data_merge$OTUclass
+rownames(mat_data_merge) <- rnames  # assign row names
+
+mat_data_merge_otuclass<- mat_data_merge %>% dplyr::select(!Row.names)%>% dplyr::select (!Family) %>% dplyr::select(!Class) %>% dplyr::select(!OTUclass)
+
+
+library(pheatmap)
+library(vegan)
+
+#mat_data_merge_otuclass<-read.csv("mat_data_merge_otuclass_wa_drought_timezero_drewet_rarefied5k.csv", row.names=1, check.names=FALSE)#for drought times heatmap with d+rewet (with time zero)
+mat_data_merge_otuclass<-read.csv("mat_data_merge_otuclass_wa_drought_timezero_drewet_rarefied5k_48unique1000d.csv", row.names=1, check.names=FALSE) # drought times heatmap with d+rewet (with time zero, only the 48 unique taxa at 1000d)
+
+mat_data_merge_otuclass<- as.data.frame(mat_data_merge_otuclass)
+class(mat_data_merge_otuclass)
+
+##replace NAs with zero, not needed there should be no NAs here
+matrix<- as.matrix(mat_data_merge_otuclass)
+matrix[is.na(matrix)] <-0
+
+
+##compute max standardization
+
+matrix_max_standardize_wa <-decostand(matrix, method = "max", MARGIN = 1)
+
+library(viridis)
+
+#create the breaks
+
+bk2 = unique(c(0.00000000, seq(0.00000001, 1.00000000, length=20)))
+col1 = colorRampPalette(c("gray"))(1)
+col2 =viridis(20)
+
+colors2 <- c(col1, col2)
+
+library(pheatmap)
+
+##setting labels for drought samples with timezero and d+rewet
+metadata_new<- read.csv("wa_rarefied_metadata.csv")
+metadata_new<- metadata_new %>% filter(saturation=="drought"|saturation=="timezero"|saturation=="d+rewet")
+sat_labels<-  metadata_new %>% dplyr::select("Key", "length","saturation")
+sat_labels$length_new <- dplyr::recode(sat_labels$length, 
+                                "30d"="day_30",
+                                "90d"="day_90",
+                                "1000d"="day_1000",
+                                "timezero"="timezero")
+row.names(sat_labels)<- metadata_new$Key
+sat_labels<- sat_labels %>% dplyr::select(!c(length, Key))
+sat_labels$length_new<- factor(sat_labels$length_new,levels = c("timezero", "day_30", "day_90", "day_1000"), ordered=TRUE)
+sat_labels$saturation<- dplyr::recode(sat_labels$saturation,
+                                      "timezero"="timezero",
+                                    "drought"="drought",
+                                    "d+rewet"="d_rewet")
+
+sat_labels$saturation<- factor(sat_labels$saturation, levels= c("timezero", "drought", "d_rewet"), ordered=TRUE)
+sat_labels1<- sat_labels %>% mutate(final_labels=paste(saturation,length_new)) %>% filter(!is.na(length_new))
+sat_labels1$labels_true<- dplyr::recode(sat_labels1$final_labels, 
+                                    "timezero timezero"="timezero",
+                                    "d_rewet day_30"="d_rewet_day30",
+                                    "d_rewet day_90"="d_rewet_day90",
+                                    "d_rewet day_1000"="d_rewet_day1000",
+                                    "drought day_30"="drought_day30",
+                                    "drought day_90"="drought_day90",
+                                    "drought day_1000"="drought_day1000")
+
+
+#heatmap color coding by time zero, drought, drought+rewet
+anno_colori <- list(labels_true=c(timezero="#CC79A7", drought_day30='#CCBB44', drought_day90='#66CCEE', drought_day1000='#EE6677',
+                                 d_rewet_day30="#D55E00", d_rewet_day90="#56B4E9",d_rewet_day1000='#AA3377'))
+
+##since the DOC sample ids are in sequence, i can directly overlay the labels 
+plot_heatmap_wa <- pheatmap::pheatmap(matrix_max_standardize_wa, ##if plotting sample by sample and not the means then use matrix_max_standardize_sw
+                                      annotation_col = sat_labels,
+                                      annotation_colors = anno_colori,
+                                      cluster_cols = F, na_col = "white", 
+                                      main="Washington",
+                                      #labels_row=TRUE,
+                                      show_colnames = TRUE,
+                                      annotation_legend = TRUE,
+                                      color = colors2,
+                                      breaks = bk2,
+                                      clustering_distance_rows="euclidean",clustering_method = "complete"
+                                     
+                                      
+                                      
+)
+##heatmap drought, drought+rewet amd time zero
+
+##trying to order samples by length_new and saturation column
+# Assuming 'length_new' is a column in 'sat_labels' for ordering
+order_variables<- c("length_new", "saturation")
+#Determine order according to VariableName in sat_labels
+sample_order <- with(sat_labels, order(sat_labels[[order_variables[1]]], sat_labels[[order_variables[2]]]))
+# Reorder the matrix's columns based on this order
+ordered_matrix <- matrix_max_standardize_wa[, sample_order]
+ordered_matrix<- ordered_matrix[,1:94] #removing the last couple of samples in the matrix to remove the d+rewet samples from day 150 which have no matching drought samples for that timepoint
+# Reorder annotations accordingly
+ordered_annotations <- sat_labels[sample_order, ]
+
+anno_colori <- list(length_new=c(timezero="#CC79A7", day_30='#EEDD88', day_90='#BBCC33', day_1000='#AAAA00'), saturation=c(timezero="#CC79A7",drought="#E69F00", d_rewet="#0072B2"))   
+
+
+plot_heatmap_wa <- pheatmap::pheatmap(ordered_matrix, ##if plotting sample by sample and not the means then use matrix_max_standardize_sw
+                                      annotation_col = ordered_annotations,
+                                      annotation_colors = anno_colori,
+                                      cluster_cols = F, na_col = "white", 
+                                      main="Washington",
+                                      #labels_row=TRUE,
+                                      show_colnames = TRUE,
+                                      annotation_legend = TRUE,
+                                      color = colors2,
+                                      breaks = bk2,
+                                      cluster_rows=T
+                                      #clustering_distance_rows="euclidean",clustering_method = "complete"
+)
+
+ggsave(filename = "RMDplots/wa_indicator_drought_1000d_withrewet_inorder_groupedtaxa_rmd.tiff", plot = plot_heatmap_wa,
+       width = 35,
+       height = 20, units = c("cm"),
+       dpi = 300)
+#ggsave(filename = "wa_indicator_drought_length_withrewet_inorder_groupedtaxa_48unique_1000d.tiff", plot = plot_heatmap_wa,
+      # width = 35,
+      # height = 20, units = c("cm"),
+     #  dpi = 300)
+```
+
+
+### Bray-Curtis dissimilarity heatmaps 
+```{r bray curtis heatmap, fig.width=8, fig.height=6}
+
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+
+library(phyloseq)
+library(tidyverse)
+otu = read.csv("RMDplots/OTU_Washington_rarefied5k_rmd.csv", sep=",", row.names=1) ##USING RAREFIED DATA here unlike unrarefied data used for site specific indicators  
+
+otu_final = otu[rowSums(otu[])>0, ,drop=FALSE] ##drop taxa that are not present in any samples
+tax = read.csv("taxonomy.csv", sep=",", row.names=1)
+tax = as.matrix(tax)
+
+metadata = read.csv("metadata_merge_noNA.csv", sep=",", row.names=1) 
+
+##filtering to 0-5 cm samples
+metadata_wa<- metadata %>% filter(site=="Washington" & length!="150d" & depth=="0-5cm")
+metadata_wa$treat_time <- paste(metadata_wa$saturation, metadata_wa$length)
+
+OTU = otu_table(otu_final, taxa_are_rows = TRUE)
+TAX = tax_table(tax)
+meta = sample_data(metadata_wa)
+##merge
+phyloseq_merged = phyloseq(OTU, TAX, meta)
+phyloseq_merged
+
+##bray curtis distances 
+otu_wa = as(otu_table(phyloseq_merged), "matrix")
+
+# Coerce to data.frame
+otu_df = as.data.frame(otu_wa)
+otu_df_final = otu_df[rowSums(otu_df[])>0, ,drop=FALSE] #16041 taxa remain after filtering out 150d, 10871 taxa remain after filtering out 150d and 5cm-end samples, 9796 taxa remain after filtering out 150d and 0-5cm samples
+OTU = otu_table(otu_df_final, taxa_are_rows = TRUE)
+
+phyloseq_merged = phyloseq(OTU, TAX, meta)
+bray_dist <- vegdist(t(otu_table(phyloseq_merged)), method = "bray")
+
+bray_matrix <- as.matrix(bray_dist)
+
+annotation_data <- data.frame(Treatment = sample_data(phyloseq_merged)$treat_time)
+sample_data(phyloseq_merged)
+rownames(annotation_data) <- sample_names(phyloseq_merged)
+annotation_data
+annotation_data$Treatment<- dplyr::recode(annotation_data$Treatment, "d+rewet 1000d"="d_rewet_Day1000",
+                                          "d+rewet 30d"="d_rewet_Day30",
+                                          "d+rewet 90d"="d_rewet_Day90",
+                                          "drought 30d"="drought_Day30",
+                                          "drought 90d"="drought_Day90",
+                                         "drought 1000d"="drought_Day1000",
+                                   "timezero timezero"="timezero")
+annotation_data$Treatment<- factor(annotation_data$Treatment,levels = c("timezero", "drought_Day30", "d_rewet_Day30","drought_Day90", "d_rewet_Day90", "drought_Day1000", "d_rewet_Day1000"), ordered=TRUE)
+annotation_data<- annotation_data %>% mutate(Treatment2 = Treatment)
+annotation_data$Treatment2<- factor(annotation_data$Treatment2,levels = c("timezero", "drought_Day30", "d_rewet_Day30","drought_Day90", "d_rewet_Day90", "drought_Day1000", "d_rewet_Day1000"), ordered=TRUE)
+
+
+annotation_colors <- list(Treatment=c(timezero="#CC79A7", drought_Day30='#CCBB44', drought_Day90='#66CCEE', drought_Day1000='#EE6677',
+                                 d_rewet_Day30="#D55E00", d_rewet_Day90="#56B4E9",d_rewet_Day1000='#AA3377'
+                                      ))
+
+library(viridis)
+#create the breaks
+
+bk2 = unique(c(0.00000000, seq(0.00000001, 1.00000000, length=20)))
+col1 = colorRampPalette(c("gray"))(1)
+col2 =viridis(20)
+
+colors2 <- c(col1, col2)
+
+library(pheatmap)
+##trying to order samples by Treatment column in annotation data
+# Assuming 'Treatment' is a column in 'annotation_data' for ordering
+order_variables<- c("Treatment", "Treatment2")
+#Determine order according to VariableName in sat_labels
+sample_order <- with(annotation_data, order(annotation_data[[order_variables[1]]], annotation_data[[order_variables[2]]]))
+# Reorder the matrix's columns based on this order
+ordered_matrix <- bray_matrix[sample_order, sample_order]
+#ordered_matrix<- ordered_matrix[,1:94] #removing the last couple of samples in the matrix to remove the d+rewet samples from day 150 which have no matching drought samples for that timepoint
+# Reorder annotations accordingly
+ordered_annotations <- annotation_data[sample_order, ]
+
+heatmap_wa_0_5<- pheatmap::pheatmap(ordered_matrix,
+  annotation_col = ordered_annotations %>% dplyr::select(Treatment),
+  annotation_row=ordered_annotations %>% dplyr::select(Treatment),
+  annotation_colors = annotation_colors,
+  cluster_cols = F,
+  cluster_rows= F,
+  na_col = "white", 
+  #main="Washington",
+  #labels_row=TRUE,
+  show_colnames = TRUE,
+  annotation_legend = TRUE,
+  color = colors2,
+  breaks = bk2
+ # clustering_distance_rows="euclidean",clustering_method = "complete"
+  #main = "Bray-Curtis Dissimilarity Heatmap by Treatment"
+)
+
+ggsave(filename = "RMDplots/heatmap_BC_wa_0-5cm_ordered_rmd.tiff", plot = heatmap_wa_0_5,
+       width = 25,
+       height = 20, units = c("cm"),
+       dpi = 300)
+
+
+##filtering to 5cm to end samples
+metadata_wa<- metadata %>% filter(site=="Washington" & length!="150d" & depth=="5cm-end")
+metadata_wa$treat_time <- paste(metadata_wa$saturation, metadata_wa$length)
+
+OTU = otu_table(otu_final, taxa_are_rows = TRUE)
+TAX = tax_table(tax)
+meta = sample_data(metadata_wa)
+##merge
+phyloseq_merged = phyloseq(OTU, TAX, meta)
+phyloseq_merged
+
+##bray curtis distances 
+otu_wa = as(otu_table(phyloseq_merged), "matrix")
+
+# Coerce to data.frame
+otu_df = as.data.frame(otu_wa)
+otu_df_final = otu_df[rowSums(otu_df[])>0, ,drop=FALSE] #16041 taxa remain after filtering out 150d, 10871 taxa remain after filtering out 150d and 5cm-end samples, 9796 taxa remain after filtering out 150d and 0-5cm samples
+OTU = otu_table(otu_df_final, taxa_are_rows = TRUE)
+
+phyloseq_merged = phyloseq(OTU, TAX, meta)
+bray_dist <- vegdist(t(otu_table(phyloseq_merged)), method = "bray")
+
+bray_matrix <- as.matrix(bray_dist)
+
+annotation_data <- data.frame(Treatment = sample_data(phyloseq_merged)$treat_time)
+rownames(annotation_data) <- sample_names(phyloseq_merged)
+
+annotation_data$Treatment<- dplyr::recode(annotation_data$Treatment, "d+rewet 1000d"="d_rewet_Day1000",
+                                          "d+rewet 30d"="d_rewet_Day30",
+                                          "d+rewet 90d"="d_rewet_Day90",
+                                          "drought 30d"="drought_Day30",
+                                          "drought 90d"="drought_Day90",
+                                         "drought 1000d"="drought_Day1000",
+                                   "timezero timezero"="timezero")
+annotation_data$Treatment<- factor(annotation_data$Treatment,levels = c("timezero", "drought_Day30", "d_rewet_Day30","drought_Day90", "d_rewet_Day90", "drought_Day1000", "d_rewet_Day1000"), ordered=TRUE)
+annotation_data<- annotation_data %>% mutate(Treatment2 = Treatment)
+annotation_data$Treatment2<- factor(annotation_data$Treatment2,levels = c("timezero", "drought_Day30", "d_rewet_Day30","drought_Day90", "d_rewet_Day90", "drought_Day1000", "d_rewet_Day1000"), ordered=TRUE)
+
+
+annotation_colors <- list(Treatment=c(timezero="#CC79A7", drought_Day30='#CCBB44', drought_Day90='#66CCEE', drought_Day1000='#EE6677',
+                                 d_rewet_Day30="#D55E00", d_rewet_Day90="#56B4E9",d_rewet_Day1000='#AA3377'))
+
+library(viridis)
+#create the breaks
+
+bk2 = unique(c(0.00000000, seq(0.00000001, 1.00000000, length=20)))
+col1 = colorRampPalette(c("gray"))(1)
+col2 =viridis(20)
+
+colors2 <- c(col1, col2)
+
+library(pheatmap)
+##trying to order samples by Treatment column in annotation data
+# Assuming 'Treatment' is a column in 'annotation_data' for ordering
+order_variables<- c("Treatment", "Treatment2")
+#Determine order according to VariableName in sat_labels
+sample_order <- with(annotation_data, order(annotation_data[[order_variables[1]]], annotation_data[[order_variables[2]]]))
+# Reorder the matrix's columns based on this order
+ordered_matrix <- bray_matrix[sample_order, sample_order]
+#ordered_matrix<- ordered_matrix[,1:94] #removing the last couple of samples in the matrix to remove the d+rewet samples from day 150 which have no matching drought samples for that timepoint
+# Reorder annotations accordingly
+ordered_annotations <- annotation_data[sample_order, ]
+
+heatmap_wa_5_end<- pheatmap::pheatmap(ordered_matrix,
+  annotation_col = ordered_annotations %>% dplyr::select(Treatment),
+  annotation_row=ordered_annotations %>% dplyr::select(Treatment),
+  annotation_colors = annotation_colors,
+  cluster_cols = F,
+  cluster_rows= F,
+  na_col = "white", 
+  #main="Washington",
+  #labels_row=TRUE,
+  show_colnames = TRUE,
+  annotation_legend = TRUE,
+  color = colors2,
+  breaks = bk2
+ # clustering_distance_rows="euclidean",clustering_method = "complete"
+  #main = "Bray-Curtis Dissimilarity Heatmap by Treatment"
+)
+
+ggsave(filename = "RMDplots/heatmap_BC_wa_5cm-end_ordered_rmd.tiff", plot = heatmap_wa_5_end,
+       width = 25,
+       height = 20, units = c("cm"),
+       dpi = 300)
+
+```
+
+### Indicator species dendrograms
+```{r dendrograms, fig.width=10, fig.height=6}
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+
+###plotting dendogram with the unique otus at 1000d and top 50 otus for indicators across 30, 90 and 1000d
+otu_final<- read.csv("mat_data_merge_otuclass_wa_drought_timezero_drewet_rarefied5k_tree.csv", sep=",", row.names=1)
+
+library(phyloseq)
+library(tidyverse)
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("ggtree")
+library(ggtree)
+
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("ggtreeExtra")
+library(ggtreeExtra)
+library(vegan)
+
+otu_final1 = otu_final[rowSums(otu_final[])>0, ,drop=FALSE] ##drop taxa that are not present in any samples
+
+##DO MAX STANDARDIZATION HERE decostand vegan
+library(vegan)
+max_standardize <-decostand(otu_final1, method = "max", MARGIN = 1) ##from Jackson's phil trans paper
+
+##read new phyloseq object with the new joinabsabun object
+
+OTU = otu_table(max_standardize, taxa_are_rows = TRUE)
+
+tax = read.csv("taxonomy.csv", sep=",", row.names=1)
+tax = as.matrix(tax)
+TAX = tax_table(tax)
+
+
+metadata = read.csv("metadata_merge_noNA.csv", sep=",", row.names=1) 
+meta = sample_data(metadata)
+
+##merge
+phyloseq_merged = phyloseq(OTU, TAX, meta)
+phyloseq_merged
+
+melt_simple_new_1 <- phyloseq_merged %>% #transform_sample_counts(function(x) {x/sum(x)} )%>% ##dont transfrom to relabun yet, we need max standardization
+  psmelt() %>%
+  dplyr::select(OTU, val=Abundance, length, saturation,depth, drying, location)
+melt_simple_new_1$length_new <- dplyr::recode(melt_simple_new_1$length, 
+                                       "30d"="day_30",
+                                       "90d"="day_90",
+                                       "1000d"="day_1000",
+                                       "150d"="day_150",
+                                       "timezero"="timezero")
+melt_simple_new_1$length_new<- factor(melt_simple_new_1$length_new,levels = c("timezero", "day_30", "day_90", "day_150", "day_1000"), ordered=TRUE)
+melt_simple_new_1$saturation<- factor(melt_simple_new_1$saturation, levels= c("timezero", "drought", "d+rewet"), ordered=TRUE)
+
+indicator_table<- read.csv("ind_length_wa_drought_timezero_genus.csv")
+join_data_new<- melt_simple_new_1 %>% left_join(indicator_table, by="OTU")
+
+
+join_data_new <- join_data_new %>% 
+  mutate(indicator_type = ifelse(
+    s.1000d == 1 & s.30d == 0 & s.90d == 0 & s.timezero == 0, "drought_1000day_ind",
+    ifelse(s.30d == 1 & s.90d == 0 & s.1000d == 0 & s.timezero == 0, "drought_30day_ind",
+           ifelse(s.90d == 1 & s.30d == 0 & s.1000d == 0 & s.timezero == 0, "drought_90day_ind",
+                  ifelse(s.30d == 1 & s.90d == 1 & s.1000d == 1 & s.timezero == 0, "drought_30day_90day_1000day_ind",
+                         ifelse(s.30d == 1 & s.90d == 1 & s.1000d == 0 & s.timezero == 1, "drought_timezero_30day_90day_ind",
+                                ifelse(s.30d == 1 & s.90d == 1 & s.1000d == 0 & s.timezero == 0, "drought_30day_90day_ind", 
+                                       ifelse(s.30d == 0 & s.90d == 0 & s.1000d == 0 & s.timezero == 1, "timezero_ind", NA))))))))
+  
+join_data_new$indicator_type <- factor(join_data_new$indicator_type, levels=c("timezero_ind", "drought_timezero_30day_90day_ind", "drought_30day_90day_ind", "drought_30day_90day_1000day_ind", "drought_1000day_ind"), ordered=TRUE)
+
+                                                                          
+library("ape")
+set.seed(1)
+
+###using qiime2 generated rooted tree
+
+tree_full<- read.tree("tree.nwk")
+phyloseq_tree = merge_phyloseq(phyloseq_merged, tree_full)
+phyloseq_tree
+
+##saving node and phylum information together in a dataframe
+
+phylo<- phy_tree(phyloseq_tree)
+phylo
+
+write.tree(phylo, file="RMDplots/phylo_drought_timezero_rmd.tre")
+
+phylo_tibble<- as_tibble(phylo)
+
+phylo_tibble<- phylo_tibble %>% mutate(OTU=label)
+
+p <- ggtree(phylo, layout="fan", open.angle=10)#+ geom_text(aes(label=node), hjust=-.3)
+
+
+p1<- p %<+% join_data_new + geom_tippoint(pch=16, aes(col=indicator_type)) + scale_color_manual(values=c("#CC79A7", "#FEB24C" ,"#045A8D", "#41AB5D", '#EE6677', "#810F7C", "#004529", "#2166AC", "#66C2A4" ,"#C7EAE5", "#E7298A", "#B2DF8A", "#E78AC3", "#9970AB" ,"#4D9221", "#FEE6CE"), guide="none")
+  #"#CC79A7",  "#E69F00", "#0072B2", "#79CC8C","#006FE6", "#B26700"
+p1
+p2 <- rotate_tree(p1, -90)
+p2
+
+
+
+melt_simple_new_2 <- phyloseq_merged %>% #transform_sample_counts(function(x) {x/sum(x)} )%>% ##dont transfrom to relabun yet, we need max standardization
+  psmelt() %>%
+  dplyr::select(OTU, value=Abundance, length, saturation,depth, drying, location)
+
+taxonomy<- read.csv("taxonomy.csv")
+taxonomy<- taxonomy %>% mutate(OTU=ASV)
+join_data_new2<- left_join(melt_simple_new_2, taxonomy, by="OTU")
+
+##add the indicator labels
+indicator_table<- read.csv("ind_length_wa_drought_timezero_genus.csv")
+join_data_new2<- join_data_new2 %>% left_join(indicator_table, by="OTU")
+
+join_data_new2 <- join_data_new2 %>% 
+  mutate(indicator_type = ifelse(
+    s.1000d == 1 & s.30d == 0 & s.90d == 0 & s.timezero == 0, "drought_1000day_ind",
+    ifelse(s.30d == 1 & s.90d == 0 & s.1000d == 0 & s.timezero == 0, "drought_30day_ind",
+           ifelse(s.90d == 1 & s.30d == 0 & s.1000d == 0 & s.timezero == 0, "drought_90day_ind",
+                  ifelse(s.30d == 1 & s.90d == 1 & s.1000d == 1 & s.timezero == 0, "drought_30day_90day_1000day_ind",
+                         ifelse(s.30d == 1 & s.90d == 1 & s.1000d == 0 & s.timezero == 1, "drought_timezero_30day_90day_ind",
+                                ifelse(s.30d == 1 & s.90d == 1 & s.1000d == 0 & s.timezero == 0, "drought_30day_90day_ind", 
+                                       ifelse(s.30d == 0 & s.90d == 0 & s.1000d == 0 & s.timezero == 1, "timezero_ind", NA))))))))
+
+
+
+library(ggtreeExtra)
+library(ggtree) 
+library(treeio) 
+library(tidytree) 
+library(ggnewscale) 
+library(ggpmisc) 
+library(ggplot2) 
+library(ggimage) 
+library(patchwork)
+library(tidytree)
+library(viridis)
+library(RColorBrewer)
+
+pal_colblind<- c("#8DA0CB", "#3690C0", "#F768A1" ,"#00441B" ,"#6A3D9A" ,"#EF6548", "#E7298A")
+
+pal <- c("#009292","#ff6db6","#ffb6db",
+         "#490092","#006ddb","#b66dff","#6db6ff","#b6dbff",
+         "#924900","#db6d00","#24ff24","#ffff6d")
+
+p3 <- p2 +
+  ggtreeExtra::geom_fruit(
+    data=join_data_new2,
+    geom=geom_boxplot,
+    mapping = aes(
+      y=OTU,
+      x=value,
+      #group=transect1, ##change to site and others and see the best fit 
+      fill=Domain,
+    ),
+    size=0.5,
+    outlier.size=0.5,
+    outlier.stroke=0.08,
+    outlier.shape=21,
+    axis.params=list(
+      axis       = "x",
+      text.size  = 4,
+      hjust      = 1,
+      vjust      = 0.5,
+      nbreak     = 3,
+    ),
+    grid.params=list()
+  )  + scale_fill_manual(values=pal)
+  #theme(legend.position = "none")
+
+p3
+
+merge_phylo<- phylo_tibble %>% left_join(taxonomy, by="OTU")
+write.csv(merge_phylo, "RMDplots/merge_phylo_drought_timezero_rmd.csv")
+merge_phylo<- read.csv("RMDplots/merge_phylo_drought_timezero_rmd.csv") 
+
+merge_phylo_50<- merge_phylo %>% filter(ASV!="NA") %>% left_join(indicator_table, by="OTU")
+
+merge_phylo_50 <- merge_phylo_50 %>% 
+  mutate(type_indicator = ifelse(
+    s.1000d == 1 & s.30d == 0 & s.90d == 0 & s.timezero == 0, "drought_1000day_ind",
+    ifelse(s.30d == 1 & s.90d == 0 & s.1000d == 0 & s.timezero == 0, "drought_30day_ind",
+           ifelse(s.90d == 1 & s.30d == 0 & s.1000d == 0 & s.timezero == 0, "drought_90day_ind",
+                  ifelse(s.30d == 1 & s.90d == 1 & s.1000d == 1 & s.timezero == 0, "drought_30day_90day_1000day_ind",
+                         ifelse(s.30d == 1 & s.90d == 1 & s.1000d == 0 & s.timezero == 1, "drought_timezero_30day_90day_ind",
+                                ifelse(s.30d == 1 & s.90d == 1 & s.1000d == 0 & s.timezero == 0, "drought_30day_90day_ind", 
+                                       ifelse(s.30d == 0 & s.90d == 0 & s.1000d == 0 & s.timezero == 1, "timezero_ind", NA))))))))
+
+##order indicator variables in merge_phylo_50
+
+merge_phylo_50$type_indicator <- factor(merge_phylo_50$type_indicator, levels=c("timezero_ind", "drought_timezero_30day_90day_ind", "drought_30day_90day_ind", "drought_30day_90day_1000day_ind", "drought_1000day_ind"), ordered=TRUE)
+
+##changing the labels for the length/day variable
+merge_phylo_50<- as.tibble(merge_phylo_50)
+merge_phylo_50_labels<- merge_phylo_50 %>% mutate(type_indicator_label= dplyr::recode(type_indicator,
+                                                                               "timezero_ind"="Day0_indicator",
+                                                                               "drought_timezero_30day_90day_ind"="drought_Day0_Day30_Day90_ind",
+                                                                               "drought_30day_90day_ind"="drought_Day30_Day90_ind",
+                                                                               "drought_30day_90day_1000day_ind"="drought_Day30_Day90_Day1000_ind",
+                                                                               "drought_1000day_ind"="drought_Day1000_ind"))
+
+merge_phylo_50_labels$type_indicator_label <- factor(merge_phylo_50_labels$type_indicator_label, levels=c("Day0_indicator", "drought_Day0_Day30_Day90_ind", "drought_Day30_Day90_ind", "drought_Day30_Day90_Day1000_ind", "drought_Day1000_ind"), ordered=TRUE)
+
+p4<- p3 %<+%merge_phylo_50_labels + geom_tiplab2(aes(label=Class.x, color=Phylum.x),align=T, linetype=NA, 
+                                          size=3.7, offset=0.65, hjust=0.45)+
+  scale_color_manual(name="Phylum", values=pal)
+
+
+p4
+
+
+p5<- p4+ 
+  geom_cladelab(data=merge_phylo_50_labels,
+                mapping=aes(node=node,label=type_indicator_label,colour=type_indicator_label),
+                textcolour=NA, barsize=2, extend=0.4, offset=0.22, align=TRUE)+ 
+  #scale_color_manual(name="Indicator type \nand Phylum", values=c("#33a02c","#b2df8a","#fb9a99","#009292","#ff6db6","#ffb6db",
+  # "#490092","#006ddb","#b66dff"), 
+  scale_fill_manual(values=pal)+
+  scale_color_manual(name="Indicator type \nand Phylum", values=c("#CC79A7", "#FEB24C" ,"#045A8D", "#41AB5D", '#EE6677', "#810F7C", "#004529", "#2166AC", "#66C2A4" ,"#C7EAE5", "#E7298A", "#B2DF8A", "#E78AC3", "#9970AB" ,"#4D9221", "#FEE6CE"),
+                     guide=guide_legend(keywidth=0.3, keyheight=0.3, order=2))+#override.aes=list(size=1.5,alpha=1)))
+  theme(legend.text = element_text(size=12)) +#guides(color = guide_legend(nrow = 5))  +
+  theme(legend.position="right", legend.box="vertical", legend.margin=margin())
+  #guides(fill="none")
+p5
+
+
+
+
+
+##Final Figure
+ggsave(filename = "RMDplots/tree_qiime2_Rootedtree_drought_timezero_ind_rmd.tiff", plot = p5,
+       width =30,
+       height = 22, units = c("cm"),
+       dpi = 300)
+
+
+
+##doing the same plot as above but for the 48 unique 1000 day drought taxa only
+
+otu_final<- read.csv("mat_data_merge_otuclass_wa_drought_timezero_drewet_rarefied5k_48unique1000d_tree.csv", sep=",", row.names=1)
+
+library(phyloseq)
+library(tidyverse)
+library(ggtree)
+library(ggtreeExtra)
+library(vegan)
+
+otu_final1 = otu_final[rowSums(otu_final[])>0, ,drop=FALSE] ##drop taxa that are not present in any samples
+
+##DO MAX STANDARDIZATION HERE decostand vegan
+library(vegan)
+max_standardize <-decostand(otu_final1, method = "max", MARGIN = 1) ##from Jackson's phil trans paper
+
+##read new phyloseq object with the new joinabsabun object
+
+OTU = otu_table(max_standardize, taxa_are_rows = TRUE)
+
+tax = read.csv("taxonomy.csv", sep=",", row.names=1)
+tax = as.matrix(tax)
+TAX = tax_table(tax)
+
+
+metadata = read.csv("metadata_merge_noNA.csv", sep=",", row.names=1) 
+meta = sample_data(metadata)
+
+##merge
+phyloseq_merged = phyloseq(OTU, TAX, meta)
+phyloseq_merged
+
+melt_simple_new_1 <- phyloseq_merged %>% #transform_sample_counts(function(x) {x/sum(x)} )%>% ##dont transfrom to relabun yet, we need max standardization
+  psmelt() %>%
+  dplyr::select(OTU, val=Abundance, length, saturation,depth, drying, location)
+
+melt_simple_new_1$length_new <- dplyr::recode(melt_simple_new_1$length, 
+                                              "30d"="day_30",
+                                              "90d"="day_90",
+                                              "1000d"="day_1000",
+                                              "150d"="day_150",
+                                              "timezero"="timezero")
+melt_simple_new_1$length_new<- factor(melt_simple_new_1$length_new,levels = c("timezero", "day_30", "day_90", "day_150", "day_1000"), ordered=TRUE)
+melt_simple_new_1$saturation<- factor(melt_simple_new_1$saturation, levels= c("timezero", "drought", "d+rewet"), ordered=TRUE)
+
+indicator_table<- read.csv("ind_length_wa_drought_timezero_genus.csv")
+join_data_new<- melt_simple_new_1 %>% left_join(indicator_table, by="OTU")
+
+
+join_data_new <- join_data_new %>% 
+  mutate(indicator_type = "drought_1000day_ind")
+
+library("ape")
+set.seed(1)
+
+###using qiime2 generated rooted tree
+
+tree_full<- read.tree("tree.nwk")
+phyloseq_tree = merge_phyloseq(phyloseq_merged, tree_full)
+phyloseq_tree
+
+##saving node and phylum information together in a dataframe
+
+phylo<- phy_tree(phyloseq_tree)
+phylo
+
+write.tree(phylo, file="RMDplots/phylo_drought_timezero_1000d_ind_rmd.tre")
+
+phylo_tibble<- as_tibble(phylo)
+
+phylo_tibble<- phylo_tibble %>% mutate(OTU=label)
+
+p <- ggtree(phylo, layout="fan", open.angle=10)#+ geom_text(aes(label=node), hjust=-.3)
+
+
+p1<- p %<+% join_data_new + geom_tippoint(pch=16, aes(col=indicator_type)) + scale_color_manual(values=c('#EE6677'), guide="none")
+p1
+p2 <- rotate_tree(p1, -90)
+p2
+
+
+
+melt_simple_new_2 <- phyloseq_merged %>% #transform_sample_counts(function(x) {x/sum(x)} )%>% ##dont transfrom to relabun yet, we need max standardization
+  psmelt() %>%
+  dplyr::select(OTU, value=Abundance, length, saturation,depth, drying, location)
+
+taxonomy<- read.csv("taxonomy.csv")
+taxonomy<- taxonomy %>% mutate(OTU=ASV)
+join_data_new2<- left_join(melt_simple_new_2, taxonomy, by="OTU")
+
+##add the indicator labels
+indicator_table<- read.csv("ind_length_wa_drought_timezero_genus.csv")
+join_data_new2<- join_data_new2 %>% left_join(indicator_table, by="OTU")
+
+join_data_new2 <- join_data_new2 %>% 
+  mutate(indicator_type = "drought_1000day_ind")
+
+
+
+library(ggtreeExtra)
+library(ggtree) 
+library(treeio) 
+library(tidytree) 
+library(ggnewscale) 
+library(ggpmisc) 
+library(ggplot2) 
+library(ggimage) 
+library(patchwork)
+library(tidytree)
+library(viridis)
+library(RColorBrewer)
+
+pal_colblind<- c("#8DA0CB", "#3690C0", "#F768A1" ,"#00441B" ,"#6A3D9A" ,"#EF6548", "#E7298A")
+
+pal <- c("#009292","#ff6db6","#ffb6db",
+         "#490092","#006ddb","#b66dff","#6db6ff","#b6dbff",
+         "#924900","#db6d00","#24ff24","#ffff6d")
+
+p3 <- p2 +
+  ggtreeExtra::geom_fruit(
+    data=join_data_new2,
+    geom=geom_boxplot,
+    mapping = aes(
+      y=OTU,
+      x=value,
+      #group=transect1, ##change to site and others and see the best fit 
+      fill=Domain,
+    ),
+    size=0.5,
+    outlier.size=0.5,
+    outlier.stroke=0.08,
+    outlier.shape=21,
+    axis.params=list(
+      axis       = "x",
+      text.size  = 4,
+      hjust      = 1,
+      vjust      = 0.5,
+      nbreak     = 3,
+    ),
+    grid.params=list()
+  )  + scale_fill_manual(values=pal)
+#theme(legend.position = "none")
+
+p3
+
+merge_phylo<- phylo_tibble %>% left_join(taxonomy, by="OTU")
+write.csv(merge_phylo, "RMDplots/merge_phylo_drought_timezero_1000d_ind_rmd.csv")
+merge_phylo<- read.csv("RMDplots/merge_phylo_drought_timezero_1000d_ind_rmd.csv") 
+
+merge_phylo_50<- merge_phylo %>% filter(ASV!="NA") %>% left_join(indicator_table, by="OTU")
+
+merge_phylo_50 <- merge_phylo_50 %>% 
+  mutate(type_indicator = "drought_Day1000_ind")
+
+##order indicator variables in merge_phylo_50
+
+p4<- p3 %<+%merge_phylo_50 + geom_tiplab2(aes(label=Class.x, color=Phylum.x),align=T, linetype=NA, 
+                                          size=3.7, offset=0.65, hjust=0.45)+
+  scale_color_manual(name="Phylum", values=pal)
+
+
+p4
+
+
+p5<- p4+ 
+  geom_cladelab(data=merge_phylo_50,
+                mapping=aes(node=node,label=type_indicator,colour=type_indicator),
+                textcolour=NA, barsize=2, extend=0.4, offset=0.22, align=TRUE)+ 
+  #scale_color_manual(name="Indicator type \nand Phylum", values=c("#33a02c","#b2df8a","#fb9a99","#009292","#ff6db6","#ffb6db",
+  # "#490092","#006ddb","#b66dff"), 
+  scale_fill_manual(values=pal)+
+  scale_color_manual(name="Indicator type \nand Phylum", values=c('#EE6677', "#004529","#99D8C9" ,"#969696", "#66C2A4", "#E7298A", "#FEE6CE"),
+                     guide=guide_legend(keywidth=0.3, keyheight=0.3, order=2))+#override.aes=list(size=1.5,alpha=1)))
+  theme(legend.text = element_text(size=12)) +#guides(color = guide_legend(nrow = 5))  +
+  theme(legend.position="right", legend.box="vertical", legend.margin=margin())
+#guides(fill="none")
+p5
+
+
+
+
+
+##Final Figure
+ggsave(filename = "RMDplots/tree_qiime2_Rootedtree_drought_timezero_1000d_ind_rmd.tiff", plot = p5,
+       width =30,
+       height = 22, units = c("cm"),
+       dpi = 300)
+
+
+```
+
+
+### Differential expression analysis
+```{r DeSeq2 for differential expression analysis, fig.width=16, fig.height=10}
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+
+##Not rarefying the data, suing raw counts for WA differentially enriched taxa by drought day
+##30d versus 90d
+##30d versus 1000d
+##90d versus 1000d
+remove.packages("DESeq2")
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("DESeq2")
+library(DESeq2)
+#options(digits=15)
+#set.seed(123)
+packageVersion("DESeq2") # v‘1.48.2’
+
+##### Washington drought DeSeq analysis by time 
+otu_final = read.csv("OTU_clean.csv", sep=",", row.names=1)##CHANGE OTU HEADER TO OTUID IN CSV FILE 
+
+any(rowSums(otu_final[])<1)
+
+otu1 = otu_final[rowSums(otu_final[])<1, ,drop=FALSE] #10303 otus with no counts for 7k rarefied table, 12697 otus with no count for 5k rarefied table
+max(rowSums(otu1))
+otu_final = otu_final[rowSums(otu_final[])>0, ,drop=FALSE] ##drop taxa that are not present in any samples, 30309 taxa remains for 7k, 27915 taxa remains for 5k
+
+library(phyloseq)
+
+tax<- read.csv("taxonomy.csv", sep=",", row.names=1)
+metadata <- read.csv("metadata_merge_noNA.csv", sep=",", row.names=1)
+
+tax = as.matrix(tax) 
+
+otu<- otu_table(otu_final, taxa_are_rows = TRUE)
+tax<- tax_table(tax)
+metadata<- sample_data(metadata)
+
+colnames(tax)
+phyloseq_merged<- merge_phyloseq(otu, tax, metadata)
+phyloseq_merged
+
+###30 days, 1000 days
+metadata_new <- read.csv("metadata_merge_noNA.csv", sep=",", row.names=1)
+library(tidyverse)
+metadata_new <- metadata_new %>% filter(site=="Washington", length %in% c("30d","1000d"))
+keep.samples <- as.vector(metadata_new$Key)
+keep.samples
+
+phyloseq_merged_final <- prune_samples(keep.samples, phyloseq_merged) 
+phyloseq_merged_final
+# Assuming 'physeq_obj' is your phyloseq object after prune_samples()
+# 1. Get the sum of counts for each taxon
+taxa_sums_after_prune <- taxa_sums(phyloseq_merged_final)
+
+# 2. Identify taxa that have a sum greater than 0 (i.e., are still present)
+present_taxa <- names(taxa_sums_after_prune[taxa_sums_after_prune > 0])
+
+# 3. Prune the phyloseq object to keep only the present taxa
+##30 day , 1000d 
+phyloseq_merged_filtered_30_1000 <- prune_taxa(present_taxa, phyloseq_merged_final)
+phyloseq_merged_filtered_30_1000
+
+head(sample_data(phyloseq_merged_filtered_30_1000)$length, 24)
+
+##convert phyloseq format to DESEq dataset with dispersions estimated using the experimental design formula
+diagdds = phyloseq_to_deseq2(phyloseq_merged_filtered_30_1000, ~ length)
+diagdds$length
+diagdds
+
+diagdds$length <-factor(diagdds$length, levels = c("30d", "1000d"))
+diagdds$length #make sure that Control is the first level in the treatment factor, so that the default log2 fold changes are calculated as treatment over control and not the other way around.
+
+cts <- counts(diagdds)
+geoMeans <- apply(cts, 1, function(row) if (all(row == 0)) 0 else exp(mean(log(row[row != 0]))))
+diagdds <- estimateSizeFactors(diagdds, geoMeans=geoMeans)
+diagdds = DESeq(diagdds, test="Wald", fitType="parametric")
+diagdds
+
+##The default multiple-inference correction is Benjamini-Hochberg, and occurs within the DESeq function.
+
+#The following results function call creates a table of the results of the tests. Very fast. 
+#The hard work was already stored with the rest of the DESeq2-related data in our latest version 
+#of the diagdds object (see above). I then order by the adjusted p-value, removing the entries 
+#with an NA value. The rest of this example is just formatting the results table with taxonomic information for nice(ish) display.
+
+
+res = results(diagdds, cooksCutoff = FALSE)
+alpha = 0.01
+table(is.na(res$padj))
+summary(res$padj < alpha)
+
+sigtab = res[which(res$padj < alpha), ]
+sigtab = cbind(as(sigtab, "data.frame"), as(tax_table(phyloseq_merged_filtered_30_1000)[rownames(sigtab), ], "matrix"))
+head(sigtab)
+dim(sigtab)
+
+
+#The following makes a nice ggplot2 summary of the results.
+
+library(ggplot2)
+library(viridis)
+
+theme_set(theme_bw())
+# Phylum order
+x = tapply(sigtab$log2FoldChange, sigtab$Phylum, function(x) max(x))
+x = sort(x, TRUE)
+sigtab$Phylum = factor(as.character(sigtab$Phylum), levels=names(x))
+# Genus order
+x = tapply(sigtab$log2FoldChange, sigtab$Genus, function(x) max(x))
+x = sort(x, TRUE)
+sigtab$Genus = factor(as.character(sigtab$Genus), levels=names(x))
+
+
+##The DESeq2 function is outputting a different result in markdown than what is coming out in console for the R studio 2025 version, the console version is correct
+##However, the console version from R studio 2025 also differs from the results generated in R studio 2023 version, though both are correct with minor differences in taxonomic representation
+
+write.csv(sigtab, "RMDplots/sigtab_30d_1000d_WA_enriched_depleted_in1000d_rmd.csv")
+
+## For the Figure I'm reading in the correct output from the R studio 2023 version 
+sigtab<- read.csv("RMDplots/sigtab_30d_1000d_WA_enriched_depleted_in1000d_rmd.csv", row.names=1)
+
+theme_set(theme_bw())
+# Phylum order
+x = tapply(sigtab$log2FoldChange, sigtab$Phylum, function(x) max(x))
+x = sort(x, TRUE)
+sigtab$Phylum = factor(as.character(sigtab$Phylum), levels=names(x))
+# Genus order
+x = tapply(sigtab$log2FoldChange, sigtab$Genus, function(x) max(x))
+x = sort(x, TRUE)
+sigtab$Genus = factor(as.character(sigtab$Genus), levels=names(x))
+
+#sigtab_thres<- sigtab %>% filter(log2FoldChange>=7|log2FoldChange<=-7)
+
+sigtab<- sigtab %>% filter(Phylum!="")
+sigtab<- sigtab %>% filter(Genus!="")
+
+##adding a label for facet
+sigtab<- sigtab %>% mutate(enrich=ifelse(log2FoldChange>=0, "enriched in 1000d", "enriched in 30d"))
+
+library(RColorBrewer)
+n <- 17
+colrs <- brewer.pal.info[brewer.pal.info$colorblind == TRUE, ]
+col_vec = unlist(mapply(brewer.pal, colrs$maxcolors, rownames(colrs)))
+col <- sample(col_vec, n)
+area <- rep(1,n)
+pie(area, col = col)
+col
+
+
+palette_new21_final<- c("#49006A","#A63603","#CC4C02","#C7E9C0","#E31A1C","#3690C0","#A50026", "#01665E","#0868AC","#88419D","#A8DDB5","#B35806","#F768A1","#A6D854","#FFFF99","#E78AC3", "#E08214","#313695","#35978F","#BDBDBD","#FDBF6F")
+
+
+unique(sigtab$Class)
+library(ggh4x)
+
+plot_30<- ggplot(sigtab, aes(x=Genus, y=log2FoldChange, color=Phylum)) + 
+  #scale_x_reordered() +
+  facet_grid2(~Class, scales="free", space="free")+
+  #geom_text()+
+  geom_point(size=3) + scale_color_manual(values=as.vector(palette_new21_final))+ 
+  theme_classic()+
+  #ggtitle("DeSeq analysis")+
+  theme(plot.title = element_text(hjust = 0.5, size=18))+
+  theme(axis.text.x = element_text(size=20, angle = 90, vjust = 0.5, hjust=1), axis.title.x = element_text(size=20))+
+  theme(axis.text.y=element_text(size=20), axis.title.y=element_text(size=20)) + 
+  theme(legend.title = element_text(size=20))+ theme(legend.text = element_text(size=20)) +
+  guides(col=guide_legend(ncol=1)) +geom_hline(yintercept=0, linetype='dashed', col = 'black')+
+  #annotate("text", x = 27, y = -2, label = "enriched in Chesapeake", size = 9) + 
+  #annotate("text", x = 27, y = 2, label = "enriched in Erie", size = 9) +
+  # theme(legend.position = "none")+
+  #theme(strip.text.x = element_text(size = 20))+
+  ylab("Log2FoldChange") +
+  theme(strip.text = element_blank())
+
+#scale_x_discrete(drop = TRUE)
+#coord_flip() 
+
+
+plot_30
+
+library(cowplot)
+
+plot_30<- ggdraw(plot_30) +
+  draw_label("enriched in Day 1000", x = 0.6, y = 0.82, hjust = 0.5, size = 15, color = "black", fontface = "bold")+
+  draw_label("enriched in Day 30", x = 0.6, y = 0.76, hjust = 0.5, size = 15, color = "black", fontface = "bold")
+plot_30
+
+
+##final plot for publication
+ggsave(filename = "RMDplots/Deseq2_enriched_depleted_in1000d_v_30d_rmd.tiff", plot = plot_30,
+       width = 60,
+       height = 28, units = c("cm"),
+       dpi = 300)
+
+
+####90 days, 1000 days
+
+metadata_new <- read.csv("metadata_merge_noNA.csv", sep=",", row.names=1)
+metadata_new <- metadata_new %>% filter(site=="Washington", length %in% c("90d","1000d"))
+keep.samples <- as.vector(metadata_new$Key)
+keep.samples
+
+phyloseq_merged_final <- prune_samples(keep.samples, phyloseq_merged) 
+phyloseq_merged_final
+# Assuming 'physeq_obj' is your phyloseq object after prune_samples()
+# 1. Get the sum of counts for each taxon
+taxa_sums_after_prune <- taxa_sums(phyloseq_merged_final)
+
+# 2. Identify taxa that have a sum greater than 0 (i.e., are still present)
+present_taxa <- names(taxa_sums_after_prune[taxa_sums_after_prune > 0])
+
+# 3. Prune the phyloseq object to keep only the present taxa
+##30 day , 1000d 
+phyloseq_merged_filtered_90_1000 <- prune_taxa(present_taxa, phyloseq_merged_final)
+phyloseq_merged_filtered_90_1000
+
+head(sample_data(phyloseq_merged_filtered_90_1000)$length, 24)
+
+##convert phyloseq format to DESEq dataset with dispersions estimated using the experimental design formula
+diagdds = phyloseq_to_deseq2(phyloseq_merged_filtered_90_1000, ~ length)
+diagdds$length
+diagdds
+
+diagdds$length <-factor(diagdds$length, levels = c("90d", "1000d"))
+diagdds$length #make sure that Control is the first level in the treatment factor, so that the default log2 fold changes are calculated as treatment over control and not the other way around.
+
+cts <- counts(diagdds)
+geoMeans <- apply(cts, 1, function(row) if (all(row == 0)) 0 else exp(mean(log(row[row != 0]))))
+diagdds <- estimateSizeFactors(diagdds, geoMeans=geoMeans)
+diagdds = DESeq(diagdds, test="Wald", fitType="parametric")
+diagdds
+##The default multiple-inference correction is Benjamini-Hochberg, and occurs within the DESeq function.
+
+#The following results function call creates a table of the results of the tests. Very fast. 
+#The hard work was already stored with the rest of the DESeq2-related data in our latest version 
+#of the diagdds object (see above). I then order by the adjusted p-value, removing the entries 
+#with an NA value. The rest of this example is just formatting the results table with taxonomic information for nice(ish) display.
+
+
+res = results(diagdds, cooksCutoff = FALSE)
+alpha = 0.01
+table(is.na(res$padj))
+summary(res$padj < alpha)
+
+sigtab = res[which(res$padj < alpha), ]
+sigtab = cbind(as(sigtab, "data.frame"), as(tax_table(phyloseq_merged_filtered_90_1000)[rownames(sigtab), ], "matrix"))
+head(sigtab)
+dim(sigtab)
+
+
+#The following makes a nice ggplot2 summary of the results.
+
+library(ggplot2)
+library(viridis)
+
+
+theme_set(theme_bw())
+# Phylum order
+x = tapply(sigtab$log2FoldChange, sigtab$Phylum, function(x) max(x))
+x = sort(x, TRUE)
+sigtab$Phylum = factor(as.character(sigtab$Phylum), levels=names(x))
+# Genus order
+x = tapply(sigtab$log2FoldChange, sigtab$Genus, function(x) max(x))
+x = sort(x, TRUE)
+sigtab$Genus = factor(as.character(sigtab$Genus), levels=names(x))
+
+##The DESeq2 function is outputting a different result in markdown than what is coming out in console for the R studio 2025 version, the console version is correct
+##However, the console version from R studio 2025 also differs from the results generated in R studio 2023 version, though both are correct with minor differences in taxonomic representation
+
+write.csv(sigtab, "RMDplots/sigtab_90d_1000d_WA_enriched_depleted_in1000d_rmd.csv")
+
+## For the Figure I'm reading in the correct output from the R studio 2023 version 
+sigtab<- read.csv("RMDplots/sigtab_90d_1000d_WA_enriched_depleted_in1000d_rmd.csv", row.names=1)
+
+theme_set(theme_bw())
+# Phylum order
+x = tapply(sigtab$log2FoldChange, sigtab$Phylum, function(x) max(x))
+x = sort(x, TRUE)
+sigtab$Phylum = factor(as.character(sigtab$Phylum), levels=names(x))
+# Genus order
+x = tapply(sigtab$log2FoldChange, sigtab$Genus, function(x) max(x))
+x = sort(x, TRUE)
+sigtab$Genus = factor(as.character(sigtab$Genus), levels=names(x))
+
+#sigtab_thres<- sigtab %>% filter(log2FoldChange>=7|log2FoldChange<=-7)
+
+sigtab<- sigtab %>% filter(Phylum!="")
+sigtab<- sigtab %>% filter(Genus!="")
+
+##adding a label for facet
+sigtab<- sigtab %>% mutate(enrich=ifelse(log2FoldChange>=0, "enriched in 1000d", "enriched in 90d"))
+
+library(RColorBrewer)
+n <- 17
+colrs <- brewer.pal.info[brewer.pal.info$colorblind == TRUE, ]
+col_vec = unlist(mapply(brewer.pal, colrs$maxcolors, rownames(colrs)))
+col <- sample(col_vec, n)
+area <- rep(1,n)
+pie(area, col = col)
+col
+
+
+palette_new21_final<- c("#49006A","#A63603","#CC4C02","#C7E9C0","#E31A1C","#3690C0","#A50026", "#01665E","#0868AC","#88419D","#A8DDB5","#B35806","#F768A1","#A6D854","#FFFF99","#E78AC3", "#E08214","#313695","#35978F","#BDBDBD","#FDBF6F")
+
+
+unique(sigtab$Class)
+library(ggh4x)
+
+plot_90<- ggplot(sigtab, aes(x=Genus, y=log2FoldChange, color=Phylum)) + 
+  #scale_x_reordered() +
+  facet_grid2(~Class, scales="free", space="free")+
+  #geom_text()+
+  geom_point(size=3) + scale_color_manual(values=as.vector(palette_new21_final))+ 
+  theme_classic()+
+  #ggtitle("DeSeq analysis")+
+  theme(plot.title = element_text(hjust = 0.5, size=18))+
+  theme(axis.text.x = element_text(size=20, angle = 90, vjust = 0.5, hjust=1), axis.title.x = element_text(size=20))+
+  theme(axis.text.y=element_text(size=20), axis.title.y=element_text(size=20)) + 
+  theme(legend.title = element_text(size=20))+ theme(legend.text = element_text(size=20)) +
+  guides(col=guide_legend(ncol=1)) +geom_hline(yintercept=0, linetype='dashed', col = 'black')+
+  #annotate("text", x = 27, y = -2, label = "enriched in Chesapeake", size = 9) + 
+  #annotate("text", x = 27, y = 2, label = "enriched in Erie", size = 9) +
+  # theme(legend.position = "none")+
+  #theme(strip.text.x = element_text(size = 20))+
+  ylab("Log2FoldChange") +
+  theme(strip.text = element_blank())
+
+#scale_x_discrete(drop = TRUE)
+#coord_flip() 
+
+
+plot_90
+
+library(cowplot)
+
+plot_90<- ggdraw(plot_90) +
+  draw_label("enriched in Day 1000", x = 0.6, y = 0.82, hjust = 0.5, size = 15, color = "black", fontface = "bold")+
+  draw_label("enriched in Day 90", x = 0.6, y = 0.76, hjust = 0.5, size = 15, color = "black", fontface = "bold")
+plot_90
+
+
+##final plot for publication
+ggsave(filename = "RMDplots/Deseq2_enriched_depleted_in1000d_v_90d_rmd.tiff", plot = plot_90,
+       width = 60,
+       height = 28, units = c("cm"),
+       dpi = 300)
+```
+
+
+### Bray Curtis Similarity to pre-drought/Day 0 
+```{r BC similarity to Day 0}
+setwd("~/Library/CloudStorage/OneDrive-PNNL/Documents/TES drydown experiment/qiime output files")
+otu_final<- read.csv("OTU_Washington_rarefied5k.csv", sep=",",row.names=1)
+
+any(rowSums(otu_final[])<1)
+
+otu1 = otu_final[rowSums(otu_final[])<1, ,drop=FALSE] #10,456 otus with no counts, this makes total otus less for wa than before 
+
+max(rowSums(otu1))
+otu_final = otu_final[rowSums(otu_final[])>0, ,drop=FALSE] ##drop taxa that are not present in any samples, 40216 taxa remains
+
+library(phyloseq)
+library(tidyverse)
+
+
+tax<- read.csv("taxonomy.csv", sep=",", row.names=1)
+
+metadata_new<- read.csv("metadata_merge_noNA.csv", sep=",", row.names=1)
+
+metadata_new_wa<- metadata_new %>% filter(site=="Washington")
+
+##changing length of time to numeric value to plot by size
+
+metadata_new_wa_edit<- metadata_new_wa %>% mutate(time=dplyr::recode(length, "timezero"="Day 0",
+                                                              "30d"="Day 30",
+                                                              "90d"="Day 90",
+                                                              "150d"="Day 150",
+                                                              "1000d"="Day 1000"))
+metadata_new_wa_edit$time<-factor(metadata_new_wa_edit$time, levels=c("Day 0", "Day 30" , "Day 90", "Day 150", "Day 1000"), ordered =TRUE)
+metadata_new_wa_edit$saturation<- factor(metadata_new_wa_edit$saturation, levels=c("timezero", "drought", "d+rewet", ordered=TRUE))
+phyloseq_wa<- sample_data(metadata_new_wa_edit)
+tax = as.matrix(tax) 
+
+otu<- otu_table(otu_final, taxa_are_rows = TRUE)
+tax<- tax_table(tax)
+
+
+colnames(tax)
+
+phyloseq_merged_final<- merge_phyloseq(otu, tax, phyloseq_wa)
+phyloseq_merged_final
+
+
+set.seed(1)
+# Calculate bray curtis distance matrix
+phyloseq_bray <- phyloseq::distance(phyloseq_merged_final, method = "bray")
+#phyloseq_bray
+
+#install.packages("usedist")
+library(usedist)## can be useful in this case for functions like dist_subset and dist_groups
+
+#install.packages("dendextend")
+library(dendextend)
+dist_long<-dist_long(phyloseq_bray)
+#dist_long
+write.csv(dist_long, "RMDplots/dist_long_washington.csv")
+dist_long<-read.csv("dist_long_washington.csv")##change dist_long column names to iso1 and iso2 for formatting, then read back in
+metadata_new<-data.frame(sample_data(phyloseq_merged_final))
+#View(metadata_new)
+write.csv(metadata_new, "RMDplots/metadata_dist_long_washington.csv") 
+metadata_new<- read.csv("metadata_dist_long_washington.csv")#change column names in metadata to group and sample_id, then read back in
+#install.packages("harrietr", dependencies = TRUE)
+#install.packages('devtools')
+#setRepositories(ind = 1:2)
+#devtools::install_github("andersgs/harrietr")
+
+#if (!requireNamespace("BiocManager", quietly = TRUE))
+  #install.packages("BiocManager")
+
+#BiocManager::install("ggtree")
+
+library(harrietr)
+library(ggtree)
+#update.packages("ggtree")
+dist.df<- join_metadata(dist_long, metadata_new, isolate = 'sample_id', group = 'group', remove_ind=FALSE)
+write.csv(dist.df,"RMDplots/dist_df_washington.csv")##change planted.x and planted.y to planted_x and planted_y
+
+##bean planted BC versus time 
+
+distdfwa<- read.csv("dist_df_washington.csv")
+distdfwa.drought <- distdfwa  %>%
+  filter(saturation_x=="drought"&
+           saturation_y== "drought")
+
+#View(distdfwa.drought)
+
+write.csv(distdfwa.drought, "RMDplots/distdfwa_drought.csv")
+wapredr.drought<- distdfwa.drought  %>%
+  filter(group_2=="timezero_drought" &
+           group_1!="timezero_drought")
+
+wapredr.drought_1<- distdfwa.drought  %>%
+  filter(group_1=="timezero_drought" &
+           group_2!="timezero_drought")
+
+wapredr.drought.final<- rbind(wapredr.drought, wapredr.drought_1)
+#View(wapredr.drought.final)
+
+write.csv(wapredr.drought.final, "RMDplots/wapredr_drought_final.csv") 
+
+
+#bean unplanted BC versus time
+
+distdfwa<- read.csv("dist_df_washington.csv")
+distdfwa.d_rewet <- distdfwa  %>%
+  filter(saturation_x=="d_rewet"&
+           saturation_y== "d_rewet")
+
+#View(distdfwa.d_rewet)
+
+write.csv(distdfwa.d_rewet, "RMDplots/distdfwa_d_rewet.csv")
+wapredr.drewet<- distdfwa.d_rewet  %>%
+  filter(group_2=="timezero_d_rewet" &
+           group_1!="timezero_d_rewet")
+
+#View(wapredr.drewet)
+
+wapredr.drewet_1<- distdfwa.d_rewet  %>%
+  filter(group_1=="timezero_d_rewet" &
+           group_2!="timezero_d_rewet")
+#View(wapredr.drewet_1)
+
+wapredr.drewet.final<- rbind(wapredr.drewet, wapredr.drewet_1)
+#View(wapredr.drewet.final)
+
+write.csv(wapredr.drewet.final, "RMDplots/wapredr_drewet_final.csv") 
+
+
+###new code used for final plot 
+
+library(viridis)
+library(ggplot2)
+BC_time<- read.csv("wapredr_drought_final.csv") ##combine all datasheets obtained above
+#View(BC_time)
+
+##drought, add a column to BC_time to correct the time column
+BC_time_final<- BC_time %>% mutate(time=ifelse(length.x=="1000", length.x, length.y))
+
+##drought rewet, add a column to correct time column
+BC_time_2<- read.csv("wapredr_drewet_final.csv") ##combine all datasheets obtained above
+#View(BC_time_2)
+BC_time_final_2<- BC_time_2 %>% mutate(time=ifelse(length.x=="1000", length.x, length.y))
+
+BC_time<- rbind(BC_time_final, BC_time_final_2)
+
+BC_time<- BC_time %>% filter(time!=150)
+BC_time$saturation_y <- factor(BC_time$saturation_y, levels=c("drought", "d_rewet"), ordered =TRUE)
+
+
+# Create a named vector for custom labels
+custom_labels <- c("drought" = "drought", "d_rewet" = "d_rewet")
+
+plot<- ggplot(BC_time, aes(x=time,y=distance)) + theme_classic()+ scale_color_manual(values=c("#39568CFF", "#55C667FF")) +
+  scale_shape_manual(values=c(1,16))+ #scale_size(range = c(1,10), # point size range
+  #label = scales::dollar)+
+  #expand_limits(shape = seq(2, 6, by = 1))+
+  #scale_alpha_manual(values = c(2,3,4,5,6))+
+  geom_point(alpha=2) +  #scale_size_manual(values = c(2,3,4,5,6))+ 
+  geom_smooth(method = lm, se=FALSE, inherit.aes=TRUE) + #ggtitle("Bean")
+  facet_grid(~saturation_y, labeller = as_labeller(custom_labels))+
+  theme(
+    strip.text.x = element_text(
+      size = 16
+    ))+
+  #scale_x_discrete(breaks=c("30", "90", "1000"), labels=c("30", "90", "1000"))+
+  theme(plot.title = element_text(size= 18, hjust = 0.5))+
+  labs(y = "Bray-Curtis dissimilarity to pre-drought")+ xlab("time")+theme(axis.text.x = element_text(colour = "black", size = 17,angle = 90, vjust = 0.5, hjust=1))+
+  theme( axis.text.y = element_text(size = 16, colour = "black"), 
+         axis.title.y= element_text(size=16, color="black"),
+         axis.title.x= element_text(size=16, color="black"),
+         panel.background = element_blank(), 
+         panel.border = element_rect(fill = NA, colour = "black"), 
+         legend.title = element_text(size =14, colour = "black"),
+         legend.text = element_text(size = 12, colour = "black")) +
+  guides(linetype = guide_legend(override.aes= list(color = "black")), color= guide_legend(order = 1)) 
+
+
+plot
+
+
+ggsave(filename = "RMDplots/drought_dr_rewet_BC_diss.tiff", plot = plot,
+      width = 25,
+      height = 15, units = c("cm"),
+      dpi = 300)
+
+
+######ANCOVA
+#Outliers
+#An outlier is a point that has an extreme outcome variable value. The presence of outliers may affect the interpretation of the 
+#model.
+
+#Outliers can be identified by examining the standardized residual (or studentized residual), which is the residual divided by its estimated standard error. Standardized residuals can be interpreted as the number of standard errors away from the regression line.
+
+#Observations whose standardized residuals are greater than 3 in absolute value are possible outliers.
+###normality of residuals
+# Fit the model, the covariate goes first
+model <- lm(distance ~ time + saturation_y, data = BC_time)
+# Inspect the model diagnostic metrics
+model.metrics <- augment(model) %>%
+  select(-.hat, -.sigma, -.fitted) # Remove details
+head(model.metrics, 3)
+model.metrics %>% 
+  filter(abs(.std.resid) > 3) %>%
+  as.data.frame()
+
+###removing outliers in the data 
+
+BC_time_no_outliers<- BC_time%>% filter(!(distance==0.9868 & time==30 & saturation_y=="drought")&
+                                            !(distance==0.9968 & time==30 & saturation_y=="drought")&
+                                            !(distance==0.9980 & time==30 & saturation_y=="drought")&
+                                            !(distance==0.9956 & time==30 & saturation_y=="drought")&
+                                            !(distance==0.7156 & time==30 & saturation_y=="d_rewet"))
+
+###check assumptions
+##linearity assumption
+
+library(ggpubr)
+library(rstatix)
+library(broom)
+
+colorBlindBlack10 <- c("#E69F00", "#0072B2", "#0072B2", "#D55E00","#56B4E9", "#009E73", "#000000", "#E69F00",
+                       "#F0E442", "#CC79A7")
+pie(rep(1, 10), col = colorBlindBlack10)
+
+##no outliers
+scatter<- ggscatter(
+  BC_time_no_outliers, x = "time", y = "distance",
+  color = "saturation_y", add = "reg.line"
+)+
+  stat_regline_equation(
+    aes(label =  paste(..eq.label.., ..rr.label.., sep = "~~~~"), color = saturation_y), label.x = c(600, 600),
+        label.y = c(0.60, 0.62))+
+  scale_color_manual(values=colorBlindBlack10)+
+  geom_label(aes(x=140, y=1.023, label="short-term drought and rewet\n30 days, 90 days\nless resilience to rewetting"))+
+  geom_label(aes(x=850, y=1.023, label="long-term drought and rewet\n1000 days\nless resileince to rewetting"))+
+  ylab("Bray-Curtis dissimilarity to pre-drought")+
+  theme(
+    axis.title.x = element_text(size = 16), # Font size for x-axis
+    axis.title.y = element_text(size = 16)  # Font size for y-axis
+  )+
+  theme(
+    axis.text.x = element_text(size = 14), # Font size for x-axis
+    axis.text.y = element_text(size = 14)  # Font size for y-axis
+  )+
+  theme(
+    legend.text = element_text(size = 14), # Adjust font size for legend labels
+    legend.title = element_text(size = 16) # Adjust font size for legend title
+  )+
+  theme(
+    legend.position = c(0.8, 0.3)) # Coordinates (x, y) within the plot
+
+
+scatter
+
+ggsave(filename = "RMDplots/scatterplot_no_outliers.tiff", plot = scatter,
+       width = 22,
+       height = 22, units = c("cm"),
+       dpi = 300)
+
+##with outliers
+scatter<- ggscatter(
+  BC_time, x = "time", y = "distance",
+  color = "saturation_y", add = "reg.line"
+)+
+  stat_regline_equation(
+    aes(label =  paste(..eq.label.., ..rr.label.., sep = "~~~~"), color = saturation_y), label.x = c(600, 600),
+    label.y = c(0.60, 0.62))+
+  scale_color_manual(values=colorBlindBlack10)
+
+scatter
+
+ggsave(filename = "RMDplots/scatterplot_with_outliers.tiff", plot = scatter,
+       width = 17,
+       height = 15, units = c("cm"),
+       dpi = 300)
+
+##expected scatter plot
+
+write.csv(BC_time, "RMDplots/BC_time_with_outliers.csv")
+
+write.csv(BC_time_no_outliers, "RMDplots/BC_time_no_outliers.csv")
+
+
+##changing the BC time no outliers data to produce an expected result 
+BC_time_exp<- BC_time_no_outliers %>% mutate(distance_new= ifelse(saturation_y=="d_rewet" & time==30| saturation_y=="d_rewet" & time==90, distance-0.40, distance))
+
+##replotting the scatterplot above
+##no outliers
+scatter<- ggscatter(
+  BC_time_exp, x = "time", y = "distance_new",
+  color = "saturation_y", add = "reg.line"
+)+
+  stat_regline_equation(
+    aes(label =  paste(..eq.label.., ..rr.label.., sep = "~~~~"), color = saturation_y), label.x = c(600, 600),
+    label.y = c(0.40, 0.42))+
+  scale_color_manual(values=colorBlindBlack10)+
+  geom_label(aes(x=140, y=0.97, label="short-term drought and rewet\n30 days, 90 days\nmore resilience to rewetting"))+
+  geom_label(aes(x=840, y=0.77, label="long-term drought and rewet\n1000 days\nless resilience to rewetting"))+
+  ylab("Bray-Curtis dissimilarity to pre-drought")+
+  theme(
+    axis.title.x = element_text(size = 16), # Font size for x-axis
+    axis.title.y = element_text(size = 16)  # Font size for y-axis
+  )+
+  theme(
+    axis.text.x = element_text(size = 14), # Font size for x-axis
+    axis.text.y = element_text(size = 14)  # Font size for y-axis
+  )+
+  theme(
+    legend.text = element_text(size = 14), # Adjust font size for legend labels
+    legend.title = element_text(size = 16) # Adjust font size for legend title
+  )+
+  theme(
+    legend.position = c(0.8, 0.3)) # Coordinates (x, y) within the plot
+
+
+
+scatter
+
+ggsave(filename = "RMDplots/scatterplot_no_outliers_expected.tiff", plot = scatter,
+       width = 22,
+       height = 22, units = c("cm"),
+       dpi = 300)
+
+##replotting the scatterplot above without stats and axis values
+##no outliers
+scatter_new_axes<- ggscatter(
+  BC_time_exp, x = "time", y = "distance_new",
+  color = "saturation_y", add = "reg.line"
+)+
+  #stat_regline_equation(
+   # aes(label =  paste(..eq.label.., ..rr.label.., sep = "~~~~"), color = saturation_y), label.x = c(600, 600),
+   # label.y = c(0.40, 0.42))+
+  scale_color_manual(values=colorBlindBlack10)+
+  geom_label(aes(x=140, y=0.97, label="short-term drought and rewet\n30 days, 90 days\nmore resilience to rewetting"))+
+  geom_label(aes(x=840, y=0.77, label="long-term drought and rewet\n1000 days\nless resilience to rewetting"))+
+  ylab("Bray-Curtis dissimilarity to pre-drought")+
+  theme(
+    axis.title.x = element_text(size = 16), # Font size for x-axis
+    axis.title.y = element_text(size = 16)  # Font size for y-axis
+  )+
+  theme(
+    axis.text.x = element_blank(), # Font size for x-axis
+    axis.text.y = element_blank()  # Font size for y-axis
+  )+
+  theme(
+    legend.text = element_text(size = 14), # Adjust font size for legend labels
+    legend.title = element_text(size = 16) # Adjust font size for legend title
+  )+
+  theme(
+    legend.position = c(0.8, 0.3)) # Coordinates (x, y) within the plot
+
+
+
+scatter_new_axes
+
+ggsave(filename = "RMDplots/scatterplot_no_outliers_expected_modifiedaxes.tiff", plot = scatter_new_axes,
+       width = 22,
+       height = 22, units = c("cm"),
+       dpi = 300)
+
+
+
+###homogeneity of regression slopes
+##This assumption checks that there is no significant interaction between the covariate and the grouping variable. This can be evaluated as follows:
+
+##without outliers
+BC_time_no_outliers %>% anova_test(distance ~ saturation_y*time, covariate = time, type=3) 
+
+
+##A significant interaction implies that the relationship between the covariate and dependent variable is different across groups
+
+###normality of residuals
+# Fit the model, the covariate goes first
+model <- lm(distance ~ time + saturation_y, data = BC_time_no_outliers)
+# Inspect the model diagnostic metrics
+model.metrics <- augment(model) %>%
+  select(-.hat, -.sigma, -.fitted) # Remove details
+head(model.metrics, 3)
+
+
+# Assess normality of residuals using shapiro wilk test, data not normal if p is less than 0.05, then test is significant
+
+shapiro_test(model.metrics$.resid)
+
+##after removing outliers the statistic improved and the p value increased so keeping this
+
+
+
+#Homogeneity of variances
+#ANCOVA assumes that the variance of the residuals is equal for all groups. This can be checked using the Levene’s test:
+  
+model.metrics %>% levene_test(.resid ~ saturation_y)
+
+#if Levene’s test is significant (p < 0.05), so we cannot assume homogeneity of the residual variances for all groups.
+##after removing outliers the p value increased so keeping this
+
+
+
+
+
+
+#Computation
+#The orders of variables matters when computing ANCOVA. You want to remove the effect of the covariate first - that is, you want to control for it - prior to entering your main variable or interest.
+
+#The covariate goes first (there is interaction)! If you do not do this in order, you will get different results.
+res.aov <- BC_time_no_outliers %>% anova_test(distance ~ time + saturation_y, type=3)
+get_anova_table(res.aov)
+
+#After adjustment for time (covariate), there was a statistically significant difference in bray curtis distance between the groups, F(1, 357) = 394.912, p < 0.0001.
+
+
+
+#Post-hoc test
+#Pairwise comparisons can be performed to identify which groups are different. The Bonferroni multiple testing correction is applied. 
+#This can be easily done using the function emmeans_test() [rstatix package], a wrapper around the emmeans package, which needs to be installed. 
+#Emmeans stands for estimated marginal means (aka least square means or adjusted means).
+
+# Pairwise comparisons
+library(emmeans)
+pwc <- BC_time_no_outliers %>% 
+  emmeans_test(
+    distance ~ saturation_y, covariate = time,
+    p.adjust.method = "bonferroni"
+  )
+pwc
+
+##without outliers
+    
+
+# Display the adjusted means of each group
+# Also called as the estimated marginal means (emmeans)
+get_emmeans(pwc)
+
+#Data are adjusted mean +/- standard error. The means distance was statistically significantly greater in d+rewet compared to drought, p < 0.001.
+##after removing outliers
+
+
+
+# Visualization: line plots with p-values
+pwc <- pwc %>% add_xy_position(x = "saturation_y", fun = "mean_se")
+ancova_corrected_for_time<- ggline(get_emmeans(pwc), x = "saturation_y", y = "emmean") +
+  geom_point(aes(x=saturation_y, y=emmean), size=5, color=c("#E69F00", "#0072B2"))+
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) + 
+  stat_pvalue_manual(pwc, hide.ns = TRUE, tip.length = FALSE) +
+  labs(
+    subtitle = get_test_label(res.aov, detailed = TRUE),
+    caption = get_pwc_label(pwc)
+  )
+
+ancova_corrected_for_time
+
+ggsave(filename = "RMDplots/ancova_no_outliers.tiff", plot = ancova_corrected_for_time,
+       width = 20,
+       height = 15, units = c("cm"),
+       dpi = 300)
+
+```
+
