@@ -1,5 +1,5 @@
-### This markdown file contains detailed R code required to reproduce the microbiome analysis for the manuscript : 
-#### Drought duration does not impact soil microbiome resilience by Sreejata Bandopadhyay, Kaizad F. Patel, Sarah Fansler, Sophia A McKever, Ben Bond-Lamberty, Jianqiu Zheng, and Vanessa L. Bailey
+### This markdown file contains detailed R code required to reproduce the microbiome analysis for the manuscript
+#### "Drought duration does not impact soil microbiome resilience" by Sreejata Bandopadhyay, Kaizad F. Patel, Sarah Fansler, Sophia A McKever, Ben Bond-Lamberty, Jianqiu Zheng, and Vanessa L. Bailey
 
 ### Abstract
 
